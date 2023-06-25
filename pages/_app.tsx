@@ -6,7 +6,8 @@ import {Hydrate, QueryClientProvider} from '@tanstack/react-query';
 import {useLoader} from 'assets/hooks/useLoader';
 import 'styles/nprogress.css'
 import '../styles/globals.css'
-
+import { store } from "assets/store/store";
+import { Provider } from "react-redux";
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,7 +27,9 @@ export default function App({Component, pageProps}: AppPropsWithLayout) {
   return getLayout(
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydrateState}>
+      <Provider store={store}>
         <Component {...pageProps} />
+        </Provider>
       </Hydrate>
     </QueryClientProvider>
   );
