@@ -4,7 +4,7 @@ import showPasswordBtn from "../../public/icons/eye-outline.svg";
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
 import googleIcon from "../../public/icons/google-svgrepo-com.svg";
 import githubIcon from "../../public/icons/github-svgrepo-com.svg";
-import { SignupSchema } from "utils/registrationValidation";
+import { SignupSchema } from "../../utils/validateRegistraition";
 import {
   StyledBtn,
   StyledContainer,
@@ -20,6 +20,7 @@ import {
   StyledTitle,
 } from "styles/styles";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
+import {StyledContainerAuth} from "../login";
 
 
 const Registration = () => {
@@ -43,6 +44,8 @@ const Registration = () => {
   };
 
   return (
+    <StyledContainerAuth>
+
     <StyledContainer>
       <StyledTitle>Sign Up</StyledTitle>
       <StyledSocialMediaWrapper>
@@ -139,6 +142,9 @@ const Registration = () => {
         <StyledSignIn href="/login">Sign in</StyledSignIn>
       </StyledSignInWrapper>
     </StyledContainer>
+
+
+    </StyledContainerAuth>
   );
 }
 

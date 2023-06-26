@@ -27,6 +27,6 @@ const StyledWrapper = styled.div
 
 const Main = styled.div
   `
-    padding: 20px;
+    padding-top: 20px;
     //overflow: hidden;                          //уточнить
   `

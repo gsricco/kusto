@@ -40,10 +40,10 @@ type ButtonPropsType = {
 const StyledButton = styled.button<ButtonPropsType>
   `
     cursor: pointer;
-    // max-width: ${props => props.width ? props.width : '182px'};
     height: 36px;
-    width: ${props => props.width ? props.width : '182px'};
+    width: ${props => props.width ? props.width : '330px'};
     padding: 0 20px;
+    
     border: none;
     border-radius: 2px;
 
@@ -145,4 +145,7 @@ const StyledButton = styled.button<ButtonPropsType>
     &.clear.disabled {
       color: #234E99;
     }
+
+    @media (max-width: 390px){
+      width: ${props => props.width ? props.width : '80vw'};    }
   `
