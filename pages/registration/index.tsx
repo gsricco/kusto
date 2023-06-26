@@ -20,10 +20,9 @@ import {
   StyledTitle,
 } from "styles/styles";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
-import Home from "../index";
 
 
-export default function Registration() {
+const Registration = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [passwordConfirmationType, setPasswordConfirmationType] =
     useState("password");
@@ -144,3 +143,5 @@ export default function Registration() {
 }
 
 Registration.getLayout = getLayout
+
+export default Registration

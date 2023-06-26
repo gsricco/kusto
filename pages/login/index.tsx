@@ -1,18 +1,17 @@
 import React from 'react';
 import styled from "styled-components";
-import {themeProject} from "../../styles/styledComponents/Them.styled";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
 import google from '../../public/icons/google-svgrepo-com.svg'
 import github from '../../public/icons/github-svgrepo-com.svg'
 import Image from "next/image";
 import {Button, ThemeButton} from "../../components/Button/ui/Button";
 import {Input} from "../../components/Input/Input";
+import {baseTheme} from "../../styles/styledComponents/theme";
 
 
 const Login = () => {
 
   return (
-    // <StyledPageWrapper>
     <StyledFormAuth width={'378px'} height={'516px'} >
       <Title>Sing In</Title>
       <StyledIconBlock>
@@ -24,7 +23,6 @@ const Login = () => {
         <Button theme={ThemeButton.PRIMARY}>Log In</Button>
       </div>
     </StyledFormAuth>
-    // </StyledPageWrapper>
   );
 };
 
@@ -45,8 +43,8 @@ const StyledFormAuth = styled.div<FormAuthPropsType>
     //align-items: flex-start;
     width: ${props => props.width};
     height: ${props => props.height};
-    background: ${themeProject.colors.dark_500};
-    border: 1px solid ${themeProject.colors.dark_300};
+    background: ${baseTheme.colors.dark["500"]};
+    border: 1px solid ${baseTheme.colors.dark["300"]};
     padding: 20px;
   `
 
@@ -58,7 +56,7 @@ const Title = styled.h1
   font-family: Inter;
   font-weight: 700;
   line-height: 36px;
-  color:${themeProject.colors.light_100};
+  color:${baseTheme.colors.light["100"]};
   margin: 0;
 `
 const StyledIconBlock = styled.div

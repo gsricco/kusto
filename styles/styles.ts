@@ -2,7 +2,7 @@ import { Field, Form } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-import {baseTheme} from "../assets/constants/theme";
+import {baseTheme} from "./styledComponents/theme";
 
 export const StyledContainer = styled.div`
   display: flex;
