@@ -10,29 +10,42 @@ import {
 } from "assets/api/password_recovery_api";
 import { Modal } from "components/Modal";
 
-console.log(passwordRecoveryApi);
+// ///                                           ///   //
+// страница восстановления пароля. Пользователь вводит email, 
+// отправляется запрос на сервер, отображается сообщение 
+// об отправке ссылки на почту
+// ///                                           ///   //
 
 const RecoveryPage = () => {
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
-  const [trigger, result] = useGetIsEmailMutation();
+  const [trigger, result] = useGetIsEmailMutation()
   
-  useEffect(() => {
-    if (result.data && result.data.users.length != 0) {
-      setIsModalOpen(true);
-      setIsMessageSent(true);
-    }
-  }, [result]);
+  // useEffect(() => {
+  //   if (result.status = 'rejected') { // нужно будет заменить условие
+  //     setIsModalOpen(true);
+  //     setIsMessageSent(true);
+  //   }
+  // }, [result]);
 
+  // обработчик ввода данных в поле email
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value);
   };
 
+  // обработчик нажатия кнопки отправки сообщения на почту
   const handleEmailSend = () => {
     trigger(email);
+    console.log(result)
+      // !!! нужно переопределить условие
+    if (result.status == "rejected") { // открытие информационного модального окна
+      setIsModalOpen(true);
+      setIsMessageSent(true);
+    }
   };
 
+  // обработчик закрытия модального окна
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
@@ -73,6 +86,7 @@ const RecoveryPage = () => {
 
 export default RecoveryPage;
 
+// стили
 const StyledPageConatiner = styled(StyledWrap)`
   background: #000;
 `;
