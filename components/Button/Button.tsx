@@ -16,11 +16,13 @@ export const Button = ({
   variant = "primary",
   className,
   onClick,
+  type
 }: {
   children: ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
   onClick: () => void;
+  type?: string
 }) => {
   return (
     <StyledButton onClick={onClick} className={className} variant={variant}>
@@ -29,7 +31,13 @@ export const Button = ({
   );
 };
 
-const StyledButton = styled.button<{ variant: "primary" | "secondary" }>`
+const StyledButton = styled.button.attrs(props => ({
+  // we can define static props
+  type: "submit",
+
+  // or we can define dynamic ones
+  // $type: props.$type || "",
+}))<{ variant: "primary" | "secondary" }>`
   display: flex;
   width: 330px;
   padding: 6px 24px;
