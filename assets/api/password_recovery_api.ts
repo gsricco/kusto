@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const baseUrl = 'https://dummyjson.com'
+const baseUrl = 'https://calypso-one.vercel.app'
 export const passwordRecoveryApi: any = createApi({
     reducerPath: 'passwordRecoveryApi',
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
@@ -11,11 +11,11 @@ export const passwordRecoveryApi: any = createApi({
           getIsEmail: build.mutation<any, string>({
             query: (email) => {
               return {
-                method: "GET",
-                url: `users/filter?key=email&value=${email}`,
-                // params: {
-                //   email: email,
-                // },
+                method: "POST",
+                url: `/auth/password-recovery`,
+                params: {
+                  email: email,
+                },
               };
             },
           }),
