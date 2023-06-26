@@ -3,12 +3,15 @@ import { StyledWrap } from "components/Container";
 import { Input } from "components/Input/Input";
 import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
-
 import {
   passwordRecoveryApi,
   useGetIsEmailMutation,
 } from "assets/api/password_recovery_api";
 import { Modal } from "components/Modal";
+import { withFormik } from "formik";
+import EmailForm from "components/Forms/EmailForm";
+import * as Yup from 'yup'; 
+
 
 // ///                                           ///   //
 // страница восстановления пароля. Пользователь вводит email, 
@@ -54,20 +57,22 @@ const RecoveryPage = () => {
     <StyledPageConatiner>
       <StyledRecoveryPageContainer>
         <StyledTitle>Forgot Password</StyledTitle>
-        <Input
+        <EmailFormFormik setEmail={setEmail} isMessageSent={isMessageSent} email={email} handleEmailSend={handleEmailSend}/>
+   
+        {/* <Input
           onChange={handleEmailChange}
           labelText="Email"
           hintText="Enter your email address and we will send you further instructions"
           value={email}
           type="email"
-        />
-        {isMessageSent && (
+        /> */}
+        {/* {isMessageSent && (
           <StyledText>We have sent a link to confirm your email to {email}</StyledText>
         )}
 
         <Button onClick={handleEmailSend}>
-          {isMessageSent ? "Send Link Again" : "Send Link"}
-        </Button>
+          <button type='submit'>{isMessageSent ? "Send Link Again" : "Send Link"}</button>
+        </Button> */}
 
         <StyledButtonSecondary onClick={() => null} variant="secondary">
           Back to Sign In
@@ -117,10 +122,43 @@ const StyledTitle = styled.h1`
   margin-bottom: 37px;
 `;
 
-const StyledText = styled.div`
-  color: #fff;
-  font-size: 14px;
-  font-family: Inter;
-  line-height: 24px;
-  margin-bottom: 18px;
-`;
+// const StyledText = styled.div`
+//   color: #fff;
+//   font-size: 14px;
+//   font-family: Inter;
+//   line-height: 24px;
+//   margin-bottom: 18px;
+// `;
+
+
+
+const EmailFormFormik  = withFormik<MyFormPropsType & OtherPropsType, FormValuesType> ({
+  mapPropsToValues ({email}) {
+      return {
+          email: email || '',
+      }
+  },
+  validationSchema: Yup.object().shape({
+      email: Yup.string().email().max(50, 'Max length is 50 simbols.').required('Required'),
+  }),
+  handleSubmit (values: FormValuesType, {props, setStatus, setSubmitting, ...actions}) {
+    props.setEmail(values.email)
+      // props.login(values.email, values.password, values.rememberMe, values.captcha, setStatus)
+      setSubmitting(false);       
+  }
+})(EmailForm)
+
+// Types for the form
+
+export type FormValuesType = {    // all the values that we’re going to have in our form
+  email: string
+}
+type MyFormPropsType = {  // to define some properties for our initial values
+  email?: string | undefined
+}
+export type OtherPropsType = {    // to pass other props to our component
+  isMessageSent: boolean
+  email: string
+  handleEmailSend: () => void
+  setEmail: (email: string) => void
+}

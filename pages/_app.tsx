@@ -24,6 +24,7 @@ export default function App({Component, pageProps}: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
+  // можно использовать <ApiProvider api={api}>, если нет store
   return getLayout(
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydrateState}>
