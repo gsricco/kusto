@@ -7,9 +7,33 @@ import github from '../../public/icons/github-svgrepo-com (3) 1.svg'
 import Image from "next/image";
 import {Button, ThemeButton} from "../../components/Button/ui/Button";
 import {Input} from "../../components/Input/Input";
+import {API} from "../../assets/api/api";
+import {ResponseLoginType} from "../../assets/api/kusto-api";
 
+// export const getStaticProps = async () => {
+//   const accessToken = await API.kusto.logIn({loginOrEmail: "gsergio", password: "string"})
+//   return {
+//     props: {
+//       accessToken
+//     },
+//     // revalidate:60
+//   }
+// }
+
+
+//
+// type LoinPropsType = {
+//   accessToken:ResponseLoginType
+// }
 
 const Login = () => {
+
+ let accessToken;
+  const sendLoginHandler = () =>{
+    accessToken =  API.kusto.logIn({loginOrEmail: "gsergio", password: "string"})
+  }
+  console.log('accessToken',accessToken)
+
 
   return (
     // <StyledPageWrapper>
@@ -21,7 +45,7 @@ const Login = () => {
       </StyledIconBlock>
       <Input/>
       <div>
-        <Button theme={ThemeButton.PRIMARY}>Log In</Button>
+        <Button theme={ThemeButton.PRIMARY} onClick={sendLoginHandler}>Log In</Button>
       </div>
     </StyledFormAuth>
     // </StyledPageWrapper>
