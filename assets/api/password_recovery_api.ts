@@ -10,10 +10,11 @@ export const passwordRecoveryApi: any = createApi({
         // 2 параметр - тип query аргументов (QueryArg)
           sendRecoveryLink: build.mutation<any, string>({
             query: (email) => {
+              console.log(email);
               return {
                 method: "POST",
                 url: `/auth/password-recovery`,
-                params: {
+                body: {
                   email: email,
                 },
               };

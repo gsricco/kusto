@@ -1,25 +1,71 @@
 import { Button } from "components/Button/Button";
-import { Form, Field, FormikProps } from "formik";
-import { OtherPropsType,  FormValuesType} from "pages/login/recovery";
+import { Input } from "components/Input/Input";
+import { Modal } from "components/Modal";
+import { Form, Field, FormikProps, Formik } from "formik";
 import styled from "styled-components";
+import * as Yup from "yup";
 
-const EmailForm = ({ errors, ...props }: OtherPropsType & FormikProps<FormValuesType>) => {
-    return (
+export type FormValuesType = {
+  // all the values that we’re going to have in our form
+  email: string;
+};
+
+export type OtherPropsType = {
+  // to pass other props to our component
+  isMessageSent: boolean;
+  isModalOpen: boolean;
+  handleModalClose: () => void;
+  handleEmailSend: (values:FormValuesType) => void;
+  };
+
+const EmailSchema = Yup.object().shape({
+  email: Yup.string()
+    .email()
+    .max(50, "Max length is 50 symbols.")
+    .required("Required"),
+});
+
+const EmailForm = ({
+  handleModalClose,
+  isModalOpen,
+  isMessageSent,
+  handleEmailSend,
+}: OtherPropsType ) => {
+  return (
+    <Formik
+      validationSchema={EmailSchema}
+      initialValues={{ email: "" }}
+      onSubmit={(values) => handleEmailSend(values)}
+    >
+      {(props) => (
         <Form>
-        <div>
-            <Field name='email' type='text' placeholder='email' />
-            {errors.email && <div>{errors.email}</div>}
-        </div>
-      {props.isMessageSent && (
-        <StyledText>We have sent a link to confirm your email to {props.email}</StyledText>
-      )}
+          <Input
+            name="email"
+            labelText="Email"
+            hintText="Enter your email address and we will send you further instructions"
+            type="email"
+          />
+          {isMessageSent && (
+            <StyledText>
+              We have sent a link to confirm your email to {props.values.email}
+            </StyledText>
+          )}
 
-      <Button type='submit' onClick={props.handleEmailSend}>
-        {props.isMessageSent ? "Send Link Again" : "Send Link"}
-      </Button>
-      </Form>
-    ) 
-}
+          <Button type="submit">
+            {isMessageSent ? "Send Link Again" : "Send Link"}
+          </Button>
+          {isModalOpen && (
+            <Modal
+              title="Email Sent"
+              bodyText={`We have sent a link to confirm your email to ${props.values.email}`}
+              handleModalClose={handleModalClose}
+            ></Modal>
+          )}
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
 export default EmailForm;
 

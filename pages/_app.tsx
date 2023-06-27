@@ -26,13 +26,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  // можно использовать <ApiProvider api={api}>, если нет store
   return getLayout(
-    // <Provider store={store}>
-    //   <Component {...pageProps} />
-    // </Provider>
-    <ApiProvider api={passwordRecoveryApi}>
-     <Component {...pageProps} />
-   </ApiProvider>
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
   );
 }
