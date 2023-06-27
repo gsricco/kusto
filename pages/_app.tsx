@@ -5,27 +5,29 @@ import {QueryClient} from '@tanstack/query-core';
 import {Hydrate, QueryClientProvider} from '@tanstack/react-query';
 import {useLoader} from 'assets/hooks/useLoader';
 import 'styles/nprogress.css'
+import '../styles/globals.css'
+
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
-    getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
+  Component: NextPageWithLayout;
 };
 
 export default function App({Component, pageProps}: AppPropsWithLayout) {
-    const [queryClient] = useState(() => new QueryClient)
+  const [queryClient] = useState(() => new QueryClient)
 
-    useLoader()
+  useLoader()
 
-    const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? ((page) => page);
 
-    return getLayout(
-        <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydrateState}>
-                <Component {...pageProps} />
-            </Hydrate>
-        </QueryClientProvider>
-    );
+  return getLayout(
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydrateState}>
+        <Component {...pageProps} />
+      </Hydrate>
+    </QueryClientProvider>
+  );
 }

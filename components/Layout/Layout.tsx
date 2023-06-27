@@ -1,37 +1,32 @@
-import {PropsWithChildren} from "react";
+import Header from "../Header/Header";
 import {NextPage} from "next";
+import {PropsWithChildren} from "react";
 import styled from "styled-components";
-import {Header} from "../Header/Header";
-import {themeProject} from "../../styles/styledComponents/Them.styled";
+import {baseTheme} from "../../styles/styledComponents/theme";
 
-export const Layout:NextPage<PropsWithChildren> = (props)=>{
+export const Layout: NextPage<PropsWithChildren> = (props) => {
   const {children} = props
-
   return (
-    <StyledPageWrapper>
+    <StyledWrapper>
       <Header/>
       <Main>{children}</Main>
-    </StyledPageWrapper>
+    </StyledWrapper>
   )
 }
 
-const StyledPageWrapper = styled.div
-  `
-    width: 100vw;
+const StyledWrapper = styled.div
+  ` width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    background: ${themeProject.colors.dark_700};;
-    color: white;
-  `
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: ${baseTheme.colors.dark["700"]};
+  `
 
 const Main = styled.div
-`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
+  `
+    padding-top: 20px;
+    //overflow: hidden;                          //уточнить
+  `

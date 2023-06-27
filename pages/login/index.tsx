@@ -1,100 +1,50 @@
 import React from 'react';
 import styled from "styled-components";
-import {themeProject} from "../../styles/styledComponents/Them.styled";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
-import google from '../../public/icons/google-svgrepo-com 1.svg'
-import github from '../../public/icons/github-svgrepo-com (3) 1.svg'
-import Image from "next/image";
 import {Button, ThemeButton} from "../../components/Button/ui/Button";
-import {Input} from "../../components/Input/Input";
-import {API} from "../../assets/api/api";
-import {ResponseLoginType} from "../../assets/api/kusto-api";
+import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth";
+import {Formik} from "formik";
+import {validateLogin} from "../../utils/validateLogin";
+import {LoginType} from "@/types/FormikTypes";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import AuthIcons from "../../components/Wrappers/Auth/AuthIcons";
 
-// export const getStaticProps = async () => {
-//   const accessToken = await API.kusto.logIn({loginOrEmail: "gsergio", password: "string"})
-//   return {
-//     props: {
-//       accessToken
-//     },
-//     // revalidate:60
-//   }
-// }
-
-
-//
-// type LoinPropsType = {
-//   accessToken:ResponseLoginType
-// }
 
 const Login = () => {
 
- let accessToken;
-  const sendLoginHandler = () =>{
-    accessToken =  API.kusto.logIn({loginOrEmail: "gsergio", password: "string"})
-  }
-  console.log('accessToken',accessToken)
-
-
   return (
-    // <StyledPageWrapper>
-    <StyledFormAuth width={'378px'} height={'516px'} >
-      <Title>Sing In</Title>
-      <StyledIconBlock>
-        <Image width={36} height={36} src={google} alt={'Kusto'}/>
-        <Image  width={36} height={36} src={github} alt={'it'}/>
-      </StyledIconBlock>
-      <Input/>
-      <div>
-        <Button theme={ThemeButton.PRIMARY} onClick={sendLoginHandler}>Log In</Button>
-      </div>
-    </StyledFormAuth>
-    // </StyledPageWrapper>
+    <StyledContainerAuth>
+      <WrapperContainerAuth title={'Sing In'}>
+        <AuthIcons/>
+        <Formik
+          initialValues={{loginOrEmail: '', password: ''} as LoginType}
+          validationSchema={validateLogin}
+          onSubmit={values => alert('submit')}
+        >
+          {formik => <LoginForm formik={formik}/>}
+        </Formik>
+        <div>
+          <Button theme={ThemeButton.PRIMARY} type={'submit'}>Log In</Button>
+        </div>
+      </WrapperContainerAuth>
+    </StyledContainerAuth>
   );
 };
 
 Login.getLayout = getLayout
 export default Login;
 
-type FormAuthPropsType = {
-  width: string
-  height: string
-}
 
-const StyledFormAuth = styled.div<FormAuthPropsType>
+export const StyledContainerAuth = styled.div
   `
+    width: 96vw;
+    min-height: 90vh;
+
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-content: flex-start;
-    //align-items: flex-start;
-    width: ${props => props.width};
-    height: ${props => props.height};
-    background: ${themeProject.colors.dark_500};
-    border: 1px solid ${themeProject.colors.dark_300};
-    padding: 20px;
+    align-items: center;
+
   `
-
-const Title = styled.h1
-`
-  text-align: center;
-  width: 100%;
-  font-size: 20px;
-  font-family: Inter;
-  font-weight: 700;
-  line-height: 36px;
-  color:${themeProject.colors.light_100};
-  margin: 0;
-`
-const StyledIconBlock = styled.div
-`
-  max-width: 132px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 10px 50px 20px 50px;
-`
-
 
 
 

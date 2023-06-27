@@ -25,7 +25,6 @@ export const Button: FC<ButtonProps> = (props) => {
 
   return (
     <StyledButton
-      type="button"
       className={classNames('', {['disabled']: disabled}, [className, theme])}
       {...otherProps}
     >
@@ -36,14 +35,16 @@ export const Button: FC<ButtonProps> = (props) => {
 type ButtonPropsType = {
   width?: string
   height?: string
+  type?: 'button' | 'reset' | 'submit'
 }
-const StyledButton = styled.button<ButtonPropsType>
+const StyledButton = styled.button.attrs(props => ({
+  type:props.type ? props.type : 'button'})) <ButtonPropsType>
   `
     cursor: pointer;
-    // max-width: ${props => props.width ? props.width : '182px'};
     height: 36px;
-    width: ${props => props.width ? props.width : '182px'};
+    width: ${props => props.width ? props.width : '330px'};
     padding: 0 20px;
+
     border: none;
     border-radius: 2px;
 
@@ -145,4 +146,7 @@ const StyledButton = styled.button<ButtonPropsType>
     &.clear.disabled {
       color: #234E99;
     }
+
+    @media (max-width: 390px) {
+      width: ${props => props.width ? props.width : '80vw'};
   `

@@ -1,22 +1,45 @@
-import React from 'react';
+import {baseTheme} from "../../styles/styledComponents/theme";
+import {SelectLanguage} from "./SelectedLanguage/SelectLanguage";
 import styled from "styled-components";
-import {themeProject} from "../../styles/styledComponents/Them.styled";
+import Image from "next/image";
+import bell from '../../public/icons/initialBell.svg'
 
-export const Header = () => {
+const Header = () => {
   return (
     <StyledHeader>
-      Inctagram
+      <LogoStyle>KustoSocialNet</LogoStyle>;
+      <Image width={24} height={24} src={bell} alt={'bell'}/>
+      <SelectLanguage/>
     </StyledHeader>
   );
 };
+export default Header
 
-const StyledHeader = styled.div
+const StyledHeader = styled.header
   `
     width: 100%;
     height: 60px;
-    background: ${themeProject.colors.dark_700};
-    border: 1px solid ${themeProject.colors.dark_300};
+    padding: 0 4.6%;
+
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    background: ${baseTheme.colors.dark[700]};
+    border-bottom: 1px solid ${baseTheme.colors.dark[300]};
+  `;
+
+const LogoStyle = styled.div
   `
+    flex:1 0 auto;
+    
+    font-size: 26px;
+    font-family: Inter;
+    font-weight: 600;
+    line-height: 36px;
+
+    color: ${baseTheme.colors.light[100]};
+  `
+
+
+
