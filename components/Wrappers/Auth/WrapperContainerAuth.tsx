@@ -1,19 +1,13 @@
 import React, {FC, PropsWithChildren} from 'react';
-import Image from "next/image";
-import google from "../../public/icons/google-svgrepo-com.svg";
-import github from "../../public/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
-import {baseTheme} from "../../styles/styledComponents/theme";
+import {baseTheme} from "../../../styles/styledComponents/theme";
+import AuthIcons from "./AuthIcons";
 
 export const WrapperContainerAuth: FC<PropsWithChildren&{title:string}>=  (props)=> {
   const {children, title} = props
   return (
     <StyledFormAuth>
       <StaledTitle>{title}</StaledTitle>
-      <StyledIconBlock>
-        <Image width={36} height={36} src={google} alt={'Kusto'}/>
-        <Image width={36} height={36} src={github} alt={'it'}/>
-      </StyledIconBlock>
       {children}
     </StyledFormAuth>
   )
@@ -51,16 +45,6 @@ const StaledTitle = styled.h1
     line-height: 36px;
     
     color: ${baseTheme.colors.light["100"]};
-  `
-const StyledIconBlock = styled.div
-  `
-    max-width: 132px;
-    width: 100%;
-    margin: 10px 50px 20px 50px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
   `
 
 type FormAuthPropsType = {

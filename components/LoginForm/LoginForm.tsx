@@ -43,7 +43,7 @@ const LoginForm: FC<LoginFormPropsType> = ({formik}) => {
       {/*>*/}
       {/*  Sign in*/}
       {/*</Button>*/}
-      <Button theme={ThemeButton.PRIMARY}>Log In</Button>
+      {/*<Button theme={ThemeButton.PRIMARY}>Log In</Button>*/}
       <StyledText>Don’t have an account?</StyledText>
       <StyledSignIn href="/registration">Sign up</StyledSignIn>
     </Form>

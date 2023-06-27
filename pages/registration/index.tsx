@@ -1,26 +1,22 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
+import React, {useState} from "react";
+import {Formik} from "formik";
 import showPasswordBtn from "../../public/icons/eye-outline.svg";
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
-import googleIcon from "../../public/icons/google-svgrepo-com.svg";
-import githubIcon from "../../public/icons/github-svgrepo-com.svg";
-import { SignupSchema } from "../../utils/validateRegistraition";
+import {SignupSchema} from "../../utils/validateRegistraition";
 import {
-  StyledBtn,
-  StyledContainer,
   StyledErrorMsg,
   StyledField,
   StyledForm,
   StyledShowPasswordBtn,
   StyledSignIn,
   StyledSignInWrapper,
-  StyledSocialMediaIcon,
-  StyledSocialMediaWrapper,
   StyledText,
-  StyledTitle,
 } from "styles/styles";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
 import {StyledContainerAuth} from "../login";
+import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth";
+import AuthIcons from "../../components/Wrappers/Auth/AuthIcons";
+import {Button, ThemeButton} from "../../components/Button/ui/Button";
 
 
 const Registration = () => {
@@ -45,13 +41,8 @@ const Registration = () => {
 
   return (
     <StyledContainerAuth>
-
-    <StyledContainer>
-      <StyledTitle>Sign Up</StyledTitle>
-      <StyledSocialMediaWrapper>
-        <StyledSocialMediaIcon alt="google-icon" src={googleIcon} />
-        <StyledSocialMediaIcon alt="github-icon" src={githubIcon} />
-      </StyledSocialMediaWrapper>
+      <WrapperContainerAuth title={'Sing up'}>
+        <AuthIcons/>
       <Formik
         initialValues={{
           username: "",
@@ -133,7 +124,7 @@ const Registration = () => {
                 <StyledErrorMsg>{errors.email}</StyledErrorMsg>
               ) : null}
             </label>
-            <StyledBtn type="submit">Sign Up</StyledBtn>
+            <Button theme={ThemeButton.PRIMARY} type={'submit'}>Sing up</Button>
           </StyledForm>
         )}
       </Formik>
@@ -141,9 +132,7 @@ const Registration = () => {
         <StyledText>Do you have an account?</StyledText>
         <StyledSignIn href="/login">Sign in</StyledSignIn>
       </StyledSignInWrapper>
-    </StyledContainer>
-
-
+      </WrapperContainerAuth>
     </StyledContainerAuth>
   );
 }

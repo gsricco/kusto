@@ -2,11 +2,12 @@ import React from 'react';
 import styled from "styled-components";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
 import {Button, ThemeButton} from "../../components/Button/ui/Button";
-import {WrapperContainerAuth} from "../../components/Wrappers/WrapperContainerAuth";
+import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth";
 import {Formik} from "formik";
 import {validateLogin} from "../../utils/validateLogin";
 import {LoginType} from "@/types/FormikTypes";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import AuthIcons from "../../components/Wrappers/Auth/AuthIcons";
 
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={'Sing In'}>
+        <AuthIcons/>
         <Formik
           initialValues={{loginOrEmail: '', password: ''} as LoginType}
           validationSchema={validateLogin}
@@ -22,7 +24,7 @@ const Login = () => {
           {formik => <LoginForm formik={formik}/>}
         </Formik>
         <div>
-          <Button theme={ThemeButton.PRIMARY}>Log In</Button>
+          <Button theme={ThemeButton.PRIMARY} type={'submit'}>Log In</Button>
         </div>
       </WrapperContainerAuth>
     </StyledContainerAuth>
