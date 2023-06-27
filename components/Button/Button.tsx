@@ -21,7 +21,7 @@ export const Button = ({
   children: ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
   type?: string
 }) => {
   return (
