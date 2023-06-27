@@ -58,20 +58,6 @@ export const StyledForm = styled(Form)`
   }
 `
 
-export const StyledField = styled(Field)`
-  font-size: 14px;
-  width: 100%;
-  height: 36px;
-  border: ${(props) =>
-    props.border === "red"
-      ? `1px solid ${baseTheme.colors.danger[500]}`
-      : `1px solid ${baseTheme.colors.dark[100]}`};
-  background: ${baseTheme.colors.dark[500]};
-  color: ${baseTheme.colors.light[100]};
-  box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[900]};
-  padding-left: 8px;
-`
 
 export const StyledBtn = styled.button`
   font-size: 16px;

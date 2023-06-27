@@ -23,6 +23,7 @@ import Home from "../index"
 import { useShowPassword } from "assets/hooks/useShowPassword"
 import FormikField from "components/FormikWrapper/FormikField"
 import FormLabel from "components/FormikWrapper/FormLabel"
+import { Button, ThemeButton } from "components/Button/ui/Button"
 
 export default function Registration() {
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
@@ -44,6 +45,7 @@ export default function Registration() {
         }}
         validationSchema={SignupSchema}
         onSubmit={async (values, { resetForm }) => {
+          console.log(values)
           const data = {
             email: values.email,
             password: values.password,
@@ -123,7 +125,9 @@ export default function Registration() {
                 <StyledErrorMsg>{errors.email}</StyledErrorMsg>
               ) : null}
             </FormLabel>
-            <StyledBtn type="submit">Sign Up</StyledBtn>
+            <Button type="submit" theme={ThemeButton.PRIMARY}>
+              Sign Up
+            </Button>
           </StyledForm>
         )}
       </Formik>
