@@ -3,10 +3,7 @@ import { StyledWrap } from "components/Container";
 import { Input } from "components/Input/Input";
 import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  passwordRecoveryApi,
-  useGetIsEmailMutation,
-} from "assets/api/password_recovery_api";
+import { useSendRecoveryLinkMutation } from "assets/api/password_recovery_api";
 import { Modal } from "components/Modal";
 import { withFormik } from "formik";
 import EmailForm from "components/Forms/EmailForm";
@@ -23,7 +20,7 @@ const RecoveryPage = () => {
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
-  const [trigger, result] = useGetIsEmailMutation()
+  const [trigger, result] = useSendRecoveryLinkMutation()
   
   // useEffect(() => {
   //   if (result.status = 'rejected') { // нужно будет заменить условие
@@ -143,8 +140,7 @@ const EmailFormFormik  = withFormik<MyFormPropsType & OtherPropsType, FormValues
   }),
   handleSubmit (values: FormValuesType, {props, setStatus, setSubmitting, ...actions}) {
     props.setEmail(values.email)
-      // props.login(values.email, values.password, values.rememberMe, values.captcha, setStatus)
-      setSubmitting(false);       
+    setSubmitting(false);       
   }
 })(EmailForm)
 
