@@ -8,7 +8,7 @@ export const passwordRecoveryApi: any = createApi({
         return {
         // 1 параметр - тип того, что возвращает сервер (ResultType)
         // 2 параметр - тип query аргументов (QueryArg)
-          getIsEmail: build.mutation<any, string>({
+          sendRecoveryLink: build.mutation<any, string>({
             query: (email) => {
               return {
                 method: "POST",
@@ -19,8 +19,25 @@ export const passwordRecoveryApi: any = createApi({
               };
             },
           }),
+          postRecoveryLink: build.mutation<any, PostRecoveryLinkType>({
+            query: ({newPassword, recoveryCode}) => {
+              return {
+                method: "POST",
+                url: `/auth/new-password`,
+                params: {
+                  newPassword: newPassword,
+                  recoveryCode: recoveryCode
+                },
+              };
+            },
+          }),
         };
       },
 })
 
-export const { useGetIsEmailMutation } = passwordRecoveryApi
+export const { useSendRecoveryLinkMutation, usePostRecoveryLinkMutation } = passwordRecoveryApi
+
+type PostRecoveryLinkType = {
+  newPassword: string
+  recoveryCode: string
+}
