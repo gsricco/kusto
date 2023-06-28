@@ -14,10 +14,10 @@ const Home: NextPageWithLayout = () => (
       priority
     />
     <div>
-      <Link href={'/login'}>Login</Link>
-      <Link href={'/registration'}>Login</Link>
-      <Link href={'/recovery'}>Login</Link>
-      <Link href={'/newPassword'}>Login</Link>
+      <p><Link href={'/login'}>Login</Link></p>
+      <p><Link href={'/registration'}>registration</Link></p>
+      <p><Link href={'/recovery'}>recovery</Link></p>
+      <p><Link href={'/new_password'}>new_password</Link></p>
     </div>
 
   </>

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const NewPasswordSchema = Yup.object().shape({
+export const validateNewPassword = Yup.object().shape({
   newPassword: Yup.string()
     .min(6, "Too Short!")
     .max(20, "Too Long!")

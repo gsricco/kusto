@@ -10,3 +10,6 @@ export type LoginType = {
 export type SendLinkType = {
   email: string
 }
+export type NewPasswordType = {
+  newPassword: string
+  recoveryCode: string}

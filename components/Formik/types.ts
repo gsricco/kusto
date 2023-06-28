@@ -7,6 +7,8 @@ type FormikAllValuesType = {
   passwordConfirmation?: string
   email?: string
   loginOrEmail?: string
+  newPassword?: string
+  recoveryCode?: string
 }
 
 
@@ -37,6 +39,13 @@ export type FormValueRecovery = {
   email: string
 }
 
+export type FormNewPasswordType = {
+  newPassword: string
+  recoveryCode: string
+}
+
+
+
 export type ResetForm = {
   resetForm: (
     nextState?:
@@ -47,6 +56,8 @@ export type ResetForm = {
         passwordConfirmation: string
         email: string
         loginOrEmail: string
+        newPassword: string
+        recoveryCode: string
       }>
     >
       | undefined
