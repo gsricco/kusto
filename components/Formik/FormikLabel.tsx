@@ -1,33 +1,9 @@
 import {FormikField} from "./FormikField";
 import React from "react";
-import {FormikErrors, FormikTouched} from "formik";
 import styled from "styled-components";
 import {baseTheme} from "../../styles/styledComponents/theme";
+import {labelType} from "./types";
 
-type labelType = {
-  children?: React.ReactNode
-  id?: string
-  type?: string
-  title: string
-  name?: string
-  border?: string
-  errors: FormikErrors<{
-    username?: string;
-    password?: string;
-    passwordConfirmation?: string;
-    email?: string;
-    loginOrEmail?: string;
-  }>
-  touched: FormikTouched<{
-    username?: string;
-    password?: string;
-    passwordConfirmation?: string;
-    email?: string;
-    loginOrEmail?: string;
-  }>
-  value: string
-  onChange: (e: string) => void
-}
 
 export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children}: labelType) => {
 
@@ -64,9 +40,9 @@ const StyledErrorMsg = styled.div
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    color: ${baseTheme.colors.danger["500"]};
     
-  `;
+    color: ${baseTheme.colors.danger["500"]};
+  `
 
 const StyledTitle = styled(StyledErrorMsg)
   `

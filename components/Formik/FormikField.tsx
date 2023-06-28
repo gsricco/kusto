@@ -2,15 +2,7 @@ import { Field } from "formik"
 import styled from "styled-components"
 import {baseTheme} from "../../styles/styledComponents/theme";
 import {ChangeEvent} from "react";
-
-type FiledProps = {
-  id?:string
-  type?: string
-  border?: string
-  name?: string
-  value:string
-  onChange:(value:string)=>void
-}
+import {FiledProps} from "./types";
 
 
 

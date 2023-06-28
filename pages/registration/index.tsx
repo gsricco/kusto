@@ -1,36 +1,51 @@
 import React from "react"
-import { Form, Formik, FormikState } from "formik"
+import {Formik} from "formik"
 import showPasswordBtn from "../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg"
-import { getLayout } from "../../components/Layout/BaseLayout/BaseLayout"
-import { useShowPassword } from "assets/hooks/useShowPassword"
-import { SignupSchema } from "../../utils/validateRegistraition"
+import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout"
+import {useShowPassword} from "assets/hooks/useShowPassword"
+import {validateRegistration} from "../../utils/validateRegistraition"
 import AuthIcons from "../../components/Wrappers/Auth/AuthIcons"
-import { WrapperContainerAuth } from "../../components/Wrappers/Auth/WrapperContainerAuth"
-import { Button, ThemeButton } from "../../components/Button/ui/Button"
-import { FormikLabel } from "../../components/Formik/FormikLabel"
-import styled from "styled-components"
-import Image from "next/image"
-import { StyledContainerAuth } from "../../styles/styledComponents/auth/ContainerAuth.styled"
-import { baseTheme } from "../../styles/styledComponents/theme"
-import Link from "next/link"
-import { useRegistrationMutation } from "store/api/auth/authApi"
-import { FormValue, ResetForm } from "components/Formik/types"
+import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth"
+import {Button, ThemeButton} from "../../components/Button/Button"
+import {FormikLabel} from "../../components/Formik/FormikLabel"
+import {
+  StyledAuthForm,
+  StyledContainerAuth, StyledShowPasswordBtn, StyledSignIn,
+  StyledSignInWrapper,
+  StyledText
+} from "../../styles/styledComponents/auth/FormikAuth.styled"
+import {useRegistrationMutation} from "store/api/auth/authApi"
+import {FormValueRegistration, ResetForm} from "components/Formik/types"
 
 export default function Registration() {
-  const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
+  const {
+    passwordType,
+    passwordConfirmationType,
+    showPassword,
+    showPasswordConfirmation
+  } =
     useShowPassword()
 
-  const [userRegistrationHandler] = useRegistrationMutation()
+  const initialAuthValues = {
+    username: "",
+    password: "",
+    passwordConfirmation: "",
+    email: "",
+    loginOrEmail: ""
+  }
 
-  const handleSubmit = async (values: FormValue, { resetForm }: ResetForm) => {
+  const [registrationHandler] = useRegistrationMutation()
+
+
+  const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
     const data = {
       email: values.email,
       password: values.password,
       login: values.username
     }
     try {
-      await userRegistrationHandler(data)
+      await registrationHandler(data)
       resetForm()
     } catch (error) {
       console.log(error)
@@ -40,20 +55,19 @@ export default function Registration() {
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={"Sing In"}>
-        <AuthIcons />
+        <AuthIcons/>
         <Formik
-          initialValues={{
-            username: "",
-            password: "",
-            passwordConfirmation: "",
-            email: "",
-            loginOrEmail: ""
-          }}
-          validationSchema={SignupSchema}
+          initialValues={initialAuthValues}
+          validationSchema={validateRegistration}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, values, setFieldValue }) => (
-            <StyledForm>
+          {({
+              errors,
+              touched,
+              values,
+              setFieldValue
+            }) => (
+            <StyledAuthForm>
               <FormikLabel
                 name="username"
                 onChange={(e) => setFieldValue("username", e)}
@@ -112,11 +126,10 @@ export default function Registration() {
                   onClick={() => showPasswordConfirmation()}
                 />
               </FormikLabel>
-
               <Button theme={ThemeButton.PRIMARY} type="submit">
                 Sign up
               </Button>
-            </StyledForm>
+            </StyledAuthForm>
           )}
         </Formik>
         <StyledSignInWrapper>
@@ -129,55 +142,3 @@ export default function Registration() {
 }
 
 Registration.getLayout = getLayout
-
-const StyledShowPasswordBtn = styled(Image)`
-  position: absolute;
-  top: 35px;
-  right: 10px;
-`
-
-const StyledForm = styled(Form)`
-  color: #8d9094;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  label {
-    max-width: 330px;
-    width: 100%;
-    height: 100px;
-
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-
-    font-size: 16px;
-  }
-
-  #pass {
-    position: relative;
-  }
-  @media (max-width: 390px) {
-    width: 80vw;
-  }
-`
-
-const StyledSignInWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 20px 0;
-  justify-content: center;
-  align-items: center;
-`
-const StyledText = styled.p`
-  color: ${baseTheme.colors.light[100]};
-  line-height: 24px;
-`
-
-const StyledSignIn = styled(Link)`
-  text-decoration: none;
-  color: ${baseTheme.colors.accent[500]};
-  font-weight: 600;
-`
