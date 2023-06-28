@@ -19,19 +19,15 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({Component, pageProps}: AppPropsWithLayout) {
-    const [queryClient] = useState(() => new QueryClient)
+    // const [queryClient] = useState(() => new QueryClient)
 
   useLoader()
 
     const getLayout = Component.getLayout ?? ((page) => page);
 
   return getLayout(
-    // <QueryClientProvider client={queryClient}>
-    //   <Hydrate state={pageProps.dehydrateState}>
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>
-      // {/*</Hydrate>*/}
-    // </QueryClientProvider>
   );
 }
