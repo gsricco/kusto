@@ -3,7 +3,7 @@ import {Formik} from "formik"
 import showPasswordBtn from "../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg"
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout"
-import {useShowPassword} from "assets/hooks/useShowPassword"
+import {useShowPassword} from "../../assets/hooks/useShowPassword"
 import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth";
 import {useNewPasswordMutation} from "../../store/api/auth/authApi";
 import {FormNewPasswordType, ResetForm} from "../../components/Formik/types";

@@ -3,7 +3,7 @@ import {Formik} from "formik"
 import showPasswordBtn from "../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg"
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout"
-import {useShowPassword} from "assets/hooks/useShowPassword"
+import {useShowPassword} from "../../assets/hooks/useShowPassword"
 import {validateRegistration} from "../../utils/validateRegistraition"
 import AuthIcons from "../../components/Wrappers/Auth/AuthIcons"
 import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth"
@@ -15,8 +15,8 @@ import {
   StyledSignInWrapper,
   StyledText
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
-import {useRegistrationMutation} from "store/api/auth/authApi"
-import {FormValueRegistration, ResetForm} from "components/Formik/types"
+import {useRegistrationMutation} from "../../store/api/auth/authApi"
+import {FormValueRegistration, ResetForm} from "../../components/Formik/types"
 
 export default function Registration() {
   const {
