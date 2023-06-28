@@ -1,22 +1,18 @@
 import React from "react"
 import {Formik} from "formik"
-import showPasswordBtn from "../../public/icons/eye-outline.svg"
-import hidePasswordBtn from "../../public/icons/eye-off-outline.svg"
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout"
-import {useShowPassword} from "assets/hooks/useShowPassword"
-import {validateRegistration} from "../../utils/validateRegistraition"
-import AuthIcons from "../../components/Wrappers/Auth/AuthIcons"
 import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth"
 import {Button, ThemeButton} from "../../components/Button/Button"
 import {FormikLabel} from "../../components/Formik/FormikLabel"
 import {
   StyledAuthForm,
-  StyledContainerAuth, StyledShowPasswordBtn, StyledSignIn,
+  StyledContainerAuth,
+  StyledSignIn,
   StyledSignInWrapper,
   StyledText
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
-import {useRegistrationMutation, useSendRecoveryLinkMutation} from "store/api/auth/authApi"
-import {FormValueRecovery, FormValueRegistration, ResetForm} from "components/Formik/types"
+import {useSendRecoveryLinkMutation} from "../../store/api/auth/authApi"
+import {FormValueRecovery, ResetForm} from "../../components/Formik/types"
 import {validateRecovery} from "../../utils/validateRecovery";
 
 export default function Registration() {

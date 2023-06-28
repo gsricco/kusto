@@ -17,6 +17,9 @@ import {FormikLabel} from "../../components/Formik/FormikLabel";
 import showPasswordBtn from "../../public/icons/eye-outline.svg";
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
 import {validateLogin} from "../../utils/validateLogin";
+import styled from 'styled-components';
+import Link from 'next/link';
+import {baseTheme} from '../../styles/styledComponents/theme';
 
 
 const Login = () => {
@@ -87,6 +90,9 @@ const Login = () => {
                   onClick={() => showPassword()}
                 />
               </FormikLabel>
+              <StyledLinkBlock>
+                <StyledForgotLink href="/recovery">Forgot Password</StyledForgotLink>
+              </StyledLinkBlock>
               <Button theme={ThemeButton.PRIMARY} type="submit">
                 Sign in
               </Button>
@@ -105,6 +111,16 @@ const Login = () => {
 Login.getLayout = getLayout
 export default Login;
 
-
-
-
+const StyledForgotLink = styled(Link)
+  `
+    color: ${baseTheme.colors.light[900]};
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+  `
+export const StyledLinkBlock = styled.div
+  `
+    width: 100%;
+    text-align: right;
+    padding-bottom: 24px;
+  `
