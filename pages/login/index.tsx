@@ -8,6 +8,11 @@ import {validateLogin} from "../../utils/validateLogin";
 import {LoginType} from "@/types/FormikTypes";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import AuthIcons from "../../components/Wrappers/Auth/AuthIcons";
+import {FormikField} from "../../components/Formik/FormikField";
+import {StyledErrorMsg, StyledShowPasswordBtn} from "../../styles/styles";
+import showPasswordBtn from "../../public/icons/eye-outline.svg";
+import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
+import FormikLabel2 from "../../components/Formik/FormikLabel2";
 
 
 const Login = () => {

@@ -81,15 +81,12 @@ export const StyledBtn = styled.button`
   background: ${baseTheme.colors.accent["500"]};
 `;
 
-export const StyledShowPasswordBtn = styled(Image)`
-  position: absolute;
-  top: 25px;
-  right: 12px;
-`;
+// export const StyledShowPasswordBtn = styled(Image)`
+//   position: relative;
+//   bottom: 60px;
+//   left: 140px;
+// `;
 
-export const StyledErrorMsg = styled.div`
-  color: ${baseTheme.colors.danger["500"]};
-`;
 
 export const StyledText = styled.p`
   color: ${baseTheme.colors.light[100]};

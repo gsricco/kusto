@@ -1,11 +1,21 @@
 import { Field } from "formik"
 import styled from "styled-components"
 import {baseTheme} from "../../styles/styledComponents/theme";
+import {ChangeEvent} from "react";
 
 type FiledProps = {
+  id?:string
   type?: string
   border?: string
   name?: string
+  value:string
+  onChange:(value:string)=>void
+}
+
+
+
+export const FormikField = (props: FiledProps) => {
+  return <StyledField {...props} onChange={(e: ChangeEvent<HTMLInputElement>)=>props.onChange(e.target.value)}/>
 }
 
 export const StyledField = styled(Field)
@@ -13,6 +23,7 @@ export const StyledField = styled(Field)
     width: 100%;
     height: 36px;
     padding-left: 8px;
+    position: relative;
         
   font-size: 14px;
   
@@ -27,8 +38,3 @@ export const StyledField = styled(Field)
   -webkit-text-fill-color: ${baseTheme.colors.light[900]};
  
 `
-
-export const FormikField = (props: FiledProps) => {
-  return <StyledField {...props} />
-}
-
