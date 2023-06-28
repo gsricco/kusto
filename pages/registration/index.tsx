@@ -133,7 +133,7 @@ export default function Registration() {
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledText>Don’t have an account?</StyledText>
+          <StyledText>Do you have an account?</StyledText>
           <StyledSignIn href="/login">Sign in</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
