@@ -11,19 +11,19 @@ import { store } from 'store/store';
 
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+    getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
+    Component: NextPageWithLayout;
 };
 
 export default function App({Component, pageProps}: AppPropsWithLayout) {
-  const [queryClient] = useState(() => new QueryClient)
+    const [queryClient] = useState(() => new QueryClient)
 
   useLoader()
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+    const getLayout = Component.getLayout ?? ((page) => page);
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
