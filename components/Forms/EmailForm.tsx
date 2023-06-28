@@ -1,6 +1,6 @@
 import { Button } from "components/Button/Button";
 import { Form, Field, FormikProps } from "formik";
-import { OtherPropsType,  FormValuesType} from "pages/login/recovery";
+import { OtherPropsType,  FormValuesType} from "../../pages/recovery";
 import styled from "styled-components";
 
 const EmailForm = ({ errors, ...props }: OtherPropsType & FormikProps<FormValuesType>) => {

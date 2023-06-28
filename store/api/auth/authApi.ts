@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import {LoginType, RegistrationType} from "./types"
+import {LoginType, RegistrationType, SendLinkType} from "./types"
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -19,8 +19,17 @@ export const authApi = createApi({
         body
       })
     }),
+    sendRecoveryLink: builder.mutation<any, SendLinkType>({
+      query: (body) => ({
+          method: "POST",
+          url: `/auth/password-recovery`,
+          body
+        })
+    }),
+
+
 
   })
 })
 
-export const { useRegistrationMutation,useLoginMutation } = authApi
+export const { useRegistrationMutation,useLoginMutation, useSendRecoveryLinkMutation } = authApi

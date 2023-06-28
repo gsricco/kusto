@@ -33,6 +33,9 @@ export type FormValueLogin = {
   loginOrEmail: string
   password: string
 }
+export type FormValueRecovery = {
+  email: string
+}
 
 export type ResetForm = {
   resetForm: (
