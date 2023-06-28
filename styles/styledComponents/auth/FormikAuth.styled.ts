@@ -72,4 +72,5 @@ export const StyledSignIn = styled(Link)
     text-decoration: none;
     color: ${baseTheme.colors.accent[500]};
     font-weight: 600;
+    margin:10px;
   `
