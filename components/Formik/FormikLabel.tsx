@@ -1,7 +1,6 @@
 import {FormikField} from "./FormikField";
 import React from "react";
 import {FormikErrors, FormikTouched} from "formik";
-import {useShowPassword} from "../../assets/hooks/useShowPassword";
 import styled from "styled-components";
 import {baseTheme} from "../../styles/styledComponents/theme";
 
@@ -30,7 +29,7 @@ type labelType = {
   onChange: (e: string) => void
 }
 
-export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange}: labelType) => {
+export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children}: labelType) => {
 
   let errorMessage = '';
 
@@ -42,10 +41,9 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
 
 
   return (
-    <>
+    <label  id={id}>
       <StyledTitle><span>{title}</span></StyledTitle>
       <FormikField
-        id={id}
         name={name}
         border={border}
         type={type}
@@ -53,7 +51,8 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
         onChange={(e) => onChange(e)}
       />
       <StyledErrorMsg>{errorMessage}</StyledErrorMsg>
-    </>
+      {children}
+    </label>
   )
 }
 
@@ -66,6 +65,7 @@ const StyledErrorMsg = styled.div
     justify-content: flex-start;
     align-items: center;
     color: ${baseTheme.colors.danger["500"]};
+    
   `;
 
 const StyledTitle = styled(StyledErrorMsg)

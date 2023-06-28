@@ -1,7 +1,6 @@
 import React, {FC, PropsWithChildren} from 'react';
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
-import AuthIcons from "./AuthIcons";
 
 export const WrapperContainerAuth: FC<PropsWithChildren&{title:string}>=  (props)=> {
   const {children, title} = props

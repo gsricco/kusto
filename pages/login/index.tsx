@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from "styled-components";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
 import {Button, ThemeButton} from "../../components/Button/ui/Button";
 import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth";
@@ -8,11 +7,7 @@ import {validateLogin} from "../../utils/validateLogin";
 import {LoginType} from "@/types/FormikTypes";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import AuthIcons from "../../components/Wrappers/Auth/AuthIcons";
-import {FormikField} from "../../components/Formik/FormikField";
-import {StyledErrorMsg, StyledShowPasswordBtn} from "../../styles/styles";
-import showPasswordBtn from "../../public/icons/eye-outline.svg";
-import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
-import FormikLabel2 from "../../components/Formik/FormikLabel2";
+import {StyledContainerAuth} from "../../styles/styledComponents/auth/ContainerAuth.styled";
 
 
 const Login = () => {
@@ -38,18 +33,6 @@ const Login = () => {
 
 Login.getLayout = getLayout
 export default Login;
-
-
-export const StyledContainerAuth = styled.div
-  `
-    width: 96vw;
-    min-height: 90vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  `
 
 
 
