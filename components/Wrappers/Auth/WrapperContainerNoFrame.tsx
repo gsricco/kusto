@@ -1,48 +1,19 @@
 import React, {FC, PropsWithChildren} from 'react';
 import styled from "styled-components";
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import {FormAuthPropsType} from "../types";
+import {StaledTitle, StyledFormAuth} from "./WrapperContainerAuth";
 
 export const WrapperContainerNoFrame: FC<PropsWithChildren&{title:string}>=  (props)=> {
   const {children, title} = props
   return (
-    <StyledFormAuth>
-      <StyledTitle>{title}</StyledTitle>
+    <StyledFormAuthNoFrame>
+      <StaledTitle>{title}</StaledTitle>
       {children}
-    </StyledFormAuth>
+    </StyledFormAuthNoFrame>
   )
 }
 
-const StyledFormAuth = styled.div<FormAuthPropsType>
+const StyledFormAuthNoFrame= styled(StyledFormAuth)
   `
-    max-width: ${props => props.width?props.width:'378px'};
-    width: 100%;
-    height: ${props => props.height?props.height:'auto'};
-    padding: 20px;
-    
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    
-    // background: ${baseTheme.colors.dark["500"]};
-    // border: 1px solid ${baseTheme.colors.dark["300"]};
-
-    @media (max-width: 390px){
-      max-width: ${props => props.width?props.width:'90vw'};
-    }
-  `
-
-const StyledTitle = styled.h1
-  `
-    width: 100%;
-    text-align: center;
-    margin: 0;
-
-    font-size: 20px;
-    font-family: Inter;
-    font-weight: 700;
-    line-height: 36px;
-    
-    color: ${baseTheme.colors.light["100"]};
+    background: transparent;
+    border: none;    
   `
