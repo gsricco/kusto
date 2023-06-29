@@ -46,7 +46,7 @@ const StyledErrorMsg = styled.div
 
 const StyledTitle = styled(StyledErrorMsg)
   `
-    color: ${baseTheme.colors.light["900"]};
+    color: ${baseTheme.colors.light["950"]};
 
     & span::first-letter {
       text-transform: uppercase;
