@@ -7,3 +7,7 @@ export type LoginType = {
   loginOrEmail: string
   password: string
 }
+
+export type LoginResponseType = {
+  accessToken: string
+}
