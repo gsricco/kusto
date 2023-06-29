@@ -13,3 +13,7 @@ export type SendLinkType = {
 export type NewPasswordType = {
   newPassword: string
   recoveryCode: string}
+
+export type LoginResponseType = {
+  accessToken: string
+}
