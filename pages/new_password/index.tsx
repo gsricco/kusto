@@ -15,6 +15,7 @@ import {
 import {FormikLabel} from "../../components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../components/Button/Button";
 import {validateNewPassword} from "../../utils/validateNewPassword";
+import { useRouter } from "next/router"
 
 export default function NewPassword() {
 
@@ -29,7 +30,11 @@ export default function NewPassword() {
   }
 
   const [newPasswordHandler] = useNewPasswordMutation()
-
+  const router = useRouter()
+  const {code} = router.query
+  if (!code) {
+    console.log(code)
+  }
   let recoveryCode = "gddj5"
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
