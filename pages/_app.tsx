@@ -1,13 +1,9 @@
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode, useState } from "react";
 import { NextPage } from "next";
-import { QueryClient } from "@tanstack/query-core";
-import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 import { useLoader } from "assets/hooks/useLoader";
 import "styles/nprogress.css";
 import "styles/globals.css";
-import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
-import { passwordRecoveryApi } from "assets/api/password_recovery_api";
 import { store } from "assets/store/store";
 import { Provider } from "react-redux";
 
@@ -20,7 +16,6 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({Component, pageProps}: AppPropsWithLayout) {
-    const [queryClient] = useState(() => new QueryClient)
 
     useLoader()
 
