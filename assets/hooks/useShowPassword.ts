@@ -25,8 +25,4 @@ export const useShowPassword = () => {
     showPassword,
     showPasswordConfirmation
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> dev
