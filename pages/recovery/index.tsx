@@ -16,23 +16,29 @@ import {FormValueRecovery, ResetForm} from "../../components/Formik/types"
 import {validateRecovery} from "../../utils/validateRecovery";
 import { EmailSentModal } from "components/PopUpModal/EmailSentModal"
 
-export default function Registration() {
+// ///                                           ///   //
+// страница восстановления пароля. Пользователь вводит email
+// отправляется запрос на сервер, отображается сообщение
+// об отправке ссылки на почту
+// ///                                           ///   //
+
+export default function Recovery() {
 
   const initialAuthValues = {
-    username: "",
-    password: "",
-    passwordConfirmation: "",
+    // username: "",
+    // password: "",
+    // passwordConfirmation: "",
     email: "",
-    loginOrEmail: ""
+    // loginOrEmail: ""
   }
 
-  const [isMessageSent, setIsMessageSent] = useState(false)
-  const [email, setEmail] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMessageSent, setIsMessageSent] = useState(false) // отправлено ли сообщение
+  const [email, setEmail] = useState('')                    // введенный email
+  const [isModalOpen, setIsModalOpen] = useState(false);    // открыто ли модальное окно
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation()
 
-
+  // Обработчик нажатия кнопки подтверждения в форме
   const handleSubmit = async (values: FormValueRecovery, {resetForm}: ResetForm) => {
     const data = {
       email: values.email,
@@ -48,6 +54,7 @@ export default function Registration() {
     }
   }
 
+  // Обработчик закрытия модального окна
   const handleModalClose = () => {
     setIsModalOpen(false)
   }
@@ -106,4 +113,4 @@ export default function Registration() {
   )
 }
 
-Registration.getLayout = getLayout
+Recovery.getLayout = getLayout

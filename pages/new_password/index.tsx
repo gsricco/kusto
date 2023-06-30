@@ -21,7 +21,13 @@ import { GetStaticPropsContext } from "next"
 import config from 'next-i18next.config.js'
 import { useTranslation } from 'next-i18next'
 
+// ///                                           ///   //
+// страница введения нового пароля. Пользователь вводит данные,
+// отправляется запрос на сервер вместе с кодом восстановления, полученным на почту
+// Success - переключение на страницу логина, fail - на страницу повторной отправки сообщения
+// ///                                           ///   //
 
+// Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context as any
 
@@ -35,42 +41,38 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 export default function NewPassword() {
 
   const initialAuthValues = {
-    username: "",
-    password: "",
+    // username: "",
+    // password: "",
     passwordConfirmation: "",
-    email: "",
-    loginOrEmail: "",
+    // email: "",
+    // loginOrEmail: "",
     newPassword: "",
     recoveryCode: "",
   }
 
   const [newPasswordHandler, {error}] = useNewPasswordMutation()
-  const { t } = useTranslation()
+
+  const { t } = useTranslation()    // функция перевода на выбранный язык
   const router = useRouter()
-  const {code} = router.query
-  
+  const {code} = router.query       // получение кода восстановления для сервера
+
+  // Обработчик нажатия кнопки подтверждения в форме  
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
       recoveryCode: code
     }
     try {
-      await newPasswordHandler(data).unwrap().then((res) => {
-        console.log(res)
-      })
-      console.log(error)
+      await newPasswordHandler(data)
       resetForm()
     } catch (error) {
       router.push('/recovery')
     }
   }
 
-
-  const {
-    passwordType, passwordConfirmationType,
-    showPassword, showPasswordConfirmation
-  } =
-    useShowPassword()
+  // хук открытия и скрытия пароля
+  const {passwordType, passwordConfirmationType,
+        showPassword, showPasswordConfirmation} = useShowPassword()
 
   return (
     <StyledContainerAuth>
