@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import {LoginType, NewPasswordType, RegistrationType, SendLinkType} from "./types"
+import {LoginType, NewPasswordType, RegistrationType, SendLinkType, NewPasswordResType} from "./types"
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -26,7 +26,7 @@ export const authApi = createApi({
         body
       })
     }),
-    newPassword: builder.mutation<any, NewPasswordType>({
+    newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
       query: (body) => {
         return {
           method: "POST",

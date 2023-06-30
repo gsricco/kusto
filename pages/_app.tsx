@@ -1,30 +1,32 @@
 import type {AppProps} from 'next/app';
-import {ReactElement, ReactNode} from 'react';
+import {ReactElement, ReactNode, useState} from 'react';
 import {NextPage} from 'next';
 import {useLoader} from 'assets/hooks/useLoader';
 import 'styles/nprogress.css'
 import '../styles/globals.css'
-import {Provider} from 'react-redux';
-import {store} from 'store/store';
-
+import { Provider } from 'react-redux';
+import { store } from 'store/store';
+import { appWithTranslation } from 'next-i18next'
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
-    getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
+  Component: NextPageWithLayout;
 };
 
-export default function App({Component, pageProps}: AppPropsWithLayout) {
+const App = ({Component, pageProps}: AppPropsWithLayout) => {
 
-  useLoader()
+useLoader()
 
-    const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? ((page) => page);
 
-  return getLayout(
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-  );
+return getLayout(
+  <Provider store={store}>
+    <Component {...pageProps} />
+  </Provider>
+);
 }
+
+export default appWithTranslation(App as React.FC)
