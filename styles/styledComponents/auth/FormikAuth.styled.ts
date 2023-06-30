@@ -3,6 +3,7 @@ import {baseTheme} from "../theme";
 import Link from "next/link";
 import Image from "next/image"
 import {Form} from "formik";
+import {AuthFormPropsType} from "./types";
 
 export const StyledContainerAuth = styled.div
   `
@@ -14,16 +15,19 @@ export const StyledContainerAuth = styled.div
     align-items: center;
   `
 
-export const StyledAuthForm = styled(Form)
+export const StyledAuthForm = styled(Form)<AuthFormPropsType>
   `
+    max-width: ${props => props.width ? props.width : '330px'};
+    width: 60vw;
+
     display: flex;
     flex-direction: column;
     align-items: center;
 
     color: ${baseTheme.colors.light[900]};
-    
+
     label {
-      max-width: 330px;
+      max-width: ${props => props.width ? props.width : '330px'};
       width: 100%;
       height: 100px;
 
@@ -32,6 +36,10 @@ export const StyledAuthForm = styled(Form)
       flex-shrink: 0;
 
       font-size: 16px;
+
+      @media (max-width: 390px) {
+        max-width: ${props => props.width ? '40vw' : '80vw'};
+      }
     }
 
     #pass {
@@ -39,7 +47,7 @@ export const StyledAuthForm = styled(Form)
     }
 
     @media (max-width: 390px) {
-      width: 80vw;
+      width: ${props => props.width ? '40vw' : '80vw'};
     }
   `
 
