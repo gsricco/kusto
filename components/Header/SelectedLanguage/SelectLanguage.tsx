@@ -1,9 +1,19 @@
 import {baseTheme} from "../../../styles/styledComponents/theme";
 import styled from "styled-components";
+import { useTranslation } from 'next-i18next'
+import { i18n } from 'next-i18next.config.js'
 
 export const SelectLanguage = () => {
+
+  const { i18n } = useTranslation();
+
+  const handleLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value)
+    i18n.changeLanguage(e.target.value);
+  }
+
   return (
-    <StyledSelectLanguage>
+    <StyledSelectLanguage onChange={handleLangChange}>
       <option value="russian">&#127479;&#127482; Russian</option>
       <option value="english">&#127468;&#127463; English</option>
     </StyledSelectLanguage>

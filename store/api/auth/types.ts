@@ -12,4 +12,15 @@ export type SendLinkType = {
 }
 export type NewPasswordType = {
   newPassword: string
-  recoveryCode: string}
+  recoveryCode: string | string[] | undefined
+}
+
+export type NewPasswordResType = {
+  status: number
+  data: {
+    errorsMessages: {
+        message: string,
+        field: string
+      } []
+  }
+}

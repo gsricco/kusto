@@ -16,6 +16,21 @@ import {FormikLabel} from "../../components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../components/Button/Button";
 import {validateNewPassword} from "../../utils/validateNewPassword";
 import { useRouter } from "next/router"
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPropsContext } from "next"
+import config from 'next-i18next.config.js'
+import { useTranslation } from 'next-i18next'
+
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { locale } = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 
 export default function NewPassword() {
 
@@ -29,43 +44,41 @@ export default function NewPassword() {
     recoveryCode: "",
   }
 
-  const [newPasswordHandler] = useNewPasswordMutation()
+  const [newPasswordHandler, {error}] = useNewPasswordMutation()
+  const { t } = useTranslation()
   const router = useRouter()
   const {code} = router.query
-  if (!code) {
-    console.log(code)
-  }
-  let recoveryCode = "gddj5"
+  
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
-      recoveryCode: recoveryCode
+      recoveryCode: code
     }
     try {
-      await newPasswordHandler(data)
+      await newPasswordHandler(data).unwrap().then((res) => {
+        console.log(res)
+      })
+      console.log(error)
       resetForm()
     } catch (error) {
-      console.log(error)
+      router.push('/recovery')
     }
   }
 
 
   const {
-    passwordType,
-    passwordConfirmationType,
-    showPassword,
-    showPasswordConfirmation
+    passwordType, passwordConfirmationType,
+    showPassword, showPasswordConfirmation
   } =
     useShowPassword()
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={'Create New Password'}>
+      <WrapperContainerAuth title={t("n_password_title")}>
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateNewPassword}
           onSubmit={handleSubmit}
-
         >
           {({
               errors,
@@ -80,7 +93,7 @@ export default function NewPassword() {
                 onChange={(e) => setFieldValue("newPassword", e)}
                 value={values.newPassword}
                 type={passwordType}
-                title={"New password"}
+                title={t("password_lable")}
                 border={errors.newPassword?.length && touched.newPassword ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -97,7 +110,7 @@ export default function NewPassword() {
                 onChange={(e) => setFieldValue("passwordConfirmation", e)}
                 value={values.passwordConfirmation}
                 type={passwordConfirmationType}
-                title={"Password confirmation"}
+                title={t("password_conf_lable")}
                 border={
                   errors.passwordConfirmation?.length && touched.passwordConfirmation
                     ? "red"
@@ -113,10 +126,10 @@ export default function NewPassword() {
                 />
               </FormikLabel>
               <StyledSignInWrapper>
-                <StyledText>Your password must be between 6 and 20 characters</StyledText>
+                <StyledText>{t("info")}</StyledText>
               </StyledSignInWrapper>
               <Button theme={ThemeButton.PRIMARY} type="submit">
-                Create new password
+                {t("n_password_btn")}
               </Button>
             </StyledAuthForm>
           )}
