@@ -16,6 +16,7 @@ import {FormikLabel} from "../../components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../components/Button/Button";
 import {validateNewPassword} from "../../utils/validateNewPassword";
 import { useRouter } from "next/router"
+//translate import
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from "next"
 import config from 'next-i18next.config.js'
@@ -27,7 +28,7 @@ import { useTranslation } from 'next-i18next'
 // Success - переключение на страницу логина, fail - на страницу повторной отправки сообщения
 // ///                                           ///   //
 
-// Определения языка, указанного в url
+// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context as any
 
