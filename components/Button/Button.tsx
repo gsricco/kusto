@@ -1,52 +1,45 @@
-import {ButtonHTMLAttributes, FC} from 'react';
-import classNames from '../../assets/lib/classNames/classNames';
-import styled from 'styled-components';
-import {baseTheme} from '../../styles/styledComponents/theme';
+import { ButtonHTMLAttributes, FC } from "react"
+import classNames from "../../assets/lib/classNames/classNames"
+import styled from "styled-components"
+import { baseTheme } from "../../styles/styledComponents/theme"
 
 export enum ThemeButton {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  OUTLINED = 'outlined',
-  CLEAR = 'clear',
+  PRIMARY = "primary",
+  SECONDARY = "secondary",
+  OUTLINED = "outlined",
+  CLEAR = "clear"
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-  theme: ThemeButton;
+  className?: string
+  theme: ThemeButton
   width?: string
 }
 
 export const Button: FC<ButtonProps> = (props) => {
-  const {
-    className,
-    children,
-    theme = ThemeButton.PRIMARY,
-    disabled,
-    width,
-    ...otherProps
-  } = props;
+  const { className, children, theme = ThemeButton.PRIMARY, disabled, width, ...otherProps } = props
 
   return (
     <StyledButton
       width={width}
-      className={classNames('', {['disabled']: disabled}, [className, theme])}
+      className={classNames("", { ["disabled"]: disabled }, [className, theme])}
       {...otherProps}
     >
       {children}
     </StyledButton>
-  );
-};
+  )
+}
 type ButtonPropsType = {
   width?: string
   height?: string
-  type?: 'button' | 'reset' | 'submit'
+  type?: "button" | "reset" | "submit"
 }
-const StyledButton = styled.button.attrs(props => ({
-  type:props.type ? props.type : 'button'})) <ButtonPropsType>
-  `
+const StyledButton = styled.button.attrs((props) => ({
+  type: props.type ? props.type : "button"
+}))<ButtonPropsType>`
     cursor: pointer;
     height: 36px;
-    width: ${props => props.width ? props.width : '330px'};
+    width: ${(props) => (props.width ? props.width : "330px")};
     padding: 0 20px;
 
     border: none;
@@ -134,5 +127,5 @@ const StyledButton = styled.button.attrs(props => ({
     }
 
     @media (max-width: 390px) {
-      width: ${props => props.width ? props.width : '80vw'};
+      width: ${(props) => (props.width ? props.width : "80vw")};
   `

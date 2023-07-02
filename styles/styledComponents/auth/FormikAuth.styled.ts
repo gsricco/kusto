@@ -1,76 +1,77 @@
-import styled from "styled-components";
-import {baseTheme} from "../theme";
-import Link from "next/link";
+import styled from "styled-components"
+import { baseTheme } from "../theme"
+import Link from "next/link"
 import Image from "next/image"
-import {Form} from "formik";
+import { Form } from "formik"
 
-export const StyledContainerAuth = styled.div
-  `
-    width: 96vw;
-    min-height: 90vh;
+export const StyledContainerAuth = styled.div`
+  width: 96vw;
+  min-height: 90vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
-export const StyledAuthForm = styled(Form)
-  `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+export const StyledAuthForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    color: ${baseTheme.colors.light[900]};
-    
-    label {
-      max-width: 330px;
-      width: 100%;
-      height: 100px;
+  color: ${baseTheme.colors.light[900]};
 
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-
-      font-size: 16px;
-    }
-
-    #pass {
-      position: relative;
-    }
-
-    @media (max-width: 390px) {
-      width: 80vw;
-    }
-  `
-
-export const StyledShowPasswordBtn = styled(Image)
-  `
-    position: absolute;
-    top: 35px;
-    right: 10px;
-  `
-
-export const StyledSignInWrapper = styled.div
-  `
-    margin: 20px 0;
-    gap: 6px;
+  label {
+    /* max-width: 330px; */
+    width: 100%;
+    /* height: 100px; */
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  `
+    flex-shrink: 0;
 
-export const StyledText = styled.p
-  `
-    color: ${baseTheme.colors.light[100]};
-    line-height: 24px;
-  `
+    font-size: 16px;
+  }
 
-export const StyledSignIn = styled(Link)
-  `
-    text-decoration: none;
-    color: ${baseTheme.colors.accent[500]};
-    font-weight: 600;
-    margin:10px;
-  `
+  #pass {
+    position: relative;
+  }
+
+  @media (max-width: 390px) {
+    width: 80vw;
+  }
+`
+
+export const StyledShowPasswordBtn = styled(Image)`
+  position: absolute;
+  top: 35px;
+  right: 10px;
+`
+
+export const StyledSignInWrapper = styled.div`
+  margin: 20px 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+export const StyledText = styled.p<{ color?: string }>`
+  color: ${(props) => (props.color ? props.color : baseTheme.colors.light[100])};
+  line-height: 24px;
+`
+
+export const StyledSignIn = styled(Link)`
+  text-decoration: none;
+  color: ${baseTheme.colors.accent[500]};
+  font-weight: 600;
+  margin: 10px;
+`
+
+export const StyledRecoveryWrapper = styled(StyledSignInWrapper)`
+
+  margin: 7px 0 17px;
+  ${StyledText} + ${StyledText} {
+    margin-top: 23px;
+  }
+`

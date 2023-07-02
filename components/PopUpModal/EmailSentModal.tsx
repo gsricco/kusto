@@ -1,40 +1,51 @@
-import Image from "next/image";
-import styled from "styled-components";
+import Image from "next/image"
+import styled from "styled-components"
 
 export const EmailSentModal = ({
   handleModalClose,
+  handleCrossClick,
+  handleConfirmClick,
   title,
   bodyText,
+  buttonText = "OK"
 }: {
-  handleModalClose: () => void;
-  title: string;
-  bodyText: string;
+  handleModalClose: () => void
+  handleCrossClick?: () => void
+  handleConfirmClick?: () => void
+  title: string
+  bodyText: string
+  buttonText?: string
 }) => {
+  const onCloseButtonClick = () => {
+    handleModalClose()
+    if (handleCrossClick) {
+      handleCrossClick()
+    }
+  }
+  const onConfirmButtonClick = () => {
+    handleModalClose()
+    if (handleConfirmClick) {
+      handleConfirmClick()
+    }
+  }
+
   return (
     <StyledModalOverlay>
       <StyledModalContainer>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
-            <Image
-              priority
-              src="/close.svg"
-              height={24}
-              width={24}
-              alt="close"
-            />
+          <StyledCloseButton onClick={onCloseButtonClick}>
+            <Image priority src="/close.svg" height={24} width={24} alt="close" />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
           <p>{bodyText}</p>
-          <StyledConfirmButton onClick={handleModalClose}>
-            OK
-          </StyledConfirmButton>
+          <StyledConfirmButton onClick={onConfirmButtonClick}>{buttonText}</StyledConfirmButton>
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>
-  );
-};
+  )
+}
 
 const StyledModalOverlay = styled.div`
   z-index: 1000;
@@ -44,7 +55,7 @@ const StyledModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-`;
+`
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -55,13 +66,13 @@ const StyledModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
+`
 
 const StyledModalHeader = styled.div`
   display: flex;
   padding: 12px 24px;
   border-bottom: 1px solid #4c4c4c;
-`;
+`
 
 const StyledModalTitle = styled.span`
   flex: 1;
@@ -70,7 +81,7 @@ const StyledModalTitle = styled.span`
   font-family: Inter;
   font-weight: 700;
   line-height: 36px;
-`;
+`
 
 const StyledCloseButton = styled.button`
   border: 0;
@@ -80,7 +91,7 @@ const StyledCloseButton = styled.button`
   &:hover {
     fill: #397df6;
   }
-`;
+`
 
 const StyledModalBody = styled.div`
   display: flex;
@@ -88,7 +99,7 @@ const StyledModalBody = styled.div`
 
   color: #fff;
   padding: 30px 24px;
-`;
+`
 
 const StyledConfirmButton = styled.button`
   margin-top: 18px;
@@ -99,4 +110,4 @@ const StyledConfirmButton = styled.button`
   color: #fff;
   border: 0;
   align-self: flex-end;
-`;
+`

@@ -1,9 +1,15 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import {LoginType, NewPasswordType, RegistrationType, SendLinkType, NewPasswordResType} from "./types"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import {
+  LoginType,
+  NewPasswordType,
+  RegistrationType,
+  SendLinkType,
+  NewPasswordResType
+} from "./types"
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({baseUrl: "https://calypso-one.vercel.app/"}),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://calypso-one.vercel.app/" }),
   endpoints: (builder) => ({
     registration: builder.mutation<undefined, RegistrationType>({
       query: (body) => ({
@@ -24,7 +30,7 @@ export const authApi = createApi({
         method: "POST",
         url: `/auth/password-recovery`,
         body
-      })
+      }),
     }),
     newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
       query: (body) => {
@@ -32,11 +38,17 @@ export const authApi = createApi({
           method: "POST",
           url: `/auth/new-password`,
           body
-        };
-      },
+        }
+      }
     }),
-
-
+    checkRecoveryCode: builder.query<boolean, string>(
+      {
+        query: (code) => ({
+          method: "GET",
+          url: `/auth/email-confirmation/${code}`,
+        }),
+      }
+    )
   })
 })
 
@@ -44,5 +56,6 @@ export const {
   useRegistrationMutation,
   useLoginMutation,
   useSendRecoveryLinkMutation,
-  useNewPasswordMutation
+  useNewPasswordMutation,
+  useLazyCheckRecoveryCodeQuery,
 } = authApi
