@@ -142,7 +142,7 @@ export default ProfileSettings;
 const StyledContainerSettings = styled(StyledContainerAuth)
   `
     width: 70vw;
-    border: 1px solid red;
+    //border: 1px solid red;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
@@ -153,7 +153,7 @@ const StyledSidebar = styled(StyledContainerAuth)
   `
     width: 20vw;
     display: flex;
-    border: 1px solid green;
+    //border: 1px solid green;
 
   `
 
@@ -202,7 +202,7 @@ const StyledAvatarBlock = styled.div
     gap: 20px;
 
     background: ${baseTheme.colors.dark[700]};
-    border: 2px solid darkred;
+    //border: 2px solid darkred;
     color: ${baseTheme.colors.dark[100]};
 
     & img {

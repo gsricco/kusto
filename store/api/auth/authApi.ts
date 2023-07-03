@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {loadState} from '../../../components/localStorage/localStorage';
-import {LoginResponseType, LoginType, NewPasswordType, ProfileType, RegistrationType, SendLinkType} from "./types";
+import {
+  LoginResponseType,
+  LoginType,
+  NewPasswordResType,
+  NewPasswordType,
+  ProfileType,
+  RegistrationType,
+  SendLinkType
+} from "./types";
 import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../components/localStorage/types";
 
 export const authApi = createApi({
