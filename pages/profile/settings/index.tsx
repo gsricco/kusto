@@ -1,4 +1,3 @@
-import React from 'react';
 import {getLayout} from "../../../components/Layout/BaseLayout/BaseLayout";
 import {StyledAuthForm, StyledContainerAuth} from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import styled from "styled-components";
@@ -9,13 +8,14 @@ import {Formik} from "formik";
 import {useSetProfileMutation} from "../../../store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../components/Formik/types";
 import {validateProfile} from "../../../utils/validateProfile";
+import Image from "next/image";
 
 
 const ProfileSettings = () => {
 
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
   const serverAvatar:string = ''
-  const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  const avatar = serverAvatar !== '' ? serverAvatar : 'public/icons/avatar.svg'
 
   const initialAuthValues = {
     username: "",
@@ -26,7 +26,7 @@ const ProfileSettings = () => {
     aboutMe: ""
   }
 
-  const [setProfileHandler, {data}] = useSetProfileMutation()
+  const [setProfileHandler] = useSetProfileMutation()
 
 
   const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
@@ -55,7 +55,8 @@ const ProfileSettings = () => {
         <StyledNavigation/>
         <StyledContent>
           <StyledAvatarBlock>
-            <img src={avatar} alt="Avatar"/>
+            {/*<img src={avatar} alt="Avatar"/>*/}
+            <Image src={avatar} width={100} height={100} alt="Avatar"/>
             <Button theme={ThemeButton.OUTLINED}>
               Add a Profile Photo
             </Button>
@@ -205,7 +206,11 @@ const StyledAvatarBlock = styled.div
     //border: 2px solid darkred;
     color: ${baseTheme.colors.dark[100]};
 
-    & img {
+    //& img {
+    //  width: 13.5vw;
+    //  height: 13.5vw;
+    //  border-radius: 50%;
+    & Image {
       width: 13.5vw;
       height: 13.5vw;
       border-radius: 50%;

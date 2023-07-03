@@ -1,5 +1,5 @@
 import {FormikErrors, FormikState, FormikTouched} from "formik"
-import React, {ChangeEvent, ChangeEventHandler} from "react";
+import React from "react";
 
 type FormikAllValuesType = {
   username?: string

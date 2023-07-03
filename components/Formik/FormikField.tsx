@@ -1,7 +1,7 @@
 import {Field} from "formik"
 import styled from "styled-components"
 import {baseTheme} from "../../styles/styledComponents/theme";
-import {ChangeEvent, ChangeEventHandler} from "react";
+import {ChangeEvent} from "react";
 import {FiledProps} from "./types";
 
 
