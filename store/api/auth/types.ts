@@ -24,3 +24,15 @@ export type NewPasswordResType = {
       } []
   }
 }
+export type LoginResponseType = {
+  accessToken: string
+}
+
+export type ProfileType = {
+  username: string
+  firstname: string
+  lastname: string
+  birthday: string
+  city: string
+  aboutMe: string
+}

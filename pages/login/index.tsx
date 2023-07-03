@@ -20,6 +20,8 @@ import {validateLogin} from "../../utils/validateLogin";
 import styled from 'styled-components';
 import Link from 'next/link';
 import {baseTheme} from '../../styles/styledComponents/theme';
+import {saveState} from '../../components/localStorage/localStorage';
+import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from '../../components/localStorage/types';
 
 
 const Login = () => {
@@ -38,7 +40,11 @@ const Login = () => {
     loginOrEmail: ""
   }
 
-  const [loginHandler] = useLoginMutation()
+  const [loginHandler, {data}] = useLoginMutation()
+
+  if (data) {
+    saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
+  }
 
   const handleSubmit = async (values: FormValueLogin, {resetForm}: ResetForm) => {
     const data = {
