@@ -35,11 +35,13 @@ export const StyledAuthForm = styled(Form)<AuthFormPropsType>
       flex-direction: column;
       flex-shrink: 0;
 
+      font-family: Arial;
       font-size: 16px;
 
       @media (max-width: 390px) {
         max-width: ${props => props.width ? '40vw' : '80vw'};
       }
+      
     }
 
     #pass {
@@ -73,6 +75,9 @@ export const StyledText = styled.p
   `
     color: ${baseTheme.colors.light[100]};
     line-height: 24px;
+    font-family: Arial;
+    font-size: 16px;
+
   `
 
 export const StyledSignIn = styled(Link)
@@ -80,5 +85,22 @@ export const StyledSignIn = styled(Link)
     text-decoration: none;
     color: ${baseTheme.colors.accent[500]};
     font-weight: 600;
+    font-family: Arial;
+    font-size: 16px;
     margin:10px;
+  `
+export const StyledCenteredText = styled(StyledText)
+  `     
+text-align: center;
+font-style: normal;
+font-weight: 400;
+  `
+
+export const StyledTextWrapper = styled(StyledSignInWrapper)
+  `
+  margin-top: 20px;
+  max-width: 294px;
+  width: 100%;
+  
+  flex-shrink: 0;
   `

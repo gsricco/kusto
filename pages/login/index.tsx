@@ -122,6 +122,7 @@ const StyledForgotLink = styled(Link)
     color: ${baseTheme.colors.light[900]};
     font-weight: 400;
     font-size: 14px;
+    font-family: Arial;
     line-height: 24px;
   `
 export const StyledLinkBlock = styled.div
