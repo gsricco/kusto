@@ -45,7 +45,7 @@ const StyledButton = styled.button.attrs(props => ({
   type:props.type ? props.type : 'button'})) <ButtonPropsType>
   `
     cursor: pointer;
-    height: 36px;
+    min-height: 36px;
     width: ${props => props.width ? props.width : '330px'};
     padding: 0 20px;
 

@@ -26,8 +26,6 @@ type TextAreaPropsType = {
   width?: string
 }
 const FieldTextarea = (props: TextAreaPropsType) => {
-  // onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e.target.value)}
-
   return (
     <StyledTextArea onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e)}
                     width={props.width}/>
