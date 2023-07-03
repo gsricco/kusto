@@ -1,5 +1,5 @@
 import {FormikErrors, FormikState, FormikTouched} from "formik"
-import React from "react";
+import React, {ChangeEvent, ChangeEventHandler} from "react";
 
 type FormikAllValuesType = {
   username?: string
@@ -96,5 +96,6 @@ export type FiledProps = {
   name?: string
   value:string
   onChange:(value:string)=>void
+  // onChange: ChangeEvent<HTMLTextAreaElement> | ((value: string) => void);
   width?:string
 }
