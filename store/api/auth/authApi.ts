@@ -80,14 +80,6 @@ export const authApi = createApi({
         method: "POST"
       })
     }),
-    checkRecoveryCode: builder.query<boolean, string>(
-      {
-        query: (code) => ({
-          method: "GET",
-          url: `/auth/email-confirmation/${code}`,
-        }),
-      }
-    )
   })
 })
 
@@ -98,5 +90,4 @@ export const {
   useNewPasswordMutation,
   useLogoutMutation,
   useSetProfileMutation,
-  useLazyCheckRecoveryCodeQuery,
 } = authApi

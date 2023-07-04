@@ -19,7 +19,6 @@ import {
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
 import {useRegistrationMutation} from "../../store/api/auth/authApi"
 import {FormValueRegistration, ResetForm} from "../../components/Formik/types"
-import {ErrorRegistrationType, RegistrationResType} from "../../store/api/auth/types";
 
 export default function Registration() {
   const {
@@ -38,7 +37,7 @@ export default function Registration() {
     loginOrEmail: ""
   }
 
-  const [registrationHandler,{data}] = useRegistrationMutation()
+  const [registrationHandler] = useRegistrationMutation()
 
   const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
     const data = {
@@ -47,18 +46,7 @@ export default function Registration() {
       login: values.username
     }
     try {
-      // await registrationHandler(data)
-      const res: { data: RegistrationResType } | { error: ErrorRegistrationType } = await registrationHandler(data)
-
-       // let eppppp = ''
-      if ('error' in res) {
-        // Handle the error case
-        // eppppp= res.error.data.errorsMessages[0].message
-        console.log('aaa',res.error.data.errorsMessages[0].message, res.error.data.errorsMessages[0].field);
-      } else {
-        // Handle the data case
-        console.log('bbb',res.data);
-      }
+      await registrationHandler(data)
       resetForm()
     } catch (err) {
       console.log(err)
