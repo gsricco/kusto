@@ -4,7 +4,8 @@ export const validateRegistration = Yup.object().shape({
   username: Yup.string()
     .min(6, "Too Short!")
     .max(30, "Too Long!")
-    .required("Required username"),
+    .required("Required username")
+    .matches(/^[a-zA-Z](.[a-zA-Z0-9_-]*)$/,'invalid username'),
   password: Yup.string()
     .min(6, "Too Short!")
     .max(20, "Too Long!")
