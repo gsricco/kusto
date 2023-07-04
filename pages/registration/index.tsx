@@ -11,12 +11,15 @@ import {Button, ThemeButton} from "../../components/Button/Button"
 import {FormikLabel} from "../../components/Formik/FormikLabel"
 import {
   StyledAuthForm,
-  StyledContainerAuth, StyledShowPasswordBtn, StyledSignIn,
+  StyledContainerAuth,
+  StyledShowPasswordBtn,
+  StyledSignIn,
   StyledSignInWrapper,
   StyledText
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
 import {useRegistrationMutation} from "../../store/api/auth/authApi"
 import {FormValueRegistration, ResetForm} from "../../components/Formik/types"
+import {ErrorRegistrationType, RegistrationResType} from "../../store/api/auth/types";
 
 export default function Registration() {
   const {
@@ -35,8 +38,7 @@ export default function Registration() {
     loginOrEmail: ""
   }
 
-  const [registrationHandler] = useRegistrationMutation()
-
+  const [registrationHandler,{data}] = useRegistrationMutation()
 
   const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
     const data = {
@@ -45,10 +47,21 @@ export default function Registration() {
       login: values.username
     }
     try {
-      await registrationHandler(data)
+      // await registrationHandler(data)
+      const res: { data: RegistrationResType } | { error: ErrorRegistrationType } = await registrationHandler(data)
+
+       // let eppppp = ''
+      if ('error' in res) {
+        // Handle the error case
+        // eppppp= res.error.data.errorsMessages[0].message
+        console.log('aaa',res.error.data.errorsMessages[0].message, res.error.data.errorsMessages[0].field);
+      } else {
+        // Handle the data case
+        console.log('bbb',res.data);
+      }
       resetForm()
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 

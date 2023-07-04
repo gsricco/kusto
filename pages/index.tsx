@@ -21,6 +21,8 @@ const Home: NextPageWithLayout = () => (
       <p><Link href={'/profile'}>profile</Link></p>
       <p><Link href={'/profile/settings'}>profile/settings</Link></p>
       <p><Link href={'/auth/new_password'}>auth/new_password</Link></p>
+      <p><Link href={'/registration/success'}>registration/success</Link></p>
+      <p><Link href={'/verification'}>verification</Link></p>
     </div>
 
   </>
