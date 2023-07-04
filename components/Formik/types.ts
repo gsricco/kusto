@@ -1,5 +1,5 @@
-import {FormikErrors, FormikState, FormikTouched} from "formik"
-import React from "react";
+import { FormikErrors, FormikState, FormikTouched } from "formik"
+import React from "react"
 
 type FormikAllValuesType = {
   username?: string
@@ -16,7 +16,6 @@ type FormikAllValuesType = {
   aboutMe?: string
 }
 
-
 export type labelType = {
   children?: React.ReactNode
   id?: string
@@ -28,8 +27,8 @@ export type labelType = {
   touched: FormikTouched<FormikAllValuesType>
   value: string
   onChange: (e: string) => void
-  width?:string
-  errorShow?:boolean
+  width?: string
+  errorShow?: boolean
 }
 
 export type FormValueRegistration = {
@@ -52,9 +51,6 @@ export type FormValueProfile = {
   aboutMe: string
 }
 
-
-
-
 export type FormValueRecovery = {
   email: string
 }
@@ -64,39 +60,40 @@ export type FormNewPasswordType = {
   recoveryCode: string
 }
 
-
-
 export type ResetForm = {
   resetForm: (
     nextState?:
-      | Partial<FormikState<
-      {
-        username: string
-        password: string
-        passwordConfirmation: string
-        email: string
-        loginOrEmail: string
-        newPassword: string
-        recoveryCode: string
-        firstname: string
-        lastname: string
-        birthday: string
-        city: string
-        aboutMe: string
-      }>
-    >
+      | Partial<
+          FormikState<{
+            username: string
+            password: string
+            passwordConfirmation: string
+            email: string
+            loginOrEmail: string
+            newPassword: string
+            recoveryCode: string
+            firstname: string
+            lastname: string
+            birthday: string
+            city: string
+            aboutMe: string
+          }>
+        >
       | undefined
   ) => void
 }
 
-
 export type FiledProps = {
-  id?:string
+  id?: string
   type?: string
   border?: string
   name?: string
-  value:string
-  onChange:(value:string)=>void
+  value: string
+  onChange: (value: string) => void
   // onChange: ChangeEvent<HTMLTextAreaElement> | ((value: string) => void);
-  width?:string
+  width?: string
+}
+
+export type SetFieldErrorType = {
+  setFieldError: (field: string, message: string | undefined) => void
 }

@@ -1,30 +1,28 @@
-import React from "react"
-import {Formik} from "formik"
+import React, { useEffect } from "react"
+import { Formik, FormikState } from "formik"
 import showPasswordBtn from "../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg"
-import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout"
-import {useShowPassword} from "../../assets/hooks/useShowPassword"
-import {validateRegistration} from "../../utils/validateRegistraition"
+import { getLayout } from "../../components/Layout/BaseLayout/BaseLayout"
+import { useShowPassword } from "../../assets/hooks/useShowPassword"
+import { validateRegistration } from "../../utils/validateRegistraition"
 import AuthIcons from "../../components/Wrappers/Auth/AuthIcons"
-import {WrapperContainerAuth} from "../../components/Wrappers/Auth/WrapperContainerAuth"
-import {Button, ThemeButton} from "../../components/Button/Button"
-import {FormikLabel} from "../../components/Formik/FormikLabel"
+import { WrapperContainerAuth } from "../../components/Wrappers/Auth/WrapperContainerAuth"
+import { Button, ThemeButton } from "../../components/Button/Button"
+import { FormikLabel } from "../../components/Formik/FormikLabel"
 import {
   StyledAuthForm,
-  StyledContainerAuth, StyledShowPasswordBtn, StyledSignIn,
+  StyledContainerAuth,
+  StyledShowPasswordBtn,
+  StyledSignIn,
   StyledSignInWrapper,
   StyledText
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
-import {useRegistrationMutation} from "../../store/api/auth/authApi"
-import {FormValueRegistration, ResetForm} from "../../components/Formik/types"
+import { useRegistrationMutation } from "../../store/api/auth/authApi"
+import { FormValueRegistration, ResetForm, SetFieldErrorType } from "../../components/Formik/types"
+import { RegistrationResponseError } from "store/api/auth/types"
 
 export default function Registration() {
-  const {
-    passwordType,
-    passwordConfirmationType,
-    showPassword,
-    showPasswordConfirmation
-  } =
+  const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
     useShowPassword()
 
   const initialAuthValues = {
@@ -37,8 +35,10 @@ export default function Registration() {
 
   const [registrationHandler] = useRegistrationMutation()
 
-
-  const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
+  const handleSubmit = async (
+    values: FormValueRegistration,
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+  ) => {
     const data = {
       email: values.email,
       password: values.password,
@@ -46,27 +46,38 @@ export default function Registration() {
     }
     try {
       await registrationHandler(data)
-      resetForm()
+        .unwrap()
+        .then(() => resetForm())
     } catch (error) {
-      console.log(error)
+      const err = error as RegistrationResponseError
+      if ("data" in err) {
+        const messages = err.data
+        if (messages.errorsMessages.length > 1) {
+          setFieldError("username", "username already used")
+          setFieldError("email", "email already used")
+        } else {
+          if (messages.errorsMessages[0].field === "email") {
+            setFieldError("username", "")
+            setFieldError("email", "email already used")
+          } else {
+            setFieldError("username", "username already used")
+            setFieldError("email", "")
+          }
+        }
+      }
     }
   }
 
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={"Sing Up"}>
-        <AuthIcons/>
+        <AuthIcons />
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateRegistration}
           onSubmit={handleSubmit}
         >
-          {({
-              errors,
-              touched,
-              values,
-              setFieldValue
-            }) => (
+          {({ errors, touched, values, setFieldValue, setFieldError }) => (
             <StyledAuthForm>
               <FormikLabel
                 name="username"

@@ -19,9 +19,9 @@ export type NewPasswordResType = {
   status: number
   data: {
     errorsMessages: {
-        message: string,
-        field: string
-      } []
+      message: string
+      field: string
+    }[]
   }
 }
 export type LoginResponseType = {
@@ -35,4 +35,11 @@ export type ProfileType = {
   birthday: string
   city: string
   aboutMe: string
+}
+
+export type RegistrationResponseError = {
+  status: number
+  data: {
+    errorsMessages: [{ field: string; message: "string" }]
+  }
 }
