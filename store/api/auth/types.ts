@@ -26,6 +26,7 @@ export type NewPasswordResType = {
 }
 export type LoginResponseType = {
   accessToken: string
+  profile:boolean
 }
 
 export type ProfileType = {

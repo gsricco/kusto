@@ -22,10 +22,12 @@ import Link from 'next/link';
 import {baseTheme} from '../../styles/styledComponents/theme';
 import {saveState} from '../../components/localStorage/localStorage';
 import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from '../../components/localStorage/types';
+import {useRouter} from "next/router";
 
 
 const Login = () => {
- 
+
+  const route = useRouter()
   const {
     passwordType,
     showPassword,
@@ -33,10 +35,7 @@ const Login = () => {
     useShowPassword()
 
   const initialAuthValues = {
-    username: "",
     password: "",
-    passwordConfirmation: "",
-    email: "",
     loginOrEmail: ""
   }
 
@@ -44,7 +43,9 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
+    data.profile ? route.push('/profile'):route.push('/profile/settings')
   }
+
 
   const handleSubmit = async (
     values: FormValueLogin,
@@ -61,7 +62,7 @@ const Login = () => {
         .catch(() =>
           setFieldError(
             "password",
-            "The password or email you entered is incorrect. Please try again"
+            "Password or email - incorrect. Try again"
           )
         )
     } catch (error) {
