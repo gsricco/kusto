@@ -9,16 +9,16 @@ import AuthIcons from "../../../features/auth/AuthIcons"
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth"
 import {Button, ThemeButton} from "../../../common/components/Button/Button"
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel"
+import {useRegistrationMutation} from "../../../assets/store/api/auth/authApi";
+import {FormValueRegistration, ResetForm, SetFieldErrorType} from "../../../common/components/Formik/types";
+import {RegistrationResponseError} from "../../../assets/store/api/auth/types";
+import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
 import {
   StyledAuthForm,
-  StyledShowPasswordBtn,
-  StyledSignIn,
-  StyledSignInWrapper,
-  StyledText
-} from "../../styles/styledComponents/auth/FormikAuth.styled"
-import { useRegistrationMutation } from "../../store/api/auth/authApi"
-import { FormValueRegistration, ResetForm, SetFieldErrorType } from "../../components/Formik/types"
-import { RegistrationResponseError } from "store/api/auth/types"
+  StyledShowPasswordBtn, StyledSignIn,
+  StyledSignInWrapper, StyledText
+} from "../../../styles/styledComponents/auth/FormikAuth.styled";
+
 
 export default function Registration() {
   const {
@@ -81,7 +81,7 @@ export default function Registration() {
           validationSchema={validateRegistration}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, values, setFieldValue, setFieldError }) => (
+          {({ errors, touched, values, setFieldValue }) => (
             <StyledAuthForm>
               <FormikLabel
                 name="username"
@@ -149,7 +149,7 @@ export default function Registration() {
         </Formik>
         <StyledSignInWrapper>
           <StyledText>Do you have an account?</StyledText>
-          <StyledSignIn href="/login">Sign in</StyledSignIn>
+          <StyledSignIn href="/auth/login">Sign in</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>
