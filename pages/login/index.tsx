@@ -12,7 +12,7 @@ import {
 } from "../../styles/styledComponents/auth/FormikAuth.styled";
 import {useShowPassword} from "../../assets/hooks/useShowPassword";
 import {useLoginMutation} from "../../store/api/auth/authApi";
-import {FormValueLogin, ResetForm} from "../../components/Formik/types";
+import {FormValueLogin, ResetForm, SetFieldErrorType} from "../../components/Formik/types";
 import {FormikLabel} from "../../components/Formik/FormikLabel";
 import showPasswordBtn from "../../public/icons/eye-outline.svg";
 import hidePasswordBtn from "../../public/icons/eye-off-outline.svg";
@@ -25,7 +25,7 @@ import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from '../../components/localStorage/type
 
 
 const Login = () => {
-
+ 
   const {
     passwordType,
     showPassword,
@@ -46,15 +46,26 @@ const Login = () => {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
   }
 
-  const handleSubmit = async (values: FormValueLogin, {resetForm}: ResetForm) => {
+  const handleSubmit = async (
+    values: FormValueLogin,
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+  ) => {
     const data = {
       loginOrEmail: values.loginOrEmail,
       password: values.password,
     }
     try {
       await loginHandler(data)
-      resetForm()
+        .unwrap()
+        .then(() => resetForm())
+        .catch(() =>
+          setFieldError(
+            "password",
+            "The password or email you entered is incorrect. Please try again"
+          )
+        )
     } catch (error) {
+      console.log(error)
     }
   }
 
@@ -118,16 +129,16 @@ Login.getLayout = getLayout
 export default Login;
 
 const StyledForgotLink = styled(Link)
-  `
-    color: ${baseTheme.colors.light[900]};
-    font-weight: 400;
-    font-size: 14px;
-    font-family: Arial;
-    line-height: 24px;
-  `
+`
+  color: ${baseTheme.colors.light[900]};
+  font-weight: 400;
+  font-size: 14px;
+  font-family: Arial;
+  line-height: 24px;
+`
 export const StyledLinkBlock = styled.div
-  `
-    width: 100%;
-    text-align: right;
-    padding-bottom: 24px;
-  `
+`
+  width: 100%;
+  text-align: right;
+  padding-bottom: 24px;
+`

@@ -53,14 +53,14 @@ export default function Registration() {
       if ("data" in err) {
         const messages = err.data
         if (messages.errorsMessages.length > 1) {
-          setFieldError("username", "username already used")
-          setFieldError("email", "email already used")
+          setFieldError("username", "User with this username is already registered")
+          setFieldError("email", "User with this email is already registered")
         } else {
           if (messages.errorsMessages[0].field === "email") {
             setFieldError("username", "")
-            setFieldError("email", "email already used")
+            setFieldError("email", "User with this email is already registered")
           } else {
-            setFieldError("username", "username already used")
+            setFieldError("username", "User with this username is already registered")
             setFieldError("email", "")
           }
         }
