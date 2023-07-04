@@ -22,30 +22,14 @@ export type NewPasswordResType = {
   status: number
   data: {
     errorsMessages: {
-      message: string,
+      message: string
       field: string
-    } []
+    }[]
   }
 }
-
-export type RegistrationResType = {
-  data: null
-}
-
-export type ErrorRegistrationType = {
-       status: number
-    data: {
-      errorsMessages: {
-        message: string,
-        field: string
-      } []
-    }
-  }
-
-
-
 export type LoginResponseType = {
   accessToken: string
+  profile:boolean
 }
 
 export type ProfileType = {
@@ -55,4 +39,11 @@ export type ProfileType = {
   birthday: string
   city: string
   aboutMe: string
+}
+
+export type RegistrationResponseError = {
+  status: number
+  data: {
+    errorsMessages: [{ field: string; message: "string" }]
+  }
 }

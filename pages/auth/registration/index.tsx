@@ -15,10 +15,10 @@ import {
   StyledSignIn,
   StyledSignInWrapper,
   StyledText
-} from "../../../styles/styledComponents/auth/FormikAuth.styled"
-import {useRegistrationMutation} from "../../../assets/store/api/auth/authApi"
-import {FormValueRegistration, ResetForm} from "../../../common/components/Formik/types"
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+} from "../../styles/styledComponents/auth/FormikAuth.styled"
+import { useRegistrationMutation } from "../../store/api/auth/authApi"
+import { FormValueRegistration, ResetForm, SetFieldErrorType } from "../../components/Formik/types"
+import { RegistrationResponseError } from "store/api/auth/types"
 
 export default function Registration() {
   const {
@@ -39,7 +39,10 @@ export default function Registration() {
 
   const [registrationHandler] = useRegistrationMutation()
 
-  const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
+  const handleSubmit = async (
+    values: FormValueRegistration,
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+  ) => {
     const data = {
       email: values.email,
       password: values.password,
@@ -47,27 +50,38 @@ export default function Registration() {
     }
     try {
       await registrationHandler(data)
-      resetForm()
-    } catch (err) {
-      console.log(err)
+        .unwrap()
+        .then(() => resetForm())
+    } catch (error) {
+      const err = error as RegistrationResponseError
+      if ("data" in err) {
+        const messages = err.data
+        if (messages.errorsMessages.length > 1) {
+          setFieldError("username", "User with this username is already registered")
+          setFieldError("email", "User with this email is already registered")
+        } else {
+          if (messages.errorsMessages[0].field === "email") {
+            setFieldError("username", "")
+            setFieldError("email", "User with this email is already registered")
+          } else {
+            setFieldError("username", "User with this username is already registered")
+            setFieldError("email", "")
+          }
+        }
+      }
     }
   }
 
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={"Sing Up"}>
-        <AuthIcons/>
+        <AuthIcons />
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateRegistration}
           onSubmit={handleSubmit}
         >
-          {({
-              errors,
-              touched,
-              values,
-              setFieldValue
-            }) => (
+          {({ errors, touched, values, setFieldValue, setFieldError }) => (
             <StyledAuthForm>
               <FormikLabel
                 name="username"
