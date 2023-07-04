@@ -13,15 +13,14 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
-import {validateNewPassword} from "../../../common/utils/validateNewPassword";
+import {validateNewPasswordEn, validateNewPasswordRu} from "../../../common/utils/validateNewPassword";
 import {useRouter} from "next/router"
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
-
 
 //translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
-import config from '../../../next-i18next.config.js'
+import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 //
 
@@ -45,18 +44,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 export default function NewPassword() {
 
   const initialAuthValues = {
-    // username: "",
-    // password: "",
     passwordConfirmation: "",
-    // email: "",
-    // loginOrEmail: "",
     newPassword: "",
     recoveryCode: "",
   }
 
   const [newPasswordHandler, {error}] = useNewPasswordMutation()
 
-  const {t} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
   const router = useRouter()
   const {code} = router.query       // получение кода восстановления для сервера
 
@@ -70,7 +65,9 @@ export default function NewPassword() {
       await newPasswordHandler(data)
       resetForm()
     } catch (error) {
-      router.push('/recovery')
+      // router.push('/auth/login')
+      // router.push('/auth/registration/verificationError')
+
     }
   }
 
@@ -85,7 +82,7 @@ export default function NewPassword() {
       <WrapperContainerAuth title={t("n_password_title")}>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateNewPassword}
+          validationSchema={i18n.language == 'en' ? validateNewPasswordEn : validateNewPasswordRu}
           onSubmit={handleSubmit}
         >
           {({
