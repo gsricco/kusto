@@ -103,7 +103,7 @@ export default function Recovery() {
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledSignIn href="/login">Back to Sign in</StyledSignIn>
+          <StyledSignIn href="/auth/login">Back to Sign in</StyledSignIn>
         </StyledSignInWrapper>
         <Image priority alt="Captcha" width={260} height={60} src="/captcha.png"/>
       </WrapperContainerAuth>

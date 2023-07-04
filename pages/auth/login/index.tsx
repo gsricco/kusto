@@ -112,7 +112,7 @@ const Login = () => {
                 />
               </FormikLabel>
               <StyledLinkBlock>
-                <StyledForgotLink href="/recovery">Forgot Password</StyledForgotLink>
+                <StyledForgotLink href="/auth/recovery">Forgot Password</StyledForgotLink>
               </StyledLinkBlock>
               <Button theme={ThemeButton.PRIMARY} type="submit">
                 Sign in
@@ -122,7 +122,7 @@ const Login = () => {
         </Formik>
         <StyledSignInWrapper>
           <StyledText>Don’t have an account?</StyledText>
-          <StyledSignIn href="/registration">Sign up</StyledSignIn>
+          <StyledSignIn href="/auth/registration">Sign up</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>
