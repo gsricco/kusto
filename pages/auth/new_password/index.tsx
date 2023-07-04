@@ -15,12 +15,15 @@ import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {validateNewPassword} from "../../../common/utils/validateNewPassword";
 import {useRouter} from "next/router"
+import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+
+
 //translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from '../../../next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+//
 
 // ///                                           ///   //
 // страница введения нового пароля. Пользователь вводит данные,

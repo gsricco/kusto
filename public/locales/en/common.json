@@ -3,5 +3,11 @@
     "password_lable": "New password",
     "password_conf_lable": "Password confirmation",
     "info": "Your password must be between 6 and 20 characters",
-    "n_password_btn": "Create New Password"
+    "n_password_btn": "Create New Password",
+    "signIn_title": "Sign In",
+    "signUp_link": "Sign Up",
+    "email_label": "Email",
+    "password_label": "Password",
+    "forgotPassword_link": "Forgot Password",
+    "notAccount_title": "Don’t have an account?"
 }

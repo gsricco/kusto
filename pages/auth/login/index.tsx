@@ -26,11 +26,28 @@ import {validateLogin} from "../../../common/utils/validateLogin";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
+//translate import
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from '../../../next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+//
 
 
+// getStaticProps Определения языка, указанного в url
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 const Login = () => {
-
+  const {t} = useTranslation()    // функция перевода на выбранный язык
   const route = useRouter()
+  const {code} = route.query       // получение кода восстановления для сервера
   const {
     passwordType,
     showPassword,
@@ -75,7 +92,7 @@ const Login = () => {
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={"Sing In"}>
+      <WrapperContainerAuth title={t("signIn_title")}>
         <AuthIcons/>
         <Formik
           initialValues={initialAuthValues}
@@ -89,7 +106,7 @@ const Login = () => {
                 onChange={(e) => setFieldValue("loginOrEmail", e)}
                 value={values.loginOrEmail}
                 type={"text"}
-                title={"login or Email"}
+                title={t("email_label")}
                 border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -100,7 +117,7 @@ const Login = () => {
                 onChange={(e) => setFieldValue("password", e)}
                 value={values.password}
                 type={passwordType}
-                title={"Password"}
+                title={t("password_label")}
                 border={errors.password?.length && touched.password ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -112,17 +129,17 @@ const Login = () => {
                 />
               </FormikLabel>
               <StyledLinkBlock>
-                <StyledForgotLink href="/auth/recovery">Forgot Password</StyledForgotLink>
+                <StyledForgotLink href="/auth/recovery">{t("forgotPassword_link")}</StyledForgotLink>
               </StyledLinkBlock>
               <Button theme={ThemeButton.PRIMARY} type="submit">
-                Sign in
+                {t("signIn_title")}
               </Button>
             </StyledAuthForm>
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledText>Don’t have an account?</StyledText>
-          <StyledSignIn href="/auth/registration">Sign up</StyledSignIn>
+          <StyledText>{t("notAccount_title")}</StyledText>
+          <StyledSignIn href="/auth/registration">{t("signUp_link")}</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>

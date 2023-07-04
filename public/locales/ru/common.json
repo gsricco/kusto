@@ -3,5 +3,11 @@
     "password_lable": "Новый пароль",
     "password_conf_lable": "Подтверждение пароля",
     "info": "Пароль должен содержать от 6 до 20 символов",
-    "n_password_btn": "Создать Новый Пароль"
+    "n_password_btn": "Создать Новый Пароль",
+    "signIn_title": "Войти",
+    "signUp_link": "Зарегистрироваться",
+    "email_label": "Почта",
+    "password_label": "Пароль",
+    "forgotPassword_link": "Забыли пароль",
+    "notAccount_title": "У вас нет аккаунта?"
 }
