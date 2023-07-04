@@ -1,6 +1,7 @@
 import React, {FC, PropsWithChildren} from 'react';
 import styled from "styled-components";
-import {StaledTitle, StyledFormAuth} from "./WrapperContainerAuth";
+import { StaledTitle, StyledFormAuth } from 'styles/styledComponents/auth/Auth.styled';
+
 
 export const WrapperContainerNoFrame: FC<PropsWithChildren&{title:string}>=  (props)=> {
   const {children, title} = props
