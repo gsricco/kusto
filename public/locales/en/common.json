@@ -29,6 +29,10 @@
     "link_exp_title": "Email verification link expired",
     "link_exp_text": "Looks like the verification link has expired. Not to worry, we can send the link again",
     "resend_btn": "Resend verification link",
+    "link_exp_title_recov": "Email verification link invalid",
+    "resend_btn_recov": "Resend link",
+
+
 
     "log_in_err": "The password or email you entered is incorrect. Please try again",
 

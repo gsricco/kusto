@@ -22,6 +22,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
+import { RegistrationResponseError } from "assets/store/api/auth/types"
 //
 
 // ///                                           ///   //
@@ -59,15 +60,26 @@ export default function NewPassword() {
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
-      recoveryCode: code
+      recoveryCode: "gfddr456"
+
+      // recoveryCode: code
     }
     try {
       await newPasswordHandler(data)
-      resetForm()
+        .unwrap()
+        .then(() => resetForm())
+     
     } catch (error) {
-      // router.push('/auth/login')
-      // router.push('/auth/registration/verificationError')
-
+      debugger
+      const err = error as RegistrationResponseError
+      if ("data" in err) {
+        const status = err.status
+        if (status === 204) {
+          router.push('/auth/login')
+        } else {
+          router.push('/auth/new_password/verificationError')
+        }
+      }
     }
   }
 
