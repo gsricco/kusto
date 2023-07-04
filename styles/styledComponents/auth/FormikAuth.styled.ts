@@ -104,3 +104,4 @@ export const StyledTextWrapper = styled(StyledSignInWrapper)
   
   flex-shrink: 0;
   `
+
