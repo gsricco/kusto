@@ -29,6 +29,7 @@ export type labelType = {
   value: string
   onChange: (e: string) => void
   width?:string
+  errorShow?:boolean
 }
 
 export type FormValueRegistration = {

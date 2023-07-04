@@ -74,7 +74,7 @@ export default function Recovery() {
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
-            <StyledAuthForm>
+            <StyledAuthForm errorShow={true}>
               <FormikLabel
                 name="email"
                 onChange={(e) => setFieldValue("email", e)}
@@ -84,6 +84,7 @@ export default function Recovery() {
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
+                errorShow={true}
               />
               <StyledRecoveryWrapper>
                 <StyledText color={baseTheme.colors.light[950]}>

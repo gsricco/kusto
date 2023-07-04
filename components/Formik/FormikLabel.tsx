@@ -5,7 +5,7 @@ import {baseTheme} from "../../styles/styledComponents/theme";
 import {labelType} from "./types";
 
 
-export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children, width}: labelType) => {
+export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children, width, errorShow}: labelType) => {
 
   let errorMessage = '';
 
@@ -34,16 +34,21 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
         onChange={(e) => onChange(e)}
         width={width}
       />
-      <StyledErrorMsg>{errorMessage}</StyledErrorMsg>
+      <StyledErrorMsg errorShow={errorShow}>{errorMessage}</StyledErrorMsg>
       {children}
     </label>
   )
 }
 
-const StyledErrorMsg = styled.div
+type StyledErrorMsgPropsType={
+  errorShow?:boolean
+}
+
+
+const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>
   `
     width: 100%;
-    height: 30px;
+    height: ${props=>props.errorShow?'':'30px'};
 
     display: flex;
     justify-content: flex-start;

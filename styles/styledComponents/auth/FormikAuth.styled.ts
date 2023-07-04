@@ -29,7 +29,7 @@ export const StyledAuthForm = styled(Form)<AuthFormPropsType>
     label {
       max-width: ${props => props.width ? props.width : '330px'};
       width: 100%;
-      height: 100px;
+      height: ${props => props.errorShow ? '' : '100px'};
 
       display: flex;
       flex-direction: column;

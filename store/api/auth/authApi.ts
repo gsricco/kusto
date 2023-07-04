@@ -97,6 +97,6 @@ export const {
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
   useLogoutMutation,
-  useSetProfileMutation
+  useSetProfileMutation,
   useLazyCheckRecoveryCodeQuery,
 } = authApi
