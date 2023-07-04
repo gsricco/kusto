@@ -79,3 +79,12 @@ export const StyledImage = styled.div
   `
   margin-top: 72px;
   `
+// VerificationError
+export const StyledContainerButtonVer = styled.div
+  `
+  margin-top: 10px;   
+  `
+export const StyledImageVer = styled.div
+  `
+  margin-top: 25px; 
+  `

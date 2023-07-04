@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 export const SelectLanguage = () => {
   const router = useRouter()
   const { pathname, asPath, query } = router
+  
 
   // Обработчик селектора языка, который перенаправляет на тот же url, 
   // с теми же query параметрами, но со сменой языка
@@ -16,8 +17,8 @@ export const SelectLanguage = () => {
 
   return (
     <StyledSelectLanguage onChange={handleLangChange}>
-      <option value="ru">&#127479;&#127482; Русский</option>
       <option value="en">&#127468;&#127463; English</option>
+      <option value="ru">&#127479;&#127482; Русский</option>
     </StyledSelectLanguage>
   );
 };

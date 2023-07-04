@@ -22,10 +22,11 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import {useShowPassword} from "../../../common/hooks/useShowPassword";
-import {validateLogin} from "../../../common/utils/validateLogin";
+import {validateLoginEn, validateLoginRu} from "../../../common/utils/validateLogin";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
+
 //translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
@@ -45,7 +46,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 const Login = () => {
-  const {t} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
   const route = useRouter()
   const {code} = route.query       // получение кода восстановления для сервера
   const {
@@ -82,7 +83,7 @@ const Login = () => {
         .catch(() =>
           setFieldError(
             "password",
-            "Password or email - incorrect. Try again"
+            t("log_in_err")
           )
         )
     } catch (error) {
@@ -96,7 +97,7 @@ const Login = () => {
         <AuthIcons/>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateLogin}
+          validationSchema={i18n.language == 'en' ? validateLoginEn : validateLoginRu}
           onSubmit={handleSubmit}
         >
           {({errors, touched, values, setFieldValue}) => (
