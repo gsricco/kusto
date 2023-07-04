@@ -20,6 +20,7 @@ const Home: NextPageWithLayout = () => (
       <p><Link href={'/new_password'}>new_password</Link></p>
       <p><Link href={'/profile'}>profile</Link></p>
       <p><Link href={'/profile/settings'}>profile/settings</Link></p>
+      <p><Link href={'/registration/success'}>registration/success</Link></p>
     </div>
 
   </>

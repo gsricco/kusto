@@ -39,6 +39,7 @@ export default function Recovery() {
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation()
 
+  console.log('result', result)
   // Обработчик нажатия кнопки подтверждения в форме
   const handleSubmit = async (values: FormValueRecovery, {resetForm}: ResetForm) => {
     const data = {
