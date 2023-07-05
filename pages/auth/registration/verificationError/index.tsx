@@ -35,7 +35,7 @@ const Verification = () => {
   const {t} = useTranslation()    // функция перевода на выбранный язык
 
   const handleClick = () => {
-    console.log('Resend verificationError link')
+    router.push('/auth/registration');
   };
 
   return (
@@ -59,6 +59,15 @@ const Verification = () => {
     </StyledContainerAuth>
   )
 }
+
+export const StyledContainerButton = styled.div
+  `
+  margin-top: 10px;   
+  `
+const StyledImage = styled.div
+  `
+  margin-top: 25px; 
+  `
 
 Verification.getLayout = getLayout
 

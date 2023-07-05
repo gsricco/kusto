@@ -35,7 +35,7 @@ const SuccessRegistration = () => {
   const {t} = useTranslation()    // функция перевода на выбранный язык
 
   const handleClick = () => {
-    router.push('/login');
+    router.push('/auth/login');
   };
 
   return (
