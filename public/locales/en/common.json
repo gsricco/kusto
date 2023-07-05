@@ -9,5 +9,6 @@
     "email_label": "Email",
     "password_label": "Password",
     "forgotPassword_link": "Forgot Password",
-    "notAccount_title": "Don’t have an account?"
+    "notAccount_title": "Don’t have an account?",
+    "error_login": "Password or email - incorrect. Try again"
 }

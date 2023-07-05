@@ -5,7 +5,7 @@ import {
   LoginType,
   NewPasswordResType,
   NewPasswordType,
-  ProfileType, RegistrationResType,
+  ProfileType,
   RegistrationType,
   SendLinkType
 } from "./types";
@@ -35,7 +35,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    registration: builder.mutation<RegistrationResType, RegistrationType>({
+    registration: builder.mutation<any, RegistrationType>({
       query: (body) => ({
         url: "auth/registration",
         method: "POST",

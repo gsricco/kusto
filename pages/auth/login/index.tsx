@@ -44,6 +44,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     }
   }
 }
+
 const Login = () => {
   const {t} = useTranslation()    // функция перевода на выбранный язык
   const route = useRouter()
@@ -63,13 +64,12 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push('/profile'):route.push('/profile/settings')
+    data.profile ? route.push('/profile') : route.push('/profile/settings')
   }
-
 
   const handleSubmit = async (
     values: FormValueLogin,
-    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       loginOrEmail: values.loginOrEmail,
@@ -82,7 +82,7 @@ const Login = () => {
         .catch(() =>
           setFieldError(
             "password",
-            "Password or email - incorrect. Try again"
+            t("error_login")
           )
         )
     } catch (error) {
