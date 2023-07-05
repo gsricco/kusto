@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useState} from "react"
 import {Formik} from "formik"
 import showPasswordBtn from "../../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../../public/icons/eye-off-outline.svg"
@@ -24,6 +24,8 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from '../../../next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
+import { Modal } from "common/components/Modal"
+import { useRouter } from "next/router"
 //
 
 // getStaticProps Определения языка, указанного в url
@@ -54,8 +56,17 @@ export default function Registration() {
   }
 
   const [registrationHandler] = useRegistrationMutation()
+  const [email, setEmail] = useState("")
+  const [isModalActive, setIsModalActive] = useState(false)
+
+  const router=useRouter()
 
   const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+
+  const handleModalClose = () => {
+    setIsModalActive(false)
+    router.push('/auth/login')
+  }
 
   const handleSubmit = async (
     values: FormValueRegistration,
@@ -69,7 +80,11 @@ export default function Registration() {
     try {
       await registrationHandler(data)
         .unwrap()
-        .then(() => resetForm())
+        .then(() => {
+          setEmail(data.email)
+          resetForm()
+          setIsModalActive(true)
+        })
     } catch (error) {
       const err = error as RegistrationResponseError
       if ("data" in err) {
@@ -91,7 +106,15 @@ export default function Registration() {
   }
 
   return (
-    <StyledContainerAuth>
+    <>
+      {isModalActive && (
+        <Modal
+          title="Email sent"
+          bodyText={`We have sent a link to confirm your email to ${email}`}
+          handleModalClose={handleModalClose}
+        />
+      )}
+      <StyledContainerAuth style={{filter: isModalActive? "blur(4px)":""}} >
       <WrapperContainerAuth title={t("sign_up")}>
         <AuthIcons />
         <Formik
@@ -171,6 +194,7 @@ export default function Registration() {
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>
+    </>
   )
 }
 
