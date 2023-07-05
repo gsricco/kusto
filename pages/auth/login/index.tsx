@@ -22,7 +22,7 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import {useShowPassword} from "../../../common/hooks/useShowPassword";
-import {validateLogin} from "../../../common/utils/validateLogin";
+import {validateLoginEn, validateLoginRu} from "../../../common/utils/validateLogin";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
@@ -44,9 +44,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     }
   }
 }
-
 const Login = () => {
-  const {t} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
   const route = useRouter()
   const {code} = route.query       // получение кода восстановления для сервера
   const {
@@ -64,12 +63,13 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push('/profile') : route.push('/profile/settings')
+    data.profile ? route.push('/profile'):route.push(`/profile/settings?login=${'LOGIN'}`)
   }
+
 
   const handleSubmit = async (
     values: FormValueLogin,
-    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       loginOrEmail: values.loginOrEmail,
@@ -82,7 +82,7 @@ const Login = () => {
         .catch(() =>
           setFieldError(
             "password",
-            t("error_login")
+            t("log_in_err")
           )
         )
     } catch (error) {
@@ -96,7 +96,7 @@ const Login = () => {
         <AuthIcons/>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateLogin}
+          validationSchema={i18n.language == 'en' ? validateLoginEn : validateLoginRu}
           onSubmit={handleSubmit}
         >
           {({errors, touched, values, setFieldValue}) => (

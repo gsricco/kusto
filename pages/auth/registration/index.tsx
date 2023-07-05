@@ -4,7 +4,7 @@ import showPasswordBtn from "../../../public/icons/eye-outline.svg"
 import hidePasswordBtn from "../../../public/icons/eye-off-outline.svg"
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout"
 import {useShowPassword} from "../../../common/hooks/useShowPassword"
-import {validateRegistration} from "../../../common/utils/validateRegistraition"
+import {validateRegistrationEn, validateRegistrationRu} from "../../../common/utils/validateRegistraition"
 import AuthIcons from "../../../features/auth/AuthIcons"
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth"
 import {Button, ThemeButton} from "../../../common/components/Button/Button"
@@ -19,7 +19,23 @@ import {
   StyledSignInWrapper, StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 
+//translate import
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from '../../../next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+//
 
+// getStaticProps Определения языка, указанного в url
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 export default function Registration() {
   const {
     passwordType,
@@ -39,6 +55,8 @@ export default function Registration() {
 
   const [registrationHandler] = useRegistrationMutation()
 
+  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+
   const handleSubmit = async (
     values: FormValueRegistration,
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
@@ -57,14 +75,14 @@ export default function Registration() {
       if ("data" in err) {
         const messages = err.data
         if (messages.errorsMessages.length > 1) {
-          setFieldError("username", "User with this username is already registered")
-          setFieldError("email", "User with this email is already registered")
+          setFieldError("username", t("user_err"))
+          setFieldError("email", t("email_err"))
         } else {
           if (messages.errorsMessages[0].field === "email") {
             setFieldError("username", "")
-            setFieldError("email", "User with this email is already registered")
+            setFieldError("email", t("email_err"))
           } else {
-            setFieldError("username", "User with this username is already registered")
+            setFieldError("username", t("user_err"))
             setFieldError("email", "")
           }
         }
@@ -74,11 +92,11 @@ export default function Registration() {
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={"Sing Up"}>
+      <WrapperContainerAuth title={t("sign_up")}>
         <AuthIcons />
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateRegistration}
+          validationSchema={i18n.language == 'en' ? validateRegistrationEn : validateRegistrationRu}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
@@ -88,7 +106,7 @@ export default function Registration() {
                 onChange={(e) => setFieldValue("username", e)}
                 value={values.username}
                 type={"text"}
-                title={"Username"}
+                title={t("username")}
                 border={errors.username?.length && touched.username ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -98,7 +116,7 @@ export default function Registration() {
                 onChange={(e) => setFieldValue("email", e)}
                 value={values.email}
                 type={"email"}
-                title={"email"}
+                title={"Email"}
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -109,7 +127,7 @@ export default function Registration() {
                 onChange={(e) => setFieldValue("password", e)}
                 value={values.password}
                 type={passwordType}
-                title={"Password"}
+                title={t("password")}
                 border={errors.password?.length && touched.password ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -126,7 +144,7 @@ export default function Registration() {
                 onChange={(e) => setFieldValue("passwordConfirmation", e)}
                 value={values.passwordConfirmation}
                 type={passwordConfirmationType}
-                title={"Password confirmation"}
+                title={t("password_conf_lable")}
                 border={
                   errors.passwordConfirmation?.length && touched.passwordConfirmation
                     ? "red"
@@ -142,14 +160,14 @@ export default function Registration() {
                 />
               </FormikLabel>
               <Button theme={ThemeButton.PRIMARY} type="submit">
-                Sign up
+                {t("sign_up")}
               </Button>
             </StyledAuthForm>
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledText>Do you have an account?</StyledText>
-          <StyledSignIn href="/auth/login">Sign in</StyledSignIn>
+          <StyledText>{t("have_account")}</StyledText>
+          <StyledSignIn href="/auth/login">{t("sign_in")}</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>

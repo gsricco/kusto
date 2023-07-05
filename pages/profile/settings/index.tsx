@@ -9,6 +9,7 @@ import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
 import {validateProfile} from "../../../common/utils/validateProfile";
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+import {useRouter} from "next/router";
 
 
 const ProfileSettings = () => {
@@ -17,8 +18,12 @@ const ProfileSettings = () => {
   const serverAvatar:string = ''
   const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
 
+  const router =useRouter()
+  const{login} = router.query
+
+
   const initialAuthValues = {
-    username: "",
+    username: login,
     firstname: "",
     lastname: "",
     birthday: "",

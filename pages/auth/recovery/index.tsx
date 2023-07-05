@@ -13,11 +13,18 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled"
 import {useSendRecoveryLinkMutation} from "../../../assets/store/api/auth/authApi"
 import {FormValueRecovery, ResetForm} from "../../../common/components/Formik/types"
-import {validateRecovery} from "../../../common/utils/validateRecovery"
+import {validateRecoveryEn, validateRecoveryRu} from "../../../common/utils/validateRecovery"
 import {EmailSentModal} from "../../../common/components/PopUpModal/EmailSentModal"
 import {baseTheme} from "../../../styles/styledComponents/theme"
 import Image from "next/image"
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+
+//translate import
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from 'next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+//
 
 // ///                                           ///   //
 // страница восстановления пароля. Пользователь вводит email
@@ -25,13 +32,19 @@ import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.st
 // об отправке ссылки на почту
 // ///                                           ///   //
 
+// getStaticProps Определения языка, указанного в url
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 export default function Recovery() {
   const initialAuthValues = {
-    // username: "",
-    // password: "",
-    // passwordConfirmation: "",
     email: ""
-    // loginOrEmail: ""
   }
 
   const [isMessageSent, setIsMessageSent] = useState(false) // отправлено ли сообщение
@@ -40,7 +53,8 @@ export default function Recovery() {
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation()
 
-  console.log('result', result)
+  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+
   // Обработчик нажатия кнопки подтверждения в форме
   useEffect(() => {
     if (result.isSuccess) {
@@ -68,10 +82,10 @@ export default function Recovery() {
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={"Forgot Password"}>
+      <WrapperContainerAuth title={t("rec_password_title")}>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateRecovery}
+          validationSchema={i18n.language == 'en' ? validateRecoveryEn : validateRecoveryRu}
           onSubmit={handleSubmit}
         >
           {({errors, touched, values, setFieldValue}) => (
@@ -81,7 +95,7 @@ export default function Recovery() {
                 onChange={(e) => setFieldValue("email", e)}
                 value={values.email}
                 type={"email"}
-                title={"email"}
+                title={"Email"}
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -89,28 +103,28 @@ export default function Recovery() {
               />
               <StyledRecoveryWrapper>
                 <StyledText color={baseTheme.colors.light[950]}>
-                  Enter your email address and we will send you further instructions
+                  {t("enter_email_text")}
                 </StyledText>
                 {isMessageSent && (
-                  <StyledText>We have sent a link to confirm your email to {email}</StyledText>
+                  <StyledText>{t("link_sent_text")}</StyledText>
                 )}
               </StyledRecoveryWrapper>
 
               <Button width="100%" theme={ThemeButton.PRIMARY} type="submit">
-                {isMessageSent ? "Send Link Again" : "Send Link"}
+                {isMessageSent ? t("send_again_btn") : t("send_link_btn")}
               </Button>
             </StyledAuthForm>
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledSignIn href="/auth/login">Back to Sign in</StyledSignIn>
+          <StyledSignIn href="/auth/login">{t("back_singIn_btn")}</StyledSignIn>
         </StyledSignInWrapper>
         <Image priority alt="Captcha" width={260} height={60} src="/captcha.png"/>
       </WrapperContainerAuth>
       {isModalOpen && (
         <EmailSentModal
-          title="Email Sent"
-          bodyText={`We have sent a link to confirm your email to ${email}`}
+          title={t("email_modal_title")}
+          bodyText={t("email_modal_text") + ' ' + `${email}`}
           handleModalClose={handleModalClose}
         ></EmailSentModal>
       )}

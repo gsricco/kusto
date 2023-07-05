@@ -12,9 +12,27 @@ import {
 } from "../../../../styles/styledComponents/auth/Auth.styled";
 import {getLayout} from "../../../../common/components/Layout/BaseLayout/BaseLayout";
 
+//translate import
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from 'next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+//
+
+// getStaticProps Определения языка, указанного в url
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 
 const SuccessRegistration = () => {
   const router = useRouter();
+  const {t} = useTranslation()    // функция перевода на выбранный язык
 
   const handleClick = () => {
     router.push('/login');
@@ -22,14 +40,14 @@ const SuccessRegistration = () => {
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerNoFrame title={"Congratulations!"}>
+      <WrapperContainerNoFrame title={t("congrat")}>
 
         <StyledSignInWrapper>
-          <StyledText>Your email has been confirmed</StyledText>
+          <StyledText>{t("email_confirm")}</StyledText>
         </StyledSignInWrapper>
         <StyledContainerButton>
           <Button theme={ThemeButton.PRIMARY} width="182px" onClick={handleClick} type="button">
-            Sign in
+            {t("sign_in")}
           </Button>
         </StyledContainerButton>
 
