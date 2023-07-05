@@ -5,6 +5,7 @@ const MyProfile = () => {
   return (
     <div>
       My Profile
+      Надо сделать проверку на логин
     </div>
   );
 };
