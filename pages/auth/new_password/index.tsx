@@ -60,9 +60,7 @@ export default function NewPassword() {
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
-      recoveryCode: "gfddr456"
-
-      // recoveryCode: code
+      recoveryCode: code
     }
     try {
       await newPasswordHandler(data)

@@ -64,7 +64,7 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push('/profile'):route.push('/profile/settings')
+    data.profile ? route.push('/profile'):route.push(`/profile/settings?login=${'LOGIN'}`)
   }
 
 
