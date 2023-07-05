@@ -1,4 +1,4 @@
-import { Button } from "../Button/Button";
+import {Button, ThemeButton} from "../Button/Button";
 import { Input } from "../Input/Input";
 import { Modal } from "../Modal";
 import { Form, Field, FormikProps, Formik } from "formik";
@@ -52,7 +52,7 @@ const EmailForm = ({
             </StyledText>
           )}
 
-          <Button type="submit">
+          <Button theme={ThemeButton.PRIMARY} type="submit">
             {isMessageSent ? "Send Link Again" : "Send Link"}
           </Button>
           {isModalOpen && (
