@@ -72,13 +72,12 @@ export default function NewPassword() {
     } catch (error) {
       const err = error as RegistrationResponseError
       if ("data" in err) {
-        const status = err.status
-        if (status === 204) {
-          router.push('/auth/login')
-        } else {
+        // const status = err.status
+        // if (status === 204) {
+        //   router.push('/auth/login')
+        // } else {
           router.push('/auth/new_password/verificationError')
         }
-      }
     }
   }
 
