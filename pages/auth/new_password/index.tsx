@@ -1,7 +1,7 @@
 import React from "react"
 import {Formik} from "formik"
-import showPasswordBtn from "../../../public/icons/eye-outline.svg"
-import hidePasswordBtn from "../../../public/icons/eye-off-outline.svg"
+import showPasswordBtn from "../../../public/img/icons/eye-outline.svg"
+import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg"
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout"
 import {useShowPassword} from "../../../common/hooks/useShowPassword"
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
@@ -14,7 +14,7 @@ import {
   StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {validateNewPasswordEn, validateNewPasswordRu} from "../../../common/utils/validateNewPassword";
 import {useRouter} from "next/router"
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
@@ -23,9 +23,11 @@ import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import {RegistrationResponseError} from "assets/store/api/auth/types"
+import {Path} from "../../../common/enums/path";
+import {ThemeButton} from "../../../common/enums/themeButton";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any;
+  const {locale} = context as any
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
@@ -45,6 +47,12 @@ export default function NewPassword() {
   const {t, i18n} = useTranslation()
   const router = useRouter()
   const {code} = router.query
+
+  const {
+    passwordType, passwordConfirmationType,
+    showPassword, showPasswordConfirmation
+  } = useShowPassword()
+
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
@@ -55,20 +63,15 @@ export default function NewPassword() {
         .unwrap()
         .then(() => {
           resetForm()
-          router.push('/auth/login')
+          router.push(Path.LOGIN)
         })
     } catch (error) {
       const err = error as RegistrationResponseError
       if ("data" in err) {
-         await router.push('/auth/new_password/verificationError')
-        }
+        await router.push(Path.NEW_PASSWORD_ERROR)
+      }
     }
   }
-
-  const {
-    passwordType, passwordConfirmationType,
-    showPassword, showPasswordConfirmation
-  } = useShowPassword()
 
   return (
     <StyledContainerAuth>
@@ -91,7 +94,7 @@ export default function NewPassword() {
                 onChange={(e) => setFieldValue("newPassword", e)}
                 value={values.newPassword}
                 type={passwordType}
-                title={t("password_lable")}
+                title={t("n_password_label")}
                 border={errors.newPassword?.length && touched.newPassword ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -108,7 +111,7 @@ export default function NewPassword() {
                 onChange={(e) => setFieldValue("passwordConfirmation", e)}
                 value={values.passwordConfirmation}
                 type={passwordConfirmationType}
-                title={t("password_conf_lable")}
+                title={t("password_conf_label")}
                 border={
                   errors.passwordConfirmation?.length && touched.passwordConfirmation
                     ? "red"

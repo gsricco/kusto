@@ -6,7 +6,7 @@ import {
 } from "styles/styledComponents/auth/FormikAuth.styled"
 import { WrapperContainerNoFrame } from "features/auth/WrapperContainerNoFrame"
 import VectorImage from "common/components/VectorImage"
-import overtime from "public/icons/web-app-ui-time-management-rafiki.svg";
+import overtime from "../../public/img/icons/web-app-ui-time-management-rafiki.svg";
 import { StyledContainerAuth, StyledContainerButtonVer, StyledImageVer } from "styles/styledComponents/auth/Auth.styled"
 import { VerificationWindowType } from "./types"
 
