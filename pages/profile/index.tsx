@@ -5,6 +5,7 @@ const MyProfile = () => {
   return (
     <div>
       My Profile
+      level 2
     </div>
   );
 };
