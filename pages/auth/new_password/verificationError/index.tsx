@@ -7,8 +7,9 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
-import VerificationWindow from "features/auth/VerificationWindow"
 //
+import VerificationWindow from "features/auth/VerificationWindow"
+
 
 // getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
