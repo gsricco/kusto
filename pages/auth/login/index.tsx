@@ -1,9 +1,7 @@
 import React from 'react';
 import {Formik} from "formik";
-
-import showPasswordBtn from "../../../public/icons/eye-outline.svg";
-import hidePasswordBtn from "../../../public/icons/eye-off-outline.svg";
-
+import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
+import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import {useRouter} from "next/router";
 import {useLoginMutation} from "../../../assets/store/api/auth/authApi";
 import {saveState} from "../../../common/components/localStorage/localStorage";
@@ -17,37 +15,37 @@ import {
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
 import {
   StyledAuthForm,
-  StyledShowPasswordBtn, StyledSignIn,
-  StyledSignInWrapper, StyledText
+  StyledShowPasswordBtn,
+  StyledSignIn,
+  StyledSignInWrapper,
+  StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import {useShowPassword} from "../../../common/hooks/useShowPassword";
 import {validateLoginEn, validateLoginRu} from "../../../common/utils/validateLogin";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
-//translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from '../../../next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
-//
+import {ThemeButton} from "../../../common/enums/themeButton";
+import {Path} from "../../../common/enums/path";
 
 
-// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
   const {locale} = context as any
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
     }
   }
 }
+
 const Login = () => {
-  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()
   const route = useRouter()
-  const {code} = route.query       // получение кода восстановления для сервера
   const {
     passwordType,
     showPassword,
@@ -63,13 +61,12 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push('/profile'):route.push(`/profile/settings?login=${'LOGIN'}`)
+    data.profile ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?login=LOGIN`)
   }
-
 
   const handleSubmit = async (
     values: FormValueLogin,
-    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       loginOrEmail: values.loginOrEmail,
@@ -86,7 +83,7 @@ const Login = () => {
           )
         )
     } catch (error) {
-      console.log(error)
+      console.log('LoginError:', error)
     }
   }
 
@@ -139,7 +136,7 @@ const Login = () => {
         </Formik>
         <StyledSignInWrapper>
           <StyledText>{t("notAccount_title")}</StyledText>
-          <StyledSignIn href="/auth/registration">{t("signUp_link")}</StyledSignIn>
+          <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>
