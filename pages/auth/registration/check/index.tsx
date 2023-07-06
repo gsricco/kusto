@@ -9,10 +9,17 @@ export const CheckLink = () => {
 
 
   const router = useRouter()
-  const {code} = router.query       // получение кода восстановления для сервера
+  // const {code} = router.query       // получение кода восстановления для сервера
+  let code:string|undefined =''
+
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+     code = location?.href.split("?").join('').split('=').pop()
+  }
+
 
   useEffect(()=>{
-    console.log('check')
+    console.log('check', code)
 
 
         checkLinkHandler(code)
