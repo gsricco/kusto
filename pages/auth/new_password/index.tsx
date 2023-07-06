@@ -65,10 +65,11 @@ export default function NewPassword() {
     try {
       await newPasswordHandler(data)
         .unwrap()
-        .then(() => resetForm())
-     
+        .then(() => {
+          resetForm()
+          router.push('/auth/login')
+        })
     } catch (error) {
-      debugger
       const err = error as RegistrationResponseError
       if ("data" in err) {
         const status = err.status
