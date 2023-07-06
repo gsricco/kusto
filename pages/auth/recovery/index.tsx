@@ -66,13 +66,13 @@ export default function Recovery() {
     const data = {
       email: values.email
     }
-    try {
-      recoveryHandler(data)
-      resetForm()
-      setEmail(values.email)
-    } catch (error) {
-      console.log(error)
-    }
+
+     await recoveryHandler(data)
+       .unwrap()
+       .then(()=>{
+         setEmail(values.email)
+         resetForm()
+       })
   }
 
   // Обработчик закрытия модального окна

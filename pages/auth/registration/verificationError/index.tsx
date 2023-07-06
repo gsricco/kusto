@@ -15,6 +15,7 @@ import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import {useRefreshLinkMutation} from "../../../../assets/store/api/auth/authApi";
 import {Modal} from "../../../../common/components/Modal";
+import VerificationWindow from "../../../../features/auth/VerificationWindow";
 //
 
 // getStaticProps Определения языка, указанного в url
@@ -57,6 +58,8 @@ const Verification = () => {
 
 
     return (
+
+
       <> {isModalActive && (
         <Modal
           title="Refresh link"
@@ -64,25 +67,11 @@ const Verification = () => {
           handleModalClose={handleModalClose}
         />
       )}
-      <StyledContainerAuth>
-        <WrapperContainerNoFrame title={t("link_exp_title")}>
+        <VerificationWindow handleClick={handleClick} title={t("link_exp_title")} text={t("link_exp_text")} btnTitle={t("resend_btn")} />
 
-          <StyledTextWrapper>
-            <StyledCenteredText>{t("link_exp_text")}</StyledCenteredText>
-          </StyledTextWrapper>
-          <StyledContainerButtonVer>
-            <Button theme={ThemeButton.PRIMARY} width="auto" onClick={handleClick} type="button">
-              {t("resend_btn")}
-            </Button>
-          </StyledContainerButtonVer>
+      </>
 
-          <StyledImageVer>
-            <VectorImage image={overtime} screenWidth={447} imageWidth={423}/>
-          </StyledImageVer>
-
-        </WrapperContainerNoFrame>
-      </StyledContainerAuth>
-    </>)
+    )
   }
 
 
