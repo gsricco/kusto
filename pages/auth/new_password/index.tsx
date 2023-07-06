@@ -9,32 +9,23 @@ import {useNewPasswordMutation} from "../../../assets/store/api/auth/authApi";
 import {FormNewPasswordType, ResetForm} from "../../../common/components/Formik/types";
 import {
   StyledAuthForm,
-  StyledShowPasswordBtn, StyledSignInWrapper, StyledText
+  StyledShowPasswordBtn,
+  StyledSignInWrapper,
+  StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {validateNewPasswordEn, validateNewPasswordRu} from "../../../common/utils/validateNewPassword";
 import {useRouter} from "next/router"
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
-
-//translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
-import { RegistrationResponseError } from "assets/store/api/auth/types"
-//
+import {RegistrationResponseError} from "assets/store/api/auth/types"
 
-// ///                                           ///   //
-// страница введения нового пароля. Пользователь вводит данные,
-// отправляется запрос на сервер вместе с кодом восстановления, полученным на почту
-// Success - переключение на страницу логина, fail - на страницу повторной отправки сообщения
-// ///                                           ///   //
-
-// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any
-
+  const {locale} = context as any;
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
@@ -43,20 +34,17 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 export default function NewPassword() {
-
   const initialAuthValues = {
     passwordConfirmation: "",
     newPassword: "",
     recoveryCode: "",
   }
 
-  const [newPasswordHandler, {error}] = useNewPasswordMutation()
+  const [newPasswordHandler] = useNewPasswordMutation()
 
-  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()
   const router = useRouter()
-  const {code} = router.query       // получение кода восстановления для сервера
-
-  // Обработчик нажатия кнопки подтверждения в форме  
+  const {code} = router.query
   const handleSubmit = async (values: FormNewPasswordType, {resetForm}: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
@@ -72,16 +60,11 @@ export default function NewPassword() {
     } catch (error) {
       const err = error as RegistrationResponseError
       if ("data" in err) {
-        // const status = err.status
-        // if (status === 204) {
-        //   router.push('/auth/login')
-        // } else {
-          router.push('/auth/new_password/verificationError')
+         await router.push('/auth/new_password/verificationError')
         }
     }
   }
 
-  // хук открытия и скрытия пароля
   const {
     passwordType, passwordConfirmationType,
     showPassword, showPasswordConfirmation

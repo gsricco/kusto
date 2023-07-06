@@ -18,20 +18,15 @@ import {
   StyledShowPasswordBtn, StyledSignIn,
   StyledSignInWrapper, StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
-
-//translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from '../../../next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import { Modal } from "common/components/Modal"
 import { useRouter } from "next/router"
-//
 
-// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any
-
+  const {locale} = context as any;
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
