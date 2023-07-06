@@ -82,6 +82,7 @@ export default function Registration() {
         .unwrap()
         .then(() => {
           setEmail(data.email)
+          localStorage.setItem('email',data.email)
           resetForm()
           setIsModalActive(true)
         })
