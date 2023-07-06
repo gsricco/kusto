@@ -2,6 +2,23 @@ import Image from 'next/image';
 import {NextPageWithLayout} from './_app';
 import {getLayout} from '../common/components/Layout/BaseLayout/BaseLayout';
 import Link from "next/link";
+//translate import
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from 'next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+//
+
+// getStaticProps Определения языка, указанного в url
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 
 const Home: NextPageWithLayout = () => (
   // <StyledWrapper>   // не нужно, т.к. wrapper у нас в  Layout.tsx
