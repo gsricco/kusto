@@ -3,13 +3,14 @@ import {StyledAuthForm} from "../../../styles/styledComponents/auth/FormikAuth.s
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {Formik} from "formik";
 import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
 import {validateProfile} from "../../../common/utils/validateProfile";
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
 import {useRouter} from "next/router";
+import {ThemeButton} from "../../../common/enums/themeButton";
 
 
 const ProfileSettings = () => {
