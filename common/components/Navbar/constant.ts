@@ -27,7 +27,7 @@ export const ITEM_LINK = [
     name: 'Search',
     href: '/search',
     icon: '/icons/search.svg',
-    selectIcon: '/icons/search.svg'
+    selectIcon: '/icons/search-select.svg'
   },
   {
     name: 'Favorites',

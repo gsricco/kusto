@@ -10,35 +10,36 @@ interface SidebarLinkProps {
   src: string
   name: string
   href: string
+  isActive: boolean
 }
 
-export const MainLink: FC<SidebarLinkProps> = ({className, name, src, href}) => {
+export const MainLink: FC<SidebarLinkProps> = ({className, name, src, href, isActive}) => {
   return (
     <AppLink href={href}>
-      <StyledDiv className={classNames('cls.MainLink', {}, [className])}>
+      <StyledDiv className={classNames('', {}, [className])}>
         <Image
           src={src}
           alt={'some icon'}
           width={24}
           height={24}
         />
-        <Text>{name}</Text>
+        <Text isActive={isActive}>{name}</Text>
       </StyledDiv>
     </AppLink>
   )
 }
 
 const StyledDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-  `
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+`
 
-const Text = styled.div`
+const Text = styled.div<{isActive: boolean}>`
   font-size: 14px;
-  font-weight: 500;
+  font-weight: ${props => props.isActive ? 700 : 500 };
   line-height: 24px;
-  color: ${baseTheme.colors.light[100]};
-  `
+  color: ${props => props.isActive ? baseTheme.colors.accent[500] : baseTheme.colors.light[100] }
+`

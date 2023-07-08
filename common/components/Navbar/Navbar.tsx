@@ -4,14 +4,19 @@ import {ITEM_LINK} from './constant';
 import {MainLink} from '../MainLink/MainLink';
 import {baseTheme} from '../../../styles/styledComponents/theme';
 import {LogoutLink} from '../LogoutLink/logoutLink';
+import {usePathname} from 'next/navigation';
 
 export const Navbar = () => {
 
+  const location = usePathname()
+  const isActive = (name: string) => location.includes(name)
+
   const items = ITEM_LINK.map(item => <MainLink
     key={item.name}
-    src={item.icon}
+    src={isActive(item.href)? item.selectIcon : item.icon}
     name={item.name}
     href={item.href}
+    isActive={isActive(item.href)}
   />)
 
   return (
