@@ -78,7 +78,7 @@ const StyledTextArea = styled.textarea<TextAreaPropsType>
   `
     max-width: ${props => props.width ? props.width : '330px'};
     width: 100%;
-    height: 350px;
+    height: 84px;
     padding-left: 8px;
     position: relative;
 

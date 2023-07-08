@@ -4,7 +4,7 @@ import {getLayout} from '../common/components/Layout/BaseLayout/BaseLayout';
 import Link from "next/link";
 
 const Home: NextPageWithLayout = () => (
-  // <StyledWrapper>   // не нужно, т.к. wrapper у нас в  Layout.tsx
+  // <StyledWrapper>   // не нужно, т.к. wrapper у нас в Layout.tsx
   <>
     <Image
       src="/kusto.png"

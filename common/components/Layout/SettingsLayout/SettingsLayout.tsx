@@ -1,21 +1,19 @@
 import {NextPage} from 'next';
 import {PropsWithChildren, ReactElement} from 'react';
 import Header from '../../Header/Header';
-import {Navbar} from '../../Navbar/Navbar';
 import styled from 'styled-components';
 import {baseTheme} from '../../../../styles/styledComponents/theme';
 import {store} from '../../../../assets/store/store';
 import {Provider} from 'react-redux';
 
-export const PageLayout: NextPage<PropsWithChildren> = (props) => {
+export const SettingsLayout: NextPage<PropsWithChildren> = (props) => {
   const {children} = props
   return (
     <StyledWrapper>
       <Provider store={store}>
         <Header/>
         <Page>
-          <Navbar/>
-          <Main>{children}</Main>
+          {children}
         </Page>
       </Provider>
     </StyledWrapper>
@@ -23,7 +21,7 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
 }
 
 export const getLayout = (page: ReactElement) => {
-  return <PageLayout>{page}</PageLayout>
+  return <SettingsLayout>{page}</SettingsLayout>
 }
 
 
@@ -35,11 +33,10 @@ const StyledWrapper = styled.div
     color: ${baseTheme.colors.light[100]};
   `
 
-const Main = styled.div`
-  padding-top: 35px;
-  padding-left: 24px;
-`
-
-const Page = styled.div`
-  display: flex;
+const Page = styled.div
+  `
+  max-width: 1310px;
+  width: 100%;
+  padding: 0 15px;
+  margin: auto;
 `

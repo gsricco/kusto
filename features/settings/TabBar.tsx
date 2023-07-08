@@ -1,38 +1,34 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {baseTheme} from '../../styles/styledComponents/theme';
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
 
 export const TabBar = () => {
-  const [activeLink, setActiveLink] = useState('General_information');
-
-  const linkClass = (name: string) => activeLink === name ? 'active' : ''
-
-  const onClickItemHandler = (name: string) => {
-    setActiveLink(name)
-  }
-
+  const location = usePathname()
+  const linkClass = (name: string) => location.includes(name) ? 'active' : ''
   return (
     <StyledNavigation>
       <StyledItem
-        onClick={() => onClickItemHandler('General_information')}
-        className={linkClass('General_information')}
+        href={'/profile/settings'}
+        className={location === '/profile/settings' ? 'active' : ''}
       >
         General information
       </StyledItem>
       <StyledItem
-        onClick={() => onClickItemHandler('Devices')}
-        className={linkClass('Devices')}
+        href={'/profile/settings/devices'}
+        className={linkClass('devices')}
       >
         Devices
       </StyledItem>
       <StyledItem
-        onClick={() => onClickItemHandler('Account_Management')}
-        className={linkClass('Account_Management')}
+        href={'/profile/settings/acc_management'}
+        className={linkClass('acc_management')}
       >
         Account Management
       </StyledItem>
       <StyledItem
-        onClick={() => onClickItemHandler('payments')}
+        href={'/profile/settings/payments'}
         className={linkClass('payments')}
       >
         My payments
@@ -41,41 +37,41 @@ export const TabBar = () => {
   )
 }
 
-const StyledNavigation = styled.header`
-  transition: all;
-  width: 100%;
-  display: flex;
-  
-  @media (max-width: 790px ) {
+const StyledNavigation = styled.header
+  `
+    transition: all;
     width: 100%;
-  }
-  @media (max-width: 480px ) {
-    flex-wrap: wrap;
-  }
-`
+    display: flex;
+    overflow-x: auto;
 
-const StyledItem = styled.div`
-  width: 100%;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  color: ${baseTheme.colors.dark[100]};
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  `
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  
-  padding: 5px;
-  border-bottom: 2px solid ${baseTheme.colors.dark[100]};
+const StyledItem = styled(Link)
+  `
+    display: inline-block;
+    width: 100%;
+    max-width: 726px;
 
-  &:hover {
-    color: ${baseTheme.colors.dark[300]};
-    border-bottom: 2px solid ${baseTheme.colors.dark[300]};
-  }
-  
-  &.active {
-    color: ${baseTheme.colors.accent[500]};
-    border-bottom: 2px solid ${baseTheme.colors.accent[500]};
-  }
-`;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    color: ${baseTheme.colors.dark[100]};
+    text-align: center;
+    white-space: nowrap;
+
+    padding: 5px 15px;
+    border-bottom: 2px solid ${baseTheme.colors.dark[100]};
+
+    &:hover {
+      color: ${baseTheme.colors.dark[300]};
+      border-bottom: 2px solid ${baseTheme.colors.dark[300]};
+    }
+
+    &.active {
+      color: ${baseTheme.colors.accent[500]};
+      border-bottom: 2px solid ${baseTheme.colors.accent[500]};
+    }
+  `;

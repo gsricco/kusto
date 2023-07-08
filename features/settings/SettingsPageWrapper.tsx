@@ -1,49 +1,68 @@
 import {ReactNode} from 'react';
 import {TabBar} from './TabBar';
-import {StyledContainerAuth} from '../../styles/styledComponents/auth/Auth.styled';
 import styled from 'styled-components';
 import {Navbar} from '../../common/components/Navbar/Navbar';
+import {StyleProps} from './types';
 
 type SettingsPageWrapperType = {
   children: ReactNode
 }
 
 export const SettingsPageWrapper = ({children}: SettingsPageWrapperType) => {
-
   const firstVisit = true
-
   return (
-    <SettingsWrapper $isVisit={firstVisit}>
-      {firstVisit && (
-        <Navbar/>
-      )}
+    <SettingsWrapper isVisit={firstVisit}>
+      <NavbarWrapper isVisit={firstVisit}>
+        {firstVisit && (
+          <Navbar/>
+        )}
+      </NavbarWrapper>
       <StyledContainerSettings>
         <TabBar/>
-        {children}
+        <StyledContent>
+          {children}
+        </StyledContent>
       </StyledContainerSettings>
     </SettingsWrapper>
   );
 };
 
-type SettingsPageWrapper = {
-  $isVisit: boolean
-}
+const SettingsWrapper = styled.div<StyleProps>
+  `
+    min-height: 90vh;
+    display: flex;
+    gap: 24px;
 
-const SettingsWrapper = styled('div')<SettingsPageWrapper>(
-  ({$isVisit}) => ({
-    width: '96vw',
-    minHeight: '90vh',
-    paddingTop: $isVisit ? '' : '36px',
+    @media (max-width: 1000px ) {
+      justify-content: ${props => props.isVisit ? 'inherit' : 'center'}
+    }
+  `
 
-    display: 'flex',
-    justifyContent: $isVisit ? 'inherit' : 'center',
-    alignItems: 'center',
-    gap: '30px',
-  }))
+const NavbarWrapper = styled.div<StyleProps>
+  `
+    height: 660px;
+    width: 17vw;
+    min-width: ${props => props.isVisit ? '150px' : '0px'};
+    max-width: 220px;
+    align-items: start;
 
-const StyledContainerSettings = styled(StyledContainerAuth)`
-  width: 57vw;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`
+    @media (max-width: 1000px ) {
+      display: ${props => props.isVisit ? 'block' : 'none'};
+    }
+    @media (max-width: 790px) {
+      display: none;
+    }
+
+  `
+
+const StyledContainerSettings = styled.div
+  `
+    max-width: 726px;
+    width: 100%;
+    padding-top: 36px;
+  `
+
+const StyledContent = styled.div
+  `
+    margin-top: 25px;
+  `

@@ -21,8 +21,8 @@ export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
     <AppLink onClick={logoutHandler} href={''}>
       <StyledDiv className={classNames('', {}, [className])}>
         <Image
-          src={'/img/icon/LogOut.svg'}
-          alt={'sdc'}
+          src={'/icons/log-out.svg'}
+          alt={'logOut'}
           width={24}
           height={24}
         />
