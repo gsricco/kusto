@@ -29,14 +29,17 @@ export const Navbar = () => {
 
 const StyledSidebar = styled.div
   `
-  position: relative;
-  height: 100%;
-  border-right: 1px solid ${baseTheme.colors.dark[300]};
-`
+    position: relative;
+    max-width: 220px;
+    min-width: 160px;
+    height: 660px;
+    width: 17vw;
+    border-right: 1px solid ${baseTheme.colors.dark[300]};
+  `
 
 const StyledItemBlock = styled.div
   `
-  margin-left: 40px;
+  margin-left: 45px;
   padding-top: 72px;
   display: flex;
   flex-direction: column;
@@ -57,7 +60,7 @@ const StyledItemBlock = styled.div
 const StyledLogout = styled.div`
   position: absolute;
   bottom: 36px;
-  left: 40px;
+  left: 45px;
 
   @media (max-width: 940px) {
     left: 20px;

@@ -35,11 +35,20 @@ const StyledWrapper = styled.div
     color: ${baseTheme.colors.light[100]};
   `
 
+const Page = styled.div
+  `
+    display: flex;
+    max-width: 1310px;
+    width: 100%;
+    gap: 24px;
+    
+    padding: 0 15px;
+    margin: auto;
+    border: 1px solid red;
+  `
+
 const Main = styled.div`
-  padding-top: 35px;
-  padding-left: 24px;
+  padding-top: 36px;
+  flex-grow: 1;
 `
 
-const Page = styled.div`
-  display: flex;
-`
