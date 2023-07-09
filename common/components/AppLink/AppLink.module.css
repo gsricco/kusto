@@ -6,15 +6,6 @@
     color: #FFFFFF;
 }
 
-.AppLink:active {
-    font-weight: 700;
-    color: #397DF6;
-}
-
-.AppLink:hover {
-    color: #73A5FF;
-}
-
 .AppLink:disabled {
     color: #4C4C4C;
 }

@@ -49,7 +49,7 @@ type StyledErrorMsgPropsType={
 const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>
   `
     width: 100%;
-    height: ${props=>props.errorShow?'':'24px'};
+    height: ${props=>props.errorShow?'':'30px'};
 
     display: flex;
     justify-content: flex-start;

@@ -9,11 +9,11 @@ import {usePathname} from 'next/navigation';
 export const Navbar = () => {
 
   const location = usePathname()
-  const isActive = (name: string) => location.includes(name)
+  const isActive = (name: string) => location === name
 
   const items = ITEM_LINK.map(item => <MainLink
     key={item.name}
-    src={isActive(item.href)? item.selectIcon : item.icon}
+    src={isActive(item.href) ? item.selectIcon : item.icon}
     name={item.name}
     href={item.href}
     isActive={isActive(item.href)}
@@ -44,23 +44,23 @@ const StyledSidebar = styled.div
 
 const StyledItemBlock = styled.div
   `
-  margin-left: 45px;
-  padding-top: 72px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 24px;
+    margin-left: 45px;
+    padding-top: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 24px;
 
-  > * {
-    &:last-child {
-      margin-top: 84px;
+    > * {
+      &:last-child {
+        margin-top: 84px;
+      }
     }
-  }
 
-  @media (max-width: 940px) {
-    margin-left: 20px;
-  }
-`
+    @media (max-width: 940px) {
+      margin-left: 20px;
+    }
+  `
 
 const StyledLogout = styled.div`
   position: absolute;

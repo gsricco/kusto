@@ -1,9 +1,12 @@
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import classNames from '../../../assets/lib/classNames/classNames';
 import {AppLink} from '../AppLink/AppLink';
 import {useLogoutMutation} from '../../../assets/store/api/auth/authApi';
+import {Modal} from '../Modal';
+import {EmailSentModal} from '../PopUpModal/EmailSentModal';
+import {LogoutModal} from '../PopUpModal/logoutModal';
 
 interface SidebarLinkProps {
   className?: string
@@ -11,14 +14,19 @@ interface SidebarLinkProps {
 
 export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
 
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
   const [logout] = useLogoutMutation()
 
   const logoutHandler = () => {
     logout()
   }
+  const onClose = () => {
+    setIsOpenModalEdit(false)
+  }
 
   return (
-    <AppLink onClick={logoutHandler} href={''}>
+    <>
+    <AppLink onClick={() => setIsOpenModalEdit(true)} href={''}>
       <StyledDiv className={classNames('', {}, [className])}>
         <Image
           src={'/icons/log-out.svg'}
@@ -29,6 +37,19 @@ export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
         <p>Log Out</p>
       </StyledDiv>
     </AppLink>
+      {isOpenModalEdit && (
+        <LogoutModal
+          title={'Log Out'}
+          textBody={'Are you really want to log out of your account'}
+          userInfo={'Epam@epam.com'}
+          callback={logoutHandler}
+          onClose={onClose}
+        />
+      )}
+
+      {/*<Modal handleModalClose={()=>{}} title={'qwe'} bodyText={'rwq'}/>*/}
+      {/*<EmailSentModal handleModalClose={()=>{}} title={'qwdse'} bodyText={'rwq'}/>*/}
+    </>
   )
 }
 

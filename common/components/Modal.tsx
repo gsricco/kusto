@@ -1,21 +1,30 @@
-import Image from "next/image";
-import styled from "styled-components";
+import Image from 'next/image';
+import styled from 'styled-components';
+import {ReactNode} from 'react';
+
+type ModalType = {
+  onClose: () => void;
+  title: string;
+  children: ReactNode
+}
 
 export const Modal = ({
-  handleModalClose,
-  title,
-  bodyText,
-}: {
-  handleModalClose: () => void;
-  title: string;
-  bodyText: string;
-}) => {
+                        onClose,
+                        title,
+                        children
+                      }: ModalType
+) => {
+
+  const onContentClick = (e: any) => {
+    e.stopPropagation()
+  }
+
   return (
-    <StyledModalOverlay>
-      <StyledModalContainer>
+    <StyledModalOverlay onClick={onClose}>
+      <StyledModalContainer onClick={onContentClick}>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
+          <StyledCloseButton onClick={onClose}>
             <Image
               priority
               src="/close.svg"
@@ -26,10 +35,7 @@ export const Modal = ({
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-          <p>{bodyText}</p>
-          <StyledConfirmButton onClick={handleModalClose}>
-            OK
-          </StyledConfirmButton>
+          {children}
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>
@@ -73,10 +79,12 @@ const StyledModalTitle = styled.span`
 `;
 
 const StyledCloseButton = styled.button`
+  cursor: pointer;
   border: 0;
   margin: 0;
   padding: 0;
   background: transparent;
+
   &:hover {
     fill: #397df6;
   }
@@ -88,15 +96,4 @@ const StyledModalBody = styled.div`
 
   color: #fff;
   padding: 30px 24px;
-`;
-
-const StyledConfirmButton = styled.button`
-  margin-top: 18px;
-  width: 96px;
-  padding: 6px 24px;
-  border-radius: 2px;
-  background: #397df6;
-  color: #fff;
-  border: 0;
-  align-self: flex-end;
 `;

@@ -3,17 +3,20 @@ import {TabBar} from './TabBar';
 import styled from 'styled-components';
 import {Navbar} from '../../common/components/Navbar/Navbar';
 import {StyleProps} from './types';
+import {useRouter} from 'next/router';
 
 type SettingsPageWrapperType = {
   children: ReactNode
 }
 
 export const SettingsPageWrapper = ({children}: SettingsPageWrapperType) => {
-  const firstVisit = true
+  const router = useRouter()
+  const {login}=router.query
+
   return (
-    <SettingsWrapper isVisit={firstVisit}>
-      <NavbarWrapper isVisit={firstVisit}>
-        {firstVisit && (
+    <SettingsWrapper isVisit={!login}>
+      <NavbarWrapper isVisit={!login}>
+        {!login && (
           <Navbar/>
         )}
       </NavbarWrapper>
