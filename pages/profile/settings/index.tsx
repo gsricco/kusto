@@ -10,10 +10,16 @@ import {FormikLabel} from '../../../common/components/Formik/FormikLabel';
 import {validateProfile} from '../../../common/utils/validateProfile';
 import {SettingsPageWrapper} from '../../../features/settings/SettingsPageWrapper';
 import {getLayout} from '../../../common/components/Layout/SettingsLayout/SettingsLayout';
+import {useProfileQuery} from '../../../assets/store/api/profile/profileApi';
 
 const GeneralInformation = () => {
   // const serverAvatar: string = ''
   // const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+
+  const [setProfileHandler] = useSetProfileMutation()
+  const { data } = useProfileQuery()
+
+  console.log('data', data)
 
   const router = useRouter()
   const {login} = router.query
@@ -26,8 +32,6 @@ const GeneralInformation = () => {
     city: '',
     aboutMe: ''
   }
-
-  const [setProfileHandler] = useSetProfileMutation()
 
   const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
     const data = {
