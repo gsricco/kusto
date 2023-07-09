@@ -44,7 +44,6 @@ const Page = styled.div
     
     padding: 0 15px;
     margin: auto;
-    border: 1px solid red;
   `
 
 const Main = styled.div`
