@@ -19,12 +19,13 @@ import Image from 'next/legacy/image'
 const ProfileSettings = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [image, setImage] = useState('')
+
 
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
-  const serverAvatar: string = ''
-  const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  // const serverAvatar: string = ''
+  const avatar = image !== '' ? image : '/icons/avatar.svg'
 
-  const [image, setImage] = useState('')
   const handleImage = (image: string) => {
     setImage(image)
   }
@@ -80,7 +81,7 @@ const ProfileSettings = () => {
         <StyledContent>
           <StyledAvatarBlock>
             <img src={avatar} alt="Avatar"/>
-            <Image src={image} width={100} height={100} alt="Avatar"/>
+            {/* <Image src={image} width={100} height={100} alt="Avatar"/> */}
             <Button theme={ThemeButton.OUTLINED} onClick={handleAddPhoto}>
               Add a Profile Photo
             </Button>

@@ -10,6 +10,7 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
 }) => {
 
   const [value, setValue] = useState(10);
+  const [rotateAngle, setRotateAngle] = useState(0);
   
   const cropRef = useRef<AvatarEditor | null>(null)
 
@@ -17,6 +18,13 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
     if (e.target) {
       setValue(parseInt(e.target.value))
       console.log(value)
+    }
+  }
+
+  const handleRotate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target) {
+      setRotateAngle(parseInt(e.target.value))
+      console.log(rotateAngle)
     }
   }
 
@@ -38,7 +46,7 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
       borderRadius={158}
       color={[255, 255, 255, 0.6]} // RGBA
       scale={value/10}      
-      rotate={0}
+      rotate={rotateAngle}
 
     />
     <Slider
@@ -57,6 +65,24 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
       }}
     />
     <label htmlFor="zoom">Zoom</label>
+
+    <Slider
+      min="-180"
+      max="180"
+      id="rotate"
+      onInput={handleRotate}
+      onChange={handleRotate}
+      value={rotateAngle}
+      type="range"
+      style={{
+        width: "80%",
+        "--min": -180,
+        "--max": 180,
+        "--val": rotateAngle
+      }}
+    />
+    <label htmlFor="zoom">Rotate</label>
+     
     <Button theme={ThemeButton.PRIMARY} onClick={handleSave}>
       Save
     </Button>
