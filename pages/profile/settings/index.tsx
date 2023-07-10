@@ -94,11 +94,11 @@ const GeneralInformation = () => {
               />
               <FormikLabel
                 name="lastname"
-                onChange={(e) => setFieldValue('firstname', e)}
-                value={values.firstname}
+                onChange={(e) => setFieldValue('lastname', e)}
+                value={values.lastname}
                 type={'text'}
                 title={'Last Name'}
-                border={errors.firstname?.length && touched.firstname ? 'red' : 'white'}
+                border={errors.lastname?.length && touched.lastname ? 'red' : 'white'}
                 errors={errors}
                 touched={touched}
                 width={'100%'}
