@@ -11,12 +11,12 @@ type SettingsPageWrapperType = {
 
 export const SettingsPageWrapper = ({children}: SettingsPageWrapperType) => {
   const router = useRouter()
-  const {login}=router.query
+  const {profile}=router.query
 
   return (
-    <SettingsWrapper isVisit={!login}>
-      <NavbarWrapper isVisit={!login}>
-        {!login && (
+    <SettingsWrapper isVisit={!profile}>
+      <NavbarWrapper isVisit={!profile}>
+        {!profile && (
           <Navbar/>
         )}
       </NavbarWrapper>
