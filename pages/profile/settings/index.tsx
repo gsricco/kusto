@@ -3,20 +3,31 @@ import {StyledAuthForm} from "../../../styles/styledComponents/auth/FormikAuth.s
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {Formik} from "formik";
 import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
 import {validateProfile} from "../../../common/utils/validateProfile";
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
 import {useRouter} from "next/router";
+import { ThemeButton } from "common/enums/themeButton";
+import { useState } from "react";
+import PhotoSelectModal from "features/profile/PhotoSelectModal";
+import Image from 'next/legacy/image'
 
 
 const ProfileSettings = () => {
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
   const serverAvatar: string = ''
   const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+
+  const [image, setImage] = useState('')
+  const handleImage = (image: string) => {
+    setImage(image)
+  }
 
   const router = useRouter()
   const {login} = router.query
@@ -52,6 +63,14 @@ const ProfileSettings = () => {
     }
   }
 
+  const handleAddPhoto = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
 
   return (
     <StyledContainerAuth>
@@ -61,8 +80,8 @@ const ProfileSettings = () => {
         <StyledContent>
           <StyledAvatarBlock>
             <img src={avatar} alt="Avatar"/>
-            {/*<Image src={avatar} width={100} height={100} alt="Avatar"/>*/}
-            <Button theme={ThemeButton.OUTLINED}>
+            <Image src={image} width={100} height={100} alt="Avatar"/>
+            <Button theme={ThemeButton.OUTLINED} onClick={handleAddPhoto}>
               Add a Profile Photo
             </Button>
           </StyledAvatarBlock>
@@ -137,6 +156,7 @@ const ProfileSettings = () => {
           </Formik>
         </StyledContent>
       </StyledContainerSettings>
+    {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} handleImage={handleImage}/>)}
     </StyledContainerAuth>
   );
 };
