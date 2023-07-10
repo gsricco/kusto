@@ -17,8 +17,8 @@ import {
 import { ThemeButton } from "../../../common/enums/themeButton";
 
 const GeneralInformation = () => {
-  // const serverAvatar: string = ''
-  // const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  const serverAvatar: string = "";
+  const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
 
   useLayoutEffect(() => {}, []);
 
@@ -26,8 +26,8 @@ const GeneralInformation = () => {
   const { data } = useProfileQuery();
   console.log(data);
 
-  const router = useRouter();
-  const { login } = router.query;
+  // const router = useRouter();
+  // const { profile } = router.query;
 
   const initialAuthValues = {
     username: data?.login || "",
@@ -54,8 +54,7 @@ const GeneralInformation = () => {
     } catch (error) {}
   };
 
-  const serverAvatar: string = "";
-  const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
+
 
   return (
     <SettingsPageWrapper>
