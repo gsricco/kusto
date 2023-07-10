@@ -5,12 +5,13 @@ import {useRouter} from 'next/router';
 import {useSetProfileMutation} from '../../../assets/store/api/auth/authApi';
 import {baseTheme} from '../../../styles/styledComponents/theme';
 import {FormValueProfile, ResetForm} from '../../../common/components/Formik/types';
-import {Button, ThemeButton} from '../../../common/components/Button/Button';
+import {Button} from '../../../common/components/Button/Button';
 import {FormikLabel} from '../../../common/components/Formik/FormikLabel';
 import {validateProfile} from '../../../common/utils/validateProfile';
 import {SettingsPageWrapper} from '../../../features/settings/SettingsPageWrapper';
 import {getLayout} from '../../../common/components/Layout/SettingsLayout/SettingsLayout';
 import {useProfileQuery} from '../../../assets/store/api/profile/profileApi';
+import {ThemeButton} from '../../../common/enums/themeButton';
 
 const GeneralInformation = () => {
   // const serverAvatar: string = ''

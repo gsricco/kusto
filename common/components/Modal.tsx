@@ -27,7 +27,7 @@ export const Modal = ({
           <StyledCloseButton onClick={onClose}>
             <Image
               priority
-              src="/close.svg"
+              src="img/icons/close_white.svg"
               height={24}
               width={24}
               alt="close"

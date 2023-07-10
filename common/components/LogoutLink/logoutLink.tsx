@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import classNames from '../../../assets/lib/classNames/classNames';
 import {AppLink} from '../AppLink/AppLink';
 import {useLogoutMutation} from '../../../assets/store/api/auth/authApi';
-import {Modal} from '../Modal';
-import {EmailSentModal} from '../PopUpModal/EmailSentModal';
 import {LogoutModal} from '../PopUpModal/logoutModal';
 
 interface SidebarLinkProps {
@@ -29,7 +27,7 @@ export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
     <AppLink onClick={() => setIsOpenModalEdit(true)} href={''}>
       <StyledDiv className={classNames('', {}, [className])}>
         <Image
-          src={'/icons/log-out.svg'}
+          src={'img/icons/log-out.svg'}
           alt={'logOut'}
           width={24}
           height={24}

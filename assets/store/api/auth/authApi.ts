@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {loadState} from '../../../../common/components/localStorage/localStorage';
 import {
+  CheckLinkType,
   LoginResponseType,
   LoginType,
   NewPasswordResType,
@@ -10,6 +11,8 @@ import {
   SendLinkType
 } from "./types";
 import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../../common/components/localStorage/types";
+
+
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -65,6 +68,25 @@ export const authApi = createApi({
         };
       },
     }),
+    checkLinkHandler: builder.query<any, CheckLinkType>({
+      query: (code) => {
+        return {
+          method: "GET",
+          url: `/auth/email-confirmation/${code}`,
+        };
+      },
+    }),
+    refreshLink: builder.mutation<any, any>({
+      query: (body) => {
+        return {
+          method: "POST",
+          url: `/auth/refresh-link`,
+          body
+        };
+      },
+    }),
+
+
     //заглушка!!!!!!!
       setProfile: builder.mutation<undefined, ProfileType>({
         query: (body) => ({
@@ -90,4 +112,6 @@ export const {
   useNewPasswordMutation,
   useLogoutMutation,
   useSetProfileMutation,
+  useLazyCheckLinkHandlerQuery,
+  useRefreshLinkMutation
 } = authApi

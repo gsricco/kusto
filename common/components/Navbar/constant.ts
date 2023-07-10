@@ -2,37 +2,37 @@ export const ITEM_LINK = [
   {
     name: 'Home',
     href: '/home',
-    icon: '/icons/home.svg',
-    selectIcon: '/icons/homeSelect.svg'
+    icon: 'img/icons/home.svg',
+    selectIcon: 'img/icons/homeSelect.svg'
   },
   {
     name: 'Create',
     href: '/create',
-    icon: '/icons/plus-square.svg',
-    selectIcon: '/icons/plus-square-select.svg'
+    icon: 'img/icons/plus-square.svg',
+    selectIcon: 'img/icons/plus-square-select.svg'
   },
   {
     name: 'My Profile',
     href: '/profile',
-    icon: '/icons/person.svg',
-    selectIcon: '/icons/person-select.svg'
+    icon: 'img/icons/person.svg',
+    selectIcon: 'img/icons/person-select.svg'
   },
   {
     name: 'Messenger',
     href: '/messenger',
-    icon: '/icons/message.svg',
-    selectIcon: '/icons/message-select.svg'
+    icon: 'img/icons/message.svg',
+    selectIcon: 'img/icons/message-select.svg'
   },
   {
     name: 'Search',
     href: '/search',
-    icon: '/icons/search.svg',
-    selectIcon: '/icons/search-select.svg'
+    icon: 'img/icons/search.svg',
+    selectIcon: 'img/icons/search-select.svg'
   },
   {
     name: 'Favorites',
     href: '/favorites',
-    icon: '/icons/bookmark.svg',
-    selectIcon: '/icons/bookmark-select.svg'
+    icon: 'img/icons/bookmark.svg',
+    selectIcon: 'img/icons/bookmark-select.svg'
   },
 ]

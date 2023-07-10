@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {Formik} from "formik"
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout"
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth"
-import {Button, ThemeButton} from "../../../common/components/Button/Button"
+import {Button} from "../../../common/components/Button/Button"
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel"
 import {
   StyledAuthForm,
@@ -18,66 +18,57 @@ import {EmailSentModal} from "../../../common/components/PopUpModal/EmailSentMod
 import {baseTheme} from "../../../styles/styledComponents/theme"
 import Image from "next/image"
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
-
-//translate import
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
-//
+import {ThemeButton} from "../../../common/enums/themeButton";
+import {Path} from "../../../common/enums/path";
 
-// ///                                           ///   //
-// страница восстановления пароля. Пользователь вводит email
-// отправляется запрос на сервер, отображается сообщение
-// об отправке ссылки на почту
-// ///                                           ///   //
-
-// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
   const {locale} = context as any
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
     }
   }
 }
+
 export default function Recovery() {
   const initialAuthValues = {
     email: ""
   }
 
-  const [isMessageSent, setIsMessageSent] = useState(false) // отправлено ли сообщение
-  const [email, setEmail] = useState("") // введенный email
-  const [isModalOpen, setIsModalOpen] = useState(false) // открыто ли модальное окно
+  const [isMessageSent, setIsMessageSent] = useState(false)
+  const [email, setEmail] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation()
 
-  const {t, i18n} = useTranslation()    // функция перевода на выбранный язык
+  const {t, i18n} = useTranslation()
 
-  // Обработчик нажатия кнопки подтверждения в форме
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
   useEffect(() => {
     if (result.isSuccess) {
       setIsModalOpen(true)
       setIsMessageSent(true)
     }
   }, [result])
+
   const handleSubmit = async (values: FormValueRecovery, {resetForm}: ResetForm) => {
     const data = {
       email: values.email
     }
-    try {
-      recoveryHandler(data)
-      resetForm()
-      setEmail(values.email)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
-  // Обработчик закрытия модального окна
-  const handleModalClose = () => {
-    setIsModalOpen(false)
+    await recoveryHandler(data)
+      .unwrap()
+      .then(() => {
+        setEmail(values.email)
+        resetForm()
+      })
   }
 
   return (
@@ -117,7 +108,7 @@ export default function Recovery() {
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledSignIn href="/auth/login">{t("back_singIn_btn")}</StyledSignIn>
+          <StyledSignIn href={Path.LOGIN}>{t("back_singIn_btn")}</StyledSignIn>
         </StyledSignInWrapper>
         <Image priority alt="Captcha" width={260} height={60} src="/captcha.png"/>
       </WrapperContainerAuth>

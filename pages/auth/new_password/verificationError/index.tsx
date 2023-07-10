@@ -1,19 +1,15 @@
 import React from "react"
-import { getLayout } from "../../../../common/components/Layout/BaseLayout/BaseLayout"
-import { useRouter } from 'next/router';
-
-//translate import
+import {getLayout} from "../../../../common/components/Layout/BaseLayout/BaseLayout"
+import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import VerificationWindow from "features/auth/VerificationWindow"
-//
+import {Path} from "../../../../common/enums/path";
 
-// getStaticProps Определения языка, указанного в url
 export async function getStaticProps(context: GetStaticPropsContext) {
   const {locale} = context as any
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], config)),
@@ -22,12 +18,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const Verification = () => {
-
   const router = useRouter()
-  const {t} = useTranslation()      // функция перевода на выбранный язык
+  const {t} = useTranslation()
 
   const handleClick = () => {
-    router.push('/auth/recovery')
+    router.push(Path.FORGOT_PASSWORD)
   };
 
   return (

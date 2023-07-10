@@ -1,8 +1,9 @@
 import React from 'react';
 import {Modal} from '../Modal';
 import styled from 'styled-components';
-import {Button, ThemeButton} from '../Button/Button';
+import {Button} from '../Button/Button';
 import {baseTheme} from '../../../styles/styledComponents/theme';
+import {ThemeButton} from '../../enums/themeButton';
 
 type LogoutModalType = {
   onClose: () => void

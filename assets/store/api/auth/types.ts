@@ -1,6 +1,3 @@
-import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
-import {SerializedError} from "@reduxjs/toolkit";
-
 export type RegistrationType = {
   login: string
   email: string
@@ -17,6 +14,8 @@ export type NewPasswordType = {
   newPassword: string
   recoveryCode: string | string[] | undefined
 }
+export type CheckLinkType =  string | string[] | undefined
+
 
 export type NewPasswordResType = {
   status: number
