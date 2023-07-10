@@ -61,7 +61,7 @@ return (
                 alt="avatar"
               />
               </StyledModalImageContainer>
-                <input id="file-upload" type="file" onChange={handleSelectPhoto}/>
+                <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
                 <Button theme={ThemeButton.PRIMARY} width='222px'>
                   <label htmlFor="file-upload">Select from Computer</label>
                 </Button>
