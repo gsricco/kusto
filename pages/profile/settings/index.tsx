@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useSetProfileMutation } from "../../../assets/store/api/auth/authApi";
 import { baseTheme } from "../../../styles/styledComponents/theme";
 import { FormValueProfile, ResetForm } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
@@ -37,11 +36,6 @@ const GeneralInformation = () => {
       .unwrap()
       .finally(() => setIsLoading(true));
   }, []);
-
-  console.log(usernameAuth);
-
-  const router = useRouter();
-  // const { login } = router.query;
 
   const initialAuthValues = {
     username: data?.login || usernameAuth?.login || "",
