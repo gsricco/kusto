@@ -4,14 +4,17 @@ import { Slider } from './Slider';
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
+import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
 
 const PhotoEditorModal = ({photo, handleEditorClose}: {
   photo: File
-  handleEditorClose: (image: string) => void 
+  handleEditorClose: () => void 
 }) => {
 
   const [value, setValue] = useState(12);
   const [rotateAngle, setRotateAngle] = useState(0);
+
+  const [saveAvatarHandler] = useSaveAvatarMutation()
   
   const cropRef = useRef<AvatarEditor | null>(null)
 
@@ -29,11 +32,20 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (cropRef.current) {
-      const dataUrl = cropRef.current.getImage().toDataURL();
-      console.log(dataUrl)
-      handleEditorClose(dataUrl)
+      const avatar = cropRef.current.getImage().toDataURL();
+
+      const data = {avatar: avatar}
+      try {
+        await saveAvatarHandler(data)
+          .unwrap()
+          .then(() => {
+            handleEditorClose()
+          })
+      } catch (error) {
+        console.log(error)
+      }
     }
   };
 

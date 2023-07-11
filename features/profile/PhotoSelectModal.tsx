@@ -10,9 +10,8 @@ import closeIcon from "/public/img/icons/close_white.svg"
 import imageIcon from "/public/img/icons/image-outline.svg"
 
 
-const PhotoSelectModal = ({handleModalClose, handleImage}: {
+const PhotoSelectModal = ({handleModalClose}: {
   handleModalClose: () => void
-  handleImage: (image: string) => void
 }) => {
 
   const [photo, setPhoto] = useState<File>()
@@ -26,8 +25,7 @@ const PhotoSelectModal = ({handleModalClose, handleImage}: {
       }
   }
 
-  const handleEditorClose = (image: string) => {
-    handleImage(image)
+  const handleEditorClose = () => {
     setIsEditorOpen(false)
     handleModalClose()
     

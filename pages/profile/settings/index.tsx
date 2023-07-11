@@ -19,16 +19,13 @@ import Image from 'next/legacy/image'
 const ProfileSettings = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [image, setImage] = useState('')
+  // const [image, setImage] = useState('')
 
 
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
-  // const serverAvatar: string = ''
-  const avatar = image !== '' ? image : '/icons/avatar.svg'
+  const serverAvatar: string = ''
+  const avatar = serverAvatar !== '' ? serverAvatar : 'public/img/icons/avatar.svg'
 
-  const handleImage = (image: string) => {
-    setImage(image)
-  }
 
   const router = useRouter()
   const {login} = router.query
@@ -157,7 +154,7 @@ const ProfileSettings = () => {
           </Formik>
         </StyledContent>
       </StyledContainerSettings>
-    {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} handleImage={handleImage}/>)}
+    {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} />)}
     </StyledContainerAuth>
   );
 };
