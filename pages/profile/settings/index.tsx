@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import { baseTheme } from "../../../styles/styledComponents/theme";
-import { FormValueProfile, ResetForm } from "../../../common/components/Formik/types";
+import { FormValueProfile } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
 import { validateProfile } from "../../../common/utils/validateProfile";
@@ -46,7 +45,7 @@ const GeneralInformation = () => {
     aboutMe: data?.userInfo || ""
   };
 
-  const handleSubmit = async (values: FormValueProfile, { resetForm }: ResetForm) => {
+  const handleSubmit = async (values: FormValueProfile) => {
     const date = values.birthday.split("-").reverse().join("-");
     console.log(date);
     const data = {
@@ -152,6 +151,7 @@ const GeneralInformation = () => {
                     errors={errors}
                     touched={touched}
                     width={"100%"}
+                    textAreaData={values.aboutMe}
                   />
                   <BlockButton>
                     <StyledLine />
