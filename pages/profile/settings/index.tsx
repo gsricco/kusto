@@ -14,6 +14,20 @@ import {
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
 import { ThemeButton } from "../../../common/enums/themeButton";
+import {baseTheme} from "../../../styles/styledComponents/theme";
+import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
+import {Button} from "../../../common/components/Button/Button";
+import {Formik} from "formik";
+import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
+import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
+import {validateProfile} from "../../../common/utils/validateProfile";
+import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+import {useRouter} from "next/router";
+import { ThemeButton } from "common/enums/themeButton";
+import { useState } from "react";
+import PhotoSelectModal from "features/profile/PhotoSelectModal";
+import Image from 'next/legacy/image'
+
 
 export type AuthMeType = {
   email: string;
@@ -22,6 +36,8 @@ export type AuthMeType = {
 };
 
 const GeneralInformation = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
   // const serverAvatar: string = ''
   // const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
@@ -44,7 +60,7 @@ const GeneralInformation = () => {
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
-
+  const [setProfileHandler] = useSetProfileMutation()
   const handleSubmit = async (values: FormValueProfile) => {
     const date = values.birthday.split("-").reverse().join("-");
     console.log(date);
@@ -63,6 +79,20 @@ const GeneralInformation = () => {
 
   const serverAvatar: string = "";
   const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
+      await setProfileHandler(data)
+      resetForm()
+    } catch (error) {
+    }
+  }
+
+  const handleAddPhoto = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
 
   return (
     <>
@@ -163,6 +193,8 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
+          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} />)}
+        </StyledContainerAuth>
         </SettingsPageWrapper>
       )}
     </>

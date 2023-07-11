@@ -3,6 +3,8 @@ import { loadState } from "../../../../common/components/localStorage/localStora
 import { UserType } from "./types";
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
 import { AuthMeType } from "pages/profile/settings";
+import { UserType, AvatarType } from "./types";
+import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -59,3 +61,17 @@ export const profileApi = createApi({
 });
 
 export const { useLazyProfileQuery, useSaveProfileInfoMutation, useLazyAuthMeQuery } = profileApi;
+
+    saveAvatar: builder.mutation<undefined, AvatarType>({
+        query: (body: AvatarType) => {
+          return {
+            method: "POST",
+            url: `users/profiles/save-avatar`,
+            body
+          };
+        }
+    }),
+  })
+});
+
+export const { useProfileQuery, useSaveProfileInfoMutation, useSaveAvatarMutation } = profileApi;
