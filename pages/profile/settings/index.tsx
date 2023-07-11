@@ -1,33 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import styled from "styled-components";
-import { baseTheme } from "../../../styles/styledComponents/theme";
-import { FormValueProfile } from "../../../common/components/Formik/types";
-import { Button } from "../../../common/components/Button/Button";
-import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
-import { validateProfile } from "../../../common/utils/validateProfile";
-import { SettingsPageWrapper } from "../../../features/settings/SettingsPageWrapper";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import React, {useEffect, useState} from "react";
+import {Form, Formik} from "formik";
+import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
+import {Button} from "../../../common/components/Button/Button";
+import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
+import {validateProfile} from "../../../common/utils/validateProfile";
+import {SettingsPageWrapper} from "../../../features/settings/SettingsPageWrapper";
 import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
-import { ThemeButton } from "../../../common/enums/themeButton";
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button} from "../../../common/components/Button/Button";
-import {Formik} from "formik";
+import {ThemeButton} from "../../../common/enums/themeButton";
 import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
-import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
-import {validateProfile} from "../../../common/utils/validateProfile";
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
-import {useRouter} from "next/router";
-import { ThemeButton } from "common/enums/themeButton";
-import { useState } from "react";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import Image from 'next/legacy/image'
-
+import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import styled from "styled-components";
+import {baseTheme} from "../../../styles/styledComponents/theme";
 
 export type AuthMeType = {
   email: string;
@@ -38,12 +26,16 @@ export type AuthMeType = {
 const GeneralInformation = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  // const serverAvatar: string = ''
-  // const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  const serverAvatar: string = "";
+  const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
+
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
-  const [getProfileInfo, { data }] = useLazyProfileQuery();
+  const [getProfileInfo, {data}] = useLazyProfileQuery();
+  const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
+  const [setProfileHandler] = useSetProfileMutation()
+
   const [isLoading, setIsLoading] = useState(false);
-  const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery();
+
 
   useEffect(() => {
     authMeHandler();
@@ -60,8 +52,9 @@ const GeneralInformation = () => {
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
-  const [setProfileHandler] = useSetProfileMutation()
-  const handleSubmit = async (values: FormValueProfile) => {
+
+
+  const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
     const date = values.birthday.split("-").reverse().join("-");
     console.log(date);
     const data = {
@@ -74,16 +67,9 @@ const GeneralInformation = () => {
     };
     try {
       await saveProfileInfoHandler(data);
-    } catch (error) {}
-  };
-
-  const serverAvatar: string = "";
-  const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
-      await setProfileHandler(data)
-      resetForm()
     } catch (error) {
     }
-  }
+  };
 
   const handleAddPhoto = () => {
     setIsModalOpen(true)
@@ -101,11 +87,11 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <img src={avatar} alt="Avatar" />
+                <img src={avatar} alt="Avatar"/>
                 {/*<Image src={avatar} alt={"Avatar"} width={192} height={192}/>*/}
               </IconBlock>
 
-              <Button theme={ThemeButton.OUTLINED} width={"100%"}>
+              <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
                 Add a Profile Photo
               </Button>
             </StyledAvatarBlock>
@@ -114,7 +100,7 @@ const GeneralInformation = () => {
               validationSchema={validateProfile}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched, values, setFieldValue }) => (
+              {({errors, touched, values, setFieldValue}) => (
                 <StyledProfileForm>
                   <FormikLabel
                     name="username"
@@ -184,7 +170,7 @@ const GeneralInformation = () => {
                     textAreaData={values.aboutMe}
                   />
                   <BlockButton>
-                    <StyledLine />
+                    <StyledLine/>
                     <Button theme={ThemeButton.PRIMARY} type="submit" width={"159px"}>
                       Save Change
                     </Button>
@@ -193,13 +179,13 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} />)}
-        </StyledContainerAuth>
+          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose}/>)}
         </SettingsPageWrapper>
-      )}
-    </>
-  );
-};
+        )}
+</>
+)
+}
+
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;

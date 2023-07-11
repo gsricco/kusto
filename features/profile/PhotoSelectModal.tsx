@@ -53,7 +53,7 @@ return (
             <StyledModalImageContainer>
                 <StyledModalImage
                 priority
-                src={imageIcon}
+                src={'/img/icons/image-outline.svg'}
                 height={48}
                 width={48}
                 alt="avatar"
