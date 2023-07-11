@@ -3,13 +3,14 @@ import AvatarEditor from 'react-avatar-editor'
 import { Slider } from './Slider';
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
+import styled from "styled-components";
 
 const PhotoEditorModal = ({photo, handleEditorClose}: {
   photo: File
   handleEditorClose: (image: string) => void 
 }) => {
 
-  const [value, setValue] = useState(10);
+  const [value, setValue] = useState(12);
   const [rotateAngle, setRotateAngle] = useState(0);
   
   const cropRef = useRef<AvatarEditor | null>(null)
@@ -37,58 +38,97 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
   };
 
   return (<>
-  <AvatarEditor
-      ref={cropRef}
-      image={photo}
-      width={316}
-      height={316}
-      border={12}
-      borderRadius={158}
-      color={[255, 255, 255, 0.6]} // RGBA
-      scale={value/10}      
-      rotate={rotateAngle}
-
+    <StyledAvatarEditor>
+      <AvatarEditor     // width и height задается в styled component с учетом border
+        ref={cropRef}
+        image={photo}
+        border={12}
+        borderRadius={158}
+        color={[23, 23, 23, 0.6]}
+        scale={value/10}      
+        rotate={rotateAngle}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
     />
-    <Slider
-      min="10"
-      max="50"
-      id="zoom"
-      onInput={handleSlider}
-      onChange={handleSlider}
-      value={value}
-      type="range"
-      style={{
-        width: "80%",
-        "--min": 10,
-        "--max": 50,
-        "--val": value
-      }}
-    />
-    <label htmlFor="zoom">Zoom</label>
-
-    <Slider
-      min="-180"
-      max="180"
-      id="rotate"
-      onInput={handleRotate}
-      onChange={handleRotate}
-      value={rotateAngle}
-      type="range"
-      style={{
-        width: "80%",
-        "--min": -180,
-        "--max": 180,
-        "--val": rotateAngle
-      }}
-    />
-    <label htmlFor="zoom">Rotate</label>
-     
-    <Button theme={ThemeButton.PRIMARY} onClick={handleSave}>
-      Save
-    </Button>
-  </>
+    </StyledAvatarEditor>
     
+    <StyledSliderContainer>
+      <label htmlFor="zoom">Zoom:</label>
+      <Slider
+        min="10"
+        max="50"
+        id="zoom"
+        onInput={handleSlider}
+        onChange={handleSlider}
+        value={value}
+        type="range"
+        style={{
+          width: "80%",
+          "--min": 10,
+          "--max": 50,
+          "--val": value
+        }}
+      />
+    </StyledSliderContainer>
+    <StyledSliderContainer>
+      <label htmlFor="rotate">Rotate:</label>
+      <Slider
+        min="-180"
+        max="180"
+        id="rotate"
+        onInput={handleRotate}
+        onChange={handleRotate}
+        value={rotateAngle}
+        type="range"
+        style={{
+          width: "80%",
+          "--min": -180,
+          "--max": 180,
+          "--val": rotateAngle
+        }}
+      />
+    </StyledSliderContainer>
+    <StyledContainerButton>
+      <Button theme={ThemeButton.PRIMARY} width={"86px"} onClick={handleSave}>
+        Save
+      </Button>
+    </StyledContainerButton>
+    
+  </>
   )
 }
 
 export default PhotoEditorModal
+
+const StyledAvatarEditor = styled.div
+`
+  margin: 20px auto;
+  width: 340px;
+  height: 340px;
+
+  @media (max-width: 390px) {
+    width: 80vw;
+    height: 80vw;
+    max-width: 340px;
+    max-height: 340px;
+  }
+ 
+`;
+
+const StyledSliderContainer = styled.div 
+`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 30px;
+
+  & label {
+  }
+`;
+
+const StyledContainerButton = styled.div
+  `
+  margin-left: auto;  
+  margin-right: 24px; 
+  `

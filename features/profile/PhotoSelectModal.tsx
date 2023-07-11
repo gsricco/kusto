@@ -49,10 +49,10 @@ return (
             />
           </StyledCloseButton>
         </StyledModalHeader>
-        
+        <StyledModalBody>
         { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
-            : <StyledModalBody>
-              <StyledModalImageContainer>
+            : <>
+            <StyledModalImageContainer>
                 <StyledModalImage
                 priority
                 src={imageIcon}
@@ -62,14 +62,12 @@ return (
               />
               </StyledModalImageContainer>
                 <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
-                <Button theme={ThemeButton.PRIMARY} width='222px'>
+                <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
                   <label htmlFor="file-upload">Select from Computer</label>
                 </Button>
-                {/* <StyledConfirmButton>
-                </StyledConfirmButton> */}
-            </StyledModalBody>
+            </>
         }
-       
+        </StyledModalBody>
         
 
       </StyledModalContainer>
@@ -144,7 +142,7 @@ const StyledModalBody = styled.div`
     height: 0px;
   }
 
-  & button {
+  & #upload-btn {
     margin: 20px auto;
 
     @media (max-width: 390px) {
