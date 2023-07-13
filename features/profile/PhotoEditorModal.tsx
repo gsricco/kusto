@@ -5,6 +5,7 @@ import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
+import { useRouter } from 'next/router';
 
 const PhotoEditorModal = ({photo, handleEditorClose}: {
   photo: File
@@ -15,6 +16,11 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
   const [rotateAngle, setRotateAngle] = useState(0);
 
   const [saveAvatarHandler] = useSaveAvatarMutation()
+
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
   
   const cropRef = useRef<AvatarEditor | null>(null)
 
@@ -35,13 +41,21 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
   const handleSave = async () => {
     if (cropRef.current) {
       const avatar = cropRef.current.getImage().toDataURL();
+      const result = await fetch(avatar);
+      const blob = await result.blob();
+      const file = new File([blob], 'avatar', {type: 'image/png'})   
 
-      const data = {avatar: avatar}
+      const formData = new FormData()
+      formData.append("avatar", file as File)
+
       try {
-        await saveAvatarHandler(data)
+        console.log(file)
+        console.log(formData)
+        await saveAvatarHandler(formData)
           .unwrap()
           .then(() => {
             handleEditorClose()
+            refreshData()
           })
       } catch (error) {
         console.log(error)

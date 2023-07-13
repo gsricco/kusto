@@ -7,15 +7,18 @@ import PhotoEditorModal from "./PhotoEditorModal";
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import closeIcon from "/public/img/icons/close_white.svg"
-import imageIcon from "/public/img/icons/image-outline.svg"
+// import imageIcon from "/public/img/icons/image-outline.svg"
 
 
-const PhotoSelectModal = ({handleModalClose}: {
+const PhotoSelectModal = ({handleModalClose, avatar}: {
   handleModalClose: () => void
+  avatar?: string
 }) => {
 
   const [photo, setPhoto] = useState<File>()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
+
+  const image = avatar || "/img/icons/image-outline.svg"
 
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
@@ -51,13 +54,16 @@ return (
         { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
             : <>
             <StyledModalImageContainer>
-                <StyledModalImage
-                priority
-                src={'/img/icons/image-outline.svg'}
-                height={48}
-                width={48}
-                alt="avatar"
-              />
+              { avatar ? <img id="avatar" src={avatar} alt="Avatar"/> 
+                : <StyledModalImage
+                  priority
+                  src={'/img/icons/image-outline.svg'}
+                  height={48}
+                  width={48}
+                  alt="avatar"
+                />
+              }
+               
               </StyledModalImageContainer>
                 <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
                 <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
@@ -157,7 +163,9 @@ const StyledModalBody = styled.div`
 
 const StyledModalImageContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
+  position: relative;
+  overflow: hidden;
 
   background: ${baseTheme.colors.dark["500"]};
   color: ${baseTheme.colors.light["100"]};
@@ -165,6 +173,17 @@ const StyledModalImageContainer = styled.div`
   border-radius: 2px;
   width: 222px;
   height: 228px;
+
+  & #avatar {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:222px;
+    height:228px;
+    object-fit:cover;
+    border-radius: 50%;
+  }
 
   @media (max-width: 390px) {
       width: 80vw;
