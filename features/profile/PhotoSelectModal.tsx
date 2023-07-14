@@ -30,8 +30,7 @@ const PhotoSelectModal = ({handleModalClose, avatar}: {
 
   const handleEditorClose = () => {
     setIsEditorOpen(false)
-    handleModalClose()
-    
+    handleModalClose()    
 }
 
 

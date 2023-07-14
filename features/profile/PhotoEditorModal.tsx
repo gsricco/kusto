@@ -5,7 +5,6 @@ import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
-import { useRouter } from 'next/router';
 
 const PhotoEditorModal = ({photo, handleEditorClose}: {
   photo: File
@@ -16,11 +15,6 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
   const [rotateAngle, setRotateAngle] = useState(0);
 
   const [saveAvatarHandler] = useSaveAvatarMutation()
-
-  const router = useRouter()
-  const refreshData = () => {
-    router.replace(router.asPath);
-  }
   
   const cropRef = useRef<AvatarEditor | null>(null)
 
@@ -55,7 +49,6 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
           .unwrap()
           .then(() => {
             handleEditorClose()
-            refreshData()
           })
       } catch (error) {
         console.log(error)
