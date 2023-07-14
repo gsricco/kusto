@@ -21,7 +21,7 @@ export type labelType = {
   id?: string;
   type?: string;
   title: string;
-  name?: string;
+  name: keyof FormikAllValuesType;
   border?: string;
   errors: FormikErrors<FormikAllValuesType>;
   touched: FormikTouched<FormikAllValuesType>;
@@ -30,6 +30,7 @@ export type labelType = {
   width?: string;
   errorShow?: boolean;
   textAreaData?: string;
+  marginBottom?: number;
 };
 
 export type FormValueRegistration = {
