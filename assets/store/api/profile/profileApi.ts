@@ -10,14 +10,14 @@ export const profileApi = createApi({
     baseUrl: "https://calypso-one.vercel.app/",
     prepareHeaders: (headers, { endpoint }) => {
 
+      // условие для создания автоматического заголовка при загрузке аватарки
       const UPLOAD_ENDPOINTS = ['saveAvatar'];
-
       if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
         headers.set("Content-Type", `application/json`);
       }
+
       const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
       headers.set("Authorization", `Bearer ${token}`);
-      console.log("HEADERS", headers);
 
       return headers;
     }
@@ -84,10 +84,6 @@ export const profileApi = createApi({
             // 2 параметр: QueryArgFrom - параметры, которые приходят в endpoint выше
              undefined, 
              // 3 параметр: Коллбек функция. 
-             // В данном блоке мы делаем логику, которая должна выполниться синхронно,
-             // без необходимости дожидаться ответа от сервера.
-             // Говоря проще пишем здесь логику, которую раньше писали в редьюсере,
-             // чтобы изменять стейт
              (draft) => {              
                 const file = URL.createObjectURL(body.entries().next().value[1]) // достаем файл из FormData
                 Object.assign(draft, {photo: file})                
