@@ -8,3 +8,8 @@ export type UserType = {
   photo?: string;
 };
 
+export type AvatarType = {
+  formData: FormData, 
+  avatar: string
+}
+

@@ -6,45 +6,47 @@ import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
 
-const PhotoEditorModal = ({photo, handleEditorClose}: {
-  photo: File
-  handleEditorClose: () => void 
-}) => {
+////  //  Модальное окно редактирования изображения  //  ////
 
-  const [value, setValue] = useState(12);
-  const [rotateAngle, setRotateAngle] = useState(0);
+const PhotoEditorModal = ({
+    photo,
+    handleEditorClose
+  }: {
+    photo: File
+    handleEditorClose: () => void 
+  }) => {
+
+  const [value, setValue] = useState(12) // начальное значение для zoom
+  const [rotateAngle, setRotateAngle] = useState(0)  // начальное значение для rotate
 
   const [saveAvatarHandler] = useSaveAvatarMutation()
   
   const cropRef = useRef<AvatarEditor | null>(null)
 
-  const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Сохранение значений в локальный state при перемещении бегунка
+  const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
-      setValue(parseInt(e.target.value))
-      console.log(value)
+      setState(parseInt(e.target.value))
     }
   }
 
-  const handleRotate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target) {
-      setRotateAngle(parseInt(e.target.value))
-      console.log(rotateAngle)
-    }
-  }
-
+  // Обработчик сохранени отредактированного изображения
   const handleSave = async () => {
+
+    // подготовка данных
     if (cropRef.current) {
       const avatar = cropRef.current.getImage().toDataURL();
+
+      // преобразование base64 в file
       const result = await fetch(avatar);
       const blob = await result.blob();
-      const file = new File([blob], 'avatar', {type: 'image/png'})   
+      const file = new File([blob], 'avatar', {type: 'image/png'})  
 
+      // преобразование file в FormData
       const formData = new FormData()
       formData.append("avatar", file as File)
 
       try {
-        console.log(file)
-        console.log(formData)
         await saveAvatarHandler(formData)
           .unwrap()
           .then(() => {
@@ -79,8 +81,8 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
         min="10"
         max="50"
         id="zoom"
-        onInput={handleSlider}
-        onChange={handleSlider}
+        onInput={handleSlider(setValue)}
+        onChange={handleSlider(setValue)}
         value={value}
         type="range"
         style={{
@@ -97,8 +99,8 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
         min="-180"
         max="180"
         id="rotate"
-        onInput={handleRotate}
-        onChange={handleRotate}
+        onInput={handleSlider(setRotateAngle)}
+        onChange={handleSlider(setRotateAngle)}
         value={rotateAngle}
         type="range"
         style={{
@@ -119,6 +121,7 @@ const PhotoEditorModal = ({photo, handleEditorClose}: {
   )
 }
 
+// Стили
 export default PhotoEditorModal
 
 const StyledAvatarEditor = styled.div

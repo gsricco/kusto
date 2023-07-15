@@ -7,19 +7,23 @@ import PhotoEditorModal from "./PhotoEditorModal";
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import closeIcon from "/public/img/icons/close_white.svg"
-// import imageIcon from "/public/img/icons/image-outline.svg"
 
+////  //  Модальное окно загрузки новой аватарки  //  ////
 
-const PhotoSelectModal = ({handleModalClose, avatar}: {
-  handleModalClose: () => void
-  avatar?: string
-}) => {
+const PhotoSelectModal = ({
+    handleModalClose, 
+    avatar
+  }: {
+    handleModalClose: () => void
+    avatar?: string
+  }) => {
 
-  const [photo, setPhoto] = useState<File>()
-  const [isEditorOpen, setIsEditorOpen] = useState(false)
+  const [photo, setPhoto] = useState<File>()  // изображение, передаваемое в компоненту редактирования
+  const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
 
   const image = avatar || "/img/icons/image-outline.svg"
 
+  // обработчик выбора новой аватарки из файловой системы компьютера
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
           const file = e.target.files[0]
@@ -28,6 +32,7 @@ const PhotoSelectModal = ({handleModalClose, avatar}: {
       }
   }
 
+  // закрытие модальных окон для загрузки и обработки новой аватарки
   const handleEditorClose = () => {
     setIsEditorOpen(false)
     handleModalClose()    
@@ -62,7 +67,6 @@ return (
                   alt="avatar"
                 />
               }
-               
               </StyledModalImageContainer>
                 <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
                 <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
@@ -71,14 +75,14 @@ return (
             </>
         }
         </StyledModalBody>
-        
-
       </StyledModalContainer>
     </StyledModalOverlay>
   );
 }
 
 export default PhotoSelectModal
+
+// styles
 
 const StyledModalOverlay = styled.div`
   z-index: 1000;

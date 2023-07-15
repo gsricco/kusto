@@ -3,7 +3,6 @@ import {loadState} from "../../../../common/components/localStorage/localStorage
 import {UserType} from "./types";
 import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../../common/components/localStorage/types";
 import {AuthMeType} from "pages/profile/settings";
-import { nanoid } from "@reduxjs/toolkit";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -89,8 +88,9 @@ export const profileApi = createApi({
              // без необходимости дожидаться ответа от сервера.
              // Говоря проще пишем здесь логику, которую раньше писали в редьюсере,
              // чтобы изменять стейт
-             (draft) => {
-              Object.assign(draft, {photo: body})
+             (draft) => {              
+                const file = URL.createObjectURL(body.entries().next().value[1]) // достаем файл из FormData
+                Object.assign(draft, {photo: file})                
             })
           );
           try {
