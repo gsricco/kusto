@@ -17,6 +17,11 @@ import { getLayout } from "../../../common/components/Layout/SettingsLayout/Sett
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
 import Image from 'next/image'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
+// import type {} from '@mui/x-date-pickers-pro/themeAugmentation';
+import {Dayjs} from 'dayjs';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export type AuthMeType = {
   email: string;
@@ -24,16 +29,65 @@ export type AuthMeType = {
   login: string;
 };
 
+const theme = createTheme({
+  components: {
+    MuiDatePicker: {
+      styleOverrides: {
+        textField: {
+          backgroundColor: 'red',
+        },
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'gray',
+          color: 'white'
+        },
+      },
+    },
+    MuiDateCalendar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'black',
+          color: 'white'
+        }
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: 'white'
+        },
+      },
+    },
+    MuiDayCalendar: {
+      styleOverrides: {
+        weekDayLabel: {
+          color: 'white'
+        },
+      },
+    },
+  },
+});
+
 const GeneralInformation = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
+  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
 
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
   const [setProfileHandler] = useSetProfileMutation()
-  
+
+  // let month
+  // if (birthDate) {
+  //   month = birthDate.get("month") + 1
+  // }
+  console.log(birthDate?.format('DD/MM/YYYY'))
+  // console.log(`${birthDate?.date()}/${month}/${birthDate?.year()}`)
   useEffect(() => {
     authMeHandler();
     getProfileInfo()
@@ -177,6 +231,13 @@ const GeneralInformation = () => {
                 </StyledProfileForm>
               )}
             </Formik>
+            <ThemeProvider theme={theme}>
+              <DatePicker label="Basic date picker" 
+                value={birthDate} 
+                onChange={(newValue) => setBirthDate(newValue)}
+                disableFuture={true}
+              />
+            </ThemeProvider>
           </StyledContent>
           {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
         </SettingsPageWrapper>
