@@ -22,6 +22,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 // import type {} from '@mui/x-date-pickers-pro/themeAugmentation';
 import {Dayjs} from 'dayjs';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 export type AuthMeType = {
   email: string;
@@ -30,41 +31,72 @@ export type AuthMeType = {
 };
 
 const theme = createTheme({
-  components: {
-    MuiDatePicker: {
-      styleOverrides: {
-        textField: {
-          backgroundColor: 'red',
-        },
-      },
+  palette: {
+    primary: {
+      main: baseTheme.colors.accent[700],
     },
+    text: {
+      primary: baseTheme.colors.light[100],
+    },
+    action: {
+      disabled: baseTheme.colors.dark[100],
+    }
+
+  },
+  components: {
     MuiPickersDay: {
       styleOverrides: {
         root: {
-          backgroundColor: 'gray',
-          color: 'white'
+          ":hover": {
+            backgroundColor: baseTheme.colors.accent[700]
+          },
+          "&.Mui-disabled:not(.Mui-selected)": {
+            color: baseTheme.colors.dark[100]
+          },
+          ":not(.Mui-selected)" : {
+            borderColor: baseTheme.colors.accent[700]
+          },
+          "&.Mui-selected": {
+            backgroundColor: 'transparent',
+            color: baseTheme.colors.accent[700],
+          },
         },
       },
     },
     MuiDateCalendar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'black',
-          color: 'white'
+          backgroundColor: baseTheme.colors.dark[500],
         }
       },
     },
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: 'white'
+          color: baseTheme.colors.light[100]
         },
       },
     },
     MuiDayCalendar: {
       styleOverrides: {
         weekDayLabel: {
-          color: 'white'
+          color: baseTheme.colors.dark[100]
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            color: baseTheme.colors.dark[100]
+          },
+        },
+      },
+    },
+    MuiPickersArrowSwitcher: {
+      styleOverrides: {
+        button: {
+          backgroundColor: baseTheme.colors.dark[100],
         },
       },
     },
@@ -232,7 +264,7 @@ const GeneralInformation = () => {
               )}
             </Formik>
             <ThemeProvider theme={theme}>
-              <DatePicker label="Basic date picker" 
+              <DatePicker 
                 value={birthDate} 
                 onChange={(newValue) => setBirthDate(newValue)}
                 disableFuture={true}
