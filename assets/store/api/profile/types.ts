@@ -5,8 +5,11 @@ export type UserType = {
   dateOfBirthday: string;
   city: string;
   userInfo?: string;
+  photo?: string;
 };
 
 export type AvatarType = {
-    avatar: string;
+  formData: FormData, 
+  avatar: string
 }
+

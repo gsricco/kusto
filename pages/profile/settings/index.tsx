@@ -16,6 +16,7 @@ import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
+import Image from 'next/image'
 
 export type AuthMeType = {
   email: string;
@@ -25,25 +26,24 @@ export type AuthMeType = {
 
 const GeneralInformation = () => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const serverAvatar: string = "";
-  const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
+  const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
+  const [isLoading, setIsLoading] = useState(false);
 
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
   const [setProfileHandler] = useSetProfileMutation()
-
-  const [isLoading, setIsLoading] = useState(false);
-
-
+  
   useEffect(() => {
     authMeHandler();
     getProfileInfo()
       .unwrap()
-      .finally(() => setIsLoading(true));
+      .finally(() => {
+        setIsLoading(true)});
   }, []);
 
+  // начальные значения, отображаемые на странице
+  const avatar = data?.photo || "/img/icons/avatar.svg"
   const initialAuthValues = {
     username: data?.login || usernameAuth?.login || "",
     firstname: data?.firstName || "",
@@ -56,7 +56,6 @@ const GeneralInformation = () => {
 
   const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
     const date = values.birthday.split("-").reverse().join("-");
-    console.log(date);
     const data = {
       login: values.username,
       firstName: values.firstname,
@@ -71,14 +70,15 @@ const GeneralInformation = () => {
     }
   };
 
+  // открытие модального окна для загрузки новой аватарки
   const handleAddPhoto = () => {
     setIsModalOpen(true)
   }
 
+  // закрытие модального окна для загрузки аватарки
   const handleModalClose = () => {
     setIsModalOpen(false)
   }
-
 
   return (
     <>
@@ -87,8 +87,7 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <img src={avatar} alt="Avatar"/>
-                {/*<Image src={avatar} alt={"Avatar"} width={192} height={192}/>*/}
+                <Image src={avatar} alt={"Avatar"} width={192} height={192} />
               </IconBlock>
 
               <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
@@ -179,7 +178,7 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose}/>)}
+          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
         </SettingsPageWrapper>
         )}
 </>
@@ -214,10 +213,24 @@ const StyledAvatarBlock = styled.div`
 `;
 
 const IconBlock = styled.div`
+  position: relative;
+
   width: 192px;
   height: 192px;
+  overflow: hidden;
   background: ${baseTheme.colors.dark[100]};
   border-radius: 50%;
+
+  & img {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:192px;
+    height:192px;
+    object-fit:cover;
+  }
+  
 `;
 
 const StyledProfileForm = styled(Form)`
