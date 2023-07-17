@@ -2,11 +2,10 @@ import {FC, useState} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {AppLink} from '../AppLink/AppLink';
-import {Modal} from "../../Modal";
+import {Modal} from "../../Modal/Modal";
 import {Button} from "../../Button/Button";
 import {ThemeButton} from "../../../enums/themeButton";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
-import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../localStorage/types";
 import {useRouter} from "next/router";
 import {Path} from "../../../enums/path";
 
@@ -16,17 +15,12 @@ type LogoutLinkPropsType = {
 export const LogoutLink: FC<LogoutLinkPropsType> = ({userEmail}) => {
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
-  // const [logout] = useLogoutMutation()
   const {removeItem} = useLocalStorage()
   const router = useRouter()
 
   const logoutHandler = () => {
-    // logout()
-    //   .unwrap()
-    //   .then(() => {
-        removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
+        removeItem('accessToken')
         router.push(Path.LOGIN)
-      // })
   }
   const onClose = () => {
     setIsOpenModalEdit(false)
