@@ -3,7 +3,6 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import {AppLink} from '../AppLink/AppLink';
 import {Modal} from "../../Modal";
-import {useLogoutMutation} from "../../../../assets/store/api/auth/authApi";
 import {Button} from "../../Button/Button";
 import {ThemeButton} from "../../../enums/themeButton";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
@@ -17,17 +16,17 @@ type LogoutLinkPropsType = {
 export const LogoutLink: FC<LogoutLinkPropsType> = ({userEmail}) => {
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
-  const [logout] = useLogoutMutation()
+  // const [logout] = useLogoutMutation()
   const {removeItem} = useLocalStorage()
   const router = useRouter()
 
   const logoutHandler = () => {
-    removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
-    logout()
-      .unwrap()
-      .then(() => {
+    // logout()
+    //   .unwrap()
+    //   .then(() => {
+        removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
         router.push(Path.LOGIN)
-      })
+      // })
   }
   const onClose = () => {
     setIsOpenModalEdit(false)
