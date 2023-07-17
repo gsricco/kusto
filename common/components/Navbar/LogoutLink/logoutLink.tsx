@@ -10,7 +10,6 @@ import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../localStorage/types";
 import {useRouter} from "next/router";
 import {Path} from "../../../enums/path";
-import {log} from "next/dist/server/typescript/utils";
 
 type LogoutLinkPropsType = {
   userEmail: string
