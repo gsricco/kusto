@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {Form, Formik} from "formik";
-import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
-import {Button} from "../../../common/components/Button/Button";
-import {FormikLabel, StyledTitle} from "../../../common/components/Formik/FormikLabel";
-import {validateProfile} from "../../../common/utils/validateProfile";
-import {SettingsPageWrapper} from "../../../features/settings/SettingsPageWrapper";
+import React, { useEffect, useState } from "react";
+import { Form, Formik } from "formik";
+import { FormValueProfile } from "../../../common/components/Formik/types";
+import { Button } from "../../../common/components/Button/Button";
+import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
+import { validateProfile } from "../../../common/utils/validateProfile";
+import { SettingsPageWrapper } from "../../../features/settings/SettingsPageWrapper";
 import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
-import {ThemeButton} from "../../../common/enums/themeButton";
-import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
+import { ThemeButton } from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
@@ -34,21 +33,20 @@ export type AuthMeType = {
 };
 
 const GeneralInformation = () => {
-
-  const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
+  const [isModalOpen, setIsModalOpen] = useState(false); // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
  
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
-  const [setProfileHandler] = useSetProfileMutation()
 
   useEffect(() => {
     authMeHandler();
     getProfileInfo()
       .unwrap()
       .finally(() => {
-        setIsLoading(true)});
+        setIsLoading(true);
+      });
   }, []);
 
   // начальные значения, отображаемые на странице
@@ -67,7 +65,7 @@ const GeneralInformation = () => {
   };
 
   // обработчик сохранения формы
-  const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
+  const handleSubmit = async (values: FormValueProfile) => {
     const data = {
       login: values.username,
       firstName: values.firstname,
@@ -78,20 +76,18 @@ const GeneralInformation = () => {
     };
     try {
       await saveProfileInfoHandler(data);
-      console.log(data)
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   // открытие модального окна для загрузки новой аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   // закрытие модального окна для загрузки аватарки
   const handleModalClose = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -112,7 +108,7 @@ const GeneralInformation = () => {
               validationSchema={validateProfile}
               onSubmit={handleSubmit}
             >
-              {({errors, touched, values, setFieldValue}) => (
+              {({ errors, touched, values, setFieldValue }) => (
                 <StyledProfileForm>
                   <FormikLabel
                     name="username"
@@ -185,7 +181,7 @@ const GeneralInformation = () => {
                     textAreaData={values.aboutMe}
                   />
                   <BlockButton>
-                    <StyledLine/>
+                    <StyledLine />
                     <Button theme={ThemeButton.PRIMARY} type="submit" width={"159px"}>
                       Save Change
                     </Button>
@@ -194,13 +190,14 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
+          {isModalOpen && (
+            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
+          )}
         </SettingsPageWrapper>
-        )}
-</>
-)
-}
-
+      )}
+    </>
+  );
+};
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
@@ -241,14 +238,13 @@ const IconBlock = styled.div`
 
   & img {
     position: absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:192px;
-    height:192px;
-    object-fit:cover;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 192px;
+    height: 192px;
+    object-fit: cover;
   }
-  
 `;
 
 const StyledProfileForm = styled(Form)`

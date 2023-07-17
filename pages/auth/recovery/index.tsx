@@ -90,6 +90,7 @@ export default function Recovery() {
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
+                marginBottom={"0px"}
               />
               <StyledRecoveryWrapper>
                 <StyledText
