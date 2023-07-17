@@ -18,7 +18,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
-    credentials:"include",
+    // credentials:"include",
     fetchFn: async (url) => {
 
       const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
