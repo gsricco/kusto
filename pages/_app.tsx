@@ -18,15 +18,15 @@ type AppPropsWithLayout = AppProps & {
 
 const App = ({Component, pageProps}: AppPropsWithLayout) => {
 
-useLoader()
+  useLoader()
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-return getLayout(
-  <Provider store={store}>
-    <Component {...pageProps} />
-  </Provider>
-);
+  return getLayout(
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 export default appWithTranslation(App as React.FC)

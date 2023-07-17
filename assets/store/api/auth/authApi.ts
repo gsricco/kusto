@@ -32,9 +32,9 @@ export const authApi = createApi({
         // body: JSON.stringify(body),
       };
 
-      const response = await fetch(url, options);
+      // const response = await fetch(url, options);
 
-      return response
+      return await fetch(url, options);
     },
   }),
   endpoints: (builder) => ({

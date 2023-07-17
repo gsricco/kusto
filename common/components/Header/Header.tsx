@@ -42,7 +42,7 @@ const LogoStyle = styled.div
     cursor:pointer;
 
     font-size: 26px;
-    font-family: Arial;
+    font-family: Inter;
     font-weight: 600;
     line-height: 36px;
 

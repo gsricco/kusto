@@ -1,239 +1,254 @@
-import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import {StyledAuthForm} from "../../../styles/styledComponents/auth/FormikAuth.styled";
+import React, {useEffect, useState} from "react";
+import {Form, Formik} from "formik";
+import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
+import {Button} from "../../../common/components/Button/Button";
+import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
+import {validateProfile} from "../../../common/utils/validateProfile";
+import {SettingsPageWrapper} from "../../../features/settings/SettingsPageWrapper";
+import {
+  useLazyAuthMeQuery,
+  useLazyProfileQuery,
+  useSaveProfileInfoMutation
+} from "../../../assets/store/api/profile/profileApi";
+import {ThemeButton} from "../../../common/enums/themeButton";
+import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
+import PhotoSelectModal from "features/profile/PhotoSelectModal";
+import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button} from "../../../common/components/Button/Button";
-import {Formik} from "formik";
-import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
-import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
-import {validateProfile} from "../../../common/utils/validateProfile";
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
-import {useRouter} from "next/router";
-import {ThemeButton} from "../../../common/enums/themeButton";
+import Image from 'next/image'
 
+export type AuthMeType = {
+  email: string;
+  id: string;
+  login: string;
+};
 
-const ProfileSettings = () => {
+const GeneralInformation = () => {
 
-  // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
-  const serverAvatar: string = ''
-  const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
+  const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter()
-  const {login} = router.query
-
-
-  const initialAuthValues = {
-    username: login as string,
-    firstname: "",
-    lastname: "",
-    birthday: "",
-    city: "",
-    aboutMe: ""
-  }
-
+  const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
+  const [getProfileInfo, {data}] = useLazyProfileQuery();
+  const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
   const [setProfileHandler] = useSetProfileMutation()
+  
+  useEffect(() => {
+    authMeHandler();
+    getProfileInfo()
+      .unwrap()
+      .finally(() => {
+        setIsLoading(true)});
+  }, []);
+
+  // начальные значения, отображаемые на странице
+  const avatar = data?.photo || "/img/icons/avatar.svg"
+  const initialAuthValues = {
+    username: data?.login || usernameAuth?.login || "",
+    firstname: data?.firstName || "",
+    lastname: data?.lastName || "",
+    birthday: data?.dateOfBirthday ? data.dateOfBirthday.split("-").reverse().join("-") : "",
+    city: data?.city || "",
+    aboutMe: data?.userInfo || ""
+  };
 
 
   const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
+    const date = values.birthday.split("-").reverse().join("-");
     const data = {
-      username: values.username,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      birthday: values.birthday,
+      login: values.username,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      dateOfBirthday: date,
       city: values.city,
-      aboutMe: values.aboutMe
-    }
+      userInfo: values.aboutMe
+    };
     try {
-      console.log(values.aboutMe)
-
-      await setProfileHandler(data)
-      resetForm()
+      await saveProfileInfoHandler(data);
     } catch (error) {
     }
+  };
+
+  // открытие модального окна для загрузки новой аватарки
+  const handleAddPhoto = () => {
+    setIsModalOpen(true)
   }
 
+  // закрытие модального окна для загрузки аватарки
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
 
   return (
-    <StyledContainerAuth>
-      <StyledSidebar/>
-      <StyledContainerSettings>
-        <StyledNavigation/>
-        <StyledContent>
-          <StyledAvatarBlock>
-            <img src={avatar} alt="Avatar"/>
-            {/*<Image src={avatar} width={100} height={100} alt="Avatar"/>*/}
-            <Button theme={ThemeButton.OUTLINED}>
-              Add a Profile Photo
-            </Button>
-          </StyledAvatarBlock>
-          <Formik
-            initialValues={initialAuthValues}
-            validationSchema={validateProfile}
-            onSubmit={handleSubmit}
-          >
-            {({errors, touched, values, setFieldValue}) => (
-              <StyledProfileForm width={'40vw'}>
-                <FormikLabel
-                  name="username"
-                  onChange={(e) => setFieldValue("username", e)}
-                  value={values.username}
-                  type={"text"}
-                  title={"Username"}
-                  border={errors.username?.length && touched.username ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  width={'40vw'}
-                />
-                <FormikLabel
-                  name="firstname"
-                  onChange={(e) => setFieldValue("firstname", e)}
-                  value={values.firstname}
-                  type={"text"}
-                  title={"First Name"}
-                  border={errors.firstname?.length && touched.firstname ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  width={'40vw'}
-                />
-                <FormikLabel
-                  name="city"
-                  onChange={(e) => setFieldValue("city", e)}
-                  value={values.city}
-                  type={"text"}
-                  title={"City"}
-                  border={errors.city?.length && touched.city ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  width={'40vw'}
-                />
-                <FormikLabel
-                  name="birthday"
-                  onChange={(e) => setFieldValue("birthday", e)}
-                  value={values.birthday}
-                  type={"date"}
-                  title={"Date of birthday"}
-                  border={errors.birthday?.length && touched.birthday ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  width={'150px'}
-                />
-                <FormikLabel
-                  name="aboutMe"
-                  onChange={(e) => setFieldValue("aboutMe", e)}
-                  value={values.aboutMe}
-                  type={"textarea"}
-                  title={"About Me"}
-                  border={errors.aboutMe?.length && touched.aboutMe ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  width={'40vw'}
-                />
+    <>
+      {isLoading && (
+        <SettingsPageWrapper>
+          <StyledContent>
+            <StyledAvatarBlock>
+              <IconBlock>
+                <Image src={avatar} alt={"Avatar"} width={192} height={192} />
+              </IconBlock>
 
-                <Button theme={ThemeButton.PRIMARY} type="submit" width={'159px'}>
-                  Save Change
-                </Button>
-              </StyledProfileForm>
-            )}
-          </Formik>
-        </StyledContent>
-      </StyledContainerSettings>
-    </StyledContainerAuth>
-  );
-};
+              <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
+                Add a Profile Photo
+              </Button>
+            </StyledAvatarBlock>
+            <Formik
+              initialValues={initialAuthValues}
+              validationSchema={validateProfile}
+              onSubmit={handleSubmit}
+            >
+              {({errors, touched, values, setFieldValue}) => (
+                <StyledProfileForm>
+                  <FormikLabel
+                    name="username"
+                    onChange={(e) => setFieldValue("username", e)}
+                    value={values.username}
+                    type={"text"}
+                    title={"Username"}
+                    border={errors.username?.length && touched.username ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"100%"}
+                  />
+                  <FormikLabel
+                    name="firstname"
+                    onChange={(e) => setFieldValue("firstname", e)}
+                    value={values.firstname}
+                    type={"text"}
+                    title={"First Name"}
+                    border={errors.firstname?.length && touched.firstname ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"100%"}
+                  />
+                  <FormikLabel
+                    name="lastname"
+                    onChange={(e) => setFieldValue("lastname", e)}
+                    value={values.lastname}
+                    type={"text"}
+                    title={"Last Name"}
+                    border={errors.lastname?.length && touched.lastname ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"100%"}
+                  />
+                  <FormikLabel
+                    name="city"
+                    onChange={(e) => setFieldValue("city", e)}
+                    value={values.city}
+                    type={"text"}
+                    title={"City"}
+                    border={errors.city?.length && touched.city ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"100%"}
+                  />
+                  <FormikLabel
+                    name="birthday"
+                    onChange={(e) => setFieldValue("birthday", e)}
+                    value={values.birthday}
+                    type={"date"}
+                    title={"Date of birthday"}
+                    border={errors.birthday?.length && touched.birthday ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"150px"}
+                  />
+                  <FormikLabel
+                    name="aboutMe"
+                    onChange={(e) => setFieldValue("aboutMe", e)}
+                    value={values.aboutMe}
+                    type={"textarea"}
+                    title={"About Me"}
+                    border={errors.aboutMe?.length && touched.aboutMe ? "red" : "white"}
+                    errors={errors}
+                    touched={touched}
+                    width={"100%"}
+                    textAreaData={values.aboutMe}
+                  />
+                  <BlockButton>
+                    <StyledLine/>
+                    <Button theme={ThemeButton.PRIMARY} type="submit" width={"159px"}>
+                      Save Change
+                    </Button>
+                  </BlockButton>
+                </StyledProfileForm>
+              )}
+            </Formik>
+          </StyledContent>
+          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
+        </SettingsPageWrapper>
+        )}
+</>
+)
+}
 
 
-ProfileSettings.getLayout = getLayout
-export default ProfileSettings;
+GeneralInformation.getLayout = getLayout;
+export default GeneralInformation;
 
-const StyledContainerSettings = styled(StyledContainerAuth)
-  `
-    width: 70vw;
-    //border: 1px solid red;
+const StyledContent = styled.div`
+  position: relative;
+  display: flex;
+  gap: 40px;
+
+  @media (max-width: 790px) {
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-  `
-
-const StyledSidebar = styled(StyledContainerAuth)
-  `
-    width: 20vw;
-    display: flex;
-    //border: 1px solid green;
-
-  `
-
-const StyledContent = styled.div
-  `
-    width: 100%;
-    margin-top: 40px;
-
-    display: flex;
-    gap: 36px;
-
-    @media (max-width: 790px ) {
-      flex-direction: column;
-      align-items: center;
-    }
-  `
-
-
-const StyledNavigation = styled.header
-  `
-    width: 80%;
-    height: 60px;
-    padding: 0 4.6%;
-
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
+  }
+`;
 
-    background: ${baseTheme.colors.dark[700]};
-    border-bottom: 2px solid ${baseTheme.colors.dark[100]};
-    color: ${baseTheme.colors.dark[100]};
-    @media (max-width: 790px ) {
-      width: 100%;
-    }
+const StyledAvatarBlock = styled.div`
+  max-width: 192px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 20px;
 
-  `
-const StyledAvatarBlock = styled.div
-  `
-    width: 20%;
+  background: ${baseTheme.colors.dark[700]};
+  color: ${baseTheme.colors.dark[100]};
+`;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    //align-items: flex-start;
-    align-content: flex-start;
-    gap: 20px;
+const IconBlock = styled.div`
+  position: relative;
 
-    background: ${baseTheme.colors.dark[700]};
-    //border: 2px solid darkred;
-    color: ${baseTheme.colors.dark[100]};
+  width: 192px;
+  height: 192px;
+  overflow: hidden;
+  background: ${baseTheme.colors.dark[100]};
+  border-radius: 50%;
 
-    & img {
-      width: 13.5vw;
-      height: 13.5vw;
-      border-radius: 50%;
+  & img {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:192px;
+    height:192px;
+    object-fit:cover;
+  }
+  
+`;
 
-      //& Image {
-      //  width: 13.5vw;
-      //  height: 13.5vw;
-      //  border-radius: 50%;
+const StyledProfileForm = styled(Form)`
+  align-items: flex-end;
+  width: 100%;
+`;
 
-      @media (max-width: 790px ) {
-        width: 40vw;
-        height: 40vw;
-      }
-    }
+const StyledLine = styled.div`
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  width: 100%;
+  max-width: 726px;
+  height: 1px;
+  background: ${baseTheme.colors.dark[300]};
+`;
 
-    @media (max-width: 790px ) {
-      width: 60%;
-    }
-  `
-
-const StyledProfileForm = styled(StyledAuthForm)
-  `
-    align-items: flex-end;
-  `
+const BlockButton = styled.div`
+  text-align: right;
+  padding-top: 24px;
+`;
