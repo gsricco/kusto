@@ -1,17 +1,15 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {loadState} from "../../../../common/components/localStorage/localStorage";
-import {UserType} from "./types";
-import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../../common/components/localStorage/types";
-import {AuthMeType} from "pages/profile/settings";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { loadState } from "../../../../common/components/localStorage/localStorage";
+import { AuthMeType, UserType } from "./types";
+import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     prepareHeaders: (headers, { endpoint }) => {
-
       // условие для создания автоматического заголовка при загрузке аватарки
-      const UPLOAD_ENDPOINTS = ['saveAvatar'];
+      const UPLOAD_ENDPOINTS = ["saveAvatar"];
       if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
         headers.set("Content-Type", `application/json`);
       }
@@ -47,7 +45,7 @@ export const profileApi = createApi({
         url: "users/profiles/profile",
         method: "GET"
       }),
-      providesTags: ["UserInfo"],
+      providesTags: ["UserInfo"]
     }),
     saveProfileInfo: builder.mutation<any, any>({
       query: (body: UserType) => {
@@ -74,36 +72,37 @@ export const profileApi = createApi({
       },
       async onQueryStarted(
         // 1 параметр: QueryArg - аргументы, которые приходят в query
-        body, 
+        body,
         // 2 параметр: MutationLifecycleApi - dispatch, queryFulfilled, getState и пр.
-        { dispatch, queryFulfilled }) {
-          const patchResult = dispatch(
-            profileApi.util.updateQueryData(
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          profileApi.util.updateQueryData(
             // 1 параметр: endpointName, который мы выполняем после удачного первого запроса (invalidatesTags)
             "profile",
             // 2 параметр: QueryArgFrom - параметры, которые приходят в endpoint выше
-             undefined, 
-             // 3 параметр: Коллбек функция. 
-             (draft) => {              
-                const file = URL.createObjectURL(body.entries().next().value[1]) // достаем файл из FormData
-                Object.assign(draft, {photo: file})                
-            })
-          );
-          try {
-            await queryFulfilled;
-          } catch {
-            patchResult.undo();
-          }
-        },
-      invalidatesTags: ["UserInfo"],
-    }),
+            undefined,
+            // 3 параметр: Коллбек функция.
+            (draft) => {
+              const file = URL.createObjectURL(body.entries().next().value[1]); // достаем файл из FormData
+              Object.assign(draft, { photo: file });
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+      invalidatesTags: ["UserInfo"]
+    })
   })
 });
 
-export const { useLazyProfileQuery,
+export const {
+  useLazyProfileQuery,
   useSaveProfileInfoMutation,
-  useLazyAuthMeQuery ,
+  useLazyAuthMeQuery,
   useSaveAvatarMutation
 } = profileApi;
-
-
