@@ -82,7 +82,7 @@ const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`
   color: ${baseTheme.colors.danger["500"]};
 `;
 
-const StyledTitle = styled(StyledErrorMsg)`
+export const StyledTitle = styled(StyledErrorMsg)`
   color: ${baseTheme.colors.light["900"]};
 
   & span::first-letter {

@@ -15,13 +15,17 @@ import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import Image from 'next/image'
+import Image from 'next/image';
+import { baseTheme } from "styles/styledComponents/theme";
+
+// imports for Calendar
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { MuiCalendarProfile } from "styles/MUI/MuiCalendarProfile";
+//
 
 export type AuthMeType = {
   email: string;
@@ -29,116 +33,16 @@ export type AuthMeType = {
   login: string;
 };
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: baseTheme.colors.accent[700],
-    },
-    text: {
-      primary: baseTheme.colors.light[100],
-    },
-    action: {
-      disabled: baseTheme.colors.dark[100],
-    }
-
-  },
-  components: {
-    MuiPickersDay: {
-      styleOverrides: {
-        root: {
-          ":hover": {
-            backgroundColor: baseTheme.colors.accent[700]
-          },
-          "&.Mui-disabled:not(.Mui-selected)": {
-            color: baseTheme.colors.dark[100]
-          },
-          ":not(.Mui-selected)" : {
-            borderColor: baseTheme.colors.accent[700]
-          },
-          "&.Mui-selected": {
-            backgroundColor: 'transparent',
-            color: baseTheme.colors.accent[700],
-          },
-        },
-      },
-    },
-    MuiDateCalendar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: baseTheme.colors.dark[500],
-        }
-      },
-    },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          color: baseTheme.colors.light[100]
-        },
-      },
-    },
-    MuiDayCalendar: {
-      styleOverrides: {
-        weekDayLabel: {
-          color: baseTheme.colors.dark[100]
-        },
-      },
-    },
-    MuiButtonBase: {
-      styleOverrides: {
-        root: {
-          "&.Mui-disabled": {
-            color: baseTheme.colors.dark[100]
-          },
-        },
-      },
-    },
-    MuiPickersArrowSwitcher: {
-      styleOverrides: {
-        button: {
-          backgroundColor: baseTheme.colors.dark[100],
-        },
-      },
-    },
-    MuiTextField: {
-      defaultProps: {
-        size: 'small'
-      },
-      styleOverrides: {
-        root: {
-          border: '1px solid',
-          borderColor: baseTheme.colors.dark[100],
-          borderRadius: '4px',
-          backgroundColor: baseTheme.colors.dark[500],
-        },
-      },
-    },
-    
-  },
-});
-
 const GeneralInformation = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
-  // const [format, setFormat] = useState('DD/MM/YYYY')
-  // const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
-
+ 
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
   const [setProfileHandler] = useSetProfileMutation()
 
-  // const { i18n } = useTranslation();
-  // if (i18n.language == 'en') {
-  //   setFormat('MM/DD/YYYY')
-  // }
-
-  // let month
-  // if (birthDate) {
-  //   month = birthDate.get("month") + 1
-  // }
-  // console.log(birthDate?.format('DD/MM/YYYY'))
-  // console.log(`${birthDate?.date()}/${month}/${birthDate?.year()}`)
   useEffect(() => {
     authMeHandler();
     getProfileInfo()
@@ -150,23 +54,20 @@ const GeneralInformation = () => {
   // начальные значения, отображаемые на странице
   const avatar = data?.photo || "/img/icons/avatar.svg"
 
-  dayjs.extend(customParseFormat)
+  dayjs.extend(customParseFormat)                              
   const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY")
-  console.log(birthDate?.format('DD/MM/YYYY'))
-  // setBirthDate(date) 
+  
   const initialAuthValues = {
     username: data?.login || usernameAuth?.login || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
-    // birthday: data?.dateOfBirthday ? data.dateOfBirthday.split("-").reverse().join("-") : "",
     birthday: data?.dateOfBirthday || "",
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
 
-
+  // обработчик сохранения формы
   const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
-    // const date = values.birthday.split("-").reverse().join("-");
     const data = {
       login: values.username,
       firstName: values.firstname,
@@ -257,29 +158,18 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  {/* <FormikLabel
-                    name="birthday"
-                    onChange={(e) => setFieldValue("birthday", e)}
-                    value={values.birthday}
-                    type={"date"}
-                    title={"Date of birthday"}
-                    border={errors.birthday?.length && touched.birthday ? "red" : "white"}
-                    errors={errors}
-                    touched={touched}
-                    width={"150px"}
-                  /> */}
                   <StyledTitle>
                     <span>Date of birthday</span>
                   </StyledTitle>
-                  <ThemeProvider theme={theme}>
+                  <ThemeProvider theme={MuiCalendarProfile}>
                     <DatePicker 
                       value={birthDate}
                       format={'DD/MM/YYYY'}
+                      disableFuture={true}
                       onChange={(newValue) => {
                         const date = newValue?.format('DD/MM/YYYY')
                         setFieldValue("birthday", date)
                       }}
-                      disableFuture={true}
                     />
                   </ThemeProvider>
                   <FormikLabel
@@ -303,13 +193,6 @@ const GeneralInformation = () => {
                 </StyledProfileForm>
               )}
             </Formik>
-            {/* <ThemeProvider theme={theme}>
-              <DatePicker 
-                value={birthDate} 
-                onChange={(newValue) => setBirthDate(newValue)}
-                disableFuture={true}
-              />
-            </ThemeProvider> */}
           </StyledContent>
           {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
         </SettingsPageWrapper>
@@ -321,6 +204,8 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
+
+// стили
 
 const StyledContent = styled.div`
   position: relative;
