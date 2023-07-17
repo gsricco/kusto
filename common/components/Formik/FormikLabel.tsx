@@ -20,8 +20,7 @@ export const FormikLabel = ({
   textAreaData,
   marginBottom
 }: labelType) => {
-  let errorMessage = "";
-  console.log("вот", errors, name);
+
   // if (name === "username")
   //   errors.username && touched.username ? (errorMessage = errors.username) : "";
   // if (name === "email") errors.email && touched.email ? (errorMessage = errors.email) : "";

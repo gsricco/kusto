@@ -30,7 +30,7 @@ export type labelType = {
   width?: string;
   errorShow?: boolean;
   textAreaData?: string;
-  marginBottom?: number;
+  marginBottom?: string;
 };
 
 export type FormValueRegistration = {
