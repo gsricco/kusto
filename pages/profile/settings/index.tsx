@@ -1,42 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import { FormValueProfile } from "../../../common/components/Formik/types";
-import { Button } from "../../../common/components/Button/Button";
-import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
-import { validateProfile } from "../../../common/utils/validateProfile";
-import { SettingsPageWrapper } from "../../../features/settings/SettingsPageWrapper";
+import React, {useEffect, useState} from "react";
+import {Form, Formik} from "formik";
+import {FormValueProfile} from "../../../common/components/Formik/types";
+import {Button} from "../../../common/components/Button/Button";
+import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
+import {validateProfile} from "../../../common/utils/validateProfile";
+import {SettingsPageWrapper} from "../../../features/settings/SettingsPageWrapper";
 import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
-import { ThemeButton } from "../../../common/enums/themeButton";
+import {ThemeButton} from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
 import Image from 'next/image';
-import { baseTheme } from "styles/styledComponents/theme";
-
-// imports for Calendar
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {baseTheme} from "styles/styledComponents/theme";
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { ThemeProvider } from '@mui/material/styles';
-import { MuiCalendarProfile } from "styles/MUI/MuiCalendarProfile";
-import { StyledTitle } from "common/components/Formik/Formik.styled";
+import {ThemeProvider} from '@mui/material/styles';
+import {MuiCalendarProfile} from "styles/MUI/MuiCalendarProfile";
+import {StyledTitle} from "common/components/Formik/Formik.styled";
 //
 
-export type AuthMeType = {
-  email: string;
-  id: string;
-  login: string;
-};
 
 const GeneralInformation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
- 
+
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
@@ -53,9 +46,9 @@ const GeneralInformation = () => {
   // начальные значения, отображаемые на странице
   const avatar = data?.photo || "/img/icons/avatar.svg"
 
-  dayjs.extend(customParseFormat)                              
+  dayjs.extend(customParseFormat)
   const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY")
-  
+
   const initialAuthValues = {
     username: data?.login || usernameAuth?.login || "",
     firstname: data?.firstName || "",
@@ -77,7 +70,8 @@ const GeneralInformation = () => {
     };
     try {
       await saveProfileInfoHandler(data);
-    } catch (error) {}
+    } catch (error) {
+    }
   };
 
   // открытие модального окна для загрузки новой аватарки
@@ -97,7 +91,7 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <Image src={avatar} alt={"Avatar"} width={192} height={192} />
+                <Image src={avatar} alt={"Avatar"} width={192} height={192}/>
               </IconBlock>
 
               <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
@@ -109,7 +103,7 @@ const GeneralInformation = () => {
               validationSchema={validateProfile}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched, values, setFieldValue }) => (
+              {({errors, touched, values, setFieldValue}) => (
                 <StyledProfileForm>
                   <FormikLabel
                     name="username"
@@ -159,7 +153,7 @@ const GeneralInformation = () => {
                     <span>Date of birthday</span>
                   </StyledTitle>
                   <ThemeProvider theme={MuiCalendarProfile}>
-                    <DatePicker 
+                    <DatePicker
                       value={birthDate}
                       format={'DD/MM/YYYY'}
                       disableFuture={true}
@@ -182,7 +176,7 @@ const GeneralInformation = () => {
                     textAreaData={values.aboutMe}
                   />
                   <BlockButton>
-                    <StyledLine />
+                    <StyledLine/>
                     <Button theme={ThemeButton.PRIMARY} type="submit" width={"159px"}>
                       Save Change
                     </Button>
@@ -192,7 +186,7 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen && (
-            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
+            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo}/>
           )}
         </SettingsPageWrapper>
       )}

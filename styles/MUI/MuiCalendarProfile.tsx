@@ -1,5 +1,6 @@
 import { baseTheme } from "styles/styledComponents/theme";
 import { createTheme } from '@mui/material/styles';
+import {padding} from "@mui/system";
 
 export const MuiCalendarProfile = createTheme({
     palette: {
@@ -84,6 +85,13 @@ export const MuiCalendarProfile = createTheme({
                 },
             },
         },
-        
+        MuiOutlinedInput: {
+            styleOverrides: {
+                input: {
+                    paddingLeft: '8px',
+                    fontSize:'16px'
+                },
+            },
+        },
     },
 });

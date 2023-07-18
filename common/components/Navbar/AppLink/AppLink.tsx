@@ -1,5 +1,6 @@
 import {FC, ReactNode} from 'react';
 import Link, {LinkProps} from 'next/link';
+import styled from "styled-components";
 
 export enum ThemeAppLink {
   PRIMARY = 'primary',
@@ -18,11 +19,17 @@ export const AppLink: FC<AppLinkProps> = (props) => {
   } = props;
 
   return (
-    <Link
+    <StyledLink
       href={href}
       {...otherProps}
     >
       {children}
-    </Link>
+    </StyledLink>
   );
 };
+
+const StyledLink = styled(Link)
+`
+text-decoration: none;
+  color: white;
+`
