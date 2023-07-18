@@ -5,16 +5,20 @@ import styled from 'styled-components';
 import {baseTheme} from '../../../../styles/styledComponents/theme';
 import {store} from '../../../../assets/store/store';
 import {Provider} from 'react-redux';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 export const SettingsLayout: NextPage<PropsWithChildren> = (props) => {
   const {children} = props
   return (
     <StyledWrapper>
       <Provider store={store}>
-        <Header/>
-        <Page>
-          {children}
-        </Page>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Header/>
+          <Page>
+            {children}
+          </Page>
+        </LocalizationProvider>
       </Provider>
     </StyledWrapper>
   )

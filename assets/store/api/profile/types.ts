@@ -9,7 +9,12 @@ export type UserType = {
 };
 
 export type AvatarType = {
-  formData: FormData, 
-  avatar: string
-}
+  formData: FormData;
+  avatar: string;
+};
 
+export type AuthMeType = {
+  email: string;
+  id: string;
+  login: string;
+};

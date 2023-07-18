@@ -1,14 +1,12 @@
 import {FC, ReactNode} from 'react';
 import Link, {LinkProps} from 'next/link';
-import classNames from '../../../assets/lib/classNames/classNames';
-import cls from './AppLink.module.css'
+import styled from "styled-components";
 
 export enum ThemeAppLink {
   PRIMARY = 'primary',
 }
 
 interface AppLinkProps extends LinkProps {
-  className?: string
   theme?: ThemeAppLink
   children: ReactNode
 }
@@ -16,19 +14,22 @@ interface AppLinkProps extends LinkProps {
 export const AppLink: FC<AppLinkProps> = (props) => {
   const {
     href,
-    className,
     children,
-    theme = ThemeAppLink.PRIMARY,
     ...otherProps
   } = props;
 
   return (
-    <Link
+    <StyledLink
       href={href}
-      className={classNames(cls.AppLink, {}, [className, theme])}
       {...otherProps}
     >
       {children}
-    </Link>
+    </StyledLink>
   );
 };
+
+const StyledLink = styled(Link)
+`
+text-decoration: none;
+  color: white;
+`

@@ -61,6 +61,7 @@ const StyledItem = styled(Link)
     color: ${baseTheme.colors.dark[100]};
     text-align: center;
     white-space: nowrap;
+    text-decoration: none;
 
     padding: 5px 15px;
     border-bottom: 2px solid ${baseTheme.colors.dark[100]};

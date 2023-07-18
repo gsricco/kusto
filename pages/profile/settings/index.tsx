@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Form, Formik} from "formik";
-import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
+import {FormValueProfile} from "../../../common/components/Formik/types";
 import {Button} from "../../../common/components/Button/Button";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
 import {validateProfile} from "../../../common/utils/validateProfile";
@@ -11,74 +11,89 @@ import {
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
 import {ThemeButton} from "../../../common/enums/themeButton";
-import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import Image from 'next/image'
+import Image from 'next/image';
+import {baseTheme} from "styles/styledComponents/theme";
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import {ThemeProvider} from '@mui/material/styles';
+import {MuiCalendarProfile} from "styles/MUI/MuiCalendarProfile";
+import {StyledTitle} from "common/components/Formik/Formik.styled";
+import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
+import {Modal} from "../../../common/components/Modal/Modal";
+//
 
-export type AuthMeType = {
-  email: string;
-  id: string;
-  login: string;
-};
 
 const GeneralInformation = () => {
-
-  const [isModalOpen, setIsModalOpen] = useState(false) // открытие модального окна загрузки новой аватарки
+  const [isModalOpen, setIsModalOpen] = useState({photoModal:false,saveProfileModal:false }); // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
-
+  const {setItem} = useLocalStorage()
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
-  const [setProfileHandler] = useSetProfileMutation()
-  
+
   useEffect(() => {
-    authMeHandler();
+    authMeHandler()
+      .unwrap()
+      .then((res)=>{
+        setItem('userEmail', res.email)
+      })
     getProfileInfo()
       .unwrap()
       .finally(() => {
-        setIsLoading(true)});
+        setIsLoading(true);
+      });
   }, []);
 
   // начальные значения, отображаемые на странице
   const avatar = data?.photo || "/img/icons/avatar.svg"
+
+  dayjs.extend(customParseFormat)
+  const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY")
+
   const initialAuthValues = {
     username: data?.login || usernameAuth?.login || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
-    birthday: data?.dateOfBirthday ? data.dateOfBirthday.split("-").reverse().join("-") : "",
+    birthday: data?.dateOfBirthday || "",
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
 
-
-  const handleSubmit = async (values: FormValueProfile, {resetForm}: ResetForm) => {
-    const date = values.birthday.split("-").reverse().join("-");
+  // обработчик сохранения формы
+  const handleSubmit = async (values: FormValueProfile) => {
     const data = {
       login: values.username,
       firstName: values.firstname,
       lastName: values.lastname,
-      dateOfBirthday: date,
+      dateOfBirthday: values.birthday,
       city: values.city,
       userInfo: values.aboutMe
     };
     try {
-      await saveProfileInfoHandler(data);
+      await saveProfileInfoHandler(data)
+        .unwrap()
+        .then(()=>{
+          setIsModalOpen({photoModal: false, saveProfileModal: true});
+        })
+
     } catch (error) {
     }
   };
 
   // открытие модального окна для загрузки новой аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen({photoModal: true, saveProfileModal: false});
+  };
 
   // закрытие модального окна для загрузки аватарки
   const handleModalClose = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen({photoModal: false, saveProfileModal: false});
+  };
 
   return (
     <>
@@ -87,7 +102,7 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <Image src={avatar} alt={"Avatar"} width={192} height={192} />
+                <Image src={avatar} alt={"Avatar"} width={192} height={192}/>
               </IconBlock>
 
               <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
@@ -145,17 +160,20 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <FormikLabel
-                    name="birthday"
-                    onChange={(e) => setFieldValue("birthday", e)}
-                    value={values.birthday}
-                    type={"date"}
-                    title={"Date of birthday"}
-                    border={errors.birthday?.length && touched.birthday ? "red" : "white"}
-                    errors={errors}
-                    touched={touched}
-                    width={"150px"}
-                  />
+                  <StyledTitle>
+                    <span>Date of birthday</span>
+                  </StyledTitle>
+                  <ThemeProvider theme={MuiCalendarProfile}>
+                    <DatePicker
+                      value={birthDate}
+                      format={'DD/MM/YYYY'}
+                      disableFuture={true}
+                      onChange={(newValue) => {
+                        const date = newValue?.format('DD/MM/YYYY')
+                        setFieldValue("birthday", date)
+                      }}
+                    />
+                  </ThemeProvider>
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}
@@ -178,16 +196,32 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (<PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />)}
+          {isModalOpen.photoModal && (
+            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo}/>
+          )}
+          {isModalOpen.saveProfileModal && (
+            <Modal
+              title="Profile settings saved"
+              bodyText={`Profile settings saved`}
+              handleModalClose={handleModalClose}
+            >
+              <Button
+                theme={ThemeButton.PRIMARY}
+                onClick={handleModalClose}
+                width={'96px'}
+              >OK</Button>
+            </Modal>
+          )}
         </SettingsPageWrapper>
-        )}
-</>
-)
-}
-
+      )}
+    </>
+  );
+};
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
+
+// стили
 
 const StyledContent = styled.div`
   position: relative;
@@ -223,14 +257,13 @@ const IconBlock = styled.div`
 
   & img {
     position: absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:192px;
-    height:192px;
-    object-fit:cover;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 192px;
+    height: 192px;
+    object-fit: cover;
   }
-  
 `;
 
 const StyledProfileForm = styled(Form)`
