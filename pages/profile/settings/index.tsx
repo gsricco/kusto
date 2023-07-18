@@ -23,19 +23,25 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import {ThemeProvider} from '@mui/material/styles';
 import {MuiCalendarProfile} from "styles/MUI/MuiCalendarProfile";
 import {StyledTitle} from "common/components/Formik/Formik.styled";
+import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
+import {Modal} from "../../../common/components/Modal/Modal";
 //
 
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // открытие модального окна загрузки новой аватарки
+  const [isModalOpen, setIsModalOpen] = useState({photoModal:false,saveProfileModal:false }); // открытие модального окна загрузки новой аватарки
   const [isLoading, setIsLoading] = useState(false);
-
+  const {setItem} = useLocalStorage()
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
 
   useEffect(() => {
-    authMeHandler();
+    authMeHandler()
+      .unwrap()
+      .then((res)=>{
+        setItem('userEmail', res.email)
+      })
     getProfileInfo()
       .unwrap()
       .finally(() => {
@@ -69,19 +75,24 @@ const GeneralInformation = () => {
       userInfo: values.aboutMe
     };
     try {
-      await saveProfileInfoHandler(data);
+      await saveProfileInfoHandler(data)
+        .unwrap()
+        .then(()=>{
+          setIsModalOpen({photoModal: false, saveProfileModal: true});
+        })
+
     } catch (error) {
     }
   };
 
   // открытие модального окна для загрузки новой аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen(true);
+    setIsModalOpen({photoModal: true, saveProfileModal: false});
   };
 
   // закрытие модального окна для загрузки аватарки
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    setIsModalOpen({photoModal: false, saveProfileModal: false});
   };
 
   return (
@@ -185,8 +196,21 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (
+          {isModalOpen.photoModal && (
             <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo}/>
+          )}
+          {isModalOpen.saveProfileModal && (
+            <Modal
+              title="Profile settings saved"
+              bodyText={`Profile settings saved`}
+              handleModalClose={handleModalClose}
+            >
+              <Button
+                theme={ThemeButton.PRIMARY}
+                onClick={handleModalClose}
+                width={'96px'}
+              >OK</Button>
+            </Modal>
           )}
         </SettingsPageWrapper>
       )}

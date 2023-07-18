@@ -9,14 +9,13 @@ import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import {useRouter} from "next/router";
 import {Path} from "../../../enums/path";
 
-type LogoutLinkPropsType = {
-  userEmail: string
-}
-export const LogoutLink: FC<LogoutLinkPropsType> = ({userEmail}) => {
+
+export const LogoutLink: FC = () => {
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
-  const {removeItem} = useLocalStorage()
+  const {removeItem, getItem} = useLocalStorage()
   const router = useRouter()
+  const userEmail = getItem('userEmail')
 
   const logoutHandler = () => {
         removeItem('accessToken')
