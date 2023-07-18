@@ -25,7 +25,7 @@ export const Navbar = () => {
         {items}
       </StyledItemBlock>
       <StyledLogout>
-        <LogoutLink userEmail={'Epam@epam.com'}/>
+        <LogoutLink/>
       </StyledLogout>
     </StyledSidebar>
   )
