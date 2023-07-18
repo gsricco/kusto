@@ -6,7 +6,6 @@ export enum ThemeAppLink {
 }
 
 interface AppLinkProps extends LinkProps {
-  // className?: string
   theme?: ThemeAppLink
   children: ReactNode
 }
@@ -21,7 +20,6 @@ export const AppLink: FC<AppLinkProps> = (props) => {
   return (
     <Link
       href={href}
-      // className={classNames(cls.AppLink, {}, [className, theme])}
       {...otherProps}
     >
       {children}

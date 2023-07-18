@@ -1,9 +1,8 @@
 import type {AppProps} from 'next/app';
-import {ReactElement, ReactNode, useState} from 'react';
+import {ReactElement, ReactNode} from 'react';
 import {NextPage} from 'next';
 import {useLoader} from '../common/hooks/useLoader';
 import 'styles/nprogress.css'
-import '../styles/globals.css'
 import { Provider } from 'react-redux';
 import { store } from '../assets/store/store';
 import { appWithTranslation } from 'next-i18next'
