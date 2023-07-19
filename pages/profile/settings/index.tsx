@@ -16,7 +16,6 @@ import styled from "styled-components";
 import Image from 'next/image';
 import {baseTheme} from "styles/styledComponents/theme";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import {ThemeProvider} from '@mui/material/styles';
@@ -27,7 +26,7 @@ import {Modal} from "../../../common/components/Modal/Modal";
 import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import {useRouter} from "next/router";
 import {Path} from "../../../common/enums/path";
-//
+
 
 
 const GeneralInformation = () => {
@@ -52,7 +51,6 @@ const GeneralInformation = () => {
       });
   }, []);
 
-  // начальные значения, отображаемые на странице
   const avatar = data?.photo || "/img/icons/avatar.svg"
 
   dayjs.extend(customParseFormat)
@@ -67,7 +65,6 @@ const GeneralInformation = () => {
     aboutMe: data?.userInfo || ""
   };
 
-  // обработчик сохранения формы
   const handleSubmit = async (values: FormValueProfile) => {
     const data = {
       login: values.username,
@@ -89,12 +86,9 @@ const GeneralInformation = () => {
     }
   };
 
-  // открытие модального окна для загрузки новой аватарки
   const handleAddPhoto = () => {
     setIsModalOpen({photoModal: true, saveProfileModal: false});
   };
-
-  // закрытие модального окна для загрузки аватарки
   const handleModalClose = () => {
     setIsModalOpen({photoModal: false, saveProfileModal: false});
   };
@@ -225,7 +219,6 @@ const GeneralInformation = () => {
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
 
-// стили
 
 export const StyledContent = styled.div`
   position: relative;

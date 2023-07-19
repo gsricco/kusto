@@ -43,7 +43,8 @@ const MyProfile = () => {
           </StyledContent>
           <Button theme={ThemeButton.SECONDARY} width={'167px'} onClick={handleClick}>Profile Settings</Button>
         </StyledBlockUser>
-        <StyledBlockPictures>
+        <StyledBlockUser>
+          <StyledPicture> map photo</StyledPicture>
           <StyledPicture></StyledPicture>
           <StyledPicture></StyledPicture>
           <StyledPicture></StyledPicture>
@@ -53,8 +54,7 @@ const MyProfile = () => {
           <StyledPicture></StyledPicture>
           <StyledPicture></StyledPicture>
           <StyledPicture></StyledPicture>
-          <StyledPicture></StyledPicture>
-        </StyledBlockPictures>
+        </StyledBlockUser>
 
     </>
 
@@ -68,15 +68,12 @@ const StyledBlockUser = styled(StyledContent)
   `
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid red;
     justify-content: space-between;
     width: 100%;
     gap: 10px;
+    margin-bottom: 30px;
   `
-const StyledBlockPictures = styled(StyledBlockUser)
-  `
-    //если такая же  - убрать
-  `
+
 
 const StyledPicture = styled.div
   `
