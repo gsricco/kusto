@@ -10,10 +10,10 @@ export const Layout: NextPage<PropsWithChildren> = (props) => {
   const {children} = props
   return (
     <StyledWrapper>
-      <Provider store={store}>
+      {/*<Provider store={store}>*/}
         <Header/>
         <Main>{children}</Main>
-      </Provider>
+      {/*</Provider>*/}
     </StyledWrapper>
   )
 }

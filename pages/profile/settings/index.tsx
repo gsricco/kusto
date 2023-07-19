@@ -12,7 +12,6 @@ import {
 } from "../../../assets/store/api/profile/profileApi";
 import {ThemeButton} from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import styled from "styled-components";
 import Image from 'next/image';
 import {baseTheme} from "styles/styledComponents/theme";
@@ -25,16 +24,20 @@ import {MuiCalendarProfile} from "styles/MUI/MuiCalendarProfile";
 import {StyledTitle} from "common/components/Formik/Formik.styled";
 import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
 import {Modal} from "../../../common/components/Modal/Modal";
+import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import {useRouter} from "next/router";
+import {Path} from "../../../common/enums/path";
 //
 
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState({photoModal:false,saveProfileModal:false }); // открытие модального окна загрузки новой аватарки
+  const [isModalOpen, setIsModalOpen] = useState({photoModal:false,saveProfileModal:false });
   const [isLoading, setIsLoading] = useState(false);
   const {setItem} = useLocalStorage()
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, {data}] = useLazyProfileQuery();
   const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
+  const router=useRouter();
 
   useEffect(() => {
     authMeHandler()
@@ -56,7 +59,7 @@ const GeneralInformation = () => {
   const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY")
 
   const initialAuthValues = {
-    username: data?.login || usernameAuth?.login || "",
+    username:  usernameAuth?.login ||data?.login||"",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
     birthday: data?.dateOfBirthday || "",
@@ -79,6 +82,7 @@ const GeneralInformation = () => {
         .unwrap()
         .then(()=>{
           setIsModalOpen({photoModal: false, saveProfileModal: true});
+          router.push(Path.PROFILE_SETTINGS)
         })
 
     } catch (error) {
@@ -201,8 +205,8 @@ const GeneralInformation = () => {
           )}
           {isModalOpen.saveProfileModal && (
             <Modal
-              title="Profile settings saved"
-              bodyText={`Profile settings saved`}
+              title="General information "
+              bodyText={`Profile changes saved`}
               handleModalClose={handleModalClose}
             >
               <Button
@@ -223,7 +227,7 @@ export default GeneralInformation;
 
 // стили
 
-const StyledContent = styled.div`
+export const StyledContent = styled.div`
   position: relative;
   display: flex;
   gap: 40px;
@@ -234,7 +238,7 @@ const StyledContent = styled.div`
   }
 `;
 
-const StyledAvatarBlock = styled.div`
+export const StyledAvatarBlock = styled.div`
   max-width: 192px;
   display: flex;
   flex-wrap: wrap;
@@ -246,7 +250,7 @@ const StyledAvatarBlock = styled.div`
   color: ${baseTheme.colors.dark[100]};
 `;
 
-const IconBlock = styled.div`
+export const IconBlock = styled.div`
   position: relative;
 
   width: 192px;

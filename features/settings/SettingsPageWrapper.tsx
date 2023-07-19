@@ -10,16 +10,11 @@ type SettingsPageWrapperType = {
 }
 
 export const SettingsPageWrapper = ({children}: SettingsPageWrapperType) => {
-  const router = useRouter()
-  const {profile}=router.query
+  // const router = useRouter()
+  // const {profile}=router.query
 
   return (
-    <SettingsWrapper isVisit={!profile}>
-      <NavbarWrapper isVisit={!profile}>
-        {!profile && (
-          <Navbar/>
-        )}
-      </NavbarWrapper>
+    <SettingsWrapper>
       <StyledContainerSettings>
         <TabBar/>
         <StyledContent>
@@ -30,39 +25,24 @@ export const SettingsPageWrapper = ({children}: SettingsPageWrapperType) => {
   );
 };
 
-const SettingsWrapper = styled.div<StyleProps>
+const SettingsWrapper = styled.div
   `
     min-height: 90vh;
     display: flex;
     gap: 24px;
 
     @media (max-width: 1000px ) {
-      justify-content: ${props => props.isVisit ? 'inherit' : 'center'}
+      justify-content: center;
     }
   `
 
-const NavbarWrapper = styled.div<StyleProps>
-  `
-    height: 660px;
-    width: 17vw;
-    min-width: ${props => props.isVisit ? '150px' : '0px'};
-    max-width: 220px;
-    align-items: start;
 
-    @media (max-width: 1000px ) {
-      display: ${props => props.isVisit ? 'block' : 'none'};
-    }
-    @media (max-width: 790px) {
-      display: none;
-    }
 
-  `
-
-const StyledContainerSettings = styled.div
+export const StyledContainerSettings = styled.div
   `
     max-width: 726px;
     width: 100%;
-    padding-top: 36px;
+    //padding-top: 36px;
   `
 
 const StyledContent = styled.div

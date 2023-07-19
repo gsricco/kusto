@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AuthMeType, UserType } from "./types";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {AuthMeType, UserType} from "./types";
 import {getItem} from "../../../../common/hooks/useLocalStorage";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
-    prepareHeaders: (headers, { endpoint }) => {
+    prepareHeaders: (headers, {endpoint}) => {
       const UPLOAD_ENDPOINTS = ["saveAvatar"];
       if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
         headers.set("Content-Type", `application/json`);
@@ -50,7 +50,7 @@ export const profileApi = createApi({
       },
       async onQueryStarted(
         body,
-        { dispatch, queryFulfilled }
+        {dispatch, queryFulfilled}
       ) {
         const patchResult = dispatch(
           profileApi.util.updateQueryData(
@@ -58,7 +58,7 @@ export const profileApi = createApi({
             undefined,
             (draft) => {
               const file = URL.createObjectURL(body.entries().next().value[1]);
-              Object.assign(draft, { photo: file });
+              Object.assign(draft ? draft : {}, {photo: file});
             }
           )
         );
