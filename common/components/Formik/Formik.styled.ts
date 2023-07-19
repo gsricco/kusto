@@ -31,8 +31,8 @@ export const StyledField = styled(Field)`
   }
 
   @media (max-width: 390px) {
-    width: 80vw;
-    max-width: ${(props) => (props.width ? "40vw" : "330px")};
+    width: 90vw;
+    max-width: ${(props) => (props.width ? "100vw" : "330px")};
   }
 `;
 
@@ -64,8 +64,8 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   }
 
   @media (max-width: 390px) {
-    width: 80vw;
-    max-width: ${(props) => (props.width ? "40vw" : "330px")};
+    width: 90vw;
+    max-width: ${(props) => (props.width ? "100vw" : "330px")};
   }
 `;
 
