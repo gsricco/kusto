@@ -113,7 +113,7 @@ export default function Recovery() {
         <StyledSignInWrapper margin={"24px 0"}>
           <StyledSignIn href={Path.LOGIN}>{t("back_singIn_btn")} </StyledSignIn>
         </StyledSignInWrapper>
-        <Image priority alt="Captcha" width={260} height={60} src="/captcha.png" />
+        <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" />
       </WrapperContainerAuth>
       {isModalOpen && (
         <Modal
