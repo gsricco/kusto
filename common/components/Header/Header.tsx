@@ -24,6 +24,8 @@ export default Header
 
 const StyledHeader = styled.header
   `
+    max-width: 1310px;
+
     width: 100%;
     height: 60px;
     padding: 0 4.6%;

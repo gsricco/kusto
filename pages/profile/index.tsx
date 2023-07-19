@@ -31,6 +31,7 @@ const MyProfile = () => {
 
   return (
     <>
+
         <StyledBlockUser>
           <StyledAvatarBlock>
             <IconBlock>
@@ -42,18 +43,18 @@ const MyProfile = () => {
           </StyledContent>
           <Button theme={ThemeButton.SECONDARY} width={'167px'} onClick={handleClick}>Profile Settings</Button>
         </StyledBlockUser>
-        {/*<StyledBlockPictures>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*  <StyledPicture></StyledPicture>*/}
-        {/*</StyledBlockPictures>*/}
+        <StyledBlockPictures>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+          <StyledPicture></StyledPicture>
+        </StyledBlockPictures>
 
     </>
 
@@ -74,7 +75,6 @@ const StyledBlockUser = styled(StyledContent)
   `
 const StyledBlockPictures = styled(StyledBlockUser)
   `
-    
     //если такая же  - убрать
   `
 

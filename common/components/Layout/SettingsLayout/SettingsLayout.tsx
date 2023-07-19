@@ -35,12 +35,22 @@ export const getLayout = (page: ReactElement) => {
 
 
 const StyledWrapper = styled.div
+  // ` width: 100%;
+  //   max-width: 100vw;
+  //   min-height: 100vh;
+  //
+  //   background: ${baseTheme.colors.dark['700']};
+  //   color: ${baseTheme.colors.light[100]};
+  // `
   ` width: 100%;
     min-height: 100vh;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     background: ${baseTheme.colors.dark['700']};
-    color: ${baseTheme.colors.light[100]};
-  `
+    color: ${baseTheme.colors.light[100]};  `
 
 const Page = styled.div
   `
@@ -60,14 +70,14 @@ const Page = styled.div
 const Main = styled.div`
   padding-top: 36px;
   flex-grow: 1;
-  max-width: 100%;
+  max-width: 80vw;
 `
 
 const NavbarWrapper = styled.div
   `
     height: 660px;
     width: 17vw;
-    min-width: 150px;
+    //min-width: 150px;
     max-width: 220px;
     align-items: start;
  
