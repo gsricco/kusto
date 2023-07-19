@@ -1,50 +1,45 @@
-import React, {useEffect, useState} from "react";
-import {Form, Formik} from "formik";
-import {FormValueProfile} from "../../../common/components/Formik/types";
-import {Button} from "../../../common/components/Button/Button";
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {validateProfile} from "../../../common/utils/validateProfile";
-import {SettingsPageWrapper} from "../../../features/settings/SettingsPageWrapper";
+import React, { useEffect, useState } from "react";
+import { Form, Formik } from "formik";
+import { FormValueProfile } from "../../../common/components/Formik/types";
+import { Button } from "../../../common/components/Button/Button";
+import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
+import { validateProfile } from "../../../common/utils/validateProfile";
+import { SettingsPageWrapper } from "../../../features/settings/SettingsPageWrapper";
 import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
-import type {} from '@mui/x-date-pickers/themeAugmentation';
-import {ThemeButton} from "../../../common/enums/themeButton";
+import type {} from "@mui/x-date-pickers/themeAugmentation";
+import { ThemeButton } from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import styled from "styled-components";
-import Image from 'next/image';
-import {baseTheme} from "styles/styledComponents/theme";
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import {ThemeProvider} from '@mui/material/styles';
-import {MuiCalendarProfile} from "../../../styles/MUI/MuiCalendarProfile";
-import {StyledTitle} from "common/components/Formik/Formik.styled";
-import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
-import {Modal} from "../../../common/components/Modal/Modal";
-import {getLayout} from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
-import {useRouter} from "next/router";
-import {Path} from "../../../common/enums/path";
-
-
+import Image from "next/image";
+import { baseTheme } from "styles/styledComponents/theme";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
+import { Modal } from "../../../common/components/Modal/Modal";
+import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import { useRouter } from "next/router";
+import { Path } from "../../../common/enums/path";
+import Calendar from "common/components/Calendar/Calendar";
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState({photoModal:false,saveProfileModal:false });
+  const [isModalOpen, setIsModalOpen] = useState({ photoModal: false, saveProfileModal: false });
   const [isLoading, setIsLoading] = useState(false);
-  const {setItem} = useLocalStorage()
+  const { setItem } = useLocalStorage();
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
-  const [getProfileInfo, {data}] = useLazyProfileQuery();
-  const [authMeHandler, {data: usernameAuth}] = useLazyAuthMeQuery();
-  const router=useRouter();
+  const [getProfileInfo, { data }] = useLazyProfileQuery();
+  const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery();
+  const router = useRouter();
 
   useEffect(() => {
     authMeHandler()
       .unwrap()
-      .then((res)=>{
-        setItem('userEmail', res.email)
-      })
+      .then((res) => {
+        setItem("userEmail", res.email);
+      });
     getProfileInfo()
       .unwrap()
       .finally(() => {
@@ -52,13 +47,13 @@ const GeneralInformation = () => {
       });
   }, []);
 
-  const avatar = data?.photo || "/img/icons/avatar.svg"
+  const avatar = data?.photo || "/img/icons/avatar.svg";
 
-  dayjs.extend(customParseFormat)
-  const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY")
+  dayjs.extend(customParseFormat);
+  const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY");
 
   const initialAuthValues = {
-    username:  usernameAuth?.login ||data?.login||"",
+    username: usernameAuth?.login || data?.login || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
     birthday: data?.dateOfBirthday || "",
@@ -78,20 +73,18 @@ const GeneralInformation = () => {
     try {
       await saveProfileInfoHandler(data)
         .unwrap()
-        .then(()=>{
-          setIsModalOpen({photoModal: false, saveProfileModal: true});
-          router.push(Path.PROFILE_SETTINGS)
-        })
-
-    } catch (error) {
-    }
+        .then(() => {
+          setIsModalOpen({ photoModal: false, saveProfileModal: true });
+          router.push(Path.PROFILE_SETTINGS);
+        });
+    } catch (error) {}
   };
 
   const handleAddPhoto = () => {
-    setIsModalOpen({photoModal: true, saveProfileModal: false});
+    setIsModalOpen({ photoModal: true, saveProfileModal: false });
   };
   const handleModalClose = () => {
-    setIsModalOpen({photoModal: false, saveProfileModal: false});
+    setIsModalOpen({ photoModal: false, saveProfileModal: false });
   };
 
   return (
@@ -101,7 +94,7 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <Image src={avatar} alt={"Avatar"} width={192} height={192}/>
+                <Image src={avatar} alt={"Avatar"} width={192} height={192} />
               </IconBlock>
 
               <Button theme={ThemeButton.OUTLINED} width={"100%"} onClick={handleAddPhoto}>
@@ -113,7 +106,7 @@ const GeneralInformation = () => {
               validationSchema={validateProfile}
               onSubmit={handleSubmit}
             >
-              {({errors, touched, values, setFieldValue}) => (
+              {({ errors, touched, values, setFieldValue }) => (
                 <StyledProfileForm>
                   <FormikLabel
                     name="username"
@@ -159,20 +152,7 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <StyledTitle>
-                    <span>Date of birthday</span>
-                  </StyledTitle>
-                  <ThemeProvider theme={MuiCalendarProfile}>
-                    <DatePicker
-                      value={birthDate}
-                      format={'DD/MM/YYYY'}
-                      disableFuture={true}
-                      onChange={(newValue) => {
-                        const date = newValue?.format('DD/MM/YYYY')
-                        setFieldValue("birthday", date)
-                      }}
-                    />
-                  </ThemeProvider>
+                  <Calendar setFieldValue={setFieldValue} date={data?.dateOfBirthday || ""} />
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}
@@ -186,7 +166,7 @@ const GeneralInformation = () => {
                     textAreaData={values.aboutMe}
                   />
                   <BlockButton>
-                    <StyledLine/>
+                    <StyledLine />
                     <Button theme={ThemeButton.PRIMARY} type="submit" width={"159px"}>
                       Save Change
                     </Button>
@@ -196,7 +176,7 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen.photoModal && (
-            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo}/>
+            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
           )}
           {isModalOpen.saveProfileModal && (
             <Modal
@@ -204,11 +184,9 @@ const GeneralInformation = () => {
               bodyText={`Profile changes saved`}
               handleModalClose={handleModalClose}
             >
-              <Button
-                theme={ThemeButton.PRIMARY}
-                onClick={handleModalClose}
-                width={'96px'}
-              >OK</Button>
+              <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+                OK
+              </Button>
             </Modal>
           )}
         </SettingsPageWrapper>
@@ -219,7 +197,6 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
-
 
 export const StyledContent = styled.div`
   position: relative;
