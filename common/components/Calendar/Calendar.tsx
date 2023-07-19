@@ -2,7 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React from "react";
-import { MuiCalendarProfile } from "styles/MUI/MuiCalendarProfile";
+import { theme } from "common/components/Calendar/theme";
 import { StyledTitle } from "../Formik/Formik.styled";
 
 type CalendarProps = {
@@ -18,7 +18,7 @@ const Calendar = ({ date, setFieldValue }: CalendarProps) => {
       <StyledTitle>
         <span>Date of birthday</span>
       </StyledTitle>
-      <ThemeProvider theme={MuiCalendarProfile}>
+      <ThemeProvider theme={theme}>
         <DatePicker
           value={birthDate}
           format={"DD/MM/YYYY"}
