@@ -10,6 +10,7 @@ import {
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 import {ThemeButton} from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import styled from "styled-components";
@@ -19,7 +20,7 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import {ThemeProvider} from '@mui/material/styles';
-import {MuiCalendarProfile} from "styles/MUI/MuiCalendarProfile";
+import {MuiCalendarProfile} from "../../../styles/MUI/MuiCalendarProfile";
 import {StyledTitle} from "common/components/Formik/Formik.styled";
 import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
 import {Modal} from "../../../common/components/Modal/Modal";

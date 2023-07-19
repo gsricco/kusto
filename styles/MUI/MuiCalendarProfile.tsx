@@ -1,6 +1,5 @@
 import { baseTheme } from "styles/styledComponents/theme";
 import { createTheme } from '@mui/material/styles';
-import {padding} from "@mui/system";
 
 export const MuiCalendarProfile = createTheme({
     palette: {
@@ -13,7 +12,7 @@ export const MuiCalendarProfile = createTheme({
         action: {
             disabled: baseTheme.colors.dark[100],
         }
-  
+
     },
     components: {
         MuiDateCalendar: {     // стили для поля с календарем
