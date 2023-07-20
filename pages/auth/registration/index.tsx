@@ -1,18 +1,24 @@
-import React, {useState} from "react";
-import {Formik} from "formik";
+import React, { useState } from "react";
+import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import {useShowPassword} from "../../../common/hooks/useShowPassword";
-import {validateRegistrationEn, validateRegistrationRu} from "../../../common/utils/validateRegistraition";
+import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
+import { useShowPassword } from "../../../common/hooks/useShowPassword";
+import {
+  validateRegistrationEn,
+  validateRegistrationRu
+} from "../../../common/utils/validateRegistraition";
 import AuthIcons from "../../../features/auth/AuthIcons";
-import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
-import {Button} from "../../../common/components/Button/Button";
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {useRegistrationMutation} from "../../../assets/store/api/auth/authApi";
-import {FormValueRegistration, ResetForm, SetFieldErrorType} from "../../../common/components/Formik/types";
-import {RegistrationResponseError} from "../../../assets/store/api/auth/types";
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
+import { Button } from "../../../common/components/Button/Button";
+import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
+import { useRegistrationMutation } from "../../../assets/store/api/auth/authApi";
+import {
+  FormValueRegistration,
+  ResetForm,
+  SetFieldErrorType
+} from "../../../common/components/Formik/types";
+import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
@@ -20,16 +26,17 @@ import {
   StyledSignInWrapper,
   StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetStaticPropsContext} from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetStaticPropsContext } from "next";
 import config from "../../../next-i18next.config.js";
-import {useTranslation} from "next-i18next";
-import {Modal} from "../../../common/components/Modals/ModalPublic/Modal";
-import {useRouter} from "next/router";
-import {Path} from "../../../common/enums/path";
-import {ThemeButton} from "../../../common/enums/themeButton";
-import {useLocalStorage} from "../../../common/hooks/useLocalStorage";
+import { useTranslation } from "next-i18next";
+import { Modal } from "../../../common/components/Modal/Modal";
+import { useRouter } from "next/router";
+import { Path } from "../../../common/enums/path";
+import { ThemeButton } from "../../../common/enums/themeButton";
+import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import styled from "styled-components";
+import { registrationErrorHandler } from "common/utils/registrationErrorHandler";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -48,7 +55,7 @@ export default function Registration() {
     username: "",
     password: "",
     passwordConfirmation: "",
-    email: "",
+    email: ""
   };
 
   const [registrationHandler] = useRegistrationMutation();
@@ -79,29 +86,8 @@ export default function Registration() {
           resetForm();
           setIsModalActive(true);
         });
-    } catch (error) {
-      const err = error as RegistrationResponseError;
-      if ("data" in err) {
-        const messages = err.data;
-        if (messages.errorsMessages.length > 1) {
-          setFieldError("username", t("user_err"));
-          messages.errorsMessages[1].message === "Invalid email"
-            ? setFieldError("email", t("invalid_email"))
-            : setFieldError("email", t("email_err"));
-        } else {
-          if (messages.errorsMessages[0].field === "email") {
-            if (messages.errorsMessages[0].message === "Invalid email") {
-              setFieldError("email", t("invalid_email"));
-            } else {
-              setFieldError("email", t("email_err"));
-            }
-            setFieldError("username", "");
-          } else {
-            setFieldError("username", t("user_err"));
-            setFieldError("email", "");
-          }
-        }
-      }
+    } catch (error: any) {
+      registrationErrorHandler(error, t, { setFieldError });
     }
   };
 
@@ -113,11 +99,9 @@ export default function Registration() {
           bodyText={`We have sent a link to confirm your email to ${getItem("email")}`}
           handleModalClose={handleModalClose}
         >
-          <Button
-            theme={ThemeButton.PRIMARY}
-            onClick={handleModalClose}
-            width={'96px'}
-          >OK</Button>
+          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+            OK
+          </Button>
         </Modal>
       )}
       <StyledContainerAuth style={{ filter: isModalActive ? "blur(4px)" : "blur(0px)" }}>

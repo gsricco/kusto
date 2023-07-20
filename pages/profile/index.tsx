@@ -58,8 +58,8 @@ const MyProfile = () => {
 
     </>
 
-  )
-    ;
+  );
+
 };
 MyProfile.getLayout = getLayout
 export default MyProfile;
