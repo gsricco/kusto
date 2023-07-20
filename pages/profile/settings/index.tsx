@@ -19,7 +19,7 @@ import { baseTheme } from "styles/styledComponents/theme";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
-import { Modal } from "../../../common/components/Modal/Modal";
+import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {ModalSizePropsType} from "./types";
 
 export const StyledModalOverlay = styled.div`
   z-index: 1000;
@@ -10,7 +11,7 @@ export const StyledModalOverlay = styled.div`
   height: 100%;
 `;
 
-export const StyledModalContainer = styled.div<{ width?: string; height?: string }>`
+export const StyledModalContainer = styled.div<ModalSizePropsType>`
   position: fixed;
   width: ${(props) => (props.width ? props.width : "380px")};
   height: ${(props) => (props.height ? props.height : "230px")};

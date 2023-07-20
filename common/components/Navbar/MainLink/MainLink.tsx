@@ -4,7 +4,6 @@ import {AppLink} from '../AppLink/AppLink';
 import {StyledDiv, StyledText} from "../Navbar.styled";
 
 interface SidebarLinkProps {
-  className?: string
   src: string
   name: string
   href: string
@@ -14,7 +13,6 @@ interface SidebarLinkProps {
 export const MainLink: FC<SidebarLinkProps> = ({ name, src, href, isActive}) => {
   return (
     <AppLink href={href}>
-      {/*<StyledDiv className={classNames('', {}, [className])}>*/}
       <StyledDiv>
         <Image
           src={src}

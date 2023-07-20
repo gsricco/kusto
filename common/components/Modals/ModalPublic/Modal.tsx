@@ -8,8 +8,8 @@ import {
   StyledModalHeader,
   StyledModalOverlay,
   StyledModalTitle
-} from "./Modal.styled";
-import {ModalPropsType} from "./types";
+} from "../Modal.styled";
+import {ModalPropsType} from "../types";
 
 export const Modal = (
   {
