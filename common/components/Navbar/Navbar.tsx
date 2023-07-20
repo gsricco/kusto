@@ -4,6 +4,7 @@ import {usePathname} from 'next/navigation';
 import {MainLink} from "./MainLink/MainLink";
 import {StyledItemBlock, StyledLogout, StyledSidebar} from "./Navbar.styled";
 import {LogoutLink} from "./LogoutLink/logoutLink";
+import {CreatePost} from "./CreatePost/CreatePost";
 
 export type NavbarPropsType = {
   showNavbar:string | string[] | undefined
@@ -23,6 +24,7 @@ export const Navbar = ({showNavbar}:NavbarPropsType) => {
 
   return (
     <StyledSidebar showNavbar={showNavbar}>
+      <CreatePost/>
       <StyledItemBlock>
         {items}
       </StyledItemBlock>

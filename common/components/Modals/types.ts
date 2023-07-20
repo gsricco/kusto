@@ -14,3 +14,6 @@ export type ModalSizePropsType = {
   width?: string
   height?: string
 }
+export type ModalPostPropsType = ModalSizePropsType & {
+  children?: React.ReactElement
+}
