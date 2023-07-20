@@ -33,7 +33,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (width) {
-      if (width < 880) {
+      if (width < 950) {
         // вывести для мобильной версии
         setIsVisible(false);
       } else {
@@ -156,6 +156,8 @@ export default MyProfile;
 
 const ProfileWrapper = styled.div`
   position: relative;
+  /* padding-left: 0px;
+  padding-top: 36px; */
 `;
 
 const BlockButton = styled.div`
