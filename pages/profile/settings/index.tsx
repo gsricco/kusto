@@ -45,7 +45,7 @@ const GeneralInformation = () => {
       .finally(() => {
         setIsLoading(true);
       });
-  }, []);
+  }, [authMeHandler, getProfileInfo, setItem, setIsLoading]);
 
   const avatar = data?.photo || "/img/icons/avatar.svg";
 

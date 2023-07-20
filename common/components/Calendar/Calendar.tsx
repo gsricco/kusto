@@ -19,8 +19,6 @@ const Calendar = ({ date, setFieldValue }: CalendarProps) => {
     birthDate = dayjs(date, "DD-MM-YYYY");
   }
 
-  console.log(birthDate)
-
   return (
     <>
       <StyledTitle>
