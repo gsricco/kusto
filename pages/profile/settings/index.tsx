@@ -17,7 +17,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import { baseTheme } from "styles/styledComponents/theme";
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+// import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import { Modal } from "../../../common/components/Modal/Modal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
@@ -49,8 +49,8 @@ const GeneralInformation = () => {
 
   const avatar = data?.photo || "/img/icons/avatar.svg";
 
-  dayjs.extend(customParseFormat);
-  const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY");
+  // dayjs.extend(customParseFormat);
+  // const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY");
 
   const initialAuthValues = {
     username: usernameAuth?.login || data?.login || "",
