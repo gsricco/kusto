@@ -2,7 +2,7 @@ import React from 'react';
 import {ITEM_LINK} from './constant';
 import {usePathname} from 'next/navigation';
 import {MainLink} from "./MainLink/MainLink";
-import {StyledItemBlock, StyledLogout, StyledSidebar} from "./Navbar.styled";
+import {StyledCreate, StyledItemBlock, StyledLogout, StyledSidebar} from "./Navbar.styled";
 import {LogoutLink} from "./LogoutLink/logoutLink";
 import {CreatePost} from "./CreatePost/CreatePost";
 
@@ -24,7 +24,9 @@ export const Navbar = ({showNavbar}:NavbarPropsType) => {
 
   return (
     <StyledSidebar showNavbar={showNavbar}>
-      <CreatePost/>
+      <StyledCreate>
+        <CreatePost/>
+      </StyledCreate>
       <StyledItemBlock>
         {items}
       </StyledItemBlock>

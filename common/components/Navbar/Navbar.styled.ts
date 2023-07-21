@@ -46,6 +46,18 @@ export const StyledLogout = styled.div`
   }
 `
 
+export const StyledCreate = styled.div`
+  position: relative;
+  top: 144px;
+  right: 20px;
+
+  @media (max-width: 940px) {
+    left: 20px;
+  }
+`
+
+
+
 //MainLink
 export const StyledDiv = styled.div`
   display: flex;

@@ -29,6 +29,14 @@ export const StyledModalHeader = styled.div`
   padding: 12px 24px;
   border-bottom: 1px solid #4c4c4c;
 `;
+export const StyledModalHeaderNext = styled.div
+  `
+    width: 100%;
+  display: flex;
+    justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid #4c4c4c;
+`;
 
 export const StyledModalTitle = styled.span`
   flex: 1;
@@ -37,6 +45,14 @@ export const StyledModalTitle = styled.span`
   font-family: Inter;
   font-weight: 700;
   line-height: 36px;
+`;
+export const StyledModalTitleNext = styled.span`
+  color: #fff;
+  font-size: 20px;
+  font-family: Inter;
+  font-weight: 700;
+  line-height: 36px;
+
 `;
 
 export const StyledCloseButton = styled.button`

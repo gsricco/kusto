@@ -1,6 +1,7 @@
 import {FC, ReactNode} from 'react';
 import Link, {LinkProps} from 'next/link';
 import styled from "styled-components";
+import {baseTheme} from "../../../../styles/styledComponents/theme";
 
 export enum ThemeAppLink {
   PRIMARY = 'primary',
@@ -32,4 +33,8 @@ const StyledLink = styled(Link)
 `
 text-decoration: none;
   color: white;
+  
+  // &:visited{
+  //   color: ${baseTheme.colors.accent["500"]};
+  // }
 `

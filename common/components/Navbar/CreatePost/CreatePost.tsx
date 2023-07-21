@@ -13,6 +13,16 @@ export const CreatePost: FC = () => {
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
 
+  const closeModal =()=>{
+    setIsOpenModalEdit(false)
+  }
+const handleClickNext =()=>{
+    alert('Next')
+  }
+const handleClickBack =()=>{
+    alert('Back')
+  }
+
   return (
     <>
       <AppLink onClick={() => setIsOpenModalEdit(true)} href={''}>
@@ -28,6 +38,12 @@ export const CreatePost: FC = () => {
       </AppLink>
       {isOpenModalEdit && (
         <ModalPost
+          handleModalClose={closeModal}
+          handleModalNext={handleClickNext}
+          handleModalBack={handleClickBack}
+          title={'Add Photo'}
+          nextTitle={'Next title'}
+          // bodyText={`Are you really want to log out of your account `}
           width={'440px'}
           height={'440px'}
         >

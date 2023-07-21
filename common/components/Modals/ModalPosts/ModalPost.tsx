@@ -1,49 +1,62 @@
 import Image from "next/image";
-import React from "react";
+import React, {useState} from "react";
 import {
-  StyledBlockButton,
   StyledCloseButton,
-  StyledModalBody,
   StyledModalContainer,
-  StyledModalHeader,
+  StyledModalHeader, StyledModalHeaderNext,
   StyledModalOverlay,
-  StyledModalTitle
+  StyledModalTitle, StyledModalTitleNext
 } from "../Modal.styled";
-import {ModalPropsType} from "../types";
+import {ModalPostPropsType} from "../types";
+import {Button} from "../../Button/Button";
+import {ThemeButton} from "../../../enums/themeButton";
 
 export const ModalPost = (
   {
     handleModalClose,
     handleCrossClick,
+    handleModalNext,
+    handleModalBack,
     title,
+    nextTitle,
     bodyText,
     children,
     width,
     height,
-  }: ModalPropsType) => {
-  const onCloseButtonClick = () => {
-    if (handleModalClose)
-      handleModalClose();
-    if (handleCrossClick) {
-      handleCrossClick();
-    }
-  };
+  }: ModalPostPropsType) => {
+
+  const [isHeader, setIsHeader] = useState<boolean>(!!title)
+  const [isHeaderNext, setIsHeaderNext] = useState<boolean>(!!nextTitle)
+
 
   return (
     <StyledModalOverlay>
       <StyledModalContainer width={width} height={height}>
-        {/*<StyledModalHeader>*/}
-        {/*  <StyledModalTitle>{title}</StyledModalTitle>*/}
-        {/*  <StyledCloseButton onClick={onCloseButtonClick}>*/}
-        {/*    <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>*/}
-        {/*  </StyledCloseButton>*/}
-        {/*</StyledModalHeader>*/}
-        {/*<StyledModalBody>*/}
-        {/*  <p>{bodyText}</p>*/}
-        {/*  <StyledBlockButton>*/}
-        {/*    {children}*/}
-        {/*  </StyledBlockButton>*/}
-        {/*</StyledModalBody>*/}
+
+        {isHeader &&
+          (
+            <StyledModalHeader>
+              <StyledModalTitle>{title}</StyledModalTitle>
+              <StyledCloseButton onClick={handleModalClose}>
+                <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
+              </StyledCloseButton>
+            </StyledModalHeader>
+          )
+        }
+        {isHeaderNext &&
+          (
+            <StyledModalHeaderNext>
+              <StyledCloseButton onClick={handleModalBack}>
+                <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close"/>
+              </StyledCloseButton>
+              <StyledModalTitleNext>{nextTitle}</StyledModalTitleNext>
+
+              <Button theme={ThemeButton.CLEAR} onClick={handleModalNext}>Next</Button>
+            </StyledModalHeaderNext>
+          )
+        }
+
+
         {children}
       </StyledModalContainer>
     </StyledModalOverlay>
