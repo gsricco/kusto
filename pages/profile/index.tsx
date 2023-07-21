@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {getLayout} from '../../common/components/Layout/SettingsLayout/SettingsLayout';
-import {IconBlock, StyledAvatarBlock, StyledContent} from "./settings";
 import Image from "next/image";
 import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
@@ -8,6 +7,7 @@ import {useLazyProfileQuery} from "../../assets/store/api/profile/profileApi";
 import styled from "styled-components";
 import {useRouter} from "next/router";
 import {Path} from "../../common/enums/path";
+import { IconBlock, StyledAvatarBlock, StyledContent } from 'styles/styledComponents/profile/Settings.styled';
 
 const MyProfile = () => {
   const [getProfileInfo, {data}] = useLazyProfileQuery();
