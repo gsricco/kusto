@@ -23,6 +23,7 @@ import {
   StyledAvatarBlock,
   UserNameStyle
 } from "styles/styledComponents/profile/profile.styled";
+import { mediaSizes } from "../../common/components/Profile/mediaSizes";
 
 const MyProfile = () => {
   const serverAvatar: string = "";
@@ -37,10 +38,9 @@ const MyProfile = () => {
   const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
   /*  ____________<переменные для мобильной версии>______________*/
-  const buttonUnvisible = 950;
-  const mobileScreenSize = 790;
-  const avatarSize = width ? (width < mobileScreenSize ? 72 : 204) : 204;
-  const paidImageSize = width ? (width < mobileScreenSize ? 16 : 24) : 24;
+
+  const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
+  const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   /*  ____________</переменные для мобильной версии>_______________*/
 
   const handleClick = () => {
@@ -53,7 +53,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (width) {
-      if (width < buttonUnvisible) {
+      if (width < mediaSizes.buttonUnvisible) {
         // для мобильной версии
         setIsVisible(false);
       } else {
