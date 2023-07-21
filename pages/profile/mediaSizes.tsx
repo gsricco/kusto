@@ -1,5 +1,4 @@
 /*  ____________<переменные для мобильной версии>______________*/
-export const mediaSize = {
-  buttonUnvisible: 950,
-  mobileScreenSize: 790
-};
+
+export const buttonUnvisible = 950;
+export const mobileScreenSize = 790;

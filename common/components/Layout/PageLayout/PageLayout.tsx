@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { media } from "styles/styledComponents/profile/profile.styled";
+// import { media } from "styles/styledComponents/profile/profile.styled";
 
 export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
@@ -69,7 +69,7 @@ export const NavbarWrapper = styled.div`
   align-items: start;
   font-family: Inter;
 
-  @media (max-width: ${media}) {
+  @media (max-width: 790px) {
     display: none;
   }
 `;
