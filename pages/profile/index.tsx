@@ -24,6 +24,8 @@ import {
   UserNameStyle
 } from "styles/styledComponents/profile/profile.styled";
 import { mediaSizes } from "../../common/components/Profile/mediaSizes";
+import { LoginNavigate } from "common/hoc/LoginNavigate";
+import { redirect } from "next/navigation";
 
 const MyProfile = () => {
   const serverAvatar: string = "";
@@ -43,10 +45,6 @@ const MyProfile = () => {
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   /*  ____________</переменные для мобильной версии>_______________*/
 
-  const handleClick = () => {
-    router.push(Path.PROFILE_SETTINGS);
-  };
-
   useEffect(() => {
     getProfileInfo();
   }, []);
@@ -61,6 +59,21 @@ const MyProfile = () => {
       }
     }
   }, [width]);
+
+  const isAuth = false;
+
+  if (!isAuth) {
+    return redirect("/auth/login");
+    //   {
+    //     destination: ,
+    //     permanent: false,
+    //   }
+    // )
+  }
+
+  const handleClick = () => {
+    router.push(Path.PROFILE_SETTINGS);
+  };
 
   /*   __________<Нахождение ссылки в тексте (НЕ УДАЛЯТЬ!!!)>______ */
   const urlify = (text: string) => {
@@ -89,86 +102,88 @@ const MyProfile = () => {
 
   return (
     <>
-      {isSuccess && (
-        <ProfileWrapper>
-          <HeaderStyle>
-            {isVisible && (
-              <BlockButton>
-                <Button
-                  theme={ThemeButton.SECONDARY}
-                  type="button"
-                  width={"auto"}
-                  style={{ padding: "6px 24px", gap: "10px" }}
-                  onClick={handleClick}
-                >
-                  Profile Settings
-                </Button>
-              </BlockButton>
-            )}
-            <StyledAvatarBlock>
-              <IconBlock>
-                <Image
-                  src={user?.photo || avatar}
-                  width={avatarSize}
-                  height={avatarSize}
-                  alt={"avatar"}
-                  style={{ maxWidth: "204px", maxHeight: "204px" }}
-                />
-              </IconBlock>
-            </StyledAvatarBlock>
-
-            <UserNameStyle>
-              {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
-              {isPaid && (
-                <Image
-                  src={Paid}
-                  width={paidImageSize}
-                  height={paidImageSize}
-                  alt={"paid"}
-                  // style={{ }}
-                />
+      <LoginNavigate>
+        {isSuccess && (
+          <ProfileWrapper>
+            <HeaderStyle>
+              {isVisible && (
+                <BlockButton>
+                  <Button
+                    theme={ThemeButton.SECONDARY}
+                    type="button"
+                    width={"auto"}
+                    style={{ padding: "6px 24px", gap: "10px" }}
+                    onClick={handleClick}
+                  >
+                    Profile Settings
+                  </Button>
+                </BlockButton>
               )}
-            </UserNameStyle>
+              <StyledAvatarBlock>
+                <IconBlock>
+                  <Image
+                    src={user?.photo || avatar}
+                    width={avatarSize}
+                    height={avatarSize}
+                    alt={"avatar"}
+                    style={{ maxWidth: "204px", maxHeight: "204px" }}
+                  />
+                </IconBlock>
+              </StyledAvatarBlock>
 
-            <InfoBlock>
-              <FolowBlock>
-                <div>
-                  <div>2 218</div>
-                  <div>Following</div>
-                </div>
-                <div>
-                  <div>2 358</div>
-                  <div>Followers</div>
-                </div>
-                <div>
-                  <div>2 358</div>
-                  <div>Publications</div>
-                </div>
-              </FolowBlock>
+              <UserNameStyle>
+                {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
+                {isPaid && (
+                  <Image
+                    src={Paid}
+                    width={paidImageSize}
+                    height={paidImageSize}
+                    alt={"paid"}
+                    // style={{ }}
+                  />
+                )}
+              </UserNameStyle>
 
-              <AboutMeBlock>
-                <AboutMeText>
-                  {urlify(user?.userInfo || "about me")}
+              <InfoBlock>
+                <FolowBlock>
+                  <div>
+                    <div>2 218</div>
+                    <div>Following</div>
+                  </div>
+                  <div>
+                    <div>2 358</div>
+                    <div>Followers</div>
+                  </div>
+                  <div>
+                    <div>2 358</div>
+                    <div>Publications</div>
+                  </div>
+                </FolowBlock>
 
-                  {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                <AboutMeBlock>
+                  <AboutMeText>
+                    {urlify(user?.userInfo || "about me")}
+
+                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-                </AboutMeText>
-              </AboutMeBlock>
-            </InfoBlock>
-          </HeaderStyle>
-          <PhotosBlock>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-            <PhotoStyle>Photo</PhotoStyle>
-          </PhotosBlock>
-        </ProfileWrapper>
-      )}
+                  </AboutMeText>
+                </AboutMeBlock>
+              </InfoBlock>
+            </HeaderStyle>
+            <PhotosBlock>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+              <PhotoStyle>Photo</PhotoStyle>
+            </PhotosBlock>
+          </ProfileWrapper>
+        )}
+      </LoginNavigate>
     </>
   );
 };

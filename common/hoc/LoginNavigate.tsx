@@ -1,14 +1,15 @@
+import { FC, PropsWithChildren } from "react";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { useAuthMeQuery } from "assets/store/api/profile/profileApi";
 
-import {FC, PropsWithChildren} from "react";
-import {useRouter} from "next/router";
+export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
+  const router = useRouter();
+  const { isSuccess } = useAuthMeQuery();
 
-export const LoginNavigate: FC<PropsWithChildren<{}>> = ({children}) => {
-  const router = useRouter()
+  const isAuth = true; // запрос авторизации  useSelector(state => state.auth.isAuth)
 
-  const isAuth = true  // запрос авторизации
+  if (!isAuth) router.push("/auth/login");
 
-  if (!isAuth) router.push('/login')
-
-  return <>{children}</>
+  return <>{children}</>;
 };
-

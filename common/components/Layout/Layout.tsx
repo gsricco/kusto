@@ -3,14 +3,17 @@ import { NextPage } from "next";
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { baseTheme } from "../../../styles/styledComponents/theme";
+import { Providers } from "../Navigation/Providers";
 
 export const Layout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
   return (
-    <StyledWrapper>
-      <Header />
-      <Main>{children}</Main>
-    </StyledWrapper>
+    <Providers>
+      <StyledWrapper>
+        <Header />
+        <Main>{children}</Main>
+      </StyledWrapper>
+    </Providers>
   );
 };
 
