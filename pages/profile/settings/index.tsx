@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { FormValueProfile } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
@@ -8,24 +8,66 @@ import { SettingsPageWrapper } from "../../../features/settings/SettingsPageWrap
 import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
-  useSaveProfileInfoMutation
+  useSaveProfileInfoMutation,
+  useProfileQuery,
+  profile,
+  getRunningQueriesThunk
 } from "../../../assets/store/api/profile/profileApi";
 import type {} from "@mui/x-date-pickers/themeAugmentation";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import styled from "styled-components";
 import Image from "next/image";
-import { baseTheme } from "styles/styledComponents/theme";
-import dayjs from "dayjs";
-// import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import { Modal } from "../../../common/components/Modal/Modal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import Calendar from "common/components/Calendar/Calendar";
+import { 
+  BlockButton, 
+  IconBlock, 
+  StyledAvatarBlock, 
+  StyledContent, 
+  StyledLine, 
+  StyledProfileForm 
+} from "styles/styledComponents/profile/Settings.styled";
+import { UserType } from "assets/store/api/profile/types";
+import { wrapper } from 'assets/store/store';
 
-const GeneralInformation = () => {
+
+wrapper.getServerSideProps(
+  (store) => async () => {
+    
+    store.dispatch(profile.initiate());
+    const { data } = useProfileQuery();
+
+
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+    return {
+      props: {data},
+    };
+  }
+);
+
+// export const getServerSideProps = async () => {
+//   const { data } = useProfileQuery();
+  
+//   if (!data) {
+//       return {
+//           notFound: true
+//       }
+//   }
+
+//   return {
+//       props: {
+//           data
+//       }
+//   }
+// }
+
+const GeneralInformation = (props: UserType) => {
+  console.log("props", props)
   const [isModalOpen, setIsModalOpen] = useState({ photoModal: false, saveProfileModal: false });
   const [isLoading, setIsLoading] = useState(false);
   const { setItem } = useLocalStorage();
@@ -45,12 +87,9 @@ const GeneralInformation = () => {
       .finally(() => {
         setIsLoading(true);
       });
-  }, []);
+  }, [authMeHandler, setItem, getProfileInfo, setIsLoading]);
 
-  const avatar = data?.photo || "/img/icons/avatar.svg";
-
-  // dayjs.extend(customParseFormat);
-  // const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY");
+  const avatar =  data?.photo || props.photo || "/img/icons/avatar.svg";
 
   const initialAuthValues = {
     username: usernameAuth?.login || data?.login || "",
@@ -197,68 +236,3 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
-
-export const StyledContent = styled.div`
-  position: relative;
-  display: flex;
-  gap: 40px;
-
-  @media (max-width: 790px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-export const StyledAvatarBlock = styled.div`
-  max-width: 192px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  gap: 20px;
-
-  background: ${baseTheme.colors.dark[700]};
-  color: ${baseTheme.colors.dark[100]};
-`;
-
-export const IconBlock = styled.div`
-  position: relative;
-
-  width: 192px;
-  height: 192px;
-  overflow: hidden;
-  background: ${baseTheme.colors.dark[100]};
-  border-radius: 50%;
-
-  & img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 192px;
-    height: 192px;
-    object-fit: cover;
-  }
-`;
-
-const StyledProfileForm = styled(Form)`
-  align-items: flex-end;
-  width: 100%;
-`;
-
-const StyledLine = styled.div`
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  width: 100%;
-  max-width: 726px;
-  height: 1px;
-  background: ${baseTheme.colors.dark[300]};
-`;
-
-const BlockButton = styled.div`
-  text-align: right;
-  padding-top: 24px;
-`;
-
-

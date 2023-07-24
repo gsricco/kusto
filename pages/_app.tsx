@@ -3,8 +3,8 @@ import React, {ReactElement, ReactNode} from 'react';
 import {NextPage} from 'next';
 import {useLoader} from '../common/hooks/useLoader';
 import 'styles/nprogress.css'
-import { Provider } from 'react-redux';
-import { store } from '../assets/store/store';
+// import { Provider } from 'react-redux';
+import { wrapper } from '../assets/store/store';
 import { appWithTranslation } from 'next-i18next'
 import {createGlobalStyle} from "styled-components";
 
@@ -23,14 +23,19 @@ const App = ({Component, pageProps}: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return getLayout(
-    <Provider store={store}>
-      <GlobalStyle/>
+    // <Provider store={store}>
+    <>
+    <GlobalStyle/>
       <Component {...pageProps} />
-    </Provider>
+    </>
+      
+    // </Provider>
   );
 }
 
-export default appWithTranslation(App as React.FC)
+// export default appWithTranslation(App as React.FC)
+
+export default wrapper.withRedux(App);
 
 const GlobalStyle = createGlobalStyle`
   *{

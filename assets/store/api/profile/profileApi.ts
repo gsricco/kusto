@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {AuthMeType, UserType} from "./types";
 import {getItem} from "../../../../common/hooks/useLocalStorage";
+import { HYDRATE } from 'next-redux-wrapper'
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -16,6 +17,11 @@ export const profileApi = createApi({
       return headers;
     }
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
+  },
   tagTypes: ["UserInfo"],
   endpoints: (builder) => ({
     profile: builder.query<UserType, void>({
@@ -77,5 +83,9 @@ export const {
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
   useLazyAuthMeQuery,
-  useSaveAvatarMutation
+  useSaveAvatarMutation,
+  useProfileQuery,
+  util: { getRunningQueriesThunk }
 } = profileApi;
+
+export const { profile } = profileApi.endpoints;
