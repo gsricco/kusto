@@ -30,7 +30,6 @@ export type LoginResponseType = {
   profile: boolean;
 };
 
-
 type ErrorMessagesType = {
   field: string;
   message: string;

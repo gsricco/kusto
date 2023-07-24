@@ -64,5 +64,3 @@ export const BlockButton = styled.div`
   text-align: right;
   padding-top: 24px;
 `;
-
-

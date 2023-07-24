@@ -20,22 +20,22 @@ import { getLayout } from "../../../common/components/Layout/SettingsLayout/Sett
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import Calendar from "common/components/Calendar/Calendar";
-import { 
-  BlockButton, 
-  IconBlock, 
-  StyledAvatarBlock, 
-  StyledContent, 
-  StyledLine, 
-  StyledProfileForm 
+import {
+  BlockButton,
+  IconBlock,
+  StyledAvatarBlock,
+  StyledContent,
+  StyledLine,
+  StyledProfileForm
 } from "styles/styledComponents/profile/Settings.styled";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState({  
-    photoModal: false,              // открытие модального окна выбора аватарки
-    saveProfileModal: false         // открытие модального окна при сохранении изменений
+  const [isModalOpen, setIsModalOpen] = useState({
+    photoModal: false, // открытие модального окна выбора аватарки
+    saveProfileModal: false // открытие модального окна при сохранении изменений
   });
   const [isLoading, setIsLoading] = useState(false);
   const { setItem } = useLocalStorage();
@@ -58,10 +58,10 @@ const GeneralInformation = () => {
   }, [authMeHandler, getProfileInfo, setItem, setIsLoading]);
 
   // аватарка, отображаемая при загрузке
-  const avatar = data?.photo || "/img/icons/avatar.svg"; 
-  
+  const avatar = data?.photo || "/img/icons/avatar.svg";
+
   // начальные значения для формы
-  const initialAuthValues = {                             
+  const initialAuthValues = {
     username: usernameAuth?.login || data?.login || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",

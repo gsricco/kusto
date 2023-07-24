@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
-import {Formik} from "formik";
+import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import {useRouter} from "next/router";
-import {useLoginMutation} from "../../../assets/store/api/auth/authApi";
-import {FormValueLogin, ResetForm, SetFieldErrorType} from "../../../common/components/Formik/types";
+import { useRouter } from "next/router";
+import { useLoginMutation } from "../../../assets/store/api/auth/authApi";
+import {
+  FormValueLogin,
+  ResetForm,
+  SetFieldErrorType
+} from "../../../common/components/Formik/types";
 import {
   StyledContainerAuth,
   StyledForgotLink,
   StyledLinkBlock
 } from "../../../styles/styledComponents/auth/Auth.styled";
-import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
+import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
@@ -19,18 +23,18 @@ import {
   StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
-import {useShowPassword} from "../../../common/hooks/useShowPassword";
-import {validateLogin} from "../../../common/utils/validateLogin";
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button} from "../../../common/components/Button/Button";
-import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetStaticPropsContext} from "next";
+import { useShowPassword } from "../../../common/hooks/useShowPassword";
+import { validateLogin } from "../../../common/utils/validateLogin";
+import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
+import { Button } from "../../../common/components/Button/Button";
+import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetStaticPropsContext } from "next";
 import config from "../../../next-i18next.config.js";
-import {useTranslation} from "next-i18next";
-import {ThemeButton} from "../../../common/enums/themeButton";
-import {Path} from "../../../common/enums/path";
-import {useLocalStorage} from "common/hooks/useLocalStorage";
+import { useTranslation } from "next-i18next";
+import { ThemeButton } from "../../../common/enums/themeButton";
+import { Path } from "../../../common/enums/path";
+import { useLocalStorage } from "common/hooks/useLocalStorage";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -56,7 +60,7 @@ const Login = () => {
   const [loginHandler, { data }] = useLoginMutation();
 
   if (data) {
-    setItem('accessToken', data.accessToken);
+    setItem("accessToken", data.accessToken);
     data.profile
       ? route.push(Path.PROFILE)
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`);
@@ -117,7 +121,6 @@ const Login = () => {
                 touched={touched}
                 marginBottom={"48px"}
                 t={t}
-            
               >
                 <StyledShowPasswordBtn
                   alt="show password"

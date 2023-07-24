@@ -123,11 +123,9 @@ export default function Recovery() {
           handleModalClose={handleModalClose}
           height="auto"
         >
-          <Button
-            theme={ThemeButton.PRIMARY}
-            onClick={handleModalClose}
-            width={'96px'}
-          >OK</Button>
+          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+            OK
+          </Button>
         </Modal>
       )}
     </StyledContainerAuth>

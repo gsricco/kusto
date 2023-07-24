@@ -12,9 +12,8 @@ type CalendarProps = {
 };
 
 const Calendar = ({ date, setFieldValue }: CalendarProps) => {
-
   dayjs.extend(customParseFormat);
-  let birthDate = dayjs()
+  let birthDate = dayjs();
   if (date) {
     birthDate = dayjs(date, "DD-MM-YYYY");
   }
