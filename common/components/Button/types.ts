@@ -12,7 +12,7 @@ export type StyledButtonPropsType = {
   height?: string;
   type?: "button" | "reset" | "submit";
   theme: ThemeButton;
-  handleButtonType: HandleButtonType;
+  handler: HandleButtonType;
 };
 
 export type HandleButtonType = {
