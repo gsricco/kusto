@@ -1,35 +1,34 @@
-import {ButtonHTMLAttributes} from "react";
-import {ThemeButton} from "../../enums/themeButton";
+import { ButtonHTMLAttributes } from "react";
+import { ThemeButton } from "../../enums/themeButton";
 
 export type ButtonPropsType = ButtonHTMLAttributes<HTMLButtonElement> & {
-  className?: string
-  theme: ThemeButton
-  disabled?: boolean
-  width?: string
-}
+  theme: ThemeButton;
+  disabled?: boolean;
+  width?: string;
+};
 
 export type StyledButtonPropsType = {
-  width?: string
-  height?: string
-  type?: 'button' | 'reset' | 'submit'
-  theme: ThemeButton
-  handleButtonType: HandleButtonType
-}
+  width?: string;
+  height?: string;
+  type?: "button" | "reset" | "submit";
+  theme: ThemeButton;
+  handleButtonType: HandleButtonType;
+};
 
 export type HandleButtonType = {
-  'max-width'?: string
-  'max-height'?: string
-  color?: string
-  padding?: string
-  border?: string
-  background?: string
-  outline?: string
-  '&:hover'?: HoverActiveDisableType
-  '&:active'?: HoverActiveDisableType
-  '&.disabled'?: HoverActiveDisableType
-}
+  "max-width"?: string;
+  "max-height"?: string;
+  color?: string;
+  padding?: string;
+  border?: string;
+  background?: string;
+  outline?: string;
+  "&:hover"?: HoverActiveDisableType;
+  "&:active"?: HoverActiveDisableType;
+  "&.disabled"?: HoverActiveDisableType;
+};
 
 type HoverActiveDisableType = {
-  color?: string
-  border?: string
-}
+  color?: string;
+  border?: string;
+};
