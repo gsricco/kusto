@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import {Field} from "formik";
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import {StyledErrorMsgPropsType, TextAreaPropsType} from "./types";
+import { Field } from "formik";
+import { baseTheme } from "../../../styles/styledComponents/theme";
+import { StyledErrorMsgPropsType, TextAreaPropsType } from "./types";
 
 //FormikField
 export const StyledField = styled(Field)`
@@ -16,9 +16,9 @@ export const StyledField = styled(Field)`
   outline: none;
   border-radius: 2px;
   border: ${(props) =>
-  props.border === "red"
-    ? `1px solid ${baseTheme.colors.danger[500]}`
-    : `1px solid ${baseTheme.colors.dark[100]}`};
+    props.border === "red"
+      ? `1px solid ${baseTheme.colors.danger[500]}`
+      : `1px solid ${baseTheme.colors.dark[100]}`};
   background: ${baseTheme.colors.dark[500]};
   color: ${baseTheme.colors.light[100]};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
@@ -35,7 +35,6 @@ export const StyledField = styled(Field)`
     max-width: ${(props) => (props.width ? "100vw" : "330px")};
   }
 `;
-
 
 export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   max-width: ${(props) => (props.width ? props.width : "330px")};
@@ -49,9 +48,9 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   outline: none;
   border-radius: 2px;
   border: ${(props) =>
-  props.border === "red"
-    ? `1px solid ${baseTheme.colors.danger[500]}`
-    : `1px solid ${baseTheme.colors.dark[100]}`};
+    props.border === "red"
+      ? `1px solid ${baseTheme.colors.danger[500]}`
+      : `1px solid ${baseTheme.colors.dark[100]}`};
   background: ${baseTheme.colors.dark[500]};
   color: ${baseTheme.colors.light[100]};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
@@ -69,13 +68,12 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   }
 `;
 
-
 //FormikLabel
 export const StyledInputContainer = styled.div`
   position: relative;
 `;
 
-export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: string }>`
+export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -83,10 +81,8 @@ export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: str
   font-family: Inter;
   font-size: 16px;
 
-  margin-bottom: ${(props) => (props.withError ? 0 : props.marginBottom || "24px")};
+  margin-bottom: ${(props) => (props.witherror === "err" ? 0 : props.margin || "24px")};
 `;
-
-
 
 export const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`
   width: 100%;

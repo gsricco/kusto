@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import {StyledButtonPropsType} from "./types";
+import { StyledButtonPropsType } from "./types";
 
-export const StyledButton = styled.button.attrs(props => ({
-  type: props.type ? props.type : 'button' })) <StyledButtonPropsType>
-  `
+export const StyledButton = styled.button.attrs((props) => ({
+  type: props.type ? props.type : "button"
+}))<StyledButtonPropsType>`
     height: 36px;
-    width: ${props => props.width ? props.width : '330px'};
+    width: ${(props) => (props.width ? props.width : "330px")};
     padding: 0 20px;
 
 
@@ -21,8 +21,8 @@ export const StyledButton = styled.button.attrs(props => ({
     
     
 
-    ${props => props.theme ? props.handleButtonType : ''};
+    ${(props) => (props.theme ? props.handler : "")};
 
     @media (max-width: 390px) {
-      width: ${props => props.width ? props.width : '80vw'};
-  `
+      width: ${(props) => (props.width ? props.width : "80vw")};
+  `;
