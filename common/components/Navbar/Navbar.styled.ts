@@ -44,9 +44,9 @@ export const StyledLogout = styled.div`
 `;
 
 export const StyledCreate = styled.div`
-  position: relative;
-  top: 144px;
-  right: 20px;
+  position: absolute;
+  top: 122px;
+  left: 46px;
 
   @media (max-width: 940px) {
     left: 20px;
