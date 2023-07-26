@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "../assets/store/store";
 import { appWithTranslation } from "next-i18next";
 import { createGlobalStyle } from "styled-components";
+import { SessionProvider } from "next-auth/react";
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -16,16 +17,19 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) => {
   useLoader();
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return getLayout(
+    // <SessionProvider session={session}>
+
     <Provider store={store}>
       <GlobalStyle />
       <Component {...pageProps} />
     </Provider>
+    // </SessionProvider>
   );
 };
 
