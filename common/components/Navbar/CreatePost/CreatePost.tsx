@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import React, {FC, useState} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {AppLink} from '../AppLink/AppLink';
@@ -7,12 +7,27 @@ import {ThemeButton} from "../../../enums/themeButton";
 import {useRouter} from "next/router";
 import {ModalPost} from "../../Modals/ModalPosts/ModalPost";
 import {StyledDiv} from "../Navbar.styled";
+import PhotoSelectModal from "../../../../features/profile/PhotoSelectModal";
+import PostPhotoSelectModal from "../../../../features/posts/PostPhotoSelectModal";
 
 
 export const CreatePost: FC = () => {
 
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
+  // Достать фото поста если надо - сделать запрос
+  const data = {
+    // photo:'/img/icons/person-remove.svg'
+    photo:''
+  }
 
+
+
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
+  const [fullScreen, setFullScreen] = useState<boolean>(false)
+  const [isNextHeader, setIsNext] = useState<boolean>(true)
+  const [isModalOpen, setIsModalOpen] = useState({
+    photoModal: false, // открытие модального окна выбора аватарки
+    saveProfileModal: false // открытие модального окна при сохранении изменений
+  });
   const closeModal =()=>{
     setIsOpenModalEdit(false)
   }
@@ -21,6 +36,17 @@ const handleClickNext =()=>{
   }
 const handleClickBack =()=>{
     alert('Back')
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen({ photoModal: false, saveProfileModal: false });
+  };
+
+  const handleFullScreen = (full:boolean)=>{
+    setFullScreen(full)
+  }
+  const changeHeader = (isNextHeader:boolean)=>{
+    setIsNext(isNextHeader)
   }
 
   return (
@@ -41,14 +67,14 @@ const handleClickBack =()=>{
           handleModalClose={closeModal}
           handleModalNext={handleClickNext}
           handleModalBack={handleClickBack}
-          title={'Add Photo'}
-          nextTitle={'Next title'}
+          title={isNextHeader ? 'Add Photo' : undefined}
+          nextTitle={isNextHeader ? undefined: 'Next title'}
           // bodyText={`Are you really want to log out of your account `}
-          width={'440px'}
-          height={'440px'}
+          width={fullScreen?'100%':'492px'}
+          height={fullScreen?'100%':'564px'}
         >
           <>
-            children
+            <PostPhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} handleFullScreen={handleFullScreen} changeHeader={changeHeader}/>
           </>
 
         </ModalPost>

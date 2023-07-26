@@ -18,4 +18,5 @@ export type ModalPostPropsType = ModalPropsType & {
   nextTitle?:string
   handleModalNext?:()=>void
   handleModalBack?:()=>void
+  handleModalClose: () => void;
 }

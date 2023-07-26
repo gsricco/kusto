@@ -65,6 +65,16 @@ export const StyledCloseButton = styled.button`
     fill: #397df6;
   }
 `;
+export const StyledCloseNextButton = styled.button`
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+
+  &:hover {
+    fill: #397df6;
+  }
+`;
 
 export const StyledModalBody = styled.div`
   display: flex;

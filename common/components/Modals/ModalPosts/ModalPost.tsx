@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, {useState} from "react";
 import {
-  StyledCloseButton,
+  StyledCloseButton, StyledCloseNextButton,
   StyledModalContainer,
   StyledModalHeader, StyledModalHeaderNext,
   StyledModalOverlay,
@@ -28,7 +28,9 @@ export const ModalPost = (
   const [isHeader, setIsHeader] = useState<boolean>(!!title)
   const [isHeaderNext, setIsHeaderNext] = useState<boolean>(!!nextTitle)
 
-
+  const handleClickModalClose = ()=>{
+      handleModalClose();
+  }
   return (
     <StyledModalOverlay>
       <StyledModalContainer width={width} height={height}>
@@ -37,7 +39,7 @@ export const ModalPost = (
           (
             <StyledModalHeader>
               <StyledModalTitle>{title}</StyledModalTitle>
-              <StyledCloseButton onClick={handleModalClose}>
+              <StyledCloseButton onClick={handleClickModalClose}>
                 <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
               </StyledCloseButton>
             </StyledModalHeader>
@@ -46,9 +48,9 @@ export const ModalPost = (
         {isHeaderNext &&
           (
             <StyledModalHeaderNext>
-              <StyledCloseButton onClick={handleModalBack}>
+              <StyledCloseNextButton onClick={handleModalBack}>
                 <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close"/>
-              </StyledCloseButton>
+              </StyledCloseNextButton>
               <StyledModalTitleNext>{nextTitle}</StyledModalTitleNext>
 
               <Button theme={ThemeButton.CLEAR} onClick={handleModalNext}>Next</Button>
