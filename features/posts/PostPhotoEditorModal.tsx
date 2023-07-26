@@ -1,19 +1,15 @@
 import React, {useRef, useState} from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import {Slider} from './Slider';
-import {Button} from 'common/components/Button/Button';
-import {ThemeButton} from 'common/enums/themeButton';
 import styled from "styled-components";
-import {useSaveAvatarMutation} from 'assets/store/api/profile/profileApi';
 import fullScreen from '../../public/img/icons/expand-outline.svg'
+import fullScreenOn from '../../public/img/icons/expand.svg'
 import zoom from '../../public/img/icons/maximize-outline.svg'
+import zoomOn from '../../public/img/icons/maximize.svg'
 import addPhoto from '../../public/img/icons/image-outline.svg'
 import Image from "next/image";
 import {baseTheme} from "../../styles/styledComponents/theme";
-import PhotoEditorModal from "../profile/PhotoEditorModal";
 
-
-////  //  Модальное окно редактирования изображения  //  ////
 
 const PostPhotoEditorModal = ({
                                 photo,
@@ -27,9 +23,9 @@ const PostPhotoEditorModal = ({
 
   const [value, setValue] = useState(12) // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false)  // начальное значение для rotate
-  const [full, setFullScreen] = useState(false)  // начальное значение для rotate
+  const [full, setFullScreen] = useState(false)
+  const [photoPost, setPhotoPost] = useState<File>()
 
-  // const [saveAvatarHandler] = useSaveAvatarMutation()
 
   const cropRef = useRef<AvatarEditor | null>(null)
 
@@ -47,6 +43,7 @@ const PostPhotoEditorModal = ({
     if (cropRef.current) {
       const avatar = cropRef.current.getImage().toDataURL();
 
+
       // преобразование base64 в file
       const result = await fetch(avatar);
       const blob = await result.blob();
@@ -55,6 +52,8 @@ const PostPhotoEditorModal = ({
       // преобразование file в FormData
       const formData = new FormData()
       formData.append("avatar", file as File)
+      console.log('@@@@@',formData.get('avatar'),file)
+      setPhotoPost(file)
 
       try {
         // await saveAvatarHandler(formData)
@@ -84,8 +83,9 @@ const PostPhotoEditorModal = ({
           scale={value / 10}
           // rotate={rotateAngle}
           style={{
-            width: "100%",
-            height: "100%",
+            width: full?"90vh":"100%",
+            height: full?"90vh":"100%",
+            left:"30px"
           }}
         />
       </StyledPhotoEditor>
@@ -107,6 +107,8 @@ const PostPhotoEditorModal = ({
                 "--val": value
               }}
           />
+
+
       </StyledSliderContainer>}
      {/* <StyledSliderContainer>
         <label htmlFor="rotate">Rotate:</label>
@@ -131,15 +133,38 @@ const PostPhotoEditorModal = ({
           Save
         </Button>
       </StyledContainerButton>*/}
+      <StyledPhotoPost>
+        <AvatarEditor     // width и height задается в styled component с учетом border
+          // ref={cropRef}
+          image={photo}
+          // border={1}
+          // borderRadius={158}
+          // color={[23, 23, 23, 0]}
+          // scale={value / 10}
+          // rotate={rotateAngle}
+          style={{
+            width: "90px",
+            height: "90px",
+            left:"30px",
+            top:"10px"
+          }}
+        />
+        {/*<Image src={photoPost?photoPost:photo} alt={Photo}/>*/}
+      </StyledPhotoPost>
       <div onClick={handleClickFullScreen}>
-        <StyledIconFullScreen src={fullScreen} alt={fullScreen}/>
+        <StyledIconFullScreen src={full?fullScreenOn:fullScreen} alt={fullScreen}/>
       </div>
       <div onClick={() => setOpenZoom(!openZoom)}>
-        <StyledIconZoom src={zoom} alt={zoom}/>
+        <StyledIconZoom src={!openZoom?zoom:zoomOn} alt={zoom}/>
       </div>
-      <div onClick={() => alert('Add photo please')}>
+      <div onClick={() => {
+        alert('Add photo please');
+        handleSave();
+      }}>
         <StyledIconAddPhoto src={addPhoto} alt={addPhoto} full={full}/>
       </div>
+
+
 
     </>
   )
@@ -161,6 +186,8 @@ const StyledPhotoEditor = styled.div<PhotoEditorPropsType>
     // margin:${props=>props.full?'0':' 61px auto'};
     width:${props=>props.full?'100%': '490px'};
     height:${props=>props.full?'': '502px'};
+    display:flex;
+    justify-content: center;
 
     @media (max-width: 390px) {
       width: 80vw;
@@ -171,6 +198,17 @@ const StyledPhotoEditor = styled.div<PhotoEditorPropsType>
 
   `;
 
+const StyledPhotoPost = styled.div
+`
+  position: absolute;
+  width: 152px;
+  height: 106px;
+  bottom: 60px;
+  right: 20px;
+  background: ${baseTheme.colors.dark["300"]};
+  opacity: 0.7;
+`
+
 const StyledSliderContainer = styled.div
   `
     display: flex;
@@ -178,6 +216,7 @@ const StyledSliderContainer = styled.div
     padding: 5px 30px;
     position: absolute;
     bottom: 100px;
+    left:50px;
     width: 80%;
 
     & label {
@@ -197,7 +236,7 @@ const StyledIconFullScreen = styled(Image)
     left: 16px;
     width: 40px;
     height: 40px;
-    background: ${baseTheme.colors.dark["300"]};
+    background: ${baseTheme.colors.dark["100"]};
   `
 
 const StyledIconZoom = styled(StyledIconFullScreen)

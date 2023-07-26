@@ -1,24 +1,29 @@
 import Image from "next/image";
-import {useState} from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import {baseTheme} from "styles/styledComponents/theme";
 import PostPhotoEditorModal from "./PostPhotoEditorModal";
 import {Button} from 'common/components/Button/Button';
 import {ThemeButton} from 'common/enums/themeButton';
 import closeIcon from "/public/img/icons/close_white.svg"
+import {
+  StyledCloseNextButton,
+  StyledModalHeaderNext,
+  StyledModalTitleNext
+} from "../../common/components/Modals/Modal.styled";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
 const PostPhotoSelectModal = ({
                                 handleModalClose,
                                 handleFullScreen,
-                                changeHeader,
+                                // changeHeader,
                                 avatar
                               }: {
   handleModalClose: () => void
   avatar?: string
   handleFullScreen: (full: boolean) => void
-  changeHeader: (isNext: boolean) => void
+  // changeHeader: (isNext: boolean) => void
 }) => {
 
   const [photo, setPhoto] = useState<File>()  // изображение, передаваемое в компоненту редактирования
@@ -31,7 +36,7 @@ const PostPhotoSelectModal = ({
     if (e.target.files?.length) {
       const file = e.target.files[0]
       setPhoto(file)
-      changeHeader(false);
+      // changeHeader(false);
       setIsEditorOpen(true)
     }
   }
@@ -42,25 +47,28 @@ const PostPhotoSelectModal = ({
     handleModalClose()
   }
 
+  const handleClickFullScreen = (full:boolean)=>{
+    handleFullScreen(full);
+  }
 
   return (
-    <StyledModalOverlay>
-      {/*<StyledModalContainer>
-        <StyledModalHeader>
-          <StyledModalTitle>Add a Profile Photo</StyledModalTitle>
+    <>
+      {!isEditorOpen ? <StyledModalHeader>
+          <StyledModalTitle>{'Add Photo'}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
-            <Image
-              priority
-              src={closeIcon}
-              height={24}
-              width={24}
-              alt="close"
-            />
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
           </StyledCloseButton>
-        </StyledModalHeader>*/}
+        </StyledModalHeader> :
+        <StyledModalHeaderNext>
+          <StyledCloseNextButton onClick={() => alert('handleModalBack')}>
+            <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close"/>
+          </StyledCloseNextButton>
+          <StyledModalTitleNext>{'Cropping'}</StyledModalTitleNext>
+          <Button theme={ThemeButton.CLEAR} onClick={() => alert('handleModalBack')}>Next</Button>
+        </StyledModalHeaderNext>}
       <StyledModalBody>
         {isEditorOpen && photo ? <PostPhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}
-                                                       handleFullScreen={handleFullScreen}/>
+                                                       handleFullScreen={(full)=>handleClickFullScreen(full)}/>
           : <>
             <StyledModalImageContainer>
               {avatar ? <img id="avatar" src={avatar} alt="Avatar"/>
@@ -80,8 +88,7 @@ const PostPhotoSelectModal = ({
           </>
         }
       </StyledModalBody>
-      {/*</StyledModalContainer>*/}
-    </StyledModalOverlay>
+    </>
   );
 }
 

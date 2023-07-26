@@ -5,7 +5,7 @@ import {baseTheme} from "styles/styledComponents/theme";
 const trackH = "0.4em";
 const thumbD = "15px";
 const trackC = baseTheme.colors.light["700"];
-const filllC = baseTheme.colors.dark["300"];
+const filllC = baseTheme.colors.accent["500"];
 
 const track = css`
   box-sizing: border-box;
@@ -86,8 +86,8 @@ export const Slider = styled.input<SliderPropsType>
 
   margin: 0;
   padding: 0;
-  height: ${thumbD};
-  background: transparent;
+  height: calc(3*${thumbD});
+  background: ${baseTheme.colors.dark["100"]};
   font: 1em/1 arial, sans-serif;
 
   &::-webkit-slider-runnable-track {
