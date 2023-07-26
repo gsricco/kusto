@@ -60,7 +60,7 @@ const MyProfile = () => {
     }
   }, [width]);
 
-  const isAuth = false;
+  const isAuth = true;
 
   if (!isAuth) {
     return redirect("/auth/login");
