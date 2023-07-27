@@ -1,11 +1,11 @@
 import Image from "next/image";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {baseTheme} from "styles/styledComponents/theme";
+import { baseTheme } from "styles/styledComponents/theme";
 import PostPhotoEditorModal from "./PostPhotoEditorModal";
-import {Button} from 'common/components/Button/Button';
-import {ThemeButton} from 'common/enums/themeButton';
-import closeIcon from "/public/img/icons/close_white.svg"
+import { Button } from "common/components/Button/Button";
+import { ThemeButton } from "common/enums/themeButton";
+import closeIcon from "/public/img/icons/close_white.svg";
 import {
   StyledCloseNextButton,
   StyledModalHeaderNext,
@@ -15,84 +15,102 @@ import {
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
 const PostPhotoSelectModal = ({
-                                handleModalClose,
-                                handleFullScreen,
-                                // changeHeader,
-                                avatar
-                              }: {
-  handleModalClose: () => void
-  avatar?: string
-  handleFullScreen: (full: boolean) => void
+  handleModalClose,
+  handleFullScreen,
+  // changeHeader,
+  avatar
+}: {
+  handleModalClose: () => void;
+  avatar?: string;
+  handleFullScreen: (full: boolean) => void;
   // changeHeader: (isNext: boolean) => void
 }) => {
-
-  const [photo, setPhoto] = useState<File>()  // изображение, передаваемое в компоненту редактирования
-  const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
+  const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+  const [isEditorOpen, setIsEditorOpen] = useState(false); // открытие модального окна для редактирования
 
   // const image = avatar || "/img/icons/image-outline.svg"
 
   // обработчик выбора новой аватарки из файловой системы компьютера
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      const file = e.target.files[0]
-      setPhoto(file)
+      const file = e.target.files[0];
+      console.log(["file", file]);
+      setPhoto(file);
       // changeHeader(false);
-      setIsEditorOpen(true)
+      setIsEditorOpen(true);
     }
-  }
+  };
 
   // закрытие модальных окон для загрузки и обработки новой аватарки
   const handleEditorClose = () => {
-    setIsEditorOpen(false)
-    handleModalClose()
-  }
+    setIsEditorOpen(false);
+    handleModalClose();
+  };
 
-  const handleClickFullScreen = (full:boolean)=>{
+  const handleClickFullScreen = (full: boolean) => {
     handleFullScreen(full);
-  }
+  };
 
   return (
     <>
-      {!isEditorOpen ? <StyledModalHeader>
-          <StyledModalTitle>{'Add Photo'}</StyledModalTitle>
+      {!isEditorOpen ? (
+        <StyledModalHeader>
+          <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
-            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
           </StyledCloseButton>
-        </StyledModalHeader> :
+        </StyledModalHeader>
+      ) : (
         <StyledModalHeaderNext>
-          <StyledCloseNextButton onClick={() => alert('handleModalBack')}>
-            <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close"/>
+          <StyledCloseNextButton onClick={() => alert("handleModalBack")}>
+            <Image
+              priority
+              src="/img/icons/arrow-ios-back.svg"
+              height={24}
+              width={24}
+              alt="close"
+            />
           </StyledCloseNextButton>
-          <StyledModalTitleNext>{'Cropping'}</StyledModalTitleNext>
-          <Button theme={ThemeButton.CLEAR} onClick={() => alert('handleModalBack')}>Next</Button>
-        </StyledModalHeaderNext>}
+          <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
+          <Button theme={ThemeButton.CLEAR} onClick={() => alert("handleModalBack")}>
+            Next
+          </Button>
+        </StyledModalHeaderNext>
+      )}
       <StyledModalBody>
-        {isEditorOpen && photo ? <PostPhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}
-                                                       handleFullScreen={(full)=>handleClickFullScreen(full)}/>
-          : <>
+        {isEditorOpen && photo ? (
+          <PostPhotoEditorModal
+            photo={photo}
+            handleEditorClose={handleEditorClose}
+            handleFullScreen={(full) => handleClickFullScreen(full)}
+          />
+        ) : (
+          <>
             <StyledModalImageContainer>
-              {avatar ? <img id="avatar" src={avatar} alt="Avatar"/>
-                : <StyledModalImage
+              {avatar ? (
+                <img id="avatar" src={avatar} alt="Avatar" />
+              ) : (
+                <StyledModalImage
                   priority
-                  src={'/img/icons/image-outline.svg'}
+                  src={"/img/icons/image-outline.svg"}
                   height={48}
                   width={48}
                   alt="avatar"
                 />
-              }
+              )}
             </StyledModalImageContainer>
-            <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
-            <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
+            <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
+            <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
               <label htmlFor="file-upload">Select from Computer</label>
             </Button>
           </>
-        }
+        )}
       </StyledModalBody>
     </>
   );
-}
+};
 
-export default PostPhotoSelectModal
+export default PostPhotoSelectModal;
 
 // styles
 
@@ -174,7 +192,6 @@ const StyledModalBody = styled.div`
   & label {
     cursor: pointer;
   }
-
 `;
 
 const StyledModalImageContainer = styled.div`
@@ -208,11 +225,10 @@ const StyledModalImageContainer = styled.div`
 `;
 
 const StyledModalImage = styled(Image)`
-
   color: ${baseTheme.colors.light["100"]};
 
   margin: auto;
   border-radius: 2px;
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;
