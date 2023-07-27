@@ -1,6 +1,4 @@
-import Image from "next/image";
 import styled from "styled-components";
-import {baseTheme} from "styles/styledComponents/theme";
 import Canvas from "./Canvas";
 
 const FilterElement = ({ 

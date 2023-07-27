@@ -13,7 +13,6 @@ const Canvas = ({photo, filter, width, height} : {photo: string, filter : string
     img.onload = function(){
         let newWidth = 0
         let newHeight = 0
-        // context.drawImage(img,0,0); // Or at whatever offset you like
         if (canvas) {
             const ratio = img.width / img.height;
             newWidth = canvas.width;
@@ -23,13 +22,9 @@ const Canvas = ({photo, filter, width, height} : {photo: string, filter : string
                 newWidth = newHeight * ratio;
             }
         }
-       
         context.drawImage(img,0,0, newWidth , newHeight);
     };
     img.src = photo;
-    //Our first draw
-    // context.fillStyle = '#000000'
-    // context.fillRect(0, 0, context.canvas.width, context.canvas.height)
   }, [])
   
   return <canvas ref={canvasRef} width={width} height={height}/>
