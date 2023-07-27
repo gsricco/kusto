@@ -28,6 +28,7 @@ import {
   StyledLine,
   StyledProfileForm
 } from "styles/styledComponents/profile/Settings.styled";
+import FilterModal from "features/profile/FilterModal";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -35,9 +36,11 @@ import {
 const GeneralInformation = () => {
   const [isModalOpen, setIsModalOpen] = useState({
     photoModal: false, // открытие модального окна выбора аватарки
-    saveProfileModal: false // открытие модального окна при сохранении изменений
+    saveProfileModal: false, // открытие модального окна при сохранении изменений
+    filterModal: false
   });
   const [isLoading, setIsLoading] = useState(false);
+  // const [photo, setPhoto] = useState<File>();
   const { setItem } = useLocalStorage();
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, { data }] = useLazyProfileQuery();
@@ -83,20 +86,24 @@ const GeneralInformation = () => {
       await saveProfileInfoHandler(data)
         .unwrap()
         .then(() => {
-          setIsModalOpen({ photoModal: false, saveProfileModal: true });
+          setIsModalOpen({ photoModal: false, saveProfileModal: true, filterModal: false });
           router.push(Path.PROFILE_SETTINGS);
         });
     } catch (error) {}
   };
   // обработчик нажатия кнопки для открытия окна смены аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen({ photoModal: true, saveProfileModal: false });
+    setIsModalOpen({ photoModal: true, saveProfileModal: false, filterModal: false });
   };
 
   // обработчик нажатия кнопки для закрытия модального окна смены аватарки
   const handleModalClose = () => {
-    setIsModalOpen({ photoModal: false, saveProfileModal: false });
+    setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: false });
   };
+
+  const handleFilterModalOpen = () => {
+    setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: true });
+  }
 
   return (
     <>
@@ -187,7 +194,7 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen.photoModal && (
-            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
+            <PhotoSelectModal handleModalClose={handleModalClose} handleFilterModalOpen={handleFilterModalOpen} avatar={data?.photo} />
           )}
           {isModalOpen.saveProfileModal && (
             <Modal
@@ -200,6 +207,9 @@ const GeneralInformation = () => {
               </Button>
             </Modal>
           )}
+          {/* {isModalOpen.filterModal && (
+            <FilterModal handleModalClose = {handleModalClose} photo={photo}/>
+          )} */}
         </SettingsPageWrapper>
       )}
     </>

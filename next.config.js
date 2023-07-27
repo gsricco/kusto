@@ -10,6 +10,12 @@ const nextConfig = {
         hostname: "storage.yandexcloud.net",
         port: "",
         pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.dzeninfra.ru",
+        port: "",
+        pathname: "/**"
       }
     ]
   },

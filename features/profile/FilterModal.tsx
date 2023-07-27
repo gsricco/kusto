@@ -6,52 +6,42 @@ import {baseTheme} from "styles/styledComponents/theme";
 import PhotoEditorModal from "./PhotoEditorModal";
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
-import closeIcon from "/public/img/icons/close_white.svg"
-import FilterModal from "./FilterModal";
+import closeIcon from "/public/img/icons/close_white.svg"  
+import Canvas from "./Canvas";
+import FilterElement from "./FilterElement";
 
-////  //  Модальное окно загрузки новой аватарки  //  ////
-
-const PhotoSelectModal = ({
+const FilterModal = ({
     handleModalClose, 
-    handleFilterModalOpen,
-    avatar
+    photo
   }: {
     handleModalClose: () => void
-    handleFilterModalOpen: (photo: string) => void
-    avatar?: string
+    photo: File | string | undefined
   }) => {
+    let photoUrl = ''
+    if (photo && typeof photo !== 'string') {
+        photoUrl = URL.createObjectURL(photo)
+    } else if (typeof photo == 'string') {
+        photoUrl = photo
+    }
 
-  const [photo, setPhoto] = useState<File>()  // изображение, передаваемое в компоненту редактирования
-  const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
-  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
+    const filtersList = [
+        {
+            filterTitle: 'blur(2px)',
+            filter: 'blur(2px)'
+        },
+        {
+            filterTitle: 'blur(1px)',
+            filter: 'blur(1px)'
+        }
+    ]
 
-  // const image = avatar || "/img/icons/image-outline.svg"
-
-  // обработчик выбора новой аватарки из файловой системы компьютера
-  const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files?.length) {
-          const file = e.target.files[0]
-          setPhoto(file)
-          setIsEditorOpen(true)
-      }
-  }
-
-  // закрытие модальных окон для загрузки и обработки новой аватарки
-  const handleEditorClose = () => {
-    setIsEditorOpen(false)
-    handleModalClose()    
-  }
-
-  const handleFilterOpen = () => {
-    setIsFilterOpen(true)
-  }
-
+    // const strDataURI = 'https://avatars.dzeninfra.ru/get-zen_doc/34175/pub_5cea2361585c2f00b5c9cb0b_5cea310a752e5b00b25b9c01/scale_1200'
 
 return (
     <StyledModalOverlay>
       <StyledModalContainer>
         <StyledModalHeader>
-          <StyledModalTitle>Add a Profile Photo</StyledModalTitle>
+          <StyledModalTitle>Filters</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
             <Image
               priority
@@ -63,7 +53,18 @@ return (
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-        { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleFilterOpen={handleFilterOpen} handleEditorClose={handleEditorClose}/> 
+            <Image
+              src={photoUrl}
+              height={503}
+              width={490}
+              alt="nolmal"
+              style={{objectFit: 'contain'}}
+            />
+            <FiltersContainer>
+                {filtersList.map( el => <FilterElement filter={el.filter} filterTitle={el.filterTitle} photoUrl={photoUrl}/>)}
+            </FiltersContainer>
+
+        {/* { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
             : <>
             <StyledModalImageContainer>
               { avatar ? <img id="avatar" src={avatar} alt="Avatar"/> 
@@ -81,17 +82,14 @@ return (
                   <label htmlFor="file-upload">Select from Computer</label>
                 </Button>
             </>
-        }
-        {isFilterOpen && (
-            <FilterModal handleModalClose = {handleModalClose} photo={photo}/>
-          )}
+        } */}
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>
   );
 }
 
-export default PhotoSelectModal
+export default FilterModal
 
 // styles
 
@@ -113,7 +111,7 @@ const StyledModalContainer = styled.div`
   background: ${baseTheme.colors.dark["300"]};
   top: 50%;
   left: 50%;
-  width: 492px;
+  width: 972px;
   height: 564px;
   transform: translate(-50%, -50%);
 
@@ -150,7 +148,7 @@ const StyledCloseButton = styled.button`
 
 const StyledModalBody = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   width: 100%;
   margin: auto;
@@ -206,10 +204,20 @@ const StyledModalImageContainer = styled.div`
 
 const StyledModalImage = styled(Image) `
 
-color: ${baseTheme.colors.light["100"]};
+    color: ${baseTheme.colors.light["100"]};
 
-margin: auto;
-border-radius: 2px;
-width: ${props=>props.width};
-height: ${props=>props.height};
+    margin: auto;
+    border-radius: 2px;
+    width: ${props=>props.width};
+    height: ${props=>props.height};
+`;
+
+const FiltersContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: space-around;
+
+  width: 100%;
+  margin: auto;
 `;
