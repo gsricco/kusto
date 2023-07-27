@@ -31,8 +31,14 @@ import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
+import { useSession } from "next-auth/react";
 
 const MyProfile = () => {
+  /* _______ProtectedPage______________ */
+  const { data: session } = useSession();
+
+  /*   _____________________________________ */
+
   const avatar = "/img/icons/avatar.svg";
   const { isSuccess } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
@@ -81,7 +87,8 @@ const MyProfile = () => {
   return (
     <>
       <LoginNavigate>
-        {isSuccess && (
+        {/* {isSuccess && ( */}
+        {(session || isSuccess) && (
           <ProfileWrapper>
             <HeaderStyle>
               {isVisible && (
