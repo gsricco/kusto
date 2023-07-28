@@ -4,6 +4,8 @@ import styled from "styled-components";
 import {baseTheme} from "styles/styledComponents/theme";
 import closeIcon from "/public/img/icons/close_white.svg"  
 import FilterElement from "./FilterElement";
+import { useState } from "react";
+import Canvas from "./Canvas";
 
 const FilterModal = ({
     handleModalClose, 
@@ -12,6 +14,9 @@ const FilterModal = ({
     handleModalClose: () => void
     photo: File | string | undefined
   }) => {
+
+    const [newFilter, setNewFilter] = useState('')
+
     let photoUrl = ''
     if (photo && typeof photo !== 'string') {
         photoUrl = URL.createObjectURL(photo)
@@ -21,6 +26,10 @@ const FilterModal = ({
 
     const filtersList = [
         {
+            filterTitle: 'Normal',
+            filter: ''
+        },
+        {
             filterTitle: 'blur(2px)',
             filter: 'blur(2px)'
         },
@@ -29,6 +38,12 @@ const FilterModal = ({
             filter: 'blur(1px)'
         }
     ]
+
+    const handleFilter = (filterTitle: string) => {
+        setNewFilter(filterTitle)
+    }
+
+    console.log(newFilter)
 
 return (
     <StyledModalOverlay>
@@ -46,15 +61,19 @@ return (
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-            <Image
+            <Canvas photo={photoUrl}
+              height={'503px'}
+              width={'490px'}
+              filter={newFilter}/>
+            {/* <Image
               src={photoUrl}
               height={503}
               width={490}
               alt="nolmal"
-              style={{objectFit: 'contain'}}
-            />
+              style={{objectFit: 'contain', filter: {newFilter}}}
+            /> */}
             <FiltersContainer>
-                {filtersList.map( el => <FilterElement filter={el.filter} filterTitle={el.filterTitle} photoUrl={photoUrl}/>)}
+                {filtersList.map( el => <FilterElement filter={el.filter} filterTitle={el.filterTitle} photoUrl={photoUrl} handleFilter={handleFilter}/>)}
             </FiltersContainer>
 
         {/* { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 

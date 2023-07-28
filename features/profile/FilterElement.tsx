@@ -4,14 +4,20 @@ import Canvas from "./Canvas";
 const FilterElement = ({ 
     photoUrl,
     filterTitle,
-    filter
+    filter,
+    handleFilter
   }: {
     photoUrl: string
     filterTitle: string
     filter: string
+    handleFilter: (filterTitle: string) => void
   }) => {
 
-    return (<Body>
+    const handleFilterChose = () => {
+      handleFilter(filter)
+    }
+
+    return (<Body onClick={handleFilterChose}>
       <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'}/>
       <FilterTitle>
         {filterTitle}
