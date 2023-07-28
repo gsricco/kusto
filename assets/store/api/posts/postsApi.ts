@@ -7,6 +7,7 @@ import {
   GetPostResponse,
   GetUserPostResponse
 } from "./types";
+import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
 export const postsApi = createApi({
   reducerPath: "postsApi",
@@ -15,11 +16,8 @@ export const postsApi = createApi({
     headers: {
       "Content-Type": `application/json`
     },
-    prepareHeaders: (headers) => {
-      const token: string = getItem("accessToken");
-      headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    }
+    prepareHeaders: (headers, { endpoint }) =>
+      contentTypeSetup(headers, { endpoint }, ["createPost"])
   }),
   endpoints: (builder) => ({
     createPost: builder.mutation<CreatePostResponse, CreatePostRequest>({
