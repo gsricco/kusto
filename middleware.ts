@@ -17,3 +17,7 @@ export default withAuth({
 });
 
 export const config = { matcher: [Path.PROFILE] };
+
+// export {default} from 'next-auth/middleware'
+
+// export const config = {matcher:[Path.PROFILE, Path.PROFILE_SETTINGS]}
