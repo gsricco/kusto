@@ -4,7 +4,6 @@ type Images = {
 
 export type CreatePostRequest = {
   description: string;
-  images: any[];
 };
 
 export type EditPostRequest = {

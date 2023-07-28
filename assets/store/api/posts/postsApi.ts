@@ -19,36 +19,42 @@ export const postsApi = createApi({
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ["createPost"])
   }),
+  tagTypes: ["editPost", "deletePost", "createPost"],
   endpoints: (builder) => ({
     createPost: builder.mutation<CreatePostResponse, CreatePostRequest>({
       query: (body) => ({
         url: "post",
         method: "POST",
         body
-      })
+      }),
+      invalidatesTags: ["createPost"]
     }),
     updatePost: builder.mutation<void, EditPostRequest>({
       query: ({ body, postId }) => ({
         url: `post/${postId}`,
         method: "PUT",
         body
-      })
+      }),
+      invalidatesTags: ["editPost"]
     }),
     getPost: builder.query<GetPostResponse, string>({
       query: (postId) => ({
         url: `post/${postId}`
-      })
+      }),
+      providesTags: ["editPost"]
     }),
     deletePost: builder.mutation<void, string>({
       query: (postId) => ({
         url: `post/${postId}`,
         method: "DELETE"
-      })
+      }),
+      invalidatesTags: ["deletePost"]
     }),
     getUserPost: builder.query<GetUserPostResponse, string>({
       query: (userId) => ({
         url: userId
-      })
+      }),
+      providesTags: ["deletePost", "createPost"]
     })
   })
 });
