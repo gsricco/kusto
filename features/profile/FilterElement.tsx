@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Canvas from "./Canvas";
+import { useState } from "react";
 
 const FilterElement = ({ 
     key,
@@ -12,16 +13,18 @@ const FilterElement = ({
     photoUrl: string
     filterTitle: string
     filter: string
-    handleFilter: (filterTitle: string) => void
+    handleFilter: (filterTitle: string, imageUrl: string) => void
   }) => {
 
+    const [ImageUrl, setImageUrl] = useState('')
+
     const handleFilterChose = () => {
-      handleFilter(filter)
+      handleFilter(filter, ImageUrl)
     }
 
     return (
       <StyledModalBody onClick={handleFilterChose}>
-        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'}/>
+        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'} setImageUrl={setImageUrl}/>
         <StyledFilterTitle>
           {filterTitle}
         </StyledFilterTitle>

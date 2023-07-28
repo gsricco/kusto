@@ -16,6 +16,8 @@ const FilterModal = ({
   }) => {
 
     const [newFilter, setNewFilter] = useState('')
+    const [editImageUrl, setEditImageUrl] = useState('')
+
 
     let photoUrl = ''
     if (photo && typeof photo !== 'string') {
@@ -24,9 +26,12 @@ const FilterModal = ({
         photoUrl = photo
     }  
 
-    const handleFilter = (filterTitle: string) => {
+    const handleFilter = (filterTitle: string, imageUrl: string) => {
         setNewFilter(filterTitle)
+        setEditImageUrl(imageUrl)
     }
+
+    console.log(editImageUrl)
 
 return (
       <StyledModalContainer>
