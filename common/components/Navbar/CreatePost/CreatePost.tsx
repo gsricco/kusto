@@ -31,7 +31,6 @@ export const CreatePost: FC = () => {
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
-  const [isNextHeader, setIsNext] = useState<boolean>(true);
 
   const closeModal = () => {
     setIsOpenModalEdit(false);
