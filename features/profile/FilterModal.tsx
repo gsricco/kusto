@@ -5,7 +5,7 @@ import {baseTheme} from "styles/styledComponents/theme";
 import closeIcon from "/public/img/icons/close_white.svg"  
 import FilterElement from "./FilterElement";
 import { useState } from "react";
-import Canvas from "./Canvas";
+import { filtersList } from "common/utils/filters";
 
 const FilterModal = ({
     handleModalClose, 
@@ -22,31 +22,13 @@ const FilterModal = ({
         photoUrl = URL.createObjectURL(photo)
     } else if (typeof photo == 'string') {
         photoUrl = photo
-    }
-
-    const filtersList = [
-        {
-            filterTitle: 'Normal',
-            filter: ''
-        },
-        {
-            filterTitle: 'blur(2px)',
-            filter: 'blur(2px)'
-        },
-        {
-            filterTitle: 'blur(1px)',
-            filter: 'blur(1px)'
-        }
-    ]
+    }  
 
     const handleFilter = (filterTitle: string) => {
         setNewFilter(filterTitle)
     }
 
-    console.log(newFilter)
-
 return (
-    <StyledModalOverlay>
       <StyledModalContainer>
         <StyledModalHeader>
           <StyledModalTitle>Filters</StyledModalTitle>
@@ -61,59 +43,35 @@ return (
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-            <Canvas photo={photoUrl}
-              height={'503px'}
-              width={'490px'}
-              filter={newFilter}/>
-            {/* <Image
-              src={photoUrl}
-              height={503}
-              width={490}
-              alt="nolmal"
-              style={{objectFit: 'contain', filter: {newFilter}}}
-            /> */}
-            <FiltersContainer>
-                {filtersList.map( el => <FilterElement filter={el.filter} filterTitle={el.filterTitle} photoUrl={photoUrl} handleFilter={handleFilter}/>)}
-            </FiltersContainer>
-
-        {/* { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
-            : <>
-            <StyledModalImageContainer>
-              { avatar ? <img id="avatar" src={avatar} alt="Avatar"/> 
-                : <StyledModalImage
-                  priority
-                  src={'/img/icons/image-outline.svg'}
-                  height={48}
-                  width={48}
-                  alt="avatar"
+            <StyledImageContainer>
+                <Image
+                    src={photoUrl}
+                    width={0}
+                    height={0}
+                    alt="nolmal"
+                    style={{width: '100%', height: '100%', objectFit: 'contain', filter: newFilter}}
                 />
-              }
-              </StyledModalImageContainer>
-                <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
-                <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
-                  <label htmlFor="file-upload">Select from Computer</label>
-                </Button>
-            </>
-        } */}
+            </StyledImageContainer> 
+                
+            <StyledFiltersContainer>
+                {filtersList.map( el => 
+                <FilterElement 
+                    key={el.filterTitle} 
+                    filter={el.filter} 
+                    filterTitle={el.filterTitle} 
+                    photoUrl={photoUrl} 
+                    handleFilter={handleFilter}
+                />)}
+            </StyledFiltersContainer>
         </StyledModalBody>
       </StyledModalContainer>
-    </StyledModalOverlay>
+    
   );
 }
 
 export default FilterModal
 
 // styles
-
-const StyledModalOverlay = styled.div`
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`;
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -127,10 +85,11 @@ const StyledModalContainer = styled.div`
   height: 564px;
   transform: translate(-50%, -50%);
 
-  @media (max-width: 500px) {
+  @media (max-width:1000px) {
     width: 90vw;
-    max-width: 492px;
+    max-width: 972px;
   }
+
 `;
 
 const StyledModalHeader = styled.div`
@@ -163,73 +122,46 @@ const StyledModalBody = styled.div`
   flex-direction: row;
 
   width: 100%;
-  margin: auto;
+  height: 503px;
+  
 
-  & #file-upload {
-    display: none;
-  }
+//   & #file-upload {
+//     display: none;
+//   }
 
-  & #upload-btn {
-    margin: 20px auto;
+//   & #upload-btn {
+//     margin: 20px auto;
 
-    @media (max-width: 390px) {
-      width: 80vw;
-      max-width: 222px;
-    }
-  } 
+//     @media (max-width: 390px) {
+//       width: 80vw;
+//       max-width: 222px;
+//     }
+//   } 
 
-  & label {
-    cursor: pointer;
-  }
+//   & label {
+//     cursor: pointer;
+//   }
 
 `;
 
-const StyledModalImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;  
-  position: relative;
-  overflow: hidden;
+const StyledImageContainer = styled.div`
+    flex-shrink: 2;
 
-  background: ${baseTheme.colors.dark["500"]};
-  color: ${baseTheme.colors.light["100"]};
-  margin: 72px auto 40px;
-  border-radius: 2px;
-  width: 222px;
-  height: 228px;
-
-  & #avatar {
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:222px;
-    height:228px;
-    object-fit:cover;
-    border-radius: 50%;
-  }
-
-  @media (max-width: 390px) {
-      width: 80vw;
-      max-width: 222px;
-    }
+    min-width: 300px;
+    width: 490px;
+    height: 100%;
 `;
 
-const StyledModalImage = styled(Image) `
+const StyledFiltersContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 3;
 
-    color: ${baseTheme.colors.light["100"]};
+    height: 100%;
+    padding: 10px;
+    width: calc(100% - 490px);
+    min-width: 180px;
 
-    margin: auto;
-    border-radius: 2px;
-    width: ${props=>props.width};
-    height: ${props=>props.height};
-`;
-
-const FiltersContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-content: space-around;
-
-  width: 100%;
-  margin: auto;
+    
+    overflow: scroll;
 `;

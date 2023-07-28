@@ -2,11 +2,13 @@ import styled from "styled-components";
 import Canvas from "./Canvas";
 
 const FilterElement = ({ 
+    key,
     photoUrl,
     filterTitle,
     filter,
     handleFilter
   }: {
+    key?: string
     photoUrl: string
     filterTitle: string
     filter: string
@@ -17,30 +19,29 @@ const FilterElement = ({
       handleFilter(filter)
     }
 
-    return (<Body onClick={handleFilterChose}>
-      <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'}/>
-      <FilterTitle>
-        {filterTitle}
-      </FilterTitle>
-    </Body>  
+    return (
+      <StyledModalBody onClick={handleFilterChose}>
+        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'}/>
+        <StyledFilterTitle>
+          {filterTitle}
+        </StyledFilterTitle>
+      </StyledModalBody>  
     )
 }
 
 export default FilterElement
 
-const Body = styled.div`
+const StyledModalBody = styled.div`
   display: flex;
   flex-direction: column;
 
+  padding: 10px;
+  margin: auto;
 `;
 
-const ImageContainer = styled.div`
-  width: 108px;
-  height: 108px;
-`;
-
-const FilterTitle = styled.div`
+const StyledFilterTitle = styled.div`
 
   width: 100%;
-  margin: auto;
+  max-width: 160px;
+  text-align: center;
 `;
