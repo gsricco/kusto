@@ -78,7 +78,11 @@ return (
               </StyledModalImageContainer>
                 <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
                 <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
-                  <label htmlFor="file-upload">Select from Computer</label>
+                  <StyledLabel htmlFor="file-upload">
+                    <StyledText>
+                      Select from Computer
+                    </StyledText>
+                  </StyledLabel>
                 </Button>
             </>
         }
@@ -167,10 +171,20 @@ const StyledModalBody = styled.div`
       max-width: 222px;
     }
   } 
+`;
 
-  & label {
-    cursor: pointer;
-  }
+const StyledLabel = styled.label`
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding-top: 8px;        // не подучается центрировать по вертикали
+`;
+
+const StyledText = styled.div`
+  // margin: auto;
+  // vertical-align: middle;
+  // justify-content: center;
+  // align-items: center;
 
 `;
 
