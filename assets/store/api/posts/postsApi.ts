@@ -21,7 +21,7 @@ export const postsApi = createApi({
   }),
   tagTypes: ["editPost", "deletePost", "createPost"],
   endpoints: (builder) => ({
-    createPost: builder.mutation<CreatePostResponse, CreatePostRequest>({
+    createPost: builder.mutation<CreatePostResponse, any>({
       query: (body) => ({
         url: "post",
         method: "POST",
