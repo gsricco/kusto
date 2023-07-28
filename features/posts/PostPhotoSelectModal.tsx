@@ -18,15 +18,21 @@ const PostPhotoSelectModal = ({
   handleModalClose,
   handleFullScreen,
   // changeHeader,
-  avatar
+  avatar,
+                                isHeaderOpen,
+                                isHeader2Open,
+                                photoPostProps
 }: {
   handleModalClose: () => void;
   avatar?: string;
   handleFullScreen: (full: boolean) => void;
+  isHeaderOpen?:boolean
+  isHeader2Open?:boolean
+  photoPostProps?:File[]
   // changeHeader: (isNext: boolean) => void
 }) => {
   const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
-  const [isEditorOpen, setIsEditorOpen] = useState(false); // открытие модального окна для редактирования
+  const [isEditorOpen, setIsEditorOpen] = useState(isHeaderOpen); // открытие модального окна для редактирования
 
   // const image = avatar || "/img/icons/image-outline.svg"
 
@@ -53,39 +59,66 @@ const PostPhotoSelectModal = ({
 
   return (
     <>
-      {!isEditorOpen ? (
-        <StyledModalHeader>
-          <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
-            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
-          </StyledCloseButton>
-        </StyledModalHeader>
+      {!isEditorOpen? (
+        // <StyledModalHeader>
+        //   <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
+        //   <StyledCloseButton onClick={handleModalClose}>
+        //     <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
+        //   </StyledCloseButton>
+        // </StyledModalHeader>
+        <></>
       ) : (
-        <StyledModalHeaderNext>
-          <StyledCloseNextButton onClick={() => alert("handleModalBack")}>
-            <Image
-              priority
-              src="/img/icons/arrow-ios-back.svg"
-              height={24}
-              width={24}
-              alt="close"
-            />
-          </StyledCloseNextButton>
-          <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-          <Button theme={ThemeButton.CLEAR} onClick={() => alert("handleModalBack")}>
-            Next
-          </Button>
-        </StyledModalHeaderNext>
+//         isHeaderOpen&&<StyledModalHeaderNext>
+//         <StyledCloseNextButton onClick={() => alert("handleModalBack")}>
+//     <Image
+//       priority
+//       src="/img/icons/arrow-ios-back.svg"
+//       height={24}
+//       width={24}
+//       alt="close"
+//     />
+//     </StyledCloseNextButton>
+//   <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
+//   <Button theme={ThemeButton.CLEAR} onClick={() => alert("handleModalBack")}>
+//     Next
+//   </Button>
+// </StyledModalHeaderNext>
+<></>
       )}
       <StyledModalBody>
         {isEditorOpen && photo ? (
-          <PostPhotoEditorModal
-            photo={photo}
-            handleEditorClose={handleEditorClose}
-            handleFullScreen={(full) => handleClickFullScreen(full)}
-          />
+          <>
+          {/*  <StyledModalHeaderNext>*/}
+          {/*  <StyledCloseNextButton onClick={() => alert("handleModalBack")}>*/}
+          {/*    <Image*/}
+          {/*      priority*/}
+          {/*      src="/img/icons/arrow-ios-back.svg"*/}
+          {/*      height={24}*/}
+          {/*      width={24}*/}
+          {/*      alt="close"*/}
+          {/*    />*/}
+          {/*  </StyledCloseNextButton>*/}
+          {/*  <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>*/}
+          {/*  <Button theme={ThemeButton.CLEAR} onClick={() => alert("handleModalBack")}>*/}
+          {/*    Next*/}
+          {/*  </Button>*/}
+          {/*</StyledModalHeaderNext>*/}
+            <PostPhotoEditorModal
+              photo={photo}
+              handleEditorClose={handleEditorClose}
+              handleFullScreen={(full) => handleClickFullScreen(full)}
+              photoPost1={photoPostProps||[]}
+            />
+          </>
+
         ) : (
           <>
+            <StyledModalHeader>
+              <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
+              <StyledCloseButton onClick={handleModalClose}>
+                <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
+              </StyledCloseButton>
+            </StyledModalHeader>
             <StyledModalImageContainer>
               {avatar ? (
                 <img id="avatar" src={avatar} alt="Avatar" />

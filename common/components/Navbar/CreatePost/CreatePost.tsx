@@ -60,6 +60,9 @@ export const CreatePost: FC = () => {
                 handleModalClose={closeModal}
                 avatar={data?.photo}
                 handleFullScreen={handleFullScreen}
+                isHeaderOpen={false}
+                isHeader2Open={true}
+
               />
             </StyledModalContainer>
           </StyledModalOverlay>
