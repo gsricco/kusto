@@ -22,6 +22,41 @@ import PostPhotoSelectModal from "./PostPhotoSelectModal";
 import { Button } from "../../common/components/Button/Button";
 import { ThemeButton } from "../../common/enums/themeButton";
 
+type SmallProtoProps = {
+  photo: File;
+  removePhotoFromList: (index: number) => void;
+  index: number;
+};
+
+const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
+  return (
+    <>
+      <AvatarEditor // width и height задается в styled component с учетом border
+        // ref={cropRef}
+        image={photo}
+        // border={1}
+        // borderRadius={158}
+        // color={[23, 23, 23, 0]}
+        // scale={value / 10}
+        // rotate={rotateAngle}
+        style={{
+          width: "90px",
+          height: "90px",
+          left: "30px",
+          top: "10px"
+        }}
+      />{" "}
+      <StyleDeletePhoto
+        onClick={() => {
+          removePhotoFromList(index);
+        }}
+      >
+        <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
+      </StyleDeletePhoto>
+    </>
+  );
+};
+
 const PostPhotoEditorModal = ({
   photo,
   handleEditorClose,
@@ -42,17 +77,15 @@ const PostPhotoEditorModal = ({
 
   const [createPostHandler] = useCreatePostMutation();
 
-  console.log(photoPost);
-
   const cropRef = useRef<AvatarEditor | null>(null);
 
-  // const create = () => {
-  //   const formData = new FormData();
-  //   formData.append("description", "dsgasdg dsagsda gsda g");
-  //   photoPost.map((photo) => formData.append("posts", photo as File));
+  const create = () => {
+    const formData = new FormData();
+    formData.append("description", "dsgasdg dsagsda gsda g");
+    photoPost.map((photo) => formData.append("posts", photo as File));
 
-  //   createPostHandler(formData);
-  // };
+    createPostHandler(formData);
+  };
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider =
@@ -91,18 +124,21 @@ const PostPhotoEditorModal = ({
     }
   };
 
+  const removePhotoFromList = (index: number) => {
+    const newPhotoList = [];
+    for (let i = 0; i < photoPost.length; i++) {
+      if (index === i) {
+        continue;
+      } else {
+        newPhotoList.push(photoPost[i]);
+      }
+    }
+    setPhotoPost(newPhotoList);
+  };
+
   const handleClickFullScreen = () => {
     handleFullScreen(!full);
     setFullScreen(!full);
-  };
-
-  const create = () => {
-    const data = {
-      description: "bla bla bla bla bla",
-      images: photoPost
-    };
-    console.log("works");
-    createPostHandler(data);
   };
 
   return (
@@ -213,38 +249,13 @@ const PostPhotoEditorModal = ({
           {openAddPhoto && (
             <StyledAddBlock>
               <StyledPhotoPost id={"scrollable-container"}>
-                {photoPost.map((photo) => (
-                  <>
-                    <AvatarEditor // width и height задается в styled component с учетом border
-                      // ref={cropRef}
-                      key={Math.random()}
-                      image={photo}
-                      // border={1}
-                      // borderRadius={158}
-                      // color={[23, 23, 23, 0]}
-                      // scale={value / 10}
-                      // rotate={rotateAngle}
-                      style={{
-                        width: "90px",
-                        height: "90px",
-                        left: "30px",
-                        top: "10px"
-                      }}
-                    />{" "}
-                    <StyleDeletePhoto
-                      onClick={() => {
-                        alert("Bogdane delete please photo");
-                      }}
-                    >
-                      <Image
-                        priority
-                        src="/img/icons/close_white.svg"
-                        height={24}
-                        width={24}
-                        alt="close"
-                      />
-                    </StyleDeletePhoto>
-                  </>
+                {photoPost.map((photo, index) => (
+                  <SmallPhoto
+                    photo={photo}
+                    key={index}
+                    index={index}
+                    removePhotoFromList={removePhotoFromList}
+                  />
                 ))}
 
                 {/*<Image src={photoPost?photoPost:photo} alt={Photo}/>*/}

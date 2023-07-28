@@ -1,12 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getItem } from "common/hooks/useLocalStorage";
-import {
-  CreatePostRequest,
-  CreatePostResponse,
-  EditPostRequest,
-  GetPostResponse,
-  GetUserPostResponse
-} from "./types";
+import { CreatePostResponse, EditPostRequest, GetPostResponse, GetUserPostResponse } from "./types";
 import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
 export const postsApi = createApi({
@@ -21,7 +14,7 @@ export const postsApi = createApi({
   }),
   tagTypes: ["editPost", "deletePost", "createPost"],
   endpoints: (builder) => ({
-    createPost: builder.mutation<CreatePostResponse, any>({
+    createPost: builder.mutation<CreatePostResponse, FormData>({
       query: (body) => ({
         url: "post",
         method: "POST",
