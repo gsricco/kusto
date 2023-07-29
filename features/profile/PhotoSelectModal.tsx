@@ -7,7 +7,7 @@ import PhotoEditorModal from "./PhotoEditorModal";
 import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import closeIcon from "/public/img/icons/close_white.svg"
-import FilterModal from "./FilterModal";
+import FilterModal from "../posts/FilterModal";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
@@ -86,9 +86,9 @@ return (
                 </Button>
             </>
         }
-        {isFilterOpen && (
+        {/* {isFilterOpen && (
             <FilterModal handleModalClose = {handleModalClose} photo={photo}/>
-          )}
+          )} */}
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>

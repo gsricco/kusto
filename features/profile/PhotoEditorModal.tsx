@@ -5,7 +5,7 @@ import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
-import Canvas from './Canvas';
+import Canvas from '../posts/Canvas';
 // import { Stage, Layer, Image as KonvaImage} from 'react-konva';
 // import useImage from 'use-image';
 

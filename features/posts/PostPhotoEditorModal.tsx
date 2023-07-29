@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import AvatarEditor from "react-avatar-editor";
 import {Slider} from "./Slider";
 import styled from "styled-components";
@@ -27,7 +27,7 @@ import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
 
 type SmallProtoProps = {
-  photo: File;
+  photo: string;
   removePhotoFromList: (index: number) => void;
   index: number;
 };
@@ -64,12 +64,14 @@ const PostPhotoEditorModal = ({
                                 photo,
                                 handleEditorClose,
                                 handleFullScreen,
-                                photoPost1
+                                photoPost1,
+                                handleFilterOpen,
                               }: {
   photo: File;
   handleEditorClose: () => void;
   handleFullScreen: (full: boolean) => void;
-  photoPost1: File[];
+  photoPost1: string[];
+  handleFilterOpen: (editPhotoList: string[]) => void;
 }) => {
   const [value, setValue] = useState(12); // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false); // начальное значение для rotate
@@ -77,7 +79,8 @@ const PostPhotoEditorModal = ({
   const [openComp, setOpenComp] = useState(false); // начальное значение для rotate
   const [full, setFullScreen] = useState(false);
   const [resize, setResize] = useState(false);
-  const [photoPost, setPhotoPost] = useState<File[]>(photoPost1 || []);
+  const [photoPost, setPhotoPost] = useState<string[]>(photoPost1 || []);
+  // const [editPhotoList, setEditPhotoList] = useState<string[]>([]);
 
 
   const sizePhotoProps = {width:'90vh',height:'90vh'}
@@ -88,17 +91,16 @@ const PostPhotoEditorModal = ({
 
   const cropRef = useRef<AvatarEditor | null>(null);
 
-  const create = () => {
-    const formData = new FormData();
-    formData.append("description", "dsgasdg dsagsda gsda g");
-    photoPost.map((photo) => formData.append("posts", photo as File));
+  // const create = () => {
+  //   const formData = new FormData();
+  //   formData.append("description", "dsgasdg dsagsda gsda g");
+  //   photoPost.map((photo) => formData.append("posts", photo as File));
 
-    createPostHandler(formData);
-  };
+  //   createPostHandler(formData);
+  // };
 
   // Сохранение значений в локальный state при перемещении бегунка
-  const handleSlider =
-    (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
         setState(parseInt(e.target.value));
       }
@@ -121,8 +123,11 @@ const PostPhotoEditorModal = ({
       // преобразование file в FormData
       const formData = new FormData();
       formData.append("avatar", file as File);
-      setPhotoPost((prev) => [...prev, file]);
+      // setPhotoPost((prev) => [...prev, file]);
 
+      const newList = [...photoPost, avatar]
+      setPhotoPost(newList)
+      debugger
       try {
 
       } catch (error) {
@@ -148,6 +153,11 @@ const PostPhotoEditorModal = ({
     setFullScreen(!full);
   };
 
+  const handleNextButton = () => {
+    handleFilterOpen(photoPost)
+    debugger
+  }
+
   return (
     <>
       {openComp
@@ -172,7 +182,7 @@ const PostPhotoEditorModal = ({
               />
             </StyledCloseNextButton>
             <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-            <Button theme={ThemeButton.CLEAR} onClick={() => alert("handleModalBack")}>
+            <Button theme={ThemeButton.CLEAR} onClick={handleNextButton}>
               Next
             </Button>
           </StyledModalHeaderNext>
@@ -208,7 +218,7 @@ const PostPhotoEditorModal = ({
               }}
             />
           </StyledSliderContainer>
-        )}
+          )}
           {resize && (
             <StyledResizeBlock>
               <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
@@ -257,7 +267,9 @@ const PostPhotoEditorModal = ({
           <div
             onClick={() => {
               setOpenAddPhoto(!openAddPhoto);
-              handleSave();
+              if(!openAddPhoto) {
+                handleSave();
+              }
             }}
           >
             <StyledIconAddPhoto

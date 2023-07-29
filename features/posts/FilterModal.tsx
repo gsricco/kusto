@@ -9,29 +9,42 @@ import { filtersList } from "common/utils/filters";
 
 const FilterModal = ({
     handleModalClose, 
-    photo
+    photoList
   }: {
     handleModalClose: () => void
-    photo: File | string | undefined
+    photoList: string []
   }) => {
 
     const [newFilter, setNewFilter] = useState('')
     const [editImageUrl, setEditImageUrl] = useState('')
+    const [photoUrl, setPhotoUrl] = useState(photoList[0])
 
-
-    let photoUrl = ''
-    if (photo && typeof photo !== 'string') {
-        photoUrl = URL.createObjectURL(photo)
-    } else if (typeof photo == 'string') {
-        photoUrl = photo
-    }  
+    // let photoUrl = photoList[0]
+    // let photoUrl = ''
+    // if (photo && typeof photo !== 'string') {
+    //     photoUrl = URL.createObjectURL(photo)
+    // } else if (typeof photo == 'string') {
+    //     photoUrl = photo
+    // }  
 
     const handleFilter = (filterTitle: string, imageUrl: string) => {
         setNewFilter(filterTitle)
         setEditImageUrl(imageUrl)
     }
 
-    console.log(editImageUrl)
+    // console.log(editImageUrl)
+
+    const handleNextPhoto = () => {
+      if(photoList[1] == photoUrl) {
+        console.log('одинаковые')
+      }
+      setPhotoUrl(photoList[1])
+    }
+
+    const handlePrevPhoto = () => {
+      setPhotoUrl(photoList[0])
+    }
+    console.log("list", photoList)
 
 return (
       <StyledModalContainer>
@@ -48,20 +61,22 @@ return (
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
+            <div onClick={handlePrevPhoto}> P </div>
             <StyledImageContainer>
-                <Image
-                    src={photoUrl}
-                    width={0}
-                    height={0}
-                    alt="nolmal"
-                    style={{width: '100%', height: '100%', objectFit: 'contain', filter: newFilter}}
-                />
+              <Image
+                  src={photoUrl}
+                  width={0}
+                  height={0}
+                  alt="nolmal"
+                  style={{width: '100%', height: '100%', objectFit: 'contain', filter: newFilter}}
+              />
             </StyledImageContainer> 
-                
-            <StyledFiltersContainer>
-                {filtersList.map( el => 
+            <div onClick={handleNextPhoto}> N </div>
+
+            <StyledFiltersContainer key={photoUrl}>
+                {filtersList.map( (el, index) => 
                 <FilterElement 
-                    key={el.filterTitle} 
+                    key={index} 
                     filter={el.filter} 
                     filterTitle={el.filterTitle} 
                     photoUrl={photoUrl} 

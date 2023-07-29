@@ -5,6 +5,7 @@ import {baseTheme} from "styles/styledComponents/theme";
 import PostPhotoEditorModal from "./PostPhotoEditorModal";
 import {Button} from "common/components/Button/Button";
 import {ThemeButton} from "common/enums/themeButton";
+import FilterModal from "./FilterModal";
 
 
 const PostPhotoSelectModal = ({
@@ -20,11 +21,12 @@ const PostPhotoSelectModal = ({
   handleFullScreen: (full: boolean) => void;
   isHeaderOpen?: boolean
   isHeader2Open?: boolean
-  photoPostProps?: File[]
+  photoPostProps?: string[]
 }) => {
   const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(isHeaderOpen); // открытие модального окна для редактирования
-
+  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
+  const [photoList, setPhotoList] = useState([''])
 
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
@@ -45,6 +47,11 @@ const PostPhotoSelectModal = ({
     handleFullScreen(full);
   };
 
+  const handleFilterOpen = (editPhotoList: string[]) => {
+    setIsFilterOpen(true)
+    setPhotoList(editPhotoList)
+  }
+
   return (
     <>
       <StyledModalBody>
@@ -54,6 +61,7 @@ const PostPhotoSelectModal = ({
             handleEditorClose={handleEditorClose}
             handleFullScreen={(full) => handleClickFullScreen(full)}
             photoPost1={photoPostProps || []}
+            handleFilterOpen={handleFilterOpen}
           />
           : (
             <>
@@ -80,6 +88,9 @@ const PostPhotoSelectModal = ({
                 <label htmlFor="file-upload">Select from Computer</label>
               </Button>
             </>
+          )}
+          {isFilterOpen && (
+            <FilterModal handleModalClose = {handleModalClose} photoList={photoList}/>
           )}
       </StyledModalBody>
     </>

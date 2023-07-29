@@ -9,7 +9,7 @@ const FilterElement = ({
     filter,
     handleFilter
   }: {
-    key?: string
+    key: number
     photoUrl: string
     filterTitle: string
     filter: string

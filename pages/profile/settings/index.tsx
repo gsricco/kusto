@@ -28,7 +28,7 @@ import {
   StyledLine,
   StyledProfileForm
 } from "styles/styledComponents/profile/Settings.styled";
-import FilterModal from "features/profile/FilterModal";
+import FilterModal from "features/posts/FilterModal";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
