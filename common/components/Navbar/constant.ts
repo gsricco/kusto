@@ -6,10 +6,10 @@ export const ITEM_LINK = [
     selectIcon: '/img/icons/homeSelect.svg'
   },
   {
-    name: 'Create',
-    href: '/create',
-    icon: '/img/icons/plus-square.svg',
-    selectIcon: '/img/icons/plus-square-select.svg'
+    name: '',
+    href: '',
+    icon: '',
+    selectIcon: ''
   },
   {
     name: 'My Profile',

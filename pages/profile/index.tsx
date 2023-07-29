@@ -26,10 +26,16 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
+import { useGetUserPostQuery } from "assets/store/api/posts/postsApi";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const id = user?.userId || "";
+
+  const { data } = useGetUserPostQuery(id);
+
+  const posts = data?.items;
 
   const { isSuccess } = useAuthMeQuery();
 
@@ -128,15 +134,9 @@ const MyProfile = () => {
               </InfoBlock>
             </HeaderStyle>
             <PhotosBlock>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
+              {posts?.map((post) => (
+                <PhotoStyle key={Math.random()}>{post.description}</PhotoStyle>
+              ))}
             </PhotosBlock>
           </ProfileWrapper>
         )}
