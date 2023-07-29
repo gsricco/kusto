@@ -53,6 +53,13 @@ const SmallPhoto = ({photo, removePhotoFromList, index}: SmallProtoProps) => {
   );
 };
 
+
+type SizePhotoType = {
+  width:string
+  height:string
+}
+
+
 const PostPhotoEditorModal = ({
                                 photo,
                                 handleEditorClose,
@@ -71,6 +78,11 @@ const PostPhotoEditorModal = ({
   const [full, setFullScreen] = useState(false);
   const [resize, setResize] = useState(false);
   const [photoPost, setPhotoPost] = useState<File[]>(photoPost1 || []);
+
+
+  const sizePhotoProps = {width:'90vh',height:'90vh'}
+
+  const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90vh',height:'90vh'});
 
   const [createPostHandler] = useCreatePostMutation();
 
@@ -91,6 +103,9 @@ const PostPhotoEditorModal = ({
         setState(parseInt(e.target.value));
       }
     };
+
+
+
 
   // Обработчик сохранени отредактированного изображения
   const handleSave = async () => {
@@ -168,8 +183,8 @@ const PostPhotoEditorModal = ({
               color={[23, 23, 23, 0]}
               scale={value / 10}
               style={{
-                width: full ? "90vh" : "100%",
-                height: full ? "90vh" : "100%",
+                width: full ? "90vh" : sizePhoto.width,
+                height: full ? "90vh" : sizePhoto.height,
                 left: "30px"
               }}
             />
@@ -196,16 +211,16 @@ const PostPhotoEditorModal = ({
         )}
           {resize && (
             <StyledResizeBlock>
-              <StyleItemSize onClick={handleClickFullScreen}>
+              <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
                 <StyledIconSize src={addPhoto} alt={fullScreen}/> <span>original</span>
               </StyleItemSize>
-              <StyleItemSize onClick={handleClickFullScreen}>
+              <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
                 <StyledIconSize src={resize11} alt={fullScreen}/>1:1
               </StyleItemSize>
-              <StyleItemSize onClick={handleClickFullScreen}>
+              <StyleItemSize onClick={()=>setSizePhoto({width:'40%', height:'50%'})}>
                 <StyledIconSize src={resize45} alt={fullScreen}/>4:5
               </StyleItemSize>
-              <StyleItemSize onClick={handleClickFullScreen}>
+              <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'50%'})}>
                 <StyledIconSize src={resize169} alt={fullScreen}/>16:9
               </StyleItemSize>
             </StyledResizeBlock>
