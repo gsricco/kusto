@@ -2,6 +2,8 @@ import FilterElement from "./FilterElement";
 import { useState } from "react";
 import { filtersList } from "common/utils/filters";
 import { ImageToolModal } from "common/hoc/ImageToolModal";
+import { styled } from "styled-components";
+import { PhotoType } from "./PostPhotoEditorModal";
 
 const FilterModal = ({
     handleModalClose, 
@@ -10,13 +12,16 @@ const FilterModal = ({
     handleNextToPublishButton,
   }: {
     handleModalClose?: () => void
-    photoPost: string []
-    handleBackToEditor: (photoPost: string[]) => void
-    handleNextToPublishButton: (photoPost: string[]) => void
+    photoPost: PhotoType[]
+    handleBackToEditor: (filterPhotoList: PhotoType[]) => void
+    handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void
   }) => {
 
-    const [newFilter, setNewFilter] = useState('')
-    const [photoUrl, setPhotoUrl] = useState(photoPost[0])
+    // const [newFilter, setNewFilter] = useState('')
+    const [photo, setPhoto] = useState(photoPost[0])
+    const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>([])
+
+  console.log(photoPost)    
 
     // let photoUrl = photoList[0]
     // let photoUrl = ''
@@ -26,16 +31,32 @@ const FilterModal = ({
     //     photoUrl = photo
     // }  
 
-  const handleFilter = (filterTitle: string) => {
-      setNewFilter(filterTitle)
+  const handleFilter = (filter: string, newPhoto: string) => {
+      // setNewFilter(filter)
+      const filterPhotoPost = photoPost.map((el) => {
+        if(el.photoUrl == photo.photoUrl) {
+          el.filter = filter
+        }
+        return el
+      })
+      setFilterPhotoList(filterPhotoPost)
+      // console.log(filterPhotoPost)
+      
+      // let newFilterList = filterPhotoList.map((el, index) => {
+      //   if(photoPost[index] == photoUrl ) {
+      //     console.log(index)
+      //     el = newPhoto
+      //   }      //   return el
+      // })
+      // setFilterPhotoList(newFilterList)
   }
 
   const handleBack = () => {
-    handleBackToEditor(photoPost)
+    handleBackToEditor(filterPhotoList)
   }
 
   const handleNextButton = () => {
-    handleNextToPublishButton(photoPost)
+    handleNextToPublishButton(filterPhotoList)
   }
 
   return (
@@ -43,23 +64,39 @@ const FilterModal = ({
       handleModalClose={handleModalClose} 
       photoPost={photoPost} 
       handleBack={handleBack}
-      newFilter={newFilter}
       title='Filters'
-      setPhotoUrl={setPhotoUrl}
-      photoUrl={photoUrl}
+      setPhoto={setPhoto}
+      photo={photo}
       nextStep='Next'
       handleNextStepButton={handleNextButton}
       >
-      {filtersList.map( (el, index) => 
-        <FilterElement 
-            key={index} 
-            filter={el.filter} 
-            filterTitle={el.filterTitle} 
-            photoUrl={photoUrl} 
-            handleFilter={handleFilter}
-        />)}
+        <StyledFiltersContainer key={photo.photoUrl}>
+          {filtersList.map( (el, index) => 
+            <FilterElement 
+              key={index} 
+              filter={el.filter} 
+              filterTitle={el.filterTitle} 
+              photoUrl={photo.photoUrl} 
+              handleFilter={handleFilter}
+            />
+          )}
+        </StyledFiltersContainer>
+      
     </ImageToolModal>
   )
 }
 
 export default FilterModal
+
+const StyledFiltersContainer = styled.div<{key: string}>`
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 3;
+
+    height: 100%;
+    padding: 10px;
+    width: calc(100% - 490px);
+    min-width: 180px;
+
+    overflow: scroll;
+`;

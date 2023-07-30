@@ -5,23 +5,22 @@ import { FC, PropsWithChildren, useState } from "react";
 import { StyledCloseNextButton, StyledModalHeaderNext, StyledModalTitleNext } from "common/components/Modals/Modal.styled";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
+import { PhotoType } from "features/posts/PostPhotoEditorModal";
 
 type Props = {
     handleModalClose?: () => void
-    photoPost: string []
-    handleBack: (photoPost: string []) => void
-    newFilter?: string
+    photoPost: PhotoType []
+    handleBack: (photoPost: PhotoType []) => void
     title: string
-    setPhotoUrl: (photoUrl: string) => void
-    photoUrl: string
+    setPhoto: (photo: PhotoType) => void
+    photo: PhotoType
     nextStep: string
     handleNextStepButton: () => void
 }
 export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
     children, handleModalClose, 
-    photoPost, handleBack, 
-    newFilter, title, 
-    photoUrl, setPhotoUrl, nextStep, handleNextStepButton, ...otherProps }) => {
+    photoPost, handleBack, title, 
+    photo, setPhoto, nextStep, handleNextStepButton, ...otherProps }) => {
 
     const [photoIndex, setPhotoIndex] = useState(0)
 
@@ -29,7 +28,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
         const newIndex = photoIndex + 1
         if(newIndex <= photoPost.length - 1) {
             setPhotoIndex(newIndex)
-            setPhotoUrl(photoPost[newIndex])
+            setPhoto(photoPost[newIndex])
         }
     }
 
@@ -37,11 +36,9 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
         const newIndex = photoIndex - 1
         if(newIndex >= 0) {
             setPhotoIndex(newIndex)
-            setPhotoUrl(photoPost[newIndex])
+            setPhoto(photoPost[newIndex])
         }
-        
     }
-    console.log("list", photoPost)
 
   const handleBackButton = () => {
     handleBack(photoPost)
@@ -68,18 +65,15 @@ return (
             <div onClick={handlePrevPhoto}> Prev </div>
             <StyledImageContainer>
               <Image
-                  src={photoUrl}
+                  src={photo.photoUrl}
                   width={0}
                   height={0}
                   alt="nolmal"
-                  style={{width: '100%', height: '100%', objectFit: 'contain', filter: newFilter}}
+                  style={{width: '100%', height: '100%', objectFit: 'contain', filter: photo.filter}}
               />
             </StyledImageContainer> 
             <div onClick={handleNextPhoto}> Next </div>
-
-            <StyledFiltersContainer key={photoUrl}>
                 {children}
-            </StyledFiltersContainer>
         </StyledModalBody>
       </StyledModalContainer>
   );

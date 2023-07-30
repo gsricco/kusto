@@ -13,18 +13,18 @@ const FilterElement = ({
     photoUrl: string
     filterTitle: string
     filter: string
-    handleFilter: (filterTitle: string, imageUrl: string) => void
+    handleFilter: (filterTitle: string, newPhoto: string) => void
   }) => {
 
-    const [ImageUrl, setImageUrl] = useState('')
+    const [newPhoto, setNewPhoto] = useState('')
 
     const handleFilterChose = () => {
-      handleFilter(filter, ImageUrl)
+      handleFilter(filter, newPhoto)
     }
 
     return (
       <StyledModalBody onClick={handleFilterChose}>
-        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'} setImageUrl={setImageUrl}/>
+        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'} setImageUrl={setNewPhoto}/>
         <StyledFilterTitle>
           {filterTitle}
         </StyledFilterTitle>

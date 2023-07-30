@@ -1,17 +1,21 @@
 import { ImageToolModal } from "common/hoc/ImageToolModal"
 import { useState } from "react"
+import { styled } from "styled-components"
+import { PhotoType } from "./PostPhotoEditorModal"
 
 const PostDescriptionModal = ({
         handleBackToFilters, 
         photoPost,
         handleModalClose,
     }: {
-        handleBackToFilters: (photoPost: string[]) => void 
-        photoPost: string[]
+        handleBackToFilters: (photoPost: PhotoType[]) => void 
+        photoPost: PhotoType[]
         handleModalClose: () => void
 }) => {
 
-    const [photoUrl, setPhotoUrl] = useState(photoPost[0])
+    const [photo, setPhoto] = useState(photoPost[0])
+
+    console.log(photoPost)
 
     const handleBack = () => {
         handleBackToFilters(photoPost)
@@ -27,14 +31,26 @@ const PostDescriptionModal = ({
             photoPost={photoPost} 
             handleBack={handleBack}
             title='Publication'
-            setPhotoUrl={setPhotoUrl}
-            photoUrl={photoUrl}
+            setPhoto={setPhoto}
+            photo={photo}
             nextStep='Publish'
             handleNextStepButton={handlePublishButton}
             >
-            <div>Description</div>
+                <StyledDescriptionContainer>
+                                <div>Description</div>
+                </StyledDescriptionContainer>
         </ImageToolModal>
     )
 }
 
 export default PostDescriptionModal
+
+const StyledDescriptionContainer = styled.div`
+
+    height: 100%;
+    padding: 10px;
+    width: calc(100% - 490px);
+    min-width: 180px;
+
+    overflow: scroll;
+`;
