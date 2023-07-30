@@ -25,6 +25,8 @@ import {
 import PostPhotoSelectModal from "./PostPhotoSelectModal";
 import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
+import FilterModal from "./FilterModal";
+import PostDescriptionModal from "./PostDescriptionModal";
 
 type SmallProtoProps = {
   photo: string;
@@ -80,8 +82,8 @@ const PostPhotoEditorModal = ({
   const [full, setFullScreen] = useState(false);
   const [resize, setResize] = useState(false);
   const [photoPost, setPhotoPost] = useState<string[]>(photoPost1 || []);
-  // const [editPhotoList, setEditPhotoList] = useState<string[]>([]);
-
+  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
 
   const sizePhotoProps = {width:'90vh',height:'90vh'}
 
@@ -105,9 +107,6 @@ const PostPhotoEditorModal = ({
         setState(parseInt(e.target.value));
       }
     };
-
-
-
 
   // Обработчик сохранени отредактированного изображения
   const handleSave = async () => {
@@ -153,9 +152,26 @@ const PostPhotoEditorModal = ({
     setFullScreen(!full);
   };
 
-  const handleNextButton = () => {
-    handleFilterOpen(photoPost)
-    debugger
+  const handleNextToFilterButton = () => {
+    setOpenComp(false)
+    setIsFilterOpen(true)
+  }
+
+  const handleNextToPublishButton = () => {
+    setIsDescriptionOpen(true)
+    setIsFilterOpen(false)
+  }
+
+  const handleBackToEditor = (photoPost: string[]) => {
+    setOpenComp(false)
+    setIsFilterOpen(false)
+    setPhotoPost(photoPost)
+  }
+
+  const handleBackToFilters = (photoPost: string[]) => {
+    setIsFilterOpen(true)
+    setIsDescriptionOpen(false)
+    setPhotoPost(photoPost)
   }
 
   return (
@@ -182,7 +198,7 @@ const PostPhotoEditorModal = ({
               />
             </StyledCloseNextButton>
             <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-            <Button theme={ThemeButton.CLEAR} onClick={handleNextButton}>
+            <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton}>
               Next
             </Button>
           </StyledModalHeaderNext>
@@ -280,6 +296,12 @@ const PostPhotoEditorModal = ({
           </div>
         </>
       }
+      {isFilterOpen && (
+        <FilterModal handleBackToEditor={handleBackToEditor} handleNextToPublishButton={handleNextToPublishButton} photoPost={photoPost}/>
+      )}
+      {isDescriptionOpen && (
+        <PostDescriptionModal handleBackToFilters = {handleBackToFilters} handleModalClose={handleEditorClose} photoPost={photoPost}/>
+      )}
     </>
   );
 };

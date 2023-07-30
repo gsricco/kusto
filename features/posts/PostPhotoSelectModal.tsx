@@ -5,8 +5,6 @@ import {baseTheme} from "styles/styledComponents/theme";
 import PostPhotoEditorModal from "./PostPhotoEditorModal";
 import {Button} from "common/components/Button/Button";
 import {ThemeButton} from "common/enums/themeButton";
-import FilterModal from "./FilterModal";
-
 
 const PostPhotoSelectModal = ({
                                 handleModalClose,
@@ -88,9 +86,6 @@ const PostPhotoSelectModal = ({
                 <label htmlFor="file-upload">Select from Computer</label>
               </Button>
             </>
-          )}
-          {isFilterOpen && (
-            <FilterModal handleModalClose = {handleModalClose} photoList={photoList}/>
           )}
       </StyledModalBody>
     </>
