@@ -1,7 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
 import {baseTheme} from "styles/styledComponents/theme";
-import closeIcon from "/public/img/icons/close_white.svg"  
 import { FC, PropsWithChildren, useState } from "react";
 import { StyledCloseNextButton, StyledModalHeaderNext, StyledModalTitleNext } from "common/components/Modals/Modal.styled";
 import { Button } from "common/components/Button/Button";
@@ -24,15 +23,23 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
     newFilter, title, 
     photoUrl, setPhotoUrl, nextStep, handleNextStepButton, ...otherProps }) => {
 
+    const [photoIndex, setPhotoIndex] = useState(0)
+
     const handleNextPhoto = () => {
-      if(photoPost[1] == photoUrl) {
-        console.log('одинаковые')
-      }
-      setPhotoUrl(photoPost[1])
+        const newIndex = photoIndex + 1
+        if(newIndex <= photoPost.length - 1) {
+            setPhotoIndex(newIndex)
+            setPhotoUrl(photoPost[newIndex])
+        }
     }
 
     const handlePrevPhoto = () => {
-      setPhotoUrl(photoPost[0])
+        const newIndex = photoIndex - 1
+        if(newIndex >= 0) {
+            setPhotoIndex(newIndex)
+            setPhotoUrl(photoPost[newIndex])
+        }
+        
     }
     console.log("list", photoPost)
 
@@ -57,24 +64,8 @@ return (
               {nextStep}
             </Button>
         </StyledModalHeaderNext>
-
-        {/* <StyledModalHeader>
-          <div onClick={handleBackButton}>
-            Back
-          </div>
-          <StyledModalTitle>{title}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
-            <Image
-              priority
-              src={closeIcon}
-              height={24}
-              width={24}
-              alt="close"
-            />
-          </StyledCloseButton>
-        </StyledModalHeader> */}
         <StyledModalBody>
-            <div onClick={handlePrevPhoto}> P </div>
+            <div onClick={handlePrevPhoto}> Prev </div>
             <StyledImageContainer>
               <Image
                   src={photoUrl}
@@ -84,14 +75,13 @@ return (
                   style={{width: '100%', height: '100%', objectFit: 'contain', filter: newFilter}}
               />
             </StyledImageContainer> 
-            <div onClick={handleNextPhoto}> N </div>
+            <div onClick={handleNextPhoto}> Next </div>
 
             <StyledFiltersContainer key={photoUrl}>
                 {children}
             </StyledFiltersContainer>
         </StyledModalBody>
       </StyledModalContainer>
-    
   );
 }
 
@@ -114,31 +104,6 @@ const StyledModalContainer = styled.div`
     max-width: 972px;
   }
 
-`;
-
-const StyledModalHeader = styled.div`
-  display: flex;
-  padding: 12px 24px;
-  border-bottom: 1px solid ${baseTheme.colors.dark["100"]};
-`;
-
-const StyledModalTitle = styled.span`
-  flex: 1;
-  color: ${baseTheme.colors.light["100"]};
-  font-size: 20px;
-  font-family: Inter;
-  font-weight: 700;
-  line-height: 36px;
-`;
-
-const StyledCloseButton = styled.button`
-  border: 0;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const StyledModalBody = styled.div`
