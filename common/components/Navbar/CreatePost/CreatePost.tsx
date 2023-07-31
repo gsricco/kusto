@@ -21,7 +21,7 @@ import {
 } from "../../Modals/Modal.styled";
 import { Provider } from "react-redux";
 import { store } from "assets/store/store";
-import PostPhotoEditorModal from "features/posts/PostPhotoEditorModal";
+import PostCreationModal from "features/posts/PostCreationModal";
 
 export const CreatePost: FC = () => {
   // Достать фото поста если надо - сделать запрос
@@ -56,18 +56,10 @@ export const CreatePost: FC = () => {
               width={fullScreen ? "100%" : "492px"}
               height={fullScreen ? "100%" : "564px"}
             >
-              <PostPhotoEditorModal 
+              <PostCreationModal 
                 handleEditorClose={closeModal}
                 handleFullScreen={handleFullScreen}
               />
-              {/* <PostPhotoSelectModal
-                handleModalClose={closeModal}
-                avatar={data?.photo}
-                handleFullScreen={handleFullScreen}
-                isHeaderOpen={false}
-                isHeader2Open={true}
-
-              /> */}
             </StyledModalContainer>
           </StyledModalOverlay>
         )}

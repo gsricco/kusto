@@ -5,7 +5,7 @@ import { FC, PropsWithChildren, useState } from "react";
 import { StyledCloseNextButton, StyledModalHeaderNext, StyledModalTitleNext } from "common/components/Modals/Modal.styled";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
-import { PhotoType } from "features/posts/PostPhotoEditorModal";
+import { PhotoType } from "features/posts/PostCreationModal";
 
 type Props = {
     handleModalClose?: () => void

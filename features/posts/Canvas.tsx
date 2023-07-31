@@ -1,6 +1,19 @@
 import React, { useRef, useEffect } from 'react'
 
-const Canvas = ({photo, filter, width, height, setImageUrl} : {photo: string, filter : string, width: string, height: string, setImageUrl: (canvasUrl: string) => void}) => {
+const Canvas = ({
+    photo, 
+    filter, 
+    width, 
+    height, 
+    setImageUrl
+  } : {
+    key?: number
+    photo: string
+    filter : string, 
+    width: string
+    height: string
+    setImageUrl: (canvasUrl: string) => void
+  }) => {
   
   const canvasRef = useRef(null)
   
@@ -27,6 +40,7 @@ const Canvas = ({photo, filter, width, height, setImageUrl} : {photo: string, fi
             yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
             let canvasUrl = canvas.toDataURL()
             setImageUrl(canvasUrl)
+            console.log('canvasUrl', canvasUrl)
         }
         context.drawImage(img, xOffset, yOffset, newWidth , newHeight);
         

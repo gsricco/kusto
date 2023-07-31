@@ -3,7 +3,7 @@ import { useState } from "react";
 import { filtersList } from "common/utils/filters";
 import { ImageToolModal } from "common/hoc/ImageToolModal";
 import { styled } from "styled-components";
-import { PhotoType } from "./PostPhotoEditorModal";
+import { PhotoType } from "./PostCreationModal";
 
 const FilterModal = ({
     handleModalClose, 
@@ -17,22 +17,10 @@ const FilterModal = ({
     handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void
   }) => {
 
-    // const [newFilter, setNewFilter] = useState('')
     const [photo, setPhoto] = useState(photoPost[0])
-    const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>([])
-
-  console.log(photoPost)    
-
-    // let photoUrl = photoList[0]
-    // let photoUrl = ''
-    // if (photo && typeof photo !== 'string') {
-    //     photoUrl = URL.createObjectURL(photo)
-    // } else if (typeof photo == 'string') {
-    //     photoUrl = photo
-    // }  
+    const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost)
 
   const handleFilter = (filter: string, newPhoto: string) => {
-      // setNewFilter(filter)
       const filterPhotoPost = photoPost.map((el) => {
         if(el.photoUrl == photo.photoUrl) {
           el.filter = filter
@@ -40,15 +28,6 @@ const FilterModal = ({
         return el
       })
       setFilterPhotoList(filterPhotoPost)
-      console.log(filterPhotoPost)
-      
-      // let newFilterList = filterPhotoList.map((el, index) => {
-      //   if(photoPost[index] == photoUrl ) {
-      //     console.log(index)
-      //     el = newPhoto
-      //   }      //   return el
-      // })
-      // setFilterPhotoList(newFilterList)
   }
 
   const handleBack = () => {

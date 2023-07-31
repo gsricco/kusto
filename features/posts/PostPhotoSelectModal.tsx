@@ -1,32 +1,23 @@
 import Image from "next/image";
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import {baseTheme} from "styles/styledComponents/theme";
-import PostPhotoEditorModal, { PhotoType } from "./PostPhotoEditorModal";
 import {Button} from "common/components/Button/Button";
 import {ThemeButton} from "common/enums/themeButton";
 
 const PostPhotoSelectModal = ({
-                                handleModalClose,
-                                handleFullScreen,
-                                avatar,
-                                isHeaderOpen,
-                                isHeader2Open,
-                                photoPostProps,
-                                setPhotoFile,
-                                handleNextToResize
-                              }: {
-  handleModalClose: () => void;
-  avatar?: string;
-  handleFullScreen: (full: boolean) => void;
-  isHeaderOpen?: boolean
-  isHeader2Open?: boolean
-  photoPostProps?: PhotoType[]
-  setPhotoFile: (photoFile: File) => void
-  handleNextToResize: () => void
+    handleModalClose,
+    handleFullScreen,
+    avatar,
+    setPhotoFile,
+    handleNextToResize
+  }: {
+    handleModalClose: () => void;
+    avatar?: string;
+    handleFullScreen: (full: boolean) => void;
+    setPhotoFile: (photoFile: File) => void
+    handleNextToResize: () => void
 }) => {
-  // const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
-  // const [isEditorOpen, setIsEditorOpen] = useState(isHeaderOpen); // открытие модального окна для редактирования
 
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
@@ -34,56 +25,34 @@ const PostPhotoSelectModal = ({
       console.log(["file", file]);
       setPhotoFile(file);
       handleNextToResize()
-      // changeHeader(false);
-      // setIsEditorOpen(true);
     }
   };
-
-  // const handleEditorClose = () => {
-  //   setIsEditorOpen(false);
-  //   handleModalClose();
-  // };
-
-  // const handleClickFullScreen = (full: boolean) => {
-  //   handleFullScreen(full);
-  // };
 
   return (
     <>
       <StyledModalBody>
-        {/* {isEditorOpen && photo
-          ? <PostPhotoEditorModal
-            photo={photo}
-            handleEditorClose={handleEditorClose}
-            handleFullScreen={(full) => handleClickFullScreen(full)}
-            photoPost1={photoPostProps || []}
-          />
-          : ( */}
-            <>
-              <StyledModalHeader>
-                <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
-                <StyledCloseButton onClick={handleModalClose}>
-                  <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
-                </StyledCloseButton>
-              </StyledModalHeader>
-              <StyledModalImageContainer>
-                {avatar
-                  ? <Image id="avatar" src={avatar} alt="Avatar"/>
-                  : <StyledModalImage
-                    priority
-                    src={"/img/icons/image-outline.svg"}
-                    height={48}
-                    width={48}
-                    alt="avatar"
-                  />
-                }
-              </StyledModalImageContainer>
-              <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
-              <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
-                <label htmlFor="file-upload">Select from Computer</label>
-              </Button>
-            </>
-          {/* )} */}
+        <StyledModalHeader>
+          <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
+          <StyledCloseButton onClick={handleModalClose}>
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
+          </StyledCloseButton>
+        </StyledModalHeader>
+        <StyledModalImageContainer>
+          {avatar
+            ? <Image id="avatar" src={avatar} alt="Avatar"/>
+            : <StyledModalImage
+              priority
+              src={"/img/icons/image-outline.svg"}
+              height={48}
+              width={48}
+              alt="avatar"
+            />
+          }
+        </StyledModalImageContainer>
+        <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
+        <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
+          <label htmlFor="file-upload">Select from Computer</label>
+        </Button>
       </StyledModalBody>
     </>
   );
@@ -92,35 +61,6 @@ const PostPhotoSelectModal = ({
 export default PostPhotoSelectModal;
 
 // styles
-
-// const StyledModalOverlay = styled.div`
-//   z-index: 1000;
-//   background-color: rgba(0, 0, 0, 0.4);
-//   position: fixed;
-//   top: 61px;
-//   left: 0;
-//   width: 100%;
-//   height: 89%;
-//   overflow: hidden;
-// `;
-//
-// const StyledModalContainer = styled.div`
-//   position: fixed;
-//
-//   border-radius: 2px;
-//   border: 1px solid ${baseTheme.colors.dark["100"]};
-//   background: ${baseTheme.colors.dark["300"]};
-//   top: 50%;
-//   left: 50%;
-//   width: 492px;
-//   height: 564px;
-//   transform: translate(-50%, -50%);
-//
-//   @media (max-width: 500px) {
-//     width: 90vw;
-//     max-width: 492px;
-//   }
-// `;
 
 const StyledModalHeader = styled.div`
   display: flex;

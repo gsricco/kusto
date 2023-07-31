@@ -24,26 +24,20 @@ import {
 import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
-import { PhotoType } from "./PostPhotoEditorModal";
+import { PhotoType } from "./PostCreationModal";
 
 const PostResizeModal = ({
-        // photo,
         handleEditorClose,
         handleFullScreen,
-        // photoPost1,
         handleNextToFilterButton,
-        // setOpenComp,
         setPhotoPost,
         photoPost,
         photoFile,
         handleAddPhotoButton,
     }: {
-        // photo: File;
         handleEditorClose: () => void;
         handleFullScreen: (full: boolean) => void;
-        // photoPost1: PhotoType[];
         handleNextToFilterButton: () => void;
-        // setOpenComp: (value: boolean) => void;
         setPhotoPost: (photoPost: PhotoType[]) => void;
         photoPost: PhotoType[];
         photoFile: File;
