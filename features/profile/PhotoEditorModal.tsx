@@ -5,21 +5,15 @@ import { Button } from 'common/components/Button/Button';
 import { ThemeButton } from 'common/enums/themeButton';
 import styled from "styled-components";
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi';
-import Canvas from '../posts/Canvas';
-// import { Stage, Layer, Image as KonvaImage} from 'react-konva';
-// import useImage from 'use-image';
-
 
 ////  //  Модальное окно редактирования изображения  //  ////
 
 const PhotoEditorModal = ({
     photo,
     handleEditorClose,
-    handleFilterOpen
   }: {
     photo: File
     handleEditorClose: () => void
-    handleFilterOpen: () => void
   }) => {
 
   const [value, setValue] = useState(12) // начальное значение для zoom
@@ -125,9 +119,6 @@ const PhotoEditorModal = ({
     <StyledContainerButton>
       <Button theme={ThemeButton.PRIMARY} width={"86px"} onClick={handleSave}>
         Save
-      </Button>
-      <Button theme={ThemeButton.PRIMARY} width={"86px"} onClick={handleFilterOpen}>
-        Filters
       </Button>
     </StyledContainerButton>
     

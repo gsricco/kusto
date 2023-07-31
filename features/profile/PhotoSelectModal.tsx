@@ -13,17 +13,14 @@ import FilterModal from "../posts/FilterModal";
 
 const PhotoSelectModal = ({
     handleModalClose, 
-    handleFilterModalOpen,
     avatar
   }: {
     handleModalClose: () => void
-    handleFilterModalOpen: (photo: string) => void
     avatar?: string
   }) => {
 
   const [photo, setPhoto] = useState<File>()  // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
-  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
 
   // const image = avatar || "/img/icons/image-outline.svg"
 
@@ -42,11 +39,6 @@ const PhotoSelectModal = ({
     handleModalClose()    
   }
 
-  const handleFilterOpen = () => {
-    setIsFilterOpen(true)
-  }
-
-
 return (
     <StyledModalOverlay>
       <StyledModalContainer>
@@ -63,7 +55,7 @@ return (
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-        { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleFilterOpen={handleFilterOpen} handleEditorClose={handleEditorClose}/> 
+        { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
             : <>
             <StyledModalImageContainer>
               { avatar ? <img id="avatar" src={avatar} alt="Avatar"/> 
@@ -86,9 +78,6 @@ return (
                 </Button>
             </>
         }
-        {/* {isFilterOpen && (
-            <FilterModal handleModalClose = {handleModalClose} photo={photo}/>
-          )} */}
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>

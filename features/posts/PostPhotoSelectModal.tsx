@@ -12,7 +12,9 @@ const PostPhotoSelectModal = ({
                                 avatar,
                                 isHeaderOpen,
                                 isHeader2Open,
-                                photoPostProps
+                                photoPostProps,
+                                setPhotoFile,
+                                handleNextToResize
                               }: {
   handleModalClose: () => void;
   avatar?: string;
@@ -20,42 +22,43 @@ const PostPhotoSelectModal = ({
   isHeaderOpen?: boolean
   isHeader2Open?: boolean
   photoPostProps?: PhotoType[]
+  setPhotoFile: (photoFile: File) => void
+  handleNextToResize: () => void
 }) => {
-  const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
-  const [isEditorOpen, setIsEditorOpen] = useState(isHeaderOpen); // открытие модального окна для редактирования
-  // const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
-  // const [photoList, setPhotoList] = useState([''])
-  
+  // const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+  // const [isEditorOpen, setIsEditorOpen] = useState(isHeaderOpen); // открытие модального окна для редактирования
+
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0];
       console.log(["file", file]);
-      setPhoto(file);
+      setPhotoFile(file);
+      handleNextToResize()
       // changeHeader(false);
-      setIsEditorOpen(true);
+      // setIsEditorOpen(true);
     }
   };
 
-  const handleEditorClose = () => {
-    setIsEditorOpen(false);
-    handleModalClose();
-  };
+  // const handleEditorClose = () => {
+  //   setIsEditorOpen(false);
+  //   handleModalClose();
+  // };
 
-  const handleClickFullScreen = (full: boolean) => {
-    handleFullScreen(full);
-  };
+  // const handleClickFullScreen = (full: boolean) => {
+  //   handleFullScreen(full);
+  // };
 
   return (
     <>
       <StyledModalBody>
-        {isEditorOpen && photo
+        {/* {isEditorOpen && photo
           ? <PostPhotoEditorModal
             photo={photo}
             handleEditorClose={handleEditorClose}
             handleFullScreen={(full) => handleClickFullScreen(full)}
             photoPost1={photoPostProps || []}
           />
-          : (
+          : ( */}
             <>
               <StyledModalHeader>
                 <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
@@ -80,7 +83,7 @@ const PostPhotoSelectModal = ({
                 <label htmlFor="file-upload">Select from Computer</label>
               </Button>
             </>
-          )}
+          {/* )} */}
       </StyledModalBody>
     </>
   );

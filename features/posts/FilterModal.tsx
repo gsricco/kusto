@@ -40,7 +40,7 @@ const FilterModal = ({
         return el
       })
       setFilterPhotoList(filterPhotoPost)
-      // console.log(filterPhotoPost)
+      console.log(filterPhotoPost)
       
       // let newFilterList = filterPhotoList.map((el, index) => {
       //   if(photoPost[index] == photoUrl ) {
@@ -53,6 +53,7 @@ const FilterModal = ({
 
   const handleBack = () => {
     handleBackToEditor(filterPhotoList)
+    console.log('photo in filter at back', filterPhotoList)
   }
 
   const handleNextButton = () => {

@@ -5,22 +5,24 @@ import PostDescriptionModal from "./PostDescriptionModal";
 import PostResizeModal from "./PostResizeModal";
 
 const PostPhotoEditorModal = ({
-    photo,
+    // photo,
     handleEditorClose,
     handleFullScreen,
-    photoPost1,
+    // photoPost1,
   }: {
-    photo: File;
+    // photo: File;
     handleEditorClose: () => void;
     handleFullScreen: (full: boolean) => void;
-    photoPost1: PhotoType[];
+    // photoPost1: PhotoType[];
   }) => {
-  const [openComp, setOpenComp] = useState(false); // начальное значение для rotate
-  const [photoPost, setPhotoPost] = useState<PhotoType[]>(photoPost1 || []);
+  const [openComp, setOpenComp] = useState(true); // начальное значение для rotate
+  const [photoPost, setPhotoPost] = useState<PhotoType[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
-  const [openResize, setOpenResize] = useState(true) // открытие окна изменения размеров изображения
+  const [openResize, setOpenResize] = useState(false) // открытие окна изменения размеров изображения
  
+  const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+
   // const [createPostHandler] = useCreatePostMutation();
 
   // const cropRef = useRef<AvatarEditor | null>(null);
@@ -67,6 +69,16 @@ const PostPhotoEditorModal = ({
   //   }
   // };
 
+  const handleNextToResize = () => {
+    setOpenComp(false)
+    setOpenResize(true)
+  }
+
+  const handleAddPhotoButton = () => {
+    setOpenComp(true)
+    setOpenResize(false)
+  }
+
   const handleNextToFilterButton = () => {
     setIsFilterOpen(true)
     setOpenResize(false)
@@ -81,6 +93,7 @@ const PostPhotoEditorModal = ({
   const handleBackToEditor = (photoPost: PhotoType[]) => {
     setOpenResize(true)
     setIsFilterOpen(false)
+    console.log('photo after filter', photoPost)
     setPhotoPost(photoPost)
   }
 
@@ -100,15 +113,19 @@ const PostPhotoEditorModal = ({
           isHeaderOpen={false}
           isHeader2Open={true}
           photoPostProps={photoPost}
+          setPhotoFile={setPhotoFile}
+          handleNextToResize={handleNextToResize}
         />
       }
-      {openResize && <PostResizeModal 
-          photo={photo}
+      {openResize && photoFile && <PostResizeModal 
+          // photo={photo}
+          photoFile={photoFile}
           handleEditorClose={handleEditorClose}
           handleFullScreen={handleFullScreen}
-          photoPost1={photoPost1}
+          // photoPost1={photoPost1}
           handleNextToFilterButton={handleNextToFilterButton}
-          setOpenComp={setOpenComp}
+          handleAddPhotoButton={handleAddPhotoButton}
+          // setOpenComp={setOpenComp}
           setPhotoPost={setPhotoPost}
           photoPost={photoPost}
         

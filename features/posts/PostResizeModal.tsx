@@ -27,23 +27,27 @@ import SmallPhoto from "./SmallPhoto";
 import { PhotoType } from "./PostPhotoEditorModal";
 
 const PostResizeModal = ({
-        photo,
+        // photo,
         handleEditorClose,
         handleFullScreen,
-        photoPost1,
+        // photoPost1,
         handleNextToFilterButton,
-        setOpenComp,
+        // setOpenComp,
         setPhotoPost,
         photoPost,
+        photoFile,
+        handleAddPhotoButton,
     }: {
-        photo: File;
+        // photo: File;
         handleEditorClose: () => void;
         handleFullScreen: (full: boolean) => void;
-        photoPost1: PhotoType[];
+        // photoPost1: PhotoType[];
         handleNextToFilterButton: () => void;
-        setOpenComp: (value: boolean) => void;
+        // setOpenComp: (value: boolean) => void;
         setPhotoPost: (photoPost: PhotoType[]) => void;
         photoPost: PhotoType[];
+        photoFile: File;
+        handleAddPhotoButton: () => void
     }) => {
     const [value, setValue] = useState(12); // начальное значение для zoom
     const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
@@ -55,6 +59,7 @@ const PostResizeModal = ({
     const sizePhotoProps = {width:'90vh',height:'90vh'}
     const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90vh',height:'90vh'});
 
+    console.log('photo in resize', photoPost)
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,10 +106,10 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
-  const handleAddPhotoButton = () => {
-    setOpenComp(true)
-    setResize(false)
-  }
+//   const handleAddPhotoButton = () => {
+//     setOpenComp(true)
+//     setResize(false)
+//   }
 
   return (
     <>
@@ -126,7 +131,7 @@ const PostResizeModal = ({
         <StyledPhotoEditor full={full}>
         <AvatarEditor // width и height задается в styled component с учетом border
             ref={cropRef}
-            image={photo}
+            image={photoFile}
             color={[23, 23, 23, 0]}
             scale={value / 10}
             style={{
