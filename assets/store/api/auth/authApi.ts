@@ -1,30 +1,30 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   CheckLinkType,
   LoginResponseType,
   LoginType,
+  MeType,
   NewPasswordResType,
   NewPasswordType,
   RegistrationType,
   SendLinkType
 } from "./types";
-import {getItem} from "../../../../common/hooks/useLocalStorage";
-
+import { getItem } from "../../../../common/hooks/useLocalStorage";
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     fetchFn: async (url) => {
-      const token = getItem('accessToken')
+      const token = getItem("accessToken");
       const options = {
         headers: new Headers({
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }),
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        })
       };
       return await fetch(url, options);
-    },
+    }
   }),
   endpoints: (builder) => ({
     registration: builder.mutation<any, RegistrationType>({
@@ -46,7 +46,7 @@ export const authApi = createApi({
         method: "POST",
         url: `/auth/password-recovery`,
         body
-      }),
+      })
     }),
     newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
       query: (body) => {
@@ -55,15 +55,15 @@ export const authApi = createApi({
           url: `/auth/new-password`,
           body
         };
-      },
+      }
     }),
     checkLinkHandler: builder.query<any, CheckLinkType>({
       query: (code) => {
         return {
           method: "GET",
-          url: `/auth/email-confirmation/${code}`,
+          url: `/auth/email-confirmation/${code}`
         };
-      },
+      }
     }),
     refreshLink: builder.mutation<any, any>({
       query: (body) => {
@@ -72,10 +72,18 @@ export const authApi = createApi({
           url: `/auth/refresh-link`,
           body
         };
-      },
+      }
     }),
+    me: builder.query<MeType, void>({
+      query: () => {
+        return {
+          method: "GET",
+          url: `/auth/me`
+        };
+      }
+    })
   })
-})
+});
 
 export const {
   useRegistrationMutation,
@@ -83,5 +91,6 @@ export const {
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
-  useRefreshLinkMutation
-} = authApi
+  useRefreshLinkMutation,
+  useMeQuery
+} = authApi;
