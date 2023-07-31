@@ -194,7 +194,7 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen.photoModal && (
-            <PhotoSelectModal handleModalClose={handleModalClose} handleFilterModalOpen={handleFilterModalOpen} avatar={data?.photo} />
+            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
           )}
           {isModalOpen.saveProfileModal && (
             <Modal
