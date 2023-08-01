@@ -40,9 +40,9 @@ export const authOptions: NextAuthOptions = {
     // })
   ],
 
-  pages: {
-    signIn: Path.LOGIN
-  },
+  // pages: {
+  //   signIn: Path.LOGIN
+  // },
 
   callbacks: {
     async jwt({ token }) {
