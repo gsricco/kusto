@@ -36,6 +36,7 @@ import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useInitializeApp } from "common/hooks/useInitializeApp";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -47,6 +48,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const Login = () => {
+  useInitializeApp();
   const { t } = useTranslation();
   const route = useRouter();
   const { passwordType, showPassword } = useShowPassword();

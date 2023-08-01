@@ -32,10 +32,12 @@ import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
 import { useSession } from "next-auth/react";
+import { useInitializeApp } from "common/hooks/useInitializeApp";
 
 const MyProfile = () => {
   /* _______ProtectedPage______________ */
   const { data: session } = useSession();
+  useInitializeApp();
 
   /*   _____________________________________ */
 

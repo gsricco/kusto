@@ -1,14 +1,17 @@
+import { FC, PropsWithChildren, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useAppSelector } from "common/hooks";
+import { isAppInitializedSelector } from "assets/store/app.selector";
+import { Path } from "common/enums/path";
 
-import {FC, PropsWithChildren} from "react";
-import {useRouter} from "next/router";
+export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
+  const router = useRouter();
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
-export const LoginNavigate: FC<PropsWithChildren<{}>> = ({children}) => {
-  const router = useRouter()
+  // const isAuth = true  // запрос авторизации
+  useEffect(() => {
+    if (!isAppInitialized) router.push(Path.LOGIN);
+  }, [isAppInitialized]);
 
-  const isAuth = true  // запрос авторизации
-
-  if (!isAuth) router.push('/login')
-
-  return <>{children}</>
+  return <>{children}</>;
 };
-

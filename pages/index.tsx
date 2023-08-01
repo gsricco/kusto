@@ -8,8 +8,23 @@ import styled from "styled-components";
 import { baseTheme } from "../styles/styledComponents/theme";
 import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "../styles/styledComponents/auth/Home.module.css";
+import { useInitializeApp } from "common/hooks/useInitializeApp";
+import {
+  errorSelector,
+  isLoadingSelector,
+  meSelector,
+  isAppInitializedSelector
+} from "assets/store/app.selector";
+import { useAppSelector } from "common/hooks";
 
 const Home: NextPageWithLayout = () => {
+  useInitializeApp();
+
+  const isLoading = useAppSelector(isLoadingSelector);
+  const error = useAppSelector(errorSelector);
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  const me = useAppSelector(meSelector);
+
   const { data: session, status } = useSession();
   const loading = status === "loading";
   return (
