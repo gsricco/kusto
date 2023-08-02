@@ -5,7 +5,8 @@ const Canvas = ({
     filter, 
     width, 
     height, 
-    setImageUrl
+    setImageUrl,
+    isImgSizes,
   } : {
     key?: number
     photo: string
@@ -13,22 +14,27 @@ const Canvas = ({
     width: string
     height: string
     setImageUrl: (canvasUrl: string) => void
+    isImgSizes?: boolean
   }) => {
   
   const canvasRef = useRef(null)
-  
+
   useEffect(() => {
     const canvas = canvasRef.current as HTMLCanvasElement | null
     const context = canvas?.getContext('2d') as CanvasRenderingContext2D
 
     const img = new Image;
-    context.filter = filter
+    
     img.onload = function(){
         let newWidth = 0
         let newHeight = 0
         let xOffset = 0
         let yOffset = 0
         if (canvas) {
+          if(isImgSizes) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+          }
             const ratio = img.width / img.height;
             newWidth = canvas.width;
             newHeight = newWidth / ratio;
@@ -38,12 +44,21 @@ const Canvas = ({
             }
             xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
             yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
+
+            context.filter = filter
+
             let canvasUrl = canvas.toDataURL()
             setImageUrl(canvasUrl)
             console.log('canvasUrl', canvasUrl)
         }
-        context.drawImage(img, xOffset, yOffset, newWidth , newHeight);
-        
+
+
+        if(isImgSizes) {
+          context.drawImage(img, 0, 0);
+
+        } else {
+          context.drawImage(img, xOffset, yOffset, newWidth , newHeight);
+        }       
     };
     img.src = photo;
   }, [])

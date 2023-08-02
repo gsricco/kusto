@@ -16,64 +16,29 @@ const PostDescriptionModal = ({
 }) => {
 
     const [photo, setPhoto] = useState(photoPost[0])
-    const [canvasPhoto, setCanvasPhoto] = useState<string []>([])
     const [createPostHandler] = useCreatePostMutation();
-
-   
 
     const handleBack = () => {
         handleBackToFilters(photoPost)
     }
 
-    const handleCanvas = (photoUrl: string) => {
-        const newList = [...canvasPhoto, photoUrl]
-        setCanvasPhoto(newList)
-    }
-
     const handlePublishButton = () => {
-        console.log(canvasPhoto)
+        console.log(photoPost)
 
-  //   const formData = new FormData();
-  //   formData.append("description", "dsgasdg dsagsda gsda g");
-  //   photoPost.map((photo) => formData.append("posts", photo as File));
+        const formData = new FormData();
+        formData.append("description", "dsgasdg dsagsda gsda g");
+        photoPost.map(async(photo) => {
+            //преобразование base64 в file
+            const result = await fetch(photo.photoUrlWithFilter);
+            const blob = await result.blob();
+            const file = new File([blob], "avatar", {type: "image/png"});
 
-  //   createPostHandler(formData);
-  // };
+            // преобразование file в FormData
+            formData.append("posts", file as File);
+        })
 
-  // Сохранение значений в локальный state при перемещении бегунка
-  // const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     if (e.target) {
-  //       setState(parseInt(e.target.value));
-  //     }
-  //   };
-
-  // // Обработчик сохранени отредактированного изображения
-  // const handleSave = async () => {
-  //   // подготовка данных
-  //   if (cropRef.current) {
-  //     const avatar = cropRef.current.getImage().toDataURL();
-
-  //     // преобразование base64 в file
-  //     const result = await fetch(avatar);
-  //     const blob = await result.blob();
-  //     const file = new File([blob], "avatar", {type: "image/png"});
-
-  //     // преобразование file в FormData
-  //     const formData = new FormData();
-  //     formData.append("avatar", file as File);
-  //     // setPhotoPost((prev) => [...prev, file]);
-
-  //     const newList = [...photoPost, {photoUrl: avatar, filter: ''}]
-  //     setPhotoPost(newList)
-  //     debugger
-  //     try {
-
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-    }
+        createPostHandler(formData);
+    };
 
     return (<>
         <ImageToolModal 
@@ -87,19 +52,9 @@ const PostDescriptionModal = ({
             handleNextStepButton={handlePublishButton}
             >
                 <StyledDescriptionContainer>
-                                <div>Description</div>
+                    <div>Description</div>
                 </StyledDescriptionContainer>
         </ImageToolModal>
-        {photoPost.map( (el, index) => 
-            <Canvas 
-                key={index} 
-                photo={el.photoUrl}
-                filter={el.filter} 
-                width={"0px"}
-                height={"0px"} 
-                setImageUrl={handleCanvas}
-            />
-          )}
           </>
     )
 }

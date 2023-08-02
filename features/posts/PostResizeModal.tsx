@@ -53,8 +53,6 @@ const PostResizeModal = ({
     const sizePhotoProps = {width:'90vh',height:'90vh'}
     const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90vh',height:'90vh'});
 
-    console.log('photo in resize', photoPost)
-
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
@@ -68,17 +66,16 @@ const PostResizeModal = ({
     if (cropRef.current) {
       const avatar = cropRef.current.getImage().toDataURL();
 
-      // преобразование base64 в file
-      const result = await fetch(avatar);
-      const blob = await result.blob();
-      const file = new File([blob], "avatar", {type: "image/png"});
+      // // преобразование base64 в file
+      // const result = await fetch(avatar);
+      // const blob = await result.blob();
+      // const file = new File([blob], "avatar", {type: "image/png"});
 
-      // преобразование file в FormData
-      const formData = new FormData();
-      formData.append("avatar", file as File);
-      // setPhotoPost((prev) => [...prev, file]);
+      // // преобразование file в FormData
+      // const formData = new FormData();
+      // formData.append("avatar", file as File);
 
-      const newList = [...photoPost, {photoUrl: avatar, filter: ''}]
+      const newList = [...photoPost, {photoUrl: avatar, filter: '', photoUrlWithFilter: avatar}]
       setPhotoPost(newList)
     }
   };
@@ -99,11 +96,6 @@ const PostResizeModal = ({
     handleFullScreen(!full);
     setFullScreen(!full);
   };
-
-//   const handleAddPhotoButton = () => {
-//     setOpenComp(true)
-//     setResize(false)
-//   }
 
   return (
     <>
@@ -275,12 +267,6 @@ const StyledSliderContainer = styled.div`
   & label {
   }
 `;
-//
-// const StyledContainerButton = styled.div`
-//   margin-left: auto;
-//   margin-right: 24px;
-// `;
-
 
 const StyleItemSize = styled.div
 `
