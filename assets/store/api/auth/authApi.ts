@@ -92,5 +92,5 @@ export const {
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
-  useMeQuery
+  useLazyMeQuery
 } = authApi;

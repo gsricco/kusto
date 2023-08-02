@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, SerializedError, ThunkAction } from "@reduxjs/toolkit";
 import { MeType } from "./api/auth/types";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 
 const slice = createSlice({
   name: "app",
   initialState: {
-    error: null as string | null,
+    error: undefined as FetchBaseQueryError | SerializedError | undefined,
     isLoading: false,
     isAppInitialized: false,
     me: null as MeType | null
@@ -14,7 +15,10 @@ const slice = createSlice({
     setIsLoading: (state, action: PayloadAction<{ isLoading: boolean }>) => {
       state.isLoading = action.payload.isLoading;
     },
-    setError: (state, action: PayloadAction<{ error: string }>) => {
+    setError: (
+      state,
+      action: PayloadAction<{ error: FetchBaseQueryError | SerializedError | undefined }>
+    ) => {
       state.error = action.payload.error;
     },
     setIsAppInitialized: (state, action: PayloadAction<{ isAppInitialized: boolean }>) => {
