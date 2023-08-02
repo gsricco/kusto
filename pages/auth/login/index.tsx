@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import { useRouter } from "next/router";
-import { useLoginMutation } from "../../../assets/store/api/auth/authApi";
+import { useLazyMeQuery, useLoginMutation } from "../../../assets/store/api/auth/authApi"; //?
 import {
   FormValueLogin,
   ResetForm,
@@ -36,7 +36,8 @@ import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useInitializeApp } from "common/hooks/useInitializeApp";
+import { initializeApp } from "assets/store/initializeApp"; //?
+import { useAppDispatch } from "common/hooks"; //?
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -48,7 +49,12 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const Login = () => {
-  useInitializeApp();
+  /*   ________Инициализация_____________ */ //?
+  const dispatch = useAppDispatch();
+  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery();
+
+  /*   ________/Инициализация_____________ */ //?
+
   const { t } = useTranslation();
   const route = useRouter();
   const { passwordType, showPassword } = useShowPassword();
@@ -84,6 +90,8 @@ const Login = () => {
         .then(() => {
           removeItem("email");
           resetForm();
+          getInitialize(); // ________Инициализация_____________ //?
+          initializeApp(me, isLoading, error, dispatch); // ________Инициализация_____________//?
         })
         .catch(() => setFieldError("password", t("log_in_err")));
     } catch (error) {

@@ -6,12 +6,11 @@ import { Path } from "common/enums/path";
 
 export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
   const router = useRouter();
-  const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  const isAuthInitialized = useAppSelector(isAppInitializedSelector);
 
   // const isAuth = true  // запрос авторизации
-  useEffect(() => {
-    if (!isAppInitialized) router.push(Path.LOGIN);
-  }, [isAppInitialized]);
+
+  if (!isAuthInitialized) router.push(Path.LOGIN);
 
   return <>{children}</>;
 };

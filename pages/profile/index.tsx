@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import {
-  useAuthMeQuery,
-  useLazyProfileQuery,
-  useProfileQuery
-} from "assets/store/api/profile/profileApi";
+import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { useRouter } from "next/router";
@@ -32,12 +28,10 @@ import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
 import { useSession } from "next-auth/react";
-import { useInitializeApp } from "common/hooks/useInitializeApp";
 
 const MyProfile = () => {
   /* _______ProtectedPage______________ */
   const { data: session } = useSession();
-  useInitializeApp();
 
   /*   _____________________________________ */
 
