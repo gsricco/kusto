@@ -19,10 +19,16 @@ export const initializeApp = (
       break;
     case !!me:
       batch(() => {
-        dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+        // dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
         dispatch(appActions.setUser({ me: me! }));
         dispatch(appActions.setIsLoading({ isLoading: false }));
       });
+    case !error:
+      batch(() => {
+        dispatch(appActions.setError({ error: undefined }));
+        dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+      });
+
       break;
     case !!error:
       batch(() => {
@@ -30,6 +36,7 @@ export const initializeApp = (
         dispatch(appActions.setIsAppInitialized({ isAppInitialized: false }));
         dispatch(appActions.setIsLoading({ isLoading: false }));
       });
+
     default:
       break;
   }

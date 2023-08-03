@@ -28,6 +28,8 @@ import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
 import { useSession } from "next-auth/react";
+import { useAppSelector } from "common/hooks";
+import { isAppInitializedSelector } from "assets/store/app.selector";
 
 const MyProfile = () => {
   /* _______ProtectedPage______________ */
@@ -36,7 +38,7 @@ const MyProfile = () => {
   /*   _____________________________________ */
 
   const avatar = "/img/icons/avatar.svg";
-  const { isSuccess } = useAuthMeQuery();
+  const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
   const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
 
@@ -57,9 +59,6 @@ const MyProfile = () => {
 
   useEffect(() => {
     getProfileInfo();
-  }, []);
-
-  useEffect(() => {
     if (user?.userId) {
       getPostsInfo(user?.userId);
     }
@@ -80,11 +79,12 @@ const MyProfile = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
 
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
+
   return (
     <>
       <LoginNavigate>
-        {/* {isSuccess && ( */}
-        {(session || isSuccess) && (
+        {(session || isAppInitialized) && (
           <ProfileWrapper>
             <HeaderStyle>
               {isVisible && (
