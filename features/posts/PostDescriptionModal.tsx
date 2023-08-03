@@ -22,22 +22,22 @@ const PostDescriptionModal = ({
         handleBackToFilters(photoPost)
     }
 
-    const handlePublishButton = () => {
-        console.log(photoPost)
+    const handlePublishButton = async () => {
 
         const formData = new FormData();
-        formData.append("description", "dsgasdg dsagsda gsda g");
-        photoPost.map(async(photo) => {
-            //преобразование base64 в file
-            const result = await fetch(photo.photoUrlWithFilter);
+        for(const photo of photoPost) {
+            const result = await fetch(photo.photoUrl);
             const blob = await result.blob();
             const file = new File([blob], "avatar", {type: "image/png"});
 
             // преобразование file в FormData
             formData.append("posts", file as File);
-        })
+        }
+        formData.append("description", "dsgasdg dsagsda gsda g");
 
-        createPostHandler(formData);
+
+        createPostHandler(formData)
+       
     };
 
     return (<>

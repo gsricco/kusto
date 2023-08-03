@@ -26,16 +26,16 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
-import { useGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
   const id = user?.userId || "";
 
-  const { data } = useGetUserPostQuery(id);
+  const [getPosts, { data: posts }] = useLazyGetUserPostQuery();
 
-  const posts = data?.items;
+  const userPosts = posts?.items;
 
   const { isSuccess } = useAuthMeQuery();
 
@@ -53,6 +53,10 @@ const MyProfile = () => {
   useEffect(() => {
     getProfileInfo();
   }, []);
+
+  useEffect(() => {
+    getPosts(id);
+  }, [id]);
 
   useEffect(() => {
     if (width) {
@@ -134,8 +138,13 @@ const MyProfile = () => {
               </InfoBlock>
             </HeaderStyle>
             <PhotosBlock>
-              {posts?.map((post) => (
-                <PhotoStyle key={Math.random()}>{post.description}</PhotoStyle>
+              {userPosts?.map((post) => (
+                <PhotoStyle key={Math.random()}><Image src={post.images[0]?.url}
+                height={240}
+                width={240}
+                alt="back"
+                />
+                </PhotoStyle>
               ))}
             </PhotosBlock>
           </ProfileWrapper>
