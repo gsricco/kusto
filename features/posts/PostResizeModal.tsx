@@ -14,6 +14,7 @@ import resizePhotoOn from "../../public/img/icons/photo-resizeOn.svg";
 import resize11 from "../../public/img/icons/resize11.svg";
 import resize45 from "../../public/img/icons/resize45.svg";
 import resize169 from "../../public/img/icons/resize169.svg";
+import savePhoto from "../../public/img/icons/save-photos.svg";
 import Image from "next/image";
 import {baseTheme} from "../../styles/styledComponents/theme";
 import {
@@ -53,6 +54,8 @@ const PostResizeModal = ({
     const sizePhotoProps = {width:'90vh',height:'90vh'}
     const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90vh',height:'90vh'});
 
+
+
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
@@ -75,7 +78,7 @@ const PostResizeModal = ({
       // const formData = new FormData();
       // formData.append("avatar", file as File);
 
-      const newList = [...photoPost, {photoUrl: avatar, filter: '', photoUrlWithFilter: avatar}]
+      const newList = [...photoPost, {photoUrl: avatar, filter: ''}]
       setPhotoPost(newList)
     }
   };
@@ -97,17 +100,22 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
+//   const handleAddPhotoButton = () => {
+//     setOpenComp(true)
+//     setResize(false)
+//   }
+
   return (
     <>
-        <StyledModalHeaderNext>
-        <StyledCloseNextButton onClick={() => alert("handleModalBack")}>
-            <Image
+      <StyledModalHeaderNext>
+        <StyledCloseNextButton onClick={handleAddPhotoButton}>
+          <Image
             priority
             src="/img/icons/arrow-ios-back.svg"
             height={24}
             width={24}
             alt="close"
-            />
+          />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
         <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton}>
@@ -151,61 +159,66 @@ const PostResizeModal = ({
         <StyledResizeBlock>
             <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
             <StyledIconSize src={addPhoto} alt={fullScreen}/> <span>original</span>
-            </StyleItemSize>
-            <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
+          </StyleItemSize>
+          <StyleItemSize onClick={() => setSizePhoto({width: '90%', height: '90%'})}>
             <StyledIconSize src={resize11} alt={fullScreen}/>1:1
-            </StyleItemSize>
-            <StyleItemSize onClick={()=>setSizePhoto({width:'40%', height:'50%'})}>
+          </StyleItemSize>
+          <StyleItemSize onClick={() => setSizePhoto({width: '368px', height: '460px'})}>
             <StyledIconSize src={resize45} alt={fullScreen}/>4:5
-            </StyleItemSize>
-            <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'50%'})}>
+          </StyleItemSize>
+          <StyleItemSize onClick={() => setSizePhoto({width: '492px', height: '276px'})}>
             <StyledIconSize src={resize169} alt={fullScreen}/>16:9
-            </StyleItemSize>
+          </StyleItemSize>
         </StyledResizeBlock>
-        )}
-        {openAddPhoto && (
+      )}
+      {openAddPhoto && (
         <StyledAddBlock>
-            <StyledPhotoPost id={"scrollable-container"}>
+          <StyledPhotoPost id={"scrollable-container"}>
             {photoPost.map((photo, index) => (
-                <SmallPhoto
+              <SmallPhoto
                 photo={photo.photoUrl}
                 key={index}
                 index={index}
                 removePhotoFromList={removePhotoFromList}
-                />
+              />
             ))}
             </StyledPhotoPost>
             <div onClick={handleAddPhotoButton}>
             <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen}/>
-            </div>
-        </StyledAddBlock>
-        )}
-        <div onClick={handleClickFullScreen}>
-        <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
-        </div>
-
-        <div onClick={() => setResize(!resize)}>
-        <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen}/>
-        </div>
-
-
-        <div onClick={() => setOpenZoom(!openZoom)}>
-        <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom}/>
-        </div>
-        <div
-        onClick={() => {
-            setOpenAddPhoto(!openAddPhoto);
-            if(!openAddPhoto) {
+          </div>
+          <div onClick={() => {
             handleSave();
-            }
+          }}>
+            <StyledIconSavePhoto src={savePhoto} alt={savePhoto}/>
+          </div>
+        </StyledAddBlock>
+      )}
+      <div onClick={handleClickFullScreen}>
+        <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
+      </div>
+
+      <div onClick={() => setResize(!resize)}>
+        <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen}/>
+      </div>
+
+
+      <div onClick={() => setOpenZoom(!openZoom)}>
+        <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom}/>
+      </div>
+      <div
+        onClick={() => {
+          setOpenAddPhoto(!openAddPhoto);
+          if (!openAddPhoto) {
+            // handleSave();
+          }
         }}
-        >
+      >
         <StyledIconAddPhoto
-            src={!openAddPhoto ? addPhoto : addPhotoOn}
-            alt={addPhoto}
-            full={full}
+          src={!openAddPhoto ? addPhoto : addPhotoOn}
+          alt={addPhoto}
+          full={full}
         />
-        </div>
+      </div>
     </>
   );
 };
@@ -214,8 +227,8 @@ const PostResizeModal = ({
 export default PostResizeModal;
 
 type SizePhotoType = {
-    width:string
-    height:string
+  width: string
+  height: string
 }
 
 type PhotoEditorPropsType = {
@@ -267,33 +280,39 @@ const StyledSliderContainer = styled.div`
   & label {
   }
 `;
+//
+// const StyledContainerButton = styled.div`
+//   margin-left: auto;
+//   margin-right: 24px;
+// `;
+
 
 const StyleItemSize = styled.div
-`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  `
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
 
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-  color: ${baseTheme.colors.light["900"]};
-  
-  & span{
-    color:${baseTheme.colors.light["100"]};
-  }
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: ${baseTheme.colors.light["900"]};
 
-`
+    & span {
+      color: ${baseTheme.colors.light["100"]};
+    }
+
+  `
 
 
 const StyledIconSize = styled(Image)
-`
-  width: 26px;
-  height: 26px;
-  background: ${baseTheme.colors.dark["100"]};
-`
+  `
+    width: 26px;
+    height: 26px;
+    background: ${baseTheme.colors.dark["100"]};
+  `
 
 const StyledIconFullScreen = styled(Image)`
   position: absolute;
@@ -313,11 +332,8 @@ const StyledIconAddPhoto = styled(StyledIconFullScreen)<IconAddPhotoType>`
 `;
 const StyledIconResize = styled(StyledIconZoom)
   `
-  left: 140px;
-`;
-
-
-
+    left: 140px;
+  `;
 
 
 const StyledIconPlusPhoto = styled(Image)`
@@ -327,6 +343,17 @@ const StyledIconPlusPhoto = styled(Image)`
   margin: 5px 5px;
   right: 0;
 `;
+
+const StyledIconSavePhoto = styled(StyledIconPlusPhoto)`
+
+  top: 43px;
+
+  &:hover {
+    fill: red;
+  }
+
+`;
+
 
 const StyledAddBlock = styled.div`
   position: absolute;
@@ -349,7 +376,7 @@ const StyledResizeBlock = styled(StyledAddBlock)`
   left: 80px;
   z-index: 2;
   opacity: 1;
-  
+
 `;
 
 

@@ -5,19 +5,19 @@ import PostDescriptionModal from "./PostDescriptionModal";
 import PostResizeModal from "./PostResizeModal";
 
 const PostCreationModal = ({
-    handleEditorClose,
-    handleFullScreen,
-  }: {
-    handleEditorClose: () => void;
-    handleFullScreen: (full: boolean) => void;
-  }) => {
+                             handleEditorClose,
+                             handleFullScreen,
+                           }: {
+  handleEditorClose: () => void;
+  handleFullScreen: (full: boolean) => void;
+}) => {
   const [openComp, setOpenComp] = useState(true); // начальное значение для rotate
   const [photoPost, setPhotoPost] = useState<PhotoType[]>([]);
   const [resultPhotos, setResultPhotos] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие окна изменения размеров изображения
- 
+
   const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
 
 
@@ -57,15 +57,14 @@ const PostCreationModal = ({
   return (
     <>
       {openComp && <PostPhotoSelectModal
-          handleModalClose={() => {
-          }}
+          handleModalClose={handleEditorClose}
           avatar={""}
           handleFullScreen={handleFullScreen}
           setPhotoFile={setPhotoFile}
           handleNextToResize={handleNextToResize}
-        />
+      />
       }
-      {openResize && photoFile && <PostResizeModal 
+      {openResize && photoFile && <PostResizeModal
           photoFile={photoFile}
           handleEditorClose={handleEditorClose}
           handleFullScreen={handleFullScreen}
@@ -73,16 +72,17 @@ const PostCreationModal = ({
           handleAddPhotoButton={handleAddPhotoButton}
           setPhotoPost={setPhotoPost}
           photoPost={photoPost}
-        />
+      />
       }
-      {isFilterOpen && <FilterModal 
-          handleBackToEditor={handleBackToEditor} 
-          handleNextToPublishButton={handleNextToPublishButton} 
+      {isFilterOpen &&  <FilterModal
+          handleBackToEditor={handleBackToEditor}
+          handleNextToPublishButton={handleNextToPublishButton}
           photoPost={photoPost}
-        />
+      />
       }
       {isDescriptionOpen && (
-        <PostDescriptionModal handleBackToFilters = {handleBackToFilters} handleModalClose={handleEditorClose} photoPost={photoPost}/>
+        <PostDescriptionModal handleBackToFilters={handleBackToFilters} handleModalClose={handleEditorClose}
+                              photoPost={photoPost}/>
       )}
     </>
   );
