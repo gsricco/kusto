@@ -51,8 +51,8 @@ const PostResizeModal = ({
     const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
     const cropRef = useRef<AvatarEditor | null>(null);
 
-    const sizePhotoProps = {width:'90vh',height:'90vh'}
-    const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90vh',height:'90vh'});
+    const sizePhotoProps = {width:'90%',height:'90%'}
+    const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90%',height:'90%'});
 
 
 
@@ -78,7 +78,7 @@ const PostResizeModal = ({
       // const formData = new FormData();
       // formData.append("avatar", file as File);
 
-      const newList = [...photoPost, {photoUrl: avatar, filter: ''}]
+      const newList = [...photoPost, {photoUrl: avatar, filter: '',  photoUrlWithFilter: avatar}]
       setPhotoPost(newList)
     }
   };
@@ -129,8 +129,8 @@ const PostResizeModal = ({
             color={[23, 23, 23, 0]}
             scale={value / 10}
             style={{
-            width: full ? "90vh" : sizePhoto.width,
-            height: full ? "90vh" : sizePhoto.height,
+            width: full ? "90%" : sizePhoto.width,
+            height: full ? "90%" : sizePhoto.height,
             left: "30px"
             }}
         />

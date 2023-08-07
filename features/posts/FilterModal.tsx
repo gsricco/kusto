@@ -103,7 +103,7 @@ const StyledFiltersContainer = styled.div<{key: string}>`
     width: calc(100% - 490px);
     min-width: 180px;
 
-    overflow: scroll;
+    //overflow: scroll;
 `;
 
 const HiddenCanvas = styled.div`

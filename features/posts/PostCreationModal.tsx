@@ -3,6 +3,7 @@ import PostPhotoSelectModal from "./PostPhotoSelectModal";
 import FilterModal from "./FilterModal";
 import PostDescriptionModal from "./PostDescriptionModal";
 import PostResizeModal from "./PostResizeModal";
+import FilterModal1 from "./FilterModal1";
 
 const PostCreationModal = ({
                              handleEditorClose,
