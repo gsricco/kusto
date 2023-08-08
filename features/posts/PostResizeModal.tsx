@@ -25,50 +25,68 @@ import {
 import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
-import { PhotoType } from "./PostCreationModal";
+import {PhotoType} from "./PostCreationModal";
+import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
 
 const PostResizeModal = ({
-        handleEditorClose,
-        handleFullScreen,
-        handleNextToFilterButton,
-        setPhotoPost,
-        photoPost,
-        photoFile,
-        handleAddPhotoButton,
-    }: {
-        handleEditorClose: () => void;
-        handleFullScreen: (full: boolean) => void;
-        handleNextToFilterButton: () => void;
-        setPhotoPost: (photoPost: PhotoType[]) => void;
-        photoPost: PhotoType[];
-        photoFile: File;
-        handleAddPhotoButton: () => void
-    }) => {
-    const [value, setValue] = useState(12); // начальное значение для zoom
-    const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
-    const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии 
-    const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
-    const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-    const cropRef = useRef<AvatarEditor | null>(null);
+                           handleEditorClose,
+                           handleFullScreen,
+                           handleNextToFilterButton,
+                           setPhotoPost,
+                           photoPost,
+                           photoFile,
+                           handleAddPhotoButton,
+                         }: {
+  handleEditorClose: () => void;
+  handleFullScreen: (full: boolean) => void;
+  handleNextToFilterButton: () => void;
+  setPhotoPost: (photoPost: PhotoType[]) => void;
+  photoPost: PhotoType[];
+  photoFile: File;
+  handleAddPhotoButton: () => void
+}) => {
+  const [value, setValue] = useState(50); // начальное значение для zoom
+  const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
+  const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
+  const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
+  const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
+  // const cropRef = useRef<AvatarEditor | null>(null);
+  const cropRefPost = useRef<AvatarEditor | null>(null);
 
-    const sizePhotoProps = {width:'90%',height:'90%'}
-    const [sizePhoto, setSizePhoto] = useState<SizePhotoType>(sizePhotoProps || {width:'90%',height:'90%'});
+  // const sizePhotoProps = {width: '90%', height: '90%'}
+  const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({width: 1, height: 1});
+  const [scale, setScale] = useState(50); // Изначальный масштаб 1 (100%)
 
-
-
+  const [newPhoto, setNewPhoto] = useState('')
+  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState("")
+  const [photos, setPhotos] = useState<string[]>([])
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target) {
-        setState(parseInt(e.target.value));
-      }
-    };
+    if (e.target) {
+      setState(parseInt(e.target.value));
+    }
+  };
+
+  const handleImageUrlChange = (imageUrl: string) => {
+    setPhotos((prevPhotos) => [...prevPhotos, imageUrl]); // Добавляем новый URL в массив фотографий
+  };
+
+
+
+  const saveImage = (canvasUrl: string) => {
+    // Здесь вы можете выполнить действия с сохраненным URL изображения
+    setSavedImageUrl(canvasUrl);
+  };
+
 
   // Обработчик сохранени отредактированного изображения
   const handleSave = async () => {
-    // подготовка данных
-    if (cropRef.current) {
-      const avatar = cropRef.current.getImage().toDataURL();
 
+    console.log('SAVE', URL.createObjectURL(photoFile))
+
+      const avatar = URL.createObjectURL(photoFile)
+    saveImage(avatar)
       // // преобразование base64 в file
       // const result = await fetch(avatar);
       // const blob = await result.blob();
@@ -78,9 +96,11 @@ const PostResizeModal = ({
       // const formData = new FormData();
       // formData.append("avatar", file as File);
 
-      const newList = [...photoPost, {photoUrl: avatar, filter: '',  photoUrlWithFilter: avatar}]
+
+
+      const newList = [...photoPost, {photoUrl: avatar, filter: '', photoUrlWithFilter: avatar}]
       setPhotoPost(newList)
-    }
+    // }
   };
 
   const removePhotoFromList = (index: number) => {
@@ -100,11 +120,6 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
-//   const handleAddPhotoButton = () => {
-//     setOpenComp(true)
-//     setResize(false)
-//   }
-
   return (
     <>
       <StyledModalHeaderNext>
@@ -119,54 +134,59 @@ const PostResizeModal = ({
         </StyledCloseNextButton>
         <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
         <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton}>
-            Next
+          Next
         </Button>
-        </StyledModalHeaderNext>
-        <StyledPhotoEditor full={full}>
-        <AvatarEditor // width и height задается в styled component с учетом border
-            ref={cropRef}
-            image={photoFile}
-            color={[23, 23, 23, 0]}
-            scale={value / 10}
-            style={{
-            width: full ? "90%" : sizePhoto.width,
-            height: full ? "90%" : sizePhoto.height,
-            left: "30px"
-            }}
-        />
-        </StyledPhotoEditor>
-        {openZoom && (
+      </StyledModalHeaderNext>
+      <StyledPhotoEditor full={full}>
+
+        <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)} width={400} height={400} setImageUrl={handleImageUrlChange}
+                               frame={{width: sizePhoto.width, height: sizePhoto.height}} scale={value / 100}  />
+
+      </StyledPhotoEditor>
+      {openZoom && (
         <StyledSliderContainer>
-        <label htmlFor="zoom"></label>
-        <Slider
-            min="10"
-            max="50"
+          <label htmlFor="zoom"></label>
+          <Slider
+            min="0"
+            max="100"
             id="zoom"
             onInput={handleSlider(setValue)}
             onChange={handleSlider(setValue)}
             value={value}
             type="range"
             style={{
-            width: "45%",
-            "--min": 10,
-            "--max": 50,
-            "--val": value
+              width: "45%",
+              "--min": 0,
+              "--max": 100,
+              "--val": value
             }}
-        />
+          />
         </StyledSliderContainer>
-        )}
-        {resize && (
+      )}
+      {resize && (
         <StyledResizeBlock>
-            <StyleItemSize onClick={()=>setSizePhoto({width:'90%', height:'90%'})}>
+          <StyleItemSize onClick={() => {
+            setSizePhoto({width: 1, height: 1});
+            setValue(50)
+          }}>
             <StyledIconSize src={addPhoto} alt={fullScreen}/> <span>original</span>
           </StyleItemSize>
-          <StyleItemSize onClick={() => setSizePhoto({width: '90%', height: '90%'})}>
+          <StyleItemSize onClick={() => {
+            setSizePhoto({width: 1, height: 1});
+            setValue(50)
+          }}>
             <StyledIconSize src={resize11} alt={fullScreen}/>1:1
           </StyleItemSize>
-          <StyleItemSize onClick={() => setSizePhoto({width: '368px', height: '460px'})}>
+          <StyleItemSize onClick={() => {
+            setSizePhoto({width: 5, height: 4});
+            setValue(50)
+          }}>
             <StyledIconSize src={resize45} alt={fullScreen}/>4:5
           </StyleItemSize>
-          <StyleItemSize onClick={() => setSizePhoto({width: '492px', height: '276px'})}>
+          <StyleItemSize onClick={() => {
+            setSizePhoto({width: 16, height: 9});
+            setValue(50)
+          }}>
             <StyledIconSize src={resize169} alt={fullScreen}/>16:9
           </StyleItemSize>
         </StyledResizeBlock>
@@ -182,8 +202,14 @@ const PostResizeModal = ({
                 removePhotoFromList={removePhotoFromList}
               />
             ))}
-            </StyledPhotoPost>
-            <div onClick={handleAddPhotoButton}>
+
+              {/*{photos.map((photoUrl, index) => (*/}
+              {/*  <img key={index} src={photoUrl} alt={`Photo ${index}`} />*/}
+              {/*))}*/}
+
+
+          </StyledPhotoPost>
+          <div onClick={handleAddPhotoButton}>
             <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen}/>
           </div>
           <div onClick={() => {
@@ -227,8 +253,10 @@ const PostResizeModal = ({
 export default PostResizeModal;
 
 type SizePhotoType = {
-  width: string
-  height: string
+  // width: string
+  // height: string
+  width: number
+  height: number
 }
 
 type PhotoEditorPropsType = {
@@ -242,7 +270,8 @@ const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
   position: absolute;
     // margin:${(props) => (props.full ? "0" : " 61px auto")};
   width: ${(props) => (props.full ? "100%" : "490px")};
-  height: ${(props) => (props.full ? "" : "502px")};
+    // height: ${(props) => (props.full ? "" : "502px")};
+  height: ${(props) => (props.full ? "" : "490px")};
   top: 62px;
   display: flex;
   justify-content: center;

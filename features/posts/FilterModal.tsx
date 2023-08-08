@@ -4,7 +4,6 @@ import { filtersList } from "common/utils/filters";
 import { ImageToolModal } from "common/hoc/ImageToolModal";
 import { styled } from "styled-components";
 import { PhotoType } from "./PostCreationModal";
-import Canvas from "./Canvas";
 
 const FilterModal = ({
     handleModalClose, 
@@ -40,17 +39,6 @@ const FilterModal = ({
     handleNextToPublishButton(filterPhotoList)
   }
 
-  const handleCanvas = (canvasUrl: string) => {
-    const filterPhotoPost = photoPost.map((el) => {
-      if(el.photoUrl == photo.photoUrl) {
-        el.photoUrlWithFilter = canvasUrl
-      }
-      return el
-    })
-    setFilterPhotoList(filterPhotoPost)
-    console.log('canvas new')
-  }
-
   return (
     <ImageToolModal 
       handleModalClose={handleModalClose} 
@@ -72,20 +60,7 @@ const FilterModal = ({
               handleFilter={handleFilter}
             />
           )}
-
-          
         </StyledFiltersContainer>
-
-        <HiddenCanvas key={photo.filter}>
-            <Canvas 
-                photo={photo.photoUrl}
-                filter={photo.filter} 
-                width={"0"}
-                height={"0"} 
-                setImageUrl={handleCanvas}
-                isImgSizes = {true}
-            />
-        </HiddenCanvas>
       
     </ImageToolModal>
   )
@@ -103,13 +78,5 @@ const StyledFiltersContainer = styled.div<{key: string}>`
     width: calc(100% - 490px);
     min-width: 180px;
 
-    //overflow: scroll;
-`;
-
-const HiddenCanvas = styled.div`
-
-    width: fit-content;
-    height: fit-content;
-    visibility: hidden;
-    position: absolute; 
+    overflow: scroll;
 `;

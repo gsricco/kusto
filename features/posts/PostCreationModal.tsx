@@ -81,6 +81,12 @@ const PostCreationModal = ({
           photoPost={photoPost}
       />
       }
+      {/*{isFilterOpen &&  <FilterModal1*/}
+      {/*    handleBackToEditor={handleBackToEditor}*/}
+      {/*    handleNextToPublishButton={handleNextToPublishButton}*/}
+      {/*    photoPost={photoPost}*/}
+      {/*/>*/}
+      {/*}*/}
       {isDescriptionOpen && (
         <PostDescriptionModal handleBackToFilters={handleBackToFilters} handleModalClose={handleEditorClose}
                               photoPost={photoPost}/>

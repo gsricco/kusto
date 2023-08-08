@@ -126,5 +126,5 @@ const StyledFiltersContainer = styled.div`
     width: calc(100% - 490px);
     min-width: 180px;
 
-    overflow: scroll;
+    //overflow: scroll;
 `;
