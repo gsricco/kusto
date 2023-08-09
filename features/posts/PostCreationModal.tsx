@@ -11,14 +11,14 @@ const PostCreationModal = ({
   handleEditorClose: () => void;
   handleFullScreen: (full: boolean) => void;
 }) => {
+
   const [openComp, setOpenComp] = useState(true); // начальное значение для rotate
   const [photoPost, setPhotoPost] = useState<string[]>([]);
-  const [resultPhotos, setResultPhotos] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие окна изменения размеров изображения
-
   const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+  const [resultPhotos, setResultPhotos] = useState<string[]>([]);
 
 
   const handleNextToResize = () => {
@@ -66,7 +66,6 @@ const PostCreationModal = ({
       }
       {openResize && photoFile && <PostResizeModal
           photoFile={photoFile}
-          handleEditorClose={handleEditorClose}
           handleFullScreen={handleFullScreen}
           handleNextToFilterButton={handleNextToFilterButton}
           handleAddPhotoButton={handleAddPhotoButton}

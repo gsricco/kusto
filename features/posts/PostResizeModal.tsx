@@ -1,5 +1,4 @@
-import React, {useRef, useState} from "react";
-import AvatarEditor from "react-avatar-editor";
+import React, {useState} from "react";
 import {Slider} from "./Slider";
 import styled from "styled-components";
 import fullScreen from "../../public/img/icons/expand-outline.svg";
@@ -25,11 +24,9 @@ import {
 import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
-import {PhotoType} from "./PostCreationModal";
 import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
 
 const PostResizeModal = ({
-                           handleEditorClose,
                            handleFullScreen,
                            handleNextToFilterButton,
                            setPhotoPost,
@@ -37,7 +34,6 @@ const PostResizeModal = ({
                            photoFile,
                            handleAddPhotoButton,
                          }: {
-  handleEditorClose: () => void;
   handleFullScreen: (full: boolean) => void;
   handleNextToFilterButton: () => void;
   setPhotoPost: (photoPost: string[]) => void;
@@ -50,16 +46,9 @@ const PostResizeModal = ({
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-  const cropRefPost = useRef<AvatarEditor | null>(null);
+  const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({width: 1, height: 1}); //соотношение сторон кадра
+  const [savedImageUrl, setSavedImageUrl] = useState<string>(''); // сохранение измененное в canvas
 
-  // const sizePhotoProps = {width: '90%', height: '90%'}
-  const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({width: 1, height: 1});
-  const [scale, setScale] = useState(50); // Изначальный масштаб 1 (100%)
-
-  const [newPhoto, setNewPhoto] = useState('')
-  const [savedImageUrl, setSavedImageUrl] = useState<string >('');
-  const [imageUrl, setImageUrl] = useState("")
-  const [photos, setPhotos] = useState<string[]>([])
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
@@ -67,39 +56,14 @@ const PostResizeModal = ({
     }
   };
 
-  const handleImageUrlChange = (imageUrl: string) => {
-    // setPhotos((prevPhotos) => [...prevPhotos, imageUrl]); // Добавляем новый URL в массив фотографий
-    setPhotos((prevPhotos) => [ imageUrl]); // Добавляем новый URL в массив фотографий
-  };
-
-  console.log('setPhotos', photos )
-
-
+  // сохранение изменений в canvas
   const saveImage = (canvasUrl: string) => {
-    // Здесь вы можете выполнить действия с сохраненным URL изображения
-    setSavedImageUrl( canvasUrl);
+    setSavedImageUrl(canvasUrl);
   };
 
-
-  // Обработчик сохранени отредактированного изображения
+  // Сохранение отредактированного изображения
   const handleSave = async () => {
-
-    console.log('SAVE', URL.createObjectURL(photoFile))
-
-      const avatar = URL.createObjectURL(photoFile)
-      // // преобразование base64 в file
-      // const result = await fetch(avatar);
-      // const blob = await result.blob();
-      // const file = new File([blob], "avatar", {type: "image/png"});
-
-      // // преобразование file в FormData
-      // const formData = new FormData();
-      // formData.append("avatar", file as File);
-
-
-      const newList = [...photoPost, {photoUrl: avatar, filter: '', photoUrlWithFilter: avatar}]
-      setPhotoPost([...photoPost,savedImageUrl])
-    // }
+    setPhotoPost([...photoPost, savedImageUrl]);
   };
 
   const removePhotoFromList = (index: number) => {
@@ -111,7 +75,7 @@ const PostResizeModal = ({
         newPhotoList.push(photoPost[i]);
       }
     }
-    // setPhotoPost(newPhotoList);
+    setPhotoPost(newPhotoList);
   };
 
   const handleClickFullScreen = () => {
@@ -137,27 +101,14 @@ const PostResizeModal = ({
         </Button>
       </StyledModalHeaderNext>
       <StyledPhotoEditor full={full}>
-
         <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)}
                                width={2000}
                                height={2000}
-                               setImageUrl={handleImageUrlChange}
                                frame={{width: sizePhoto.width, height: sizePhoto.height}}
                                scale={value / 100}
                                saveImage={saveImage}
         />
-
       </StyledPhotoEditor>
-
-
-      {/*<SaveImage src={photoPost.length>0? photoPost[0].photoUrl:''} alt={'jjj'}/>*/}
-      {/*{savedImageUrl.map((img,index)=>(*/}
-      {/*  <StyledPhotoEditor1 key={index} full={full}>*/}
-      {/*    <SaveImage src={img||''} alt={'jjj'}/>*/}
-      {/*  </StyledPhotoEditor1>*/}
-      {/*))}*/}
-
-
       {openZoom && (
         <StyledSliderContainer>
           <label htmlFor="zoom"></label>
@@ -217,20 +168,11 @@ const PostResizeModal = ({
                 removePhotoFromList={removePhotoFromList}
               />
             ))}
-
-              {/*{photos.map((photoUrl, index) => (*/}
-              {/*  <img key={index} src={photoUrl} alt={`Photo ${index}`} />*/}
-              {/*))}*/}
-
-
           </StyledPhotoPost>
           <div onClick={handleAddPhotoButton}>
             <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen}/>
           </div>
-          <div onClick={() => {
-            handleSave();
-            // saveImage()
-          }}>
+          <div onClick={handleSave}>
             <StyledIconSavePhoto src={savePhoto} alt={savePhoto}/>
           </div>
         </StyledAddBlock>
@@ -238,23 +180,15 @@ const PostResizeModal = ({
       <div onClick={handleClickFullScreen}>
         <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
       </div>
-
       <div onClick={() => setResize(!resize)}>
         <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen}/>
       </div>
-
-
       <div onClick={() => setOpenZoom(!openZoom)}>
         <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom}/>
       </div>
-      <div
-        onClick={() => {
-          setOpenAddPhoto(!openAddPhoto);
-          if (!openAddPhoto) {
-            // handleSave();
-          }
-        }}
-      >
+      <div onClick={() => {
+        setOpenAddPhoto(!openAddPhoto)
+      }}>
         <StyledIconAddPhoto
           src={!openAddPhoto ? addPhoto : addPhotoOn}
           alt={addPhoto}
@@ -269,8 +203,6 @@ const PostResizeModal = ({
 export default PostResizeModal;
 
 type SizePhotoType = {
-  // width: string
-  // height: string
   width: number
   height: number
 }
@@ -284,12 +216,11 @@ type IconAddPhotoType = {
 
 
 const SaveImage = styled.img
-`
-position: absolute;
-  width: 100%;  
-  border: 1px solid red;
- 
-`
+  `
+    position: absolute;
+    width: 100%;
+    border: 1px solid red;
+  `
 
 
 const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
@@ -307,23 +238,12 @@ const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
     max-height: 340px;
   }
 `;
-const StyledPhotoEditor1=styled(StyledPhotoEditor)
-`
-  position: absolute;
-  border: 3px solid green;
-  width: 100px;
-  height: 100px;
-overflow: hidden;
-`
 
 const StyledPhotoPost = styled.div`
   position: absolute;
   width: 152px;
   height: 106px;
-  //bottom: 60px;
-  //right: 20px;
   background: ${baseTheme.colors.dark["300"]};
-  //opacity: 0.7;
   display: flex;
   overflow-x: scroll;
   z-index: 100;
@@ -341,12 +261,6 @@ const StyledSliderContainer = styled.div`
   & label {
   }
 `;
-//
-// const StyledContainerButton = styled.div`
-//   margin-left: auto;
-//   margin-right: 24px;
-// `;
-
 
 const StyleItemSize = styled.div
   `
