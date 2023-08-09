@@ -5,31 +5,16 @@ import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
 import { getSession, signIn } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 const AuthIcons = () => {
-  // const handleLoginClick = () => {
-
-  //   const auth2 = gapi.auth
-  //   auth2.signIn().then(user => {
-  //   auth2.authorize()
-  //   .then((res) => {
-  //   console.log(res);
-  //   signup(user); // sending code and profile to backend .
-  //   });
-  //   });
-  //   };
-
   return (
     <StyledIconBlock>
       <Link
         href={`/api/auth/signin`}
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault();
           signIn();
-          // .then(async (res) => {
-          //   const session = await getSession
-          //   console.log(session)
-          // });
         }}
       >
         <Image width={36} height={36} src={google} alt={"google"} />
