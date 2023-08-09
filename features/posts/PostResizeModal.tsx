@@ -25,6 +25,7 @@ import {Button} from "../../common/components/Button/Button";
 import {ThemeButton} from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
 import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
+import {PhotoType} from "./PostCreationModal";
 
 const PostResizeModal = ({
                            handleFullScreen,
@@ -36,8 +37,8 @@ const PostResizeModal = ({
                          }: {
   handleFullScreen: (full: boolean) => void;
   handleNextToFilterButton: () => void;
-  setPhotoPost: (photoPost: string[]) => void;
-  photoPost: string[];
+  setPhotoPost: (photoPost: PhotoType[]) => void;
+  photoPost: PhotoType[];
   photoFile: File;
   handleAddPhotoButton: () => void
 }) => {
@@ -63,7 +64,8 @@ const PostResizeModal = ({
 
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    setPhotoPost([...photoPost, savedImageUrl]);
+    // setPhotoPost([...photoPost, savedImageUrl]);
+    setPhotoPost([...photoPost, {photoUrl: savedImageUrl, filter: '', photoUrlWithFilter: ''}]);
   };
 
   const removePhotoFromList = (index: number) => {
@@ -162,7 +164,7 @@ const PostResizeModal = ({
           <StyledPhotoPost id={"scrollable-container"}>
             {photoPost.map((photo, index) => (
               <SmallPhoto
-                photo={photo}
+                photo={photo.photoUrl}
                 key={index}
                 index={index}
                 removePhotoFromList={removePhotoFromList}

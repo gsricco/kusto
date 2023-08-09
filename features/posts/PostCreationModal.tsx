@@ -13,12 +13,13 @@ const PostCreationModal = ({
 }) => {
 
   const [openComp, setOpenComp] = useState(true); // начальное значение для rotate
-  const [photoPost, setPhotoPost] = useState<string[]>([]);
+  const [photoPost, setPhotoPost] = useState<PhotoType[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие окна изменения размеров изображения
   const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
-  const [resultPhotos, setResultPhotos] = useState<string[]>([]);
+
+  // const [resultPhotos, setResultPhotos] = useState<string[]>([]);
 
 
   const handleNextToResize = () => {
@@ -36,19 +37,19 @@ const PostCreationModal = ({
     setOpenResize(false)
   }
 
-  const handleNextToPublishButton = (photoPost: string[]) => {
+  const handleNextToPublishButton = (photoPost: PhotoType[]) => {
     setIsDescriptionOpen(true)
     setIsFilterOpen(false)
     setPhotoPost(photoPost)
   }
 
-  const handleBackToEditor = (photoPost: string[]) => {
+  const handleBackToEditor = (photoPost: PhotoType[]) => {
     setOpenResize(true)
     setIsFilterOpen(false)
     setPhotoPost(photoPost)
   }
 
-  const handleBackToFilters = (photoPost: string[]) => {
+  const handleBackToFilters = (photoPost: PhotoType[]) => {
     setIsFilterOpen(true)
     setIsDescriptionOpen(false)
     setPhotoPost(photoPost)
@@ -79,6 +80,10 @@ const PostCreationModal = ({
           photoPost={photoPost}
       />
       }
+      {isDescriptionOpen && (
+        <PostDescriptionModal handleBackToFilters={handleBackToFilters} handleModalClose={handleEditorClose}
+                              photoPost={photoPost}/>
+      )}
     </>
   );
 };

@@ -9,11 +9,11 @@ import { PhotoType } from "features/posts/PostCreationModal";
 
 type Props = {
     handleModalClose?: () => void
-    photoPost: string []
-    handleBack: (photoPost: string []) => void
+    photoPost: PhotoType []
+    handleBack: (photoPost: PhotoType []) => void
     title: string
-    setPhoto: (photo: string) => void
-    photo: string
+    setPhoto: (photo: PhotoType) => void
+    photo: PhotoType
     nextStep: string
     handleNextStepButton: () => void
 }
@@ -65,11 +65,11 @@ return (
             <div onClick={handlePrevPhoto}> Prev </div>
             <StyledImageContainer>
               <Image
-                  src={photo}
+                  src={photo.photoUrl}
                   width={0}
                   height={0}
                   alt="nolmal"
-                  style={{width: '100%', height: '100%', objectFit: 'contain', filter: photo}}
+                  style={{width: '100%', height: '100%', objectFit: 'contain', filter: photo.filter}}
               />
             </StyledImageContainer> 
             <div onClick={handleNextPhoto}> Next </div>

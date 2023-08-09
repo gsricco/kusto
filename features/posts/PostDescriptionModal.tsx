@@ -10,16 +10,22 @@ const PostDescriptionModal = ({
         photoPost,
         handleModalClose,
     }: {
-        handleBackToFilters: (photoPost: PhotoType[]) => void 
+        handleBackToFilters: (photoPost: PhotoType[]) => void
         photoPost: PhotoType[]
         handleModalClose: () => void
 }) => {
 
     const [photo, setPhoto] = useState(photoPost[0])
     const [createPostHandler] = useCreatePostMutation();
+    const [canvasPhoto, setCanvasPhoto] = useState<string []>([])
 
     const handleBack = () => {
         handleBackToFilters(photoPost)
+    }
+
+    const handleCanvas = (photoUrl: string) => {
+        const newList = [...canvasPhoto, photoUrl]
+        setCanvasPhoto(newList)
     }
 
     const handlePublishButton = async () => {
@@ -55,6 +61,16 @@ const PostDescriptionModal = ({
                     <div>Description</div>
                 </StyledDescriptionContainer>
         </ImageToolModal>
+          {photoPost.map( (el, index) =>
+            <Canvas
+              key={index}
+              photo={el.photoUrl}
+              filter={el.filter}
+              width={"0px"}
+              height={"0px"}
+              setImageUrl={handleCanvas}
+            />
+          )}
           </>
     )
 }
