@@ -13,6 +13,7 @@ type CanvasWithAspectRatioProps = {
   frame: FrameType;
   setImageUrl: (canvasUrl: string) => void;
   scale: number;
+  saveImage:(canvasUrl: string)=>void
 }
 let arrPhotos:string[] = new Array()
 const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
@@ -22,11 +23,12 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
                                                                  frame: {width: frameWidth, height: frameHeight},
                                                                  setImageUrl,
                                                                  scale,
+                                                                 saveImage
                                                                }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
 
-  const saveImage = () => {
+  const saveImg = () => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
 
@@ -41,8 +43,9 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
 
         const canvasUrl = canvas.toDataURL();
         setImageUrl(canvasUrl);
-        console.log(photo)
-        console.log('save', canvasUrl)
+        // console.log('photo', photo)
+        // console.log('save', canvasUrl)
+        // saveImage(img.src)
       };
 
       img.src = photo;
@@ -86,7 +89,7 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
 
       const canvasUrl = canvas!.toDataURL();
       setImageUrl(canvasUrl);
-
+      saveImage(canvasUrl);
     };
 
     img.src = photo;
@@ -97,6 +100,7 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
 
   return <>
     <canvas ref={canvasRef} width={width * scale} height={height * scale}/>
+    {/*<button onClick={saveImg}>s</button>*/}
   </>
 
 

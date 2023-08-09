@@ -12,18 +12,18 @@ const FilterModal = ({
     handleNextToPublishButton,
   }: {
     handleModalClose?: () => void
-    photoPost: PhotoType[]
-    handleBackToEditor: (filterPhotoList: PhotoType[]) => void
-    handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void
+    photoPost: string[]
+    handleBackToEditor: (filterPhotoList: string[]) => void
+    handleNextToPublishButton: (filterPhotoList: string[]) => void
   }) => {
 
     const [photo, setPhoto] = useState(photoPost[0])
-    const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost)
+    const [filterPhotoList, setFilterPhotoList] = useState<string[]>(photoPost)
 
   const handleFilter = (filter: string, newPhoto: string) => {
       const filterPhotoPost = photoPost.map((el) => {
-        if(el.photoUrl == photo.photoUrl) {
-          el.filter = filter
+        if(el == photo) {
+          el = filter
         }
         return el
       })
@@ -50,13 +50,13 @@ const FilterModal = ({
       nextStep='Next'
       handleNextStepButton={handleNextButton}
       >
-        <StyledFiltersContainer key={photo.photoUrl}>
+        <StyledFiltersContainer key={photo}>
           {filtersList.map( (el, index) => 
             <FilterElement 
               key={index} 
               filter={el.filter} 
               filterTitle={el.filterTitle} 
-              photoUrl={photo.photoUrl} 
+              photoUrl={photo}
               handleFilter={handleFilter}
             />
           )}

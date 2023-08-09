@@ -3,7 +3,6 @@ import PostPhotoSelectModal from "./PostPhotoSelectModal";
 import FilterModal from "./FilterModal";
 import PostDescriptionModal from "./PostDescriptionModal";
 import PostResizeModal from "./PostResizeModal";
-import FilterModal1 from "./FilterModal1";
 
 const PostCreationModal = ({
                              handleEditorClose,
@@ -13,7 +12,7 @@ const PostCreationModal = ({
   handleFullScreen: (full: boolean) => void;
 }) => {
   const [openComp, setOpenComp] = useState(true); // начальное значение для rotate
-  const [photoPost, setPhotoPost] = useState<PhotoType[]>([]);
+  const [photoPost, setPhotoPost] = useState<string[]>([]);
   const [resultPhotos, setResultPhotos] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
@@ -37,19 +36,19 @@ const PostCreationModal = ({
     setOpenResize(false)
   }
 
-  const handleNextToPublishButton = (photoPost: PhotoType[]) => {
+  const handleNextToPublishButton = (photoPost: string[]) => {
     setIsDescriptionOpen(true)
     setIsFilterOpen(false)
     setPhotoPost(photoPost)
   }
 
-  const handleBackToEditor = (photoPost: PhotoType[]) => {
+  const handleBackToEditor = (photoPost: string[]) => {
     setOpenResize(true)
     setIsFilterOpen(false)
     setPhotoPost(photoPost)
   }
 
-  const handleBackToFilters = (photoPost: PhotoType[]) => {
+  const handleBackToFilters = (photoPost: string[]) => {
     setIsFilterOpen(true)
     setIsDescriptionOpen(false)
     setPhotoPost(photoPost)
@@ -81,16 +80,6 @@ const PostCreationModal = ({
           photoPost={photoPost}
       />
       }
-      {/*{isFilterOpen &&  <FilterModal1*/}
-      {/*    handleBackToEditor={handleBackToEditor}*/}
-      {/*    handleNextToPublishButton={handleNextToPublishButton}*/}
-      {/*    photoPost={photoPost}*/}
-      {/*/>*/}
-      {/*}*/}
-      {isDescriptionOpen && (
-        <PostDescriptionModal handleBackToFilters={handleBackToFilters} handleModalClose={handleEditorClose}
-                              photoPost={photoPost}/>
-      )}
     </>
   );
 };

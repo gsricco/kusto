@@ -40,8 +40,8 @@ const PostResizeModal = ({
   handleEditorClose: () => void;
   handleFullScreen: (full: boolean) => void;
   handleNextToFilterButton: () => void;
-  setPhotoPost: (photoPost: PhotoType[]) => void;
-  photoPost: PhotoType[];
+  setPhotoPost: (photoPost: string[]) => void;
+  photoPost: string[];
   photoFile: File;
   handleAddPhotoButton: () => void
 }) => {
@@ -50,7 +50,6 @@ const PostResizeModal = ({
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-  // const cropRef = useRef<AvatarEditor | null>(null);
   const cropRefPost = useRef<AvatarEditor | null>(null);
 
   // const sizePhotoProps = {width: '90%', height: '90%'}
@@ -58,7 +57,7 @@ const PostResizeModal = ({
   const [scale, setScale] = useState(50); // Изначальный масштаб 1 (100%)
 
   const [newPhoto, setNewPhoto] = useState('')
-  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null);
+  const [savedImageUrl, setSavedImageUrl] = useState<string >('');
   const [imageUrl, setImageUrl] = useState("")
   const [photos, setPhotos] = useState<string[]>([])
   // Сохранение значений в локальный state при перемещении бегунка
@@ -69,14 +68,16 @@ const PostResizeModal = ({
   };
 
   const handleImageUrlChange = (imageUrl: string) => {
-    setPhotos((prevPhotos) => [...prevPhotos, imageUrl]); // Добавляем новый URL в массив фотографий
+    // setPhotos((prevPhotos) => [...prevPhotos, imageUrl]); // Добавляем новый URL в массив фотографий
+    setPhotos((prevPhotos) => [ imageUrl]); // Добавляем новый URL в массив фотографий
   };
 
+  console.log('setPhotos', photos )
 
 
   const saveImage = (canvasUrl: string) => {
     // Здесь вы можете выполнить действия с сохраненным URL изображения
-    setSavedImageUrl(canvasUrl);
+    setSavedImageUrl( canvasUrl);
   };
 
 
@@ -86,7 +87,6 @@ const PostResizeModal = ({
     console.log('SAVE', URL.createObjectURL(photoFile))
 
       const avatar = URL.createObjectURL(photoFile)
-    saveImage(avatar)
       // // преобразование base64 в file
       // const result = await fetch(avatar);
       // const blob = await result.blob();
@@ -97,9 +97,8 @@ const PostResizeModal = ({
       // formData.append("avatar", file as File);
 
 
-
       const newList = [...photoPost, {photoUrl: avatar, filter: '', photoUrlWithFilter: avatar}]
-      setPhotoPost(newList)
+      setPhotoPost([...photoPost,savedImageUrl])
     // }
   };
 
@@ -112,7 +111,7 @@ const PostResizeModal = ({
         newPhotoList.push(photoPost[i]);
       }
     }
-    setPhotoPost(newPhotoList);
+    // setPhotoPost(newPhotoList);
   };
 
   const handleClickFullScreen = () => {
@@ -139,10 +138,26 @@ const PostResizeModal = ({
       </StyledModalHeaderNext>
       <StyledPhotoEditor full={full}>
 
-        <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)} width={400} height={400} setImageUrl={handleImageUrlChange}
-                               frame={{width: sizePhoto.width, height: sizePhoto.height}} scale={value / 100}  />
+        <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)}
+                               width={2000}
+                               height={2000}
+                               setImageUrl={handleImageUrlChange}
+                               frame={{width: sizePhoto.width, height: sizePhoto.height}}
+                               scale={value / 100}
+                               saveImage={saveImage}
+        />
 
       </StyledPhotoEditor>
+
+
+      {/*<SaveImage src={photoPost.length>0? photoPost[0].photoUrl:''} alt={'jjj'}/>*/}
+      {/*{savedImageUrl.map((img,index)=>(*/}
+      {/*  <StyledPhotoEditor1 key={index} full={full}>*/}
+      {/*    <SaveImage src={img||''} alt={'jjj'}/>*/}
+      {/*  </StyledPhotoEditor1>*/}
+      {/*))}*/}
+
+
       {openZoom && (
         <StyledSliderContainer>
           <label htmlFor="zoom"></label>
@@ -178,7 +193,7 @@ const PostResizeModal = ({
             <StyledIconSize src={resize11} alt={fullScreen}/>1:1
           </StyleItemSize>
           <StyleItemSize onClick={() => {
-            setSizePhoto({width: 5, height: 4});
+            setSizePhoto({width: 4, height: 5});
             setValue(50)
           }}>
             <StyledIconSize src={resize45} alt={fullScreen}/>4:5
@@ -196,7 +211,7 @@ const PostResizeModal = ({
           <StyledPhotoPost id={"scrollable-container"}>
             {photoPost.map((photo, index) => (
               <SmallPhoto
-                photo={photo.photoUrl}
+                photo={photo}
                 key={index}
                 index={index}
                 removePhotoFromList={removePhotoFromList}
@@ -214,6 +229,7 @@ const PostResizeModal = ({
           </div>
           <div onClick={() => {
             handleSave();
+            // saveImage()
           }}>
             <StyledIconSavePhoto src={savePhoto} alt={savePhoto}/>
           </div>
@@ -266,11 +282,19 @@ type IconAddPhotoType = {
   full?: boolean;
 };
 
+
+const SaveImage = styled.img
+`
+position: absolute;
+  width: 100%;  
+  border: 1px solid red;
+ 
+`
+
+
 const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
   position: absolute;
-    // margin:${(props) => (props.full ? "0" : " 61px auto")};
   width: ${(props) => (props.full ? "100%" : "490px")};
-    // height: ${(props) => (props.full ? "" : "502px")};
   height: ${(props) => (props.full ? "" : "490px")};
   top: 62px;
   display: flex;
@@ -283,6 +307,14 @@ const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
     max-height: 340px;
   }
 `;
+const StyledPhotoEditor1=styled(StyledPhotoEditor)
+`
+  position: absolute;
+  border: 3px solid green;
+  width: 100px;
+  height: 100px;
+overflow: hidden;
+`
 
 const StyledPhotoPost = styled.div`
   position: absolute;
