@@ -4,9 +4,21 @@ import google from "../../public/img/icons/google-svgrepo-com.svg";
 import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 const AuthIcons = () => {
+  // const handleLoginClick = () => {
+
+  //   const auth2 = gapi.auth
+  //   auth2.signIn().then(user => {
+  //   auth2.authorize()
+  //   .then((res) => {
+  //   console.log(res);
+  //   signup(user); // sending code and profile to backend .
+  //   });
+  //   });
+  //   };
+
   return (
     <StyledIconBlock>
       <Link
@@ -14,6 +26,10 @@ const AuthIcons = () => {
         onClick={(e) => {
           e.preventDefault();
           signIn();
+          // .then(async (res) => {
+          //   const session = await getSession
+          //   console.log(session)
+          // });
         }}
       >
         <Image width={36} height={36} src={google} alt={"google"} />

@@ -19,6 +19,6 @@
       "@/types/*": ["./assets/types/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "assets/model/Schema.js"],
   "exclude": ["node_modules"]
 }
