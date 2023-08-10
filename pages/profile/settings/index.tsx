@@ -29,6 +29,7 @@ import {
   StyledProfileForm
 } from "styles/styledComponents/profile/Settings.styled";
 import FilterModal from "features/posts/FilterModal";
+import { isElementAccessExpression } from "typescript";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -41,7 +42,7 @@ const GeneralInformation = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   // const [photo, setPhoto] = useState<File>();
-  const { setItem } = useLocalStorage();
+  const { setItem, getItem } = useLocalStorage();
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, { data }] = useLazyProfileQuery();
   const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery();
@@ -52,12 +53,20 @@ const GeneralInformation = () => {
       .unwrap()
       .then((res) => {
         setItem("userEmail", res.email);
+        setItem("name", res.login);
       });
-    getProfileInfo()
-      .unwrap()
-      .finally(() => {
-        setIsLoading(true);
-      });
+
+    const isProfile = getItem("profile");
+
+    if (isProfile === "true") {
+      getProfileInfo()
+        .unwrap()
+        .finally(() => {
+          setIsLoading(true);
+        });
+    } else {
+      setIsLoading(true);
+    }
   }, [authMeHandler, getProfileInfo, setIsLoading]);
 
   // аватарка, отображаемая при загрузке
@@ -65,7 +74,7 @@ const GeneralInformation = () => {
 
   // начальные значения для формы
   const initialAuthValues = {
-    username: usernameAuth?.login || data?.login || "",
+    username: data?.login || usernameAuth?.login || getItem("name") || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
     birthday: data?.dateOfBirthday || "",
@@ -103,7 +112,7 @@ const GeneralInformation = () => {
 
   const handleFilterModalOpen = () => {
     setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: true });
-  }
+  };
 
   return (
     <>
