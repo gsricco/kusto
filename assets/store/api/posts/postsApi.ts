@@ -6,9 +6,6 @@ export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/posts/",
-    headers: {
-      "Content-Type": `application/json`
-    },
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ["createPost"])
   }),

@@ -53,7 +53,7 @@ const Page = styled.div`
   gap: 72px;
 
   padding: 0 10px;
-  margin: auto;
+  /* margin: auto; */
 `;
 
 export const Main = styled.div`
