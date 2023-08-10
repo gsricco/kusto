@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, {useRef} from "react";
 import {
   StyledBlockButton,
   StyledCloseButton,
@@ -8,8 +8,8 @@ import {
   StyledModalHeader,
   StyledModalOverlay,
   StyledModalTitle
-} from "./Modal.styled";
-import {ModalPropsType} from "./types";
+} from "../Modal.styled";
+import {ModalPropsType} from "../types";
 
 export const Modal = (
   {
@@ -21,6 +21,8 @@ export const Modal = (
     width,
     height,
   }: ModalPropsType) => {
+
+
   const onCloseButtonClick = () => {
     if (handleModalClose)
       handleModalClose();
@@ -29,9 +31,10 @@ export const Modal = (
     }
   };
 
+
   return (
     <StyledModalOverlay>
-      <StyledModalContainer width={width} height={height}>
+      <StyledModalContainer  width={width} height={height}>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
           <StyledCloseButton onClick={onCloseButtonClick}>

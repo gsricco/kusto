@@ -26,10 +26,23 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
+import { useLazyGetPostQuery, useGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import Post from "common/components/Post/Post";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const id = user?.userId || "";
+
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
+
+  const [isPostActive, setIsPostActive] = useState(false);
+
+  const { data } = useGetUserPostQuery(id);
+
+  const posts = data?.items || [];
+
+  let postId = posts[0]?.id;
 
   const { isSuccess } = useAuthMeQuery();
 
@@ -68,6 +81,7 @@ const MyProfile = () => {
       <LoginNavigate>
         {isSuccess && (
           <ProfileWrapper>
+            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
             <HeaderStyle>
               {isVisible && (
                 <BlockButton>
@@ -128,15 +142,18 @@ const MyProfile = () => {
               </InfoBlock>
             </HeaderStyle>
             <PhotosBlock>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
+              {posts?.map((post) => (
+                <PhotoStyle
+                  key={Math.random()}
+                  onClick={() =>
+                    getCurrentPost(post.id)
+                      .unwrap()
+                      .then(() => setIsPostActive(true))
+                  }
+                >
+                  {post.description}
+                </PhotoStyle>
+              ))}
             </PhotosBlock>
           </ProfileWrapper>
         )}
