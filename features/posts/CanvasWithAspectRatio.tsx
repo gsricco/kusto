@@ -36,6 +36,8 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
       let newWidth, newHeight;
       const targetAspectRatio = frameWidth / frameHeight;   // Выбор нужного соотношение сторон (4:5 или 16:9)
 
+      console.log(imageAspectRatio,targetAspectRatio)
+
       if (imageAspectRatio > targetAspectRatio) {
         // Ширина изображения больше - ограничиваем по высоте
         newHeight = canvas!.height * scale;

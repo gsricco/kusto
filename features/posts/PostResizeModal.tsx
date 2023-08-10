@@ -148,7 +148,7 @@ const PostResizeModal = ({
             <StyledIconSize src={resize11} alt={fullScreen}/>1:1
           </StyleItemSize>
           <StyleItemSize onClick={() => {
-            setSizePhoto({width: 4, height: 16});
+            setSizePhoto({width: 4, height: 5});
             setValue(50)
           }}>
             <StyledIconSize src={resize45} alt={fullScreen}/>4:5
