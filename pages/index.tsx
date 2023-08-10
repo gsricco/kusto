@@ -8,13 +8,7 @@ import styled from "styled-components";
 import { baseTheme } from "../styles/styledComponents/theme";
 import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "../styles/styledComponents/auth/Home.module.css";
-import {
-  errorSelector,
-  isLoadingSelector,
-  meSelector,
-  isAppInitializedSelector
-} from "assets/store/app.selector";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch } from "common/hooks";
 import { useEffect } from "react";
 import { initializeApp } from "assets/store/initializeApp";
 import { useLazyMeQuery } from "assets/store/api/auth/authApi";
@@ -110,6 +104,7 @@ const Home: NextPageWithLayout = () => {
                 <small>Signed in as</small>
                 <br />
                 <strong>{session.user.email ?? session.user.name}</strong>
+                {/* <p>{session.accessToken}</p> */}
               </span>
               <a
                 href={`/api/auth/signout`}

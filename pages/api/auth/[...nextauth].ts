@@ -1,16 +1,11 @@
-import NextAuth, { NextAuthOptions, User } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
-import logo from "../../../public/img/kusto.png";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { signIn } from "next-auth/react";
-import { Path } from "common/enums/path";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "assets/database/connectDB";
 import { Adapter } from "next-auth/adapters";
-import connectMongo from "assets/database/conn";
-import Users from "assets/model/Schema";
 import { baseTheme } from "styles/styledComponents/theme";
+import { NextAuthOptions } from "next-auth";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -44,18 +39,32 @@ export const authOptions: NextAuthOptions = {
   // pages: {
   //   signIn: //ссылка на кастомную страницу
   // },
-  adapter: MongoDBAdapter(clientPromise) as Adapter, // если входить в github, то выходит ошибка
+  // adapter: MongoDBAdapter(clientPromise) as Adapter, // если входить в github, то выходит ошибка
 
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, isNewUser, account, profile, user, session, trigger }) {
       token.userRole = "admin";
-      console.log(token);
+      if (isNewUser) {
+        token.isNewUser = true;
+      } else token.isNewUser = false;
+      if (account) {
+        (token.accessToken = account.access_token),
+          (token.id = user?.id),
+          (token.iss = account.provider);
+        token.aud = account.scope as string;
+      }
+
       return token;
+    },
+    async session({ session, user, token }) {
+      session.accessToken = token.accessToken;
+      session.user.id = token.id;
+      return session;
     }
   },
   theme: {
     colorScheme: "dark", // "auto" | "dark" | "light"
-    brandColor: baseTheme.colors.dark[300], // Hex color code
+    brandColor: baseTheme.colors.accent[700], // Hex color code
     logo: "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fkusto.a089639f.png&w=256&q=75", // Absolute URL to image
     buttonText: baseTheme.colors.light[950] // Hex color code
   }
