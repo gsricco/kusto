@@ -26,16 +26,23 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
-import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import { useLazyGetPostQuery, useGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import Post from "common/components/Post/Post";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
   const id = user?.userId || "";
 
-  const [getPosts, { data: posts }] = useLazyGetUserPostQuery();
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
 
-  const userPosts = posts?.items;
+  const [isPostActive, setIsPostActive] = useState(false);
+
+  const { data } = useGetUserPostQuery(id);
+
+  const posts = data?.items || [];
+
+  let postId = posts[0]?.id;
 
   const { isSuccess } = useAuthMeQuery();
 
@@ -53,10 +60,6 @@ const MyProfile = () => {
   useEffect(() => {
     getProfileInfo();
   }, []);
-
-  useEffect(() => {
-    getPosts(id);
-  }, [id]);
 
   useEffect(() => {
     if (width) {
@@ -78,6 +81,7 @@ const MyProfile = () => {
       <LoginNavigate>
         {isSuccess && (
           <ProfileWrapper>
+            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
             <HeaderStyle>
               {isVisible && (
                 <BlockButton>
@@ -138,12 +142,16 @@ const MyProfile = () => {
               </InfoBlock>
             </HeaderStyle>
             <PhotosBlock>
-              {userPosts?.map((post) => (
-                <PhotoStyle key={Math.random()}><Image src={post.images[0]?.url}
-                height={240}
-                width={240}
-                alt="back"
-                />
+              {posts?.map((post) => (
+                <PhotoStyle
+                  key={Math.random()}
+                  onClick={() =>
+                    getCurrentPost(post.id)
+                      .unwrap()
+                      .then(() => setIsPostActive(true))
+                  }
+                >
+                  {post.description}
                 </PhotoStyle>
               ))}
             </PhotosBlock>

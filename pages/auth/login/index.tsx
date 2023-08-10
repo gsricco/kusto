@@ -77,8 +77,9 @@ const Login = () => {
     try {
       await loginHandler(data)
         .unwrap()
-        .then(() => {
+        .then((res) => {
           removeItem("email");
+          setItem("profile", JSON.stringify(res.profile));
           resetForm();
         })
         .catch(() => setFieldError("password", t("log_in_err")));

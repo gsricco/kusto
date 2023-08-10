@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import {Slider} from "./Slider";
+import React, { useRef, useState } from "react";
+import AvatarEditor from "react-avatar-editor";
+import { Slider } from "./Slider";
 import styled from "styled-components";
 import fullScreen from "../../public/img/icons/expand-outline.svg";
 import fullScreenOn from "../../public/img/icons/expand.svg";
@@ -15,14 +16,14 @@ import resize45 from "../../public/img/icons/resize45.svg";
 import resize169 from "../../public/img/icons/resize169.svg";
 import savePhoto from "../../public/img/icons/save-photos.svg";
 import Image from "next/image";
-import {baseTheme} from "../../styles/styledComponents/theme";
+import { baseTheme } from "../../styles/styledComponents/theme";
 import {
   StyledCloseNextButton,
   StyledModalHeaderNext,
   StyledModalTitleNext
 } from "../../common/components/Modals/Modal.styled";
-import {Button} from "../../common/components/Button/Button";
-import {ThemeButton} from "../../common/enums/themeButton";
+import { Button } from "../../common/components/Button/Button";
+import { ThemeButton } from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
 import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
 import {PhotoType} from "./PostCreationModal";
@@ -40,7 +41,7 @@ const PostResizeModal = ({
   setPhotoPost: (photoPost: PhotoType[]) => void;
   photoPost: PhotoType[];
   photoFile: File;
-  handleAddPhotoButton: () => void
+  handleAddPhotoButton: () => void;
 }) => {
   const [value, setValue] = useState(50); // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
