@@ -50,6 +50,8 @@ const PostResizeModal = ({
   const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({width: 1, height: 1}); //соотношение сторон кадра
   const [savedImageUrl, setSavedImageUrl] = useState<string>(''); // сохранение измененное в canvas
 
+
+
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
@@ -146,7 +148,7 @@ const PostResizeModal = ({
             <StyledIconSize src={resize11} alt={fullScreen}/>1:1
           </StyleItemSize>
           <StyleItemSize onClick={() => {
-            setSizePhoto({width: 4, height: 5});
+            setSizePhoto({width: 4, height: 16});
             setValue(50)
           }}>
             <StyledIconSize src={resize45} alt={fullScreen}/>4:5
@@ -182,10 +184,16 @@ const PostResizeModal = ({
       <div onClick={handleClickFullScreen}>
         <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
       </div>
-      <div onClick={() => setResize(!resize)}>
+      <div onClick={() => {
+        setResize(!resize);
+        if(openZoom===true)setOpenZoom(!openZoom)
+      }}>
         <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen}/>
       </div>
-      <div onClick={() => setOpenZoom(!openZoom)}>
+      <div onClick={() => {
+        setOpenZoom(!openZoom);
+        if(resize===true)setResize(!resize)
+      }}>
         <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom}/>
       </div>
       <div onClick={() => {
@@ -215,14 +223,6 @@ type PhotoEditorPropsType = {
 type IconAddPhotoType = {
   full?: boolean;
 };
-
-
-const SaveImage = styled.img
-  `
-    position: absolute;
-    width: 100%;
-    border: 1px solid red;
-  `
 
 
 const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`

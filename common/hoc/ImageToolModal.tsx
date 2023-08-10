@@ -24,6 +24,8 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
 
     const [photoIndex, setPhotoIndex] = useState(0)
 
+
+
     const handleNextPhoto = () => {
         const newIndex = photoIndex + 1
         if(newIndex <= photoPost.length - 1) {
@@ -43,7 +45,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   const handleBackButton = () => {
     handleBack(photoPost)
   }
-
+  // console.log("PHOTOS", photo.photoUrl)
 return (
       <StyledModalContainer>
         <StyledModalHeaderNext>
