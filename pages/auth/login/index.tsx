@@ -71,7 +71,7 @@ const Login = () => {
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
-      loginOrEmail: values.loginOrEmail,
+      email: values.loginOrEmail,
       password: values.password
     };
     try {
@@ -79,7 +79,6 @@ const Login = () => {
         .unwrap()
         .then((res) => {
           removeItem("email");
-          setItem("profile", JSON.stringify(res.profile));
           resetForm();
         })
         .catch(() => setFieldError("password", t("log_in_err")));

@@ -88,10 +88,18 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
     }
   };
 
+  const handleCrossClick = () => {
+    setIsDeleteModal(false);
+  };
+
   return (
     <StyledPostOverlay>
       {isDeleteModal && (
-        <Modal title="Delete Post" bodyText={`Are you sure you want to delete this post?`}>
+        <Modal
+          title="Delete Post"
+          bodyText={`Are you sure you want to delete this post?`}
+          handleCrossClick={handleCrossClick}
+        >
           <>
             <ModalButton onClick={deletePostHandler}>Yes</ModalButton>
             <ModalButton onClick={() => setIsDeleteModal(false)}>No</ModalButton>
@@ -102,7 +110,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
         <StyledImageWrapper>
           <StyledPostImage
             alt="post image"
-            src={images[currentImage].url || ""}
+            src={images.length ? images[currentImage].url : ""}
             width={490}
             height={560}
           />
@@ -259,12 +267,18 @@ const ModalButton = styled.button`
   height: 36px;
   color: #397df6;
   background: #333333;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: #397df6;
+  }
 `;
 
 const CloseModal = styled(Image)`
   position: absolute;
   right: -30px;
   top: -30px;
+  cursor: pointer;
 `;
 
 const LikesSection = styled.div`

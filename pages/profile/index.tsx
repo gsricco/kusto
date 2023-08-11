@@ -26,23 +26,21 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
-import { useLazyGetPostQuery, useGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import {
+  useLazyGetPostQuery,
+  useGetUserPostQuery,
+  useLazyGetUserPostQuery
+} from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-  const id = user?.userId || "";
-
+  const [getUserPosts, { data }] = useLazyGetUserPostQuery();
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
 
   const [isPostActive, setIsPostActive] = useState(false);
-
-  const { data } = useGetUserPostQuery(id);
-
   const posts = data?.items || [];
-
-  let postId = posts[0]?.id;
 
   const { isSuccess } = useAuthMeQuery();
 
@@ -58,7 +56,13 @@ const MyProfile = () => {
   /*  ____________</переменные для мобильной версии>_______________*/
 
   useEffect(() => {
-    getProfileInfo();
+    getProfileInfo()
+      .unwrap()
+      .then(({ userId }) => {
+        if (userId) {
+          getUserPosts(userId);
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -143,16 +147,19 @@ const MyProfile = () => {
             </HeaderStyle>
             <PhotosBlock>
               {posts?.map((post) => (
-                <PhotoStyle
-                  key={Math.random()}
-                  onClick={() =>
-                    getCurrentPost(post.id)
-                      .unwrap()
-                      .then(() => setIsPostActive(true))
-                  }
-                >
-                  {post.description}
-                </PhotoStyle>
+                <>
+                  <Image
+                    alt="post image"
+                    src={post.images.length ? post.images[0].url : ""}
+                    width={211}
+                    height={228}
+                    onClick={() =>
+                      getCurrentPost(post.id)
+                        .unwrap()
+                        .then(() => setIsPostActive(true))
+                    }
+                  />
+                </>
               ))}
             </PhotosBlock>
           </ProfileWrapper>
