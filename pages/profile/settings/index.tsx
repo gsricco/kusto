@@ -40,6 +40,8 @@ const GeneralInformation = () => {
     saveProfileModal: false, // открытие модального окна при сохранении изменений
     filterModal: false
   });
+  const [authMeLoading, setAuthMeLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const [photo, setPhoto] = useState<File>();
   const { setItem, getItem } = useLocalStorage();
@@ -54,20 +56,25 @@ const GeneralInformation = () => {
       .then((res) => {
         setItem("userEmail", res.email);
         setItem("name", res.login);
+        setAuthMeLoading(true);
       });
 
-    const isProfile = getItem("profile");
+    const isProfile = !router.asPath.includes("profile=false");
 
-    if (isProfile === "true") {
+    if (isProfile) {
       getProfileInfo()
         .unwrap()
         .finally(() => {
-          setIsLoading(true);
+          setProfileLoading(true);
         });
     } else {
+      setProfileLoading(true);
+    }
+
+    if (authMeLoading && profileLoading) {
       setIsLoading(true);
     }
-  }, [authMeHandler, getProfileInfo, setIsLoading]);
+  }, [authMeHandler, getProfileInfo, setIsLoading, authMeLoading, profileLoading]);
 
   // аватарка, отображаемая при загрузке
   const avatar = data?.photo || "/img/icons/avatar.svg";
