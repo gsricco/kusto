@@ -33,8 +33,7 @@ import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
 import {
   useLazyGetPostQuery,
-  useGetUserPostQuery,
-  useLazyGetUserPostQuery
+  useGetUserPostQuery,  
 } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
 
@@ -47,14 +46,14 @@ const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
   const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-  const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+  // const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
   const [getUserPosts, { data }] = useLazyGetUserPostQuery();
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
 
   const [isPostActive, setIsPostActive] = useState(false);
   const posts = data?.items || [];
 
-  const posts = postsData?.items;
+  // const posts = postsData?.items;
 
   const { width } = useWindowSize(); // хук для измерения размера экрана
 
@@ -100,98 +99,15 @@ const MyProfile = () => {
     <>
       <LoginNavigate>
         {isAppInitialized && (
-          <ProfileElement user={user} posts={posts} session={session} />
+          <>
+          
+          <ProfileElement user={user} posts={posts} session={session} setIsPostActive={setIsPostActive} getCurrentPost={getCurrentPost}/>
 
-          // <ProfileWrapper>
-            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
-          //   <HeaderStyle>
-          //     {isVisible && (
-          //       <BlockButton>
-          //         <Button
-          //           theme={ThemeButton.SECONDARY}
-          //           type="button"
-          //           width={"auto"}
-          //           style={{ padding: "6px 24px" }}
-          //           onClick={handleClick}
-          //         >
-          //           Profile Settings
-          //         </Button>
-          //       </BlockButton>
-          //     )}
-          //     <StyledAvatarBlock>
-          //       <IconBlock>
-          //         <Image
-          //           src={user?.photo || avatar}
-          //           width={avatarSize}
-          //           height={avatarSize}
-          //           alt={"avatar"}
-          //           // style={{ maxWidth: "204px", maxHeight: "204px" }}
-          //         />
-          //       </IconBlock>
-          //     </StyledAvatarBlock>
-
-          //     <UserNameStyle>
-          //       {user?.firstName} {user?.lastName}
-          //       {isPaid && (
-          //         <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
-          //       )}
-          //     </UserNameStyle>
-
-          //     <InfoBlock>
-          //       <FolowBlock>
-          //         <div>
-          //           <div>2 218</div>
-          //           <div>Following</div>
-          //         </div>
-          //         <div>
-          //           <div>2 358</div>
-          //           <div>Followers</div>
-          //         </div>
-          //         <div>
-          //           <div>2 358</div>
-          //           <div>Publications</div>
-          //         </div>
-          //       </FolowBlock>
-
-          //       <AboutMeBlock>
-          //         <AboutMeText>
-          //           {urlify(user?.userInfo || "about me")}
-
-          //           {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          //         incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-          //         </AboutMeText>
-          //       </AboutMeBlock>
-          //     </InfoBlock>
-          //   </HeaderStyle>
-          //   {/* <PhotosBlock> */}
-          //   <PostPhotos posts={posts} postSize={postSize} />
-
-                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-                  </AboutMeText>
-                </AboutMeBlock>
-              </InfoBlock>
-            </HeaderStyle>
-            <PhotosBlock>
-              {posts?.map((post) => (
-                <>
-                  <Image
-                    alt="post image"
-                    src={post.images.length ? post.images[0].url : ""}
-                    width={211}
-                    height={228}
-                    onClick={() =>
-                      getCurrentPost(post.id)
-                        .unwrap()
-                        .then(() => setIsPostActive(true))
-                    }
-                  />
-                </>
-              ))}
-            </PhotosBlock>
-          </ProfileWrapper>
+          {isPostActive && (<Post postInfo={postInfo} setIsPostActive={setIsPostActive} />)}
+          </>
+             
         )}
-      </LoginNavigate>
+      </LoginNavigate >
     </>
   );
 };
