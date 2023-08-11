@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "../assets/store/store";
 import { appWithTranslation } from "next-i18next";
 import { createGlobalStyle } from "styled-components";
+import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,7 +25,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return getLayout(
     <Provider store={store}>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <PrivateRoute>
+        <Component {...pageProps} />
+      </PrivateRoute>
     </Provider>
   );
 };
