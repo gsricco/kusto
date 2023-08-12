@@ -108,12 +108,12 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
       )}
       <StyledModalContainer>
         <StyledImageWrapper>
-          <StyledPostImage
+          <PostImgContainer><StyledPostImage
             alt="post image"
             src={images.length ? images[currentImage].url : ""}
             width={490}
             height={560}
-          />
+          /></PostImgContainer>
           {/* <PrevBtn/>
         <NextBtn/> */}
         </StyledImageWrapper>
@@ -353,6 +353,8 @@ const StyledModalContainer = styled.div`
   height: 560px;
   max-width: 1000px;
   width: 80vw;
+  background: rebeccapurple;
+  margin-left: 150px;
 `;
 
 const CommentsWrapper = styled.div`
@@ -381,11 +383,22 @@ const StyledComment = styled.p`
   text-align: justify;
   word-break: break-all;
 `;
+const PostImgContainer = styled.div
+`
+display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 560px;
+  overflow: hidden;
+`
 
 const StyledPostImage = styled(Image)`
   margin-top: 6px; ///hz pochemy ona yezjaet
   max-width: 500px;
-  height: 560px;
+  //width: fit-content;
+  //height: 560px;
+  height: fit-content;
 `;
 
 const StyledComents = styled.div`

@@ -110,7 +110,7 @@ const PostResizeModal = ({
                                width={2000}
                                height={2000}
                                frame={{width: sizePhoto.width, height: sizePhoto.height}}
-                               scale={value / 100}
+                               scale={value / 50}
                                saveImage={saveImage}
         />
       </StyledPhotoEditor>

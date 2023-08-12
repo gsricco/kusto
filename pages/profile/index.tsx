@@ -32,6 +32,7 @@ import {
   useLazyGetUserPostQuery
 } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
+import styled from "styled-components";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
@@ -137,7 +138,8 @@ const MyProfile = () => {
 
                 <AboutMeBlock>
                   <AboutMeText>
-                    {urlify(user?.userInfo || "about me")}
+                    {urlify(user?.userInfo || "about me. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor\n" +
+                      "                  incididunt. laboris nisi ut aliquip ex ea commodo consequat.")}
 
                     {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
@@ -148,17 +150,19 @@ const MyProfile = () => {
             <PhotosBlock>
               {posts?.map((post) => (
                 <>
-                  <Image
+                  <BlockPost>
+                    <PostImage
                     alt="post image"
                     src={post.images.length ? post.images[0].url : ""}
-                    width={211}
-                    height={228}
+                    width={300}
+                    height={300}
                     onClick={() =>
                       getCurrentPost(post.id)
                         .unwrap()
                         .then(() => setIsPostActive(true))
                     }
                   />
+                  </BlockPost>
                 </>
               ))}
             </PhotosBlock>
@@ -170,3 +174,20 @@ const MyProfile = () => {
 };
 MyProfile.getLayout = getLayout;
 export default MyProfile;
+
+
+const BlockPost = styled.div
+`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 228px;
+  height: 228px;
+  overflow: hidden;
+`
+
+const PostImage = styled(Image)
+`
+  width: fit-content; 
+  height: 228px;
+`

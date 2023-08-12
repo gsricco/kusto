@@ -4,6 +4,7 @@ import { styled } from "styled-components"
 import { PhotoType } from "./PostCreationModal"
 import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
 import Canvas from "./Canvas"
+import {Path} from "../../common/enums/path";
 
 const PostDescriptionModal = ({
   handleBackToFilters,
@@ -31,15 +32,18 @@ const PostDescriptionModal = ({
     setCanvasPhoto(newList);
   };
 
-  const handlePublishButton = () => {
+  const handlePublishButton = async() => {
     const formData = new FormData();
     formData.append("description", description);
     formData.append("posts", photoFile);
+
     console.log(photoFile);
 
-
-        createPostHandler(formData)
-       
+    await createPostHandler(formData)
+      .unwrap()
+      .then(() => {
+        handleModalClose()
+      });
     };
 
   return (
