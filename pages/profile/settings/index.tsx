@@ -186,7 +186,12 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <Calendar setFieldValue={setFieldValue} date={data?.dateOfBirthday || ""} />
+                  <Calendar 
+                    setFieldValue={setFieldValue} 
+                    date={data?.dateOfBirthday || ""} 
+                    errors={errors['birthday']}
+                    touched={touched['birthday']} 
+                  />
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}
