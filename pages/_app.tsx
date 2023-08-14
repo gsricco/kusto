@@ -8,6 +8,7 @@ import { store } from "../assets/store/store";
 import { appWithTranslation } from "next-i18next";
 import { createGlobalStyle } from "styled-components";
 import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+import {LinearProgress} from "@mui/material";
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;

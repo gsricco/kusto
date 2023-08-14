@@ -34,6 +34,7 @@ import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import styled from "styled-components";
 import { registrationErrorHandler } from "common/utils/registrationErrorHandler";
 import {Modal} from "../../../common/components/Modals/ModalPublic/Modal";
+import Head from "next/head";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -90,6 +91,7 @@ export default function Registration() {
 
   return (
     <>
+      <Head><title>Registration</title></Head>
       {isModalActive && (
         <Modal
           title="Email sent"

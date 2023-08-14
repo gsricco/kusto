@@ -6,9 +6,11 @@ import { Path } from "../common/enums/path";
 import kusto from "../public/img/kusto.png";
 import styled from "styled-components";
 import { baseTheme } from "../styles/styledComponents/theme";
+import Head from "next/head";
 
 const Home: NextPageWithLayout = () => (
   <>
+    <Head><title>MainPage</title></Head>
     <Image src={kusto} alt="Logo" width={180} height={180} priority />
     <StyledBlockMain>
       <p>

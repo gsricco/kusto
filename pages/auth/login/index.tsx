@@ -35,6 +35,7 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
+import Head from "next/head";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -89,6 +90,7 @@ const Login = () => {
 
   return (
     <StyledContainerAuth>
+      <Head><title>Login</title></Head>
       <WrapperContainerAuth title={t("signIn_title")}>
         <AuthIcons />
         <Formik

@@ -5,6 +5,7 @@ import { PhotoType } from "./PostCreationModal"
 import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
 import Canvas from "./Canvas"
 import {Path} from "../../common/enums/path";
+import {Box, LinearProgress} from "@mui/material";
 
 const PostDescriptionModal = ({
   handleBackToFilters,
@@ -42,7 +43,7 @@ const PostDescriptionModal = ({
     await createPostHandler(formData)
       .unwrap()
       .then(() => {
-        handleModalClose()
+        handleModalClose();
       });
     };
 
@@ -58,6 +59,7 @@ const PostDescriptionModal = ({
         nextStep="Publish"
         handleNextStepButton={handlePublishButton}
       >
+
         <StyledDescriptionContainer>
           <StyledTitle>Add publication descriptions</StyledTitle>
           <StyledDescription onChange={(e) => setDescription(e.target.value)}>
