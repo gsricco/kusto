@@ -28,9 +28,9 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLa
     <SessionProvider session={session}>
       <Provider store={store}>
         <GlobalStyle />
-      <PrivateRoute>
+      {/* <PrivateRoute> */}
           <Component {...pageProps} />
-      </PrivateRoute>
+      {/* </PrivateRoute> */}
       </Provider>
     </SessionProvider>
   );

@@ -43,7 +43,7 @@ const MyProfile = () => {
 
   /*   _____________________________________ */
 
-  const avatar = "/img/icons/avatar.svg";
+  // const avatar = "/img/icons/avatar.svg";
   const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
   // const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
@@ -55,19 +55,10 @@ const MyProfile = () => {
 
   // const posts = postsData?.items;
 
-  const { width } = useWindowSize(); // хук для измерения размера экрана
+  // const { width } = useWindowSize(); // хук для измерения размера экрана
 
-  const [isVisible, setIsVisible] = useState(true);
-  const [isPaid, setIsPaid] = useState(false);
-  const router = useRouter();
-  // /*  ____________<переменные для мобильной версии>______________*/
-
-  // const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
-  // const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
-  // const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-
-  // /*  ____________</переменные для мобильной версии>_______________*/
-
+  // const router = useRouter();
+ 
   useEffect(() => {
     getProfileInfo()
       .unwrap()
@@ -78,20 +69,20 @@ const MyProfile = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (width) {
-      if (width < mediaSizes.buttonUnvisible) {
-        // для мобильной версии
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    }
-  }, [width]);
+  // useEffect(() => {
+  //   if (width) {
+  //     if (width < mediaSizes.buttonUnvisible) {
+  //       // для мобильной версии
+  //       setIsVisible(false);
+  //     } else {
+  //       setIsVisible(true);
+  //     }
+  //   }
+  // }, [width]);
 
-  const handleClick = () => {
-    router.push(Path.PROFILE_SETTINGS);
-  };
+  // const handleClick = () => {
+  //   router.push(Path.PROFILE_SETTINGS);
+  // };
 
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
