@@ -31,6 +31,7 @@ import {
 import FilterModal from "features/posts/FilterModal";
 import { isElementAccessExpression } from "typescript";
 import { StyledErrorMsg, StyledField } from "common/components/Formik/Formik.styled";
+import ProfileCalendar from "features/settings/ProfileCalendar";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -187,19 +188,12 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <Field 
-                    name='birthday' 
-                    component={Calendar} 
+                  <ProfileCalendar 
                     setFieldValue={setFieldValue} 
                     date={values.birthday || ""} 
                     errors={errors['birthday']}
                     touched={touched['birthday']}
                   />
-                  {!!errors['birthday'] && touched['birthday'] && (
-                    <StyledErrorMsg>
-                      {errors['birthday']}
-                    </StyledErrorMsg>
-                  )}
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}

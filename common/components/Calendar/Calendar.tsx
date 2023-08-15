@@ -10,11 +10,11 @@ import { FormikAllValuesType } from "../Formik/types";
 import { TFunction } from "next-i18next";
 import { themeError } from "./themeError";
 
-type CalendarProps = {
+export type CalendarProps = {
   date: string;
   setFieldValue: (field: string, value: unknown) => void;
   errors?: string | undefined;
-  touched?: string | undefined;
+  touched?: boolean | undefined;
 };
 
 const Calendar = ({ date, setFieldValue, errors, touched }: CalendarProps) => {
