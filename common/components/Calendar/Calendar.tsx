@@ -8,16 +8,16 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Field, FormikErrors } from "formik";
 import { FormikAllValuesType } from "../Formik/types";
 import { TFunction } from "next-i18next";
+import { themeError } from "./themeError";
 
 type CalendarProps = {
   date: string;
   setFieldValue: (field: string, value: unknown) => void;
-  errors: string | undefined;
-  touched: boolean | undefined;
-  t?: TFunction;
+  errors?: string | undefined;
+  touched?: string | undefined;
 };
 
-const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) => {
+const Calendar = ({ date, setFieldValue, errors, touched }: CalendarProps) => {
   dayjs.extend(customParseFormat);
   let birthDate = dayjs();
   if (date) {
@@ -29,8 +29,7 @@ const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) =>
       <StyledTitle>
         <span>Date of birthday</span>
       </StyledTitle>
-      <Field name='birthday'>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={errors && touched ? themeError : theme}>
         <DatePicker
           value={birthDate}
           format={"DD/MM/YYYY"}
@@ -41,12 +40,6 @@ const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) =>
           }}
         />
       </ThemeProvider>
-      </Field>
-      {!!errors && touched && (
-        <StyledErrorMsg>
-          {t ? t(`${errors}`) : errors}
-        </StyledErrorMsg>
-      )}
     </>
   );
 };
