@@ -6,7 +6,6 @@ const Canvas = ({
     width, 
     height, 
     setImageUrl,
-    isImgSizes,
   } : {
     key?: number
     photo: string
@@ -14,7 +13,6 @@ const Canvas = ({
     width: string
     height: string
     setImageUrl: (canvasUrl: string) => void
-    isImgSizes?: boolean
   }) => {
   
   const canvasRef = useRef(null)
@@ -31,34 +29,25 @@ const Canvas = ({
         let xOffset = 0
         let yOffset = 0
         if (canvas) {
-          if(isImgSizes) {
-            canvas.width = img.width;
-            canvas.height = img.height;
+          const ratio = img.width / img.height;
+          newWidth = canvas.width;
+          newHeight = newWidth / ratio;
+          if (newHeight > canvas.height) {
+              newHeight = canvas.height;
+              newWidth = newHeight * ratio;
           }
-            const ratio = img.width / img.height;
-            newWidth = canvas.width;
-            newHeight = newWidth / ratio;
-            if (newHeight > canvas.height) {
-                newHeight = canvas.height;
-                newWidth = newHeight * ratio;
-            }
-            xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
-            yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
+          xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
+          yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
+          
+          context.filter = filter
 
-            context.filter = filter
-
-            let canvasUrl = canvas.toDataURL()
-            setImageUrl(canvasUrl)
-            console.log('canvasUrl', canvasUrl)
+          let canvasUrl = canvas.toDataURL("image/jpeg")
+          setImageUrl(canvasUrl)
+          console.log('canvasUrl', canvasUrl)
+            
         }
 
-
-        if(isImgSizes) {
-          context.drawImage(img, 0, 0);
-
-        } else {
-          context.drawImage(img, xOffset, yOffset, newWidth , newHeight);
-        }       
+        context.drawImage(img, xOffset, yOffset, newWidth , newHeight);    
     };
     img.src = photo;
   }, [])
