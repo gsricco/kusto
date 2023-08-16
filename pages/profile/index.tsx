@@ -79,6 +79,7 @@ const MyProfile = () => {
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
+  console.log('posts', data)
 
   return (
     <>

@@ -82,7 +82,6 @@ const PostCreationModal = ({
           handleBackToFilters={handleBackToFilters}
           handleModalClose={handleEditorClose}
           photoPost={photoPost}
-          photoFile={photoFile}
         />
       )}
     </>
