@@ -103,7 +103,6 @@ const StyledModalContainer = styled.div`
     width: 90vw;
     max-width: 972px;
   }
-
 `;
 
 const StyledModalBody = styled.div`
@@ -132,5 +131,5 @@ const StyledFiltersContainer = styled.div`
   width: calc(100% - 490px);
   min-width: 180px;
 
-    //overflow: scroll;
+  //overflow: scroll;
 `;

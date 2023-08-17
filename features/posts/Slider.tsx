@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-import {baseTheme} from "styles/styledComponents/theme";
-
+import { baseTheme } from "styles/styledComponents/theme";
 
 const trackH = "0.4em";
 const thumbD = "15px";
@@ -19,8 +18,7 @@ const trackFill = css`
   ${track};
   height: 6px;
   background-color: transparent;
-  background-image: linear-gradient(${filllC}, ${filllC}),
-    linear-gradient(${trackC}, ${trackC});
+  background-image: linear-gradient(${filllC}, ${filllC}), linear-gradient(${trackC}, ${trackC});
   background-size: var(--sx) 6px, calc(100% - var(--sx)) 4px;
   background-position: left center, right center;
   background-repeat: no-repeat;
@@ -43,22 +41,20 @@ const thumb = css`
 `;
 
 type SliderPropsType = {
-    onInput: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 
-    type : string
-    style: {
-      width: string,
-      "--min": number,
-      "--max": number,
-      "--val": number
-    }
-}
-export const Slider = styled.input<SliderPropsType>
-`
+  type: string;
+  style: {
+    width: string;
+    "--min": number;
+    "--max": number;
+    "--val": number;
+  };
+};
+export const Slider = styled.input<SliderPropsType>`
   position: absolute;
-  
-  
+
   &,
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -86,7 +82,7 @@ export const Slider = styled.input<SliderPropsType>
 
   margin: 0;
   padding: 0;
-  height: calc(3*${thumbD});
+  height: calc(3 * ${thumbD});
   background: ${baseTheme.colors.dark["100"]};
   font: 1em/1 arial, sans-serif;
 

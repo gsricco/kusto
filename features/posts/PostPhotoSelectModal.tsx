@@ -1,30 +1,29 @@
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
-import {baseTheme} from "styles/styledComponents/theme";
-import {Button} from "common/components/Button/Button";
-import {ThemeButton} from "common/enums/themeButton";
+import { baseTheme } from "styles/styledComponents/theme";
+import { Button } from "common/components/Button/Button";
+import { ThemeButton } from "common/enums/themeButton";
 
 const PostPhotoSelectModal = ({
-    handleModalClose,
-    handleFullScreen,
-    avatar,
-    setPhotoFile,
-    handleNextToResize
-  }: {
-    handleModalClose: () => void;
-    avatar?: string;
-    handleFullScreen: (full: boolean) => void;
-    setPhotoFile: (photoFile: File) => void
-    handleNextToResize: () => void
+  handleModalClose,
+  handleFullScreen,
+  avatar,
+  setPhotoFile,
+  handleNextToResize
+}: {
+  handleModalClose: () => void;
+  avatar?: string;
+  handleFullScreen: (full: boolean) => void;
+  setPhotoFile: (photoFile: File) => void;
+  handleNextToResize: () => void;
 }) => {
-
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0];
       console.log(["file", file]);
       setPhotoFile(file);
-      handleNextToResize()
+      handleNextToResize();
     }
   };
 
@@ -34,22 +33,23 @@ const PostPhotoSelectModal = ({
         <StyledModalHeader>
           <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
-            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalImageContainer>
-          {avatar
-            ? <Image id="avatar" src={avatar} alt="Avatar"/>
-            : <StyledModalImage
+          {avatar ? (
+            <Image id="avatar" src={avatar} alt="Avatar" />
+          ) : (
+            <StyledModalImage
               priority
               src={"/img/icons/image-outline.svg"}
               height={48}
               width={48}
               alt="avatar"
             />
-          }
+          )}
         </StyledModalImageContainer>
-        <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
+        <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
         <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
           <label htmlFor="file-upload">Select from Computer</label>
         </Button>

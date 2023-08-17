@@ -2,39 +2,42 @@ import styled from "styled-components";
 import Canvas from "./Canvas";
 import { useState } from "react";
 
-const FilterElement = ({ 
-    key,
-    photoUrl,
-    filterTitle,
-    filter,
-    handleFilter
-  }: {
-    key: number
-    photoUrl: string
-    filterTitle: string
-    filter: string
-    handleFilter: (filterTitle: string, newPhoto: string) => void
-  }) => {
+const FilterElement = ({
+  key,
+  photoUrl,
+  filterTitle,
+  filter,
+  handleFilter
+}: {
+  key: number;
+  photoUrl: string;
+  filterTitle: string;
+  filter: string;
+  handleFilter: (filterTitle: string, newPhoto: string) => void;
+}) => {
+  const [newPhoto, setNewPhoto] = useState("");
 
-    const [newPhoto, setNewPhoto] = useState('')
+  const handleFilterChose = () => {
+    handleFilter(filter, newPhoto);
+  };
 
-    const handleFilterChose = () => {
-      handleFilter(filter, newPhoto)
-    }
+  console.log("newPhoto", newPhoto);
 
-  console.log('newPhoto',newPhoto)
+  return (
+    <StyledModalBody onClick={handleFilterChose}>
+      <Canvas
+        photo={photoUrl}
+        filter={filter}
+        width={"108px"}
+        height={"108px"}
+        setImageUrl={setNewPhoto}
+      />
+      <StyledFilterTitle>{filterTitle}</StyledFilterTitle>
+    </StyledModalBody>
+  );
+};
 
-    return (
-      <StyledModalBody onClick={handleFilterChose}>
-        <Canvas photo={photoUrl} filter={filter} width={'108px'} height={'108px'} setImageUrl={setNewPhoto}/>
-        <StyledFilterTitle>
-          {filterTitle}
-        </StyledFilterTitle>
-      </StyledModalBody>  
-    )
-}
-
-export default FilterElement
+export default FilterElement;
 
 const StyledModalBody = styled.div`
   display: flex;
@@ -45,7 +48,6 @@ const StyledModalBody = styled.div`
 `;
 
 const StyledFilterTitle = styled.div`
-
   width: 100%;
   max-width: 160px;
   text-align: center;

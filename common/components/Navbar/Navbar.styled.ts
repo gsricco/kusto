@@ -51,9 +51,7 @@ export const StyledCreate = styled.div`
   @media (max-width: 940px) {
     left: 20px;
   }
-`
-
-
+`;
 
 //MainLink
 export const StyledDiv = styled.div`

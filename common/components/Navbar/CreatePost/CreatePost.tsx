@@ -1,14 +1,13 @@
-import React, {FC, useState} from "react";
+import React, { FC, useState } from "react";
 import Image from "next/image";
-import {AppLink} from "../AppLink/AppLink";
-import {StyledDiv} from "../Navbar.styled";
-import {StyledModalContainer, StyledModalOverlay} from "../../Modals/Modal.styled";
-import {Provider} from "react-redux";
-import {store} from "assets/store/store";
+import { AppLink } from "../AppLink/AppLink";
+import { StyledDiv } from "../Navbar.styled";
+import { StyledModalContainer, StyledModalOverlay } from "../../Modals/Modal.styled";
+import { Provider } from "react-redux";
+import { store } from "assets/store/store";
 import PostCreationModal from "features/posts/PostCreationModal";
 
 export const CreatePost: FC = () => {
-
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
 
@@ -35,7 +34,7 @@ export const CreatePost: FC = () => {
               width={fullScreen ? "100%" : "492px"}
               height={fullScreen ? "100%" : "564px"}
             >
-              <PostCreationModal 
+              <PostCreationModal
                 handleEditorClose={closeModal}
                 handleFullScreen={handleFullScreen}
               />

@@ -1,9 +1,9 @@
-import { ImageToolModal } from "common/hoc/ImageToolModal"
-import { useState, useEffect } from "react"
-import { styled } from "styled-components"
-import { PhotoType } from "./PostCreationModal"
-import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
-import Canvas from "./Canvas"
+import { ImageToolModal } from "common/hoc/ImageToolModal";
+import { useState, useEffect } from "react";
+import { styled } from "styled-components";
+import { PhotoType } from "./PostCreationModal";
+import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
+import Canvas from "./Canvas";
 
 const PostDescriptionModal = ({
   handleBackToFilters,
@@ -25,7 +25,6 @@ const PostDescriptionModal = ({
     handleBackToFilters(photoPost);
   };
 
-
   const handleCanvas = (photoUrl: string) => {
     const newList = [...canvasPhoto, photoUrl];
     setCanvasPhoto(newList);
@@ -37,10 +36,8 @@ const PostDescriptionModal = ({
     formData.append("posts", photoFile);
     console.log(photoFile);
 
-
-        createPostHandler(formData)
-       
-    };
+    createPostHandler(formData);
+  };
 
   return (
     <>
