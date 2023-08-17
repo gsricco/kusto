@@ -25,18 +25,41 @@ import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { UserType } from "assets/store/api/profile/types";
 import { CreatePostResponse } from "assets/store/api/posts/types";
 import { LazyQueryTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
-import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryDefinition } from "@reduxjs/toolkit/dist/query";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  QueryDefinition
+} from "@reduxjs/toolkit/dist/query";
 
 type PropsType = {
-  user?: UserType | undefined,
-  posts?: CreatePostResponse[] | undefined,
-  session?: Session | undefined | null,
-  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>,
-  getCurrentPost: LazyQueryTrigger<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, "createPost" | "editPost" | "deletePost", CreatePostResponse, "postsApi">>
-
+  user?: UserType | undefined;
+  posts?: CreatePostResponse[] | undefined;
+  session?: Session | undefined | null;
+  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  pageNumber: number;
+  getCurrentPost: LazyQueryTrigger<
+    QueryDefinition<
+      string,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+      "createPost" | "editPost" | "deletePost",
+      CreatePostResponse,
+      "postsApi"
+    >
+  >;
 };
 
-const ProfileElement: React.FC<PropsType> = ({ user, posts, session, setIsPostActive, getCurrentPost }) => {
+const ProfileElement: React.FC<PropsType> = ({
+  user,
+  posts,
+  // session,
+  setIsPostActive,
+  setPageNumber,
+  pageNumber,
+  getCurrentPost
+}) => {
   const avatar = "/img/icons/avatar.svg";
 
   const { width } = useWindowSize(); // хук для измерения размера экрана
@@ -51,13 +74,6 @@ const ProfileElement: React.FC<PropsType> = ({ user, posts, session, setIsPostAc
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
 
   /*  ____________</переменные для мобильной версии>_______________*/
-
-  // useEffect(() => {
-  //   getProfileInfo();
-  //   if (user?.userId) {
-  //     getPostsInfo(user?.userId);
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (width) {
@@ -95,7 +111,7 @@ const ProfileElement: React.FC<PropsType> = ({ user, posts, session, setIsPostAc
           <StyledAvatarBlock>
             <IconBlock>
               <Image
-                src={user?.photo || session?.user?.image || avatar}
+                src={user?.photo || avatar}
                 width={avatarSize}
                 height={avatarSize}
                 alt={"avatar"}
@@ -105,7 +121,7 @@ const ProfileElement: React.FC<PropsType> = ({ user, posts, session, setIsPostAc
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {!!user ? `${user.firstName} ${user?.lastName}` : session?.user?.name}
+            {!!user ? `${user.firstName} ${user?.lastName}` : "User Name"}
             {isPaid && (
               <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
             )}
@@ -128,18 +144,20 @@ const ProfileElement: React.FC<PropsType> = ({ user, posts, session, setIsPostAc
             </FolowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>
-                {urlify(user?.userInfo || "about me")}
-
-                {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-              </AboutMeText>
+              <AboutMeText>{urlify(user?.userInfo || "about me")}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
-        {/* <PhotosBlock> */}
-        <PostPhotos posts={posts} postSize={postSize} setIsPostActive={setIsPostActive} getCurrentPost={getCurrentPost}/>
 
+        {/* <PhotosBlock> */}
+        <PostPhotos
+          posts={posts}
+          postSize={postSize}
+          setIsPostActive={setIsPostActive}
+          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
+          getCurrentPost={getCurrentPost}
+        />
         {/* </PhotosBlock> */}
       </ProfileWrapper>
     </>
