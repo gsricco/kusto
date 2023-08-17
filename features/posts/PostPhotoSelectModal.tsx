@@ -5,24 +5,24 @@ import {baseTheme} from "styles/styledComponents/theme";
 import {Button} from "common/components/Button/Button";
 import {ThemeButton} from "common/enums/themeButton";
 
+///  //  Модальное окно выбора изображения с переходом в другое окно для его обработки  //  ////
+
 const PostPhotoSelectModal = ({
     handleModalClose,
-    handleFullScreen,
     avatar,
     setPhotoFile,
     handleNextToResize
   }: {
     handleModalClose: () => void;
     avatar?: string;
-    handleFullScreen: (full: boolean) => void;
     setPhotoFile: (photoFile: File) => void
     handleNextToResize: () => void
 }) => {
 
+  // Обработчик выбора изображения из файловой системы устройства
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0];
-      console.log(["file", file]);
       setPhotoFile(file);
       handleNextToResize()
     }
