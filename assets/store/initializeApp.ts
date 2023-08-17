@@ -4,7 +4,6 @@ import { batch } from "react-redux";
 import { AppDispatch } from "./store";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
-import type { Session } from "next-auth";
 
 export const initializeApp = (
   dispatch: AppDispatch,
@@ -14,12 +13,6 @@ export const initializeApp = (
   // session?: Session | undefined | null
 ) => {
   switch (true) {
-    // case !!session:
-    //   batch(() => {
-    //     dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
-    //     dispatch(appActions.setSession({ session: session! }));
-    //   });
-    //   break;
     case isLoading:
       batch(() => {
         dispatch(appActions.setIsLoading({ isLoading: true }));
