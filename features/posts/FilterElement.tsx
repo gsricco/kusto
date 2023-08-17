@@ -17,11 +17,9 @@ const FilterElement = ({
 }) => {
   const [newPhoto, setNewPhoto] = useState("");
 
-  const handleFilterChose = () => {
-    handleFilter(filter, newPhoto);
-  };
-
-  console.log("newPhoto", newPhoto);
+    const handleFilterChose = () => {
+      handleFilter(filter, newPhoto)
+    }
 
   return (
     <StyledModalBody onClick={handleFilterChose}>

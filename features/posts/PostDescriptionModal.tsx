@@ -1,23 +1,19 @@
-import { ImageToolModal } from "common/hoc/ImageToolModal";
-import { useState, useEffect } from "react";
-import { styled } from "styled-components";
-import { PhotoType } from "./PostCreationModal";
-import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
-import Canvas from "./Canvas";
+import { ImageToolModal } from "common/hoc/ImageToolModal"
+import { useState } from "react"
+import { styled } from "styled-components"
+import { PhotoType } from "./PostCreationModal"
+import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
 
 const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
   handleModalClose,
-  photoFile
 }: {
   handleBackToFilters: (photoPost: PhotoType[]) => void;
   photoPost: PhotoType[];
   handleModalClose: () => void;
-  photoFile: any;
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]);
-  const [canvasPhoto, setCanvasPhoto] = useState<string[]>([]);
   const [createPostHandler] = useCreatePostMutation();
   const [description, setDescription] = useState("");
 
@@ -25,19 +21,22 @@ const PostDescriptionModal = ({
     handleBackToFilters(photoPost);
   };
 
-  const handleCanvas = (photoUrl: string) => {
-    const newList = [...canvasPhoto, photoUrl];
-    setCanvasPhoto(newList);
-  };
+  const handlePublishButton = async () => {
 
-  const handlePublishButton = () => {
     const formData = new FormData();
-    formData.append("description", description);
-    formData.append("posts", photoFile);
-    console.log(photoFile);
+    for(const photo of photoPost) {
+        const result = await fetch(photo.photoUrlWithFilter);
+        const blob = await result.blob();
+        const file = new File([blob], "avatar", {type: "image/png"});
 
-    createPostHandler(formData);
-  };
+        // преобразование file в FormData
+        formData.append("posts", file as File);
+    }
+    formData.append("description", description);
+
+    createPostHandler(formData)
+   
+};
 
   return (
     <>
@@ -59,16 +58,6 @@ const PostDescriptionModal = ({
           <StyledDescriptionLimit>{description.length}/500</StyledDescriptionLimit>
         </StyledDescriptionContainer>
       </ImageToolModal>
-      {photoPost.map((el, index) => (
-        <Canvas
-          key={index}
-          photo={el.photoUrl}
-          filter={el.filter}
-          width={"0px"}
-          height={"0px"}
-          setImageUrl={handleCanvas}
-        />
-      ))}
     </>
   );
 };
