@@ -22,13 +22,13 @@ const FilterModal = ({
 
   const handleFilter = (filter: string, newPhoto: string) => {
     const filterPhotoPost = photoPost.map((el) => {
-      if(el.photoUrl == photo.photoUrl) {
-        el.filter = filter
+      if (el.photoUrl == photo.photoUrl) {
+        el.filter = filter;
       }
-      return el
-    })
-    setFilterPhotoList(filterPhotoPost)
-  }
+      return el;
+    });
+    setFilterPhotoList(filterPhotoPost);
+  };
 
   const handleBack = () => {
     handleBackToEditor(filterPhotoList);
@@ -36,18 +36,18 @@ const FilterModal = ({
   };
 
   const handleNextButton = () => {
-    handleNextToPublishButton(filterPhotoList)
-  }
+    handleNextToPublishButton(filterPhotoList);
+  };
 
   const handleCanvas = (photoUrlFilter: string) => {
     const filterPhotoPost = photoPost.map((el) => {
-      if(el.photoUrl == photo.photoUrl) {
-        el.photoUrlWithFilter = photoUrlFilter
+      if (el.photoUrl == photo.photoUrl) {
+        el.photoUrlWithFilter = photoUrlFilter;
       }
-      return el
-    })
-    setFilterPhotoList(filterPhotoPost)
-  }
+      return el;
+    });
+    setFilterPhotoList(filterPhotoPost);
+  };
 
   return (
     <ImageToolModal
@@ -76,8 +76,8 @@ const FilterModal = ({
         <Canvas
           photo={photo.photoUrl}
           filter={photo.filter}
-          width={'450px'}
-          height={'450px'}
+          width={"450px"}
+          height={"450px"}
           setImageUrl={handleCanvas}
         />
       </HiddenCanvas>
@@ -100,10 +100,9 @@ const StyledFiltersContainer = styled.div<{ key: string }>`
   overflow: scroll;
 `;
 const HiddenCanvas = styled.div`
-
-    width: fit-content;
-    height: fit-content;
-    // visibility: hidden;
-    z-index: -1;
-    position: absolute; 
+  width: fit-content;
+  height: fit-content;
+  // visibility: hidden;
+  z-index: -1;
+  position: absolute;
 `;

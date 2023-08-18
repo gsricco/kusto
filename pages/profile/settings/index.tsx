@@ -188,11 +188,11 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <ProfileCalendar 
-                    setFieldValue={setFieldValue} 
-                    date={values.birthday || ""} 
-                    errors={errors['birthday']}
-                    touched={touched['birthday']}
+                  <ProfileCalendar
+                    setFieldValue={setFieldValue}
+                    date={values.birthday || ""}
+                    errors={errors["birthday"]}
+                    touched={touched["birthday"]}
                   />
                   <FormikLabel
                     name="aboutMe"

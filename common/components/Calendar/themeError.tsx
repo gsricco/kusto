@@ -14,9 +14,9 @@ export const themeError = createTheme({
           border: "1px solid",
           borderColor: baseTheme.colors.danger[500],
           borderRadius: "2px",
-          backgroundColor: baseTheme.colors.dark[500],
+          backgroundColor: baseTheme.colors.dark[500]
         }
       }
     }
-  },
+  }
 });

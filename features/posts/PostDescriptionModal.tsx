@@ -1,13 +1,13 @@
-import { ImageToolModal } from "common/hoc/ImageToolModal"
-import { useState } from "react"
-import { styled } from "styled-components"
-import { PhotoType } from "./PostCreationModal"
-import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
+import { ImageToolModal } from "common/hoc/ImageToolModal";
+import { useState } from "react";
+import { styled } from "styled-components";
+import { PhotoType } from "./PostCreationModal";
+import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
 
 const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
-  handleModalClose,
+  handleModalClose
 }: {
   handleBackToFilters: (photoPost: PhotoType[]) => void;
   photoPost: PhotoType[];
@@ -22,21 +22,19 @@ const PostDescriptionModal = ({
   };
 
   const handlePublishButton = async () => {
-
     const formData = new FormData();
-    for(const photo of photoPost) {
-        const result = await fetch(photo.photoUrlWithFilter);
-        const blob = await result.blob();
-        const file = new File([blob], "avatar", {type: "image/png"});
+    for (const photo of photoPost) {
+      const result = await fetch(photo.photoUrlWithFilter);
+      const blob = await result.blob();
+      const file = new File([blob], "avatar", { type: "image/png" });
 
-        // преобразование file в FormData
-        formData.append("posts", file as File);
+      // преобразование file в FormData
+      formData.append("posts", file as File);
     }
     formData.append("description", description);
 
-    createPostHandler(formData)
-   
-};
+    createPostHandler(formData);
+  };
 
   return (
     <>
