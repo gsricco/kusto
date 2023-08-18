@@ -52,9 +52,11 @@ const Canvas = ({
           context.filter = filter
 
           // получение url итогового изображения
-          let canvasUrl = canvas.toDataURL("image/jpeg")
-          setImageUrl(canvasUrl)
+          setTimeout(function(){
             
+            let canvasUrl = canvas.toDataURL("image/jpeg")
+            setImageUrl(canvasUrl)
+          },2000);
         }
 
         // отрисовка изображения

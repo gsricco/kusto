@@ -112,6 +112,6 @@ const HiddenCanvas = styled.div`
     width: fit-content;
     height: fit-content;
     visibility: hidden;
-    // z-index: -1;
+    z-index: -1;
     position: absolute; 
 `;

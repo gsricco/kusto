@@ -24,7 +24,7 @@ const PostDescriptionModal = ({
   const handleBack = () => {
     handleBackToFilters(photoPost);
   };
-
+  console.log(photoPost)
   // Обработчик нажатия кнопки Publish
   const handlePublishButton = async () => {
 
@@ -34,7 +34,8 @@ const PostDescriptionModal = ({
     for(const photo of photoPost) {
         const result = await fetch(photo.photoUrlWithFilter);
         const blob = await result.blob();
-        const file = new File([blob], "avatar", {type: "image/png"});
+        const file = new File([blob], "avatar", {type: "image/jpeg"});
+        // console.log("FILE", photo.photoUrlWithFilter)
 
         // добавление file в FormData
         formData.append("posts", file as File);
