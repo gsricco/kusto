@@ -1,5 +1,6 @@
 import { FormikErrors, FormikState, FormikTouched } from "formik";
-import React, {ChangeEvent} from "react";
+import { TFunction } from "next-i18next";
+import React, { ChangeEvent } from "react";
 
 type FormikAllValuesType = {
   username?: string;
@@ -30,7 +31,8 @@ export type labelType = {
   width?: string;
   errorShow?: boolean;
   textAreaData?: string;
-  marginBottom?: string;
+  margin?: string;
+  t?: TFunction;
 };
 
 export type FormValueRegistration = {

@@ -4,7 +4,7 @@ export type RegistrationType = {
   password: string;
 };
 export type LoginType = {
-  loginOrEmail: string;
+  email: string;
   password: string;
 };
 export type SendLinkType = {
@@ -29,7 +29,6 @@ export type LoginResponseType = {
   accessToken: string;
   profile: boolean;
 };
-
 
 type ErrorMessagesType = {
   field: string;

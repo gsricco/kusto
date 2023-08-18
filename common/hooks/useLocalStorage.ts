@@ -1,4 +1,3 @@
-
 export const getItem = (key: string) => {
   if (typeof window !== "undefined") {
     const value = localStorage.getItem(key);
@@ -8,25 +7,23 @@ export const getItem = (key: string) => {
   }
 };
 
-
-
 export const useLocalStorage = () => {
-  const setItem = (key: string, value: string) => {
-    localStorage.setItem(key, JSON.stringify(value))
-  }
+  const setItem = (key: string, value: unknown) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
 
   const removeItem = (key: string) => {
-    localStorage.removeItem(key)
-  }
+    localStorage.removeItem(key);
+  };
 
-  const clearAll = () =>{
-    localStorage.clear()
-  }
+  const clearAll = () => {
+    localStorage.clear();
+  };
 
   return {
     setItem,
     getItem,
     removeItem,
     clearAll
-  }
-}
+  };
+};
