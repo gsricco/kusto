@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import PhotoEditorModal from "./PhotoEditorModal";
 import closeIcon from "/public/img/icons/close_white.svg";
+import { ThemeButton } from "common/enums/themeButton";
+import { Button } from "common/components/Button/Button";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
@@ -44,27 +46,29 @@ const PhotoSelectModal = ({
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-        { isEditorOpen && photo ? <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose}/> 
-            : <>
-            <StyledModalImageContainer>
-              { avatar ? <img id="avatar" src={avatar} alt="Avatar"/> 
-                : <StyledModalImage
-                  priority
-                  src={'/img/icons/image-outline.svg'}
-                  height={48}
-                  width={48}
-                  alt="avatar"
-                />
-              }
+          {isEditorOpen && photo ? (
+            <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose} />
+          ) : (
+            <>
+              <StyledModalImageContainer>
+                {avatar ? (
+                  <img id="avatar" src={avatar} alt="Avatar" />
+                ) : (
+                  <StyledModalImage
+                    priority
+                    src={"/img/icons/image-outline.svg"}
+                    height={48}
+                    width={48}
+                    alt="avatar"
+                  />
+                )}
               </StyledModalImageContainer>
-                <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto}/>
-                <Button theme={ThemeButton.PRIMARY} width='222px' id="upload-btn">
-                  <StyledLabel htmlFor="file-upload">
-                    <StyledText>
-                      Select from Computer
-                    </StyledText>
-                  </StyledLabel>
-                </Button>
+              <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
+              <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
+                <StyledLabel htmlFor="file-upload">
+                  <StyledText>Select from Computer</StyledText>
+                </StyledLabel>
+              </Button>
             </>
           )}
         </StyledModalBody>
@@ -155,7 +159,7 @@ const StyledLabel = styled.label`
   display: inline-block;
   width: 100%;
   height: 100%;
-  padding-top: 8px;        // не подучается центрировать по вертикали
+  padding-top: 8px; // не подучается центрировать по вертикали
 `;
 
 const StyledText = styled.div`
