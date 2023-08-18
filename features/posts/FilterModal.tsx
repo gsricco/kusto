@@ -7,20 +7,22 @@ import { PhotoType } from "./PostCreationModal";
 import Canvas from "./Canvas";
 
 const FilterModal = ({
-  handleModalClose,
-  photoPost,
-  handleBackToEditor,
-  handleNextToPublishButton
-}: {
-  handleModalClose?: () => void;
-  photoPost: PhotoType[];
-  handleBackToEditor: (filterPhotoList: PhotoType[]) => void;
-  handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void;
-}) => {
-  const [photo, setPhoto] = useState(photoPost[0]);
-  const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost);
+    handleModalClose, 
+    photoPost,
+    handleBackToEditor,
+    handleNextToPublishButton,
+  }: {
+    handleModalClose?: () => void
+    photoPost: PhotoType[]
+    handleBackToEditor: (filterPhotoList: PhotoType[]) => void
+    handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void
+  }) => {
 
-  const handleFilter = (filter: string, newPhoto: string) => {
+    const [photo, setPhoto] = useState(photoPost[0]) // изображение из массива, отображаемое в модальном окне
+    const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost) // массив изображений с выбранными фильтрами
+
+  // Обработчик выбора фильтра 
+  const handleFilter = (filter: string) => {
     const filterPhotoPost = photoPost.map((el) => {
       if (el.photoUrl == photo.photoUrl) {
         el.filter = filter;
@@ -30,15 +32,17 @@ const FilterModal = ({
     setFilterPhotoList(filterPhotoPost);
   };
 
+  // Обработчик нажатия кнопки Back
   const handleBack = () => {
-    handleBackToEditor(filterPhotoList);
-    console.log("photo in filter at back", filterPhotoList);
-  };
+    handleBackToEditor(filterPhotoList)
+  }
 
+  // Обработчик нажатия кнопки Next
   const handleNextButton = () => {
     handleNextToPublishButton(filterPhotoList);
   };
 
+  // Обработчик для сохранения url изображения с указанным фильтром, полученного из canvas
   const handleCanvas = (photoUrlFilter: string) => {
     const filterPhotoPost = photoPost.map((el) => {
       if (el.photoUrl == photo.photoUrl) {
@@ -100,9 +104,10 @@ const StyledFiltersContainer = styled.div<{ key: string }>`
   overflow: scroll;
 `;
 const HiddenCanvas = styled.div`
-  width: fit-content;
-  height: fit-content;
-  // visibility: hidden;
-  z-index: -1;
-  position: absolute;
+
+    width: fit-content;
+    height: fit-content;
+    visibility: hidden;
+    z-index: -1;
+    position: absolute; 
 `;

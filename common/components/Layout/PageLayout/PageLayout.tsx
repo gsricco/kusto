@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement, useState } from "react";
 import Header from "../../Header/Header";
 import { Navbar } from "../../Navbar/Navbar";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
+import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
 
 const media = mediaSizes.media;
 
@@ -15,13 +16,21 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
   const router = useRouter();
   const { profile } = router.query;
+
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
+
+  const openModalHandler = () => {
+    setIsOpenModalEdit(true);
+  };
+
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Header />
         <Page>
+          <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar showNavbar={profile} />
+            <Navbar showNavbar={profile} openModalHandler={openModalHandler} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
@@ -71,7 +80,7 @@ export const NavbarWrapper = styled.div`
   align-items: start;
   font-family: Inter;
 
-  @media (max-width: ${media}) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
