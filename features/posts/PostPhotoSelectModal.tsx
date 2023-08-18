@@ -5,14 +5,12 @@ import { baseTheme } from "styles/styledComponents/theme";
 
 const PostPhotoSelectModal = ({
   handleModalClose,
-  handleFullScreen,
   avatar,
   setPhotoFile,
   handleNextToResize
 }: {
   handleModalClose: () => void;
   avatar?: string;
-  handleFullScreen: (full: boolean) => void;
   setPhotoFile: (photoFile: File) => void;
   handleNextToResize: () => void;
 }) => {
