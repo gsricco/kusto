@@ -3,7 +3,7 @@ import { baseTheme } from "../../../styles/styledComponents/theme";
 import { NavbarPropsType } from "./Navbar";
 
 //Navbar
-export const StyledSidebar = styled.div<NavbarPropsType>`
+export const StyledSidebar = styled.div<{ showNavbar: string | string[] | undefined }>`
   position: relative;
   max-width: 220px;
   min-width: 160px;
@@ -51,9 +51,7 @@ export const StyledCreate = styled.div`
   @media (max-width: 940px) {
     left: 20px;
   }
-`
-
-
+`;
 
 //MainLink
 export const StyledDiv = styled.div`
