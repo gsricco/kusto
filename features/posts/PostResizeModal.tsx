@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
+import Cropper, { ReactCropperElement } from 'react-cropper';
 import { Slider } from "./Slider";
 import styled from "styled-components";
 import fullScreen from "../../public/img/icons/expand-outline.svg";
@@ -27,6 +28,11 @@ import { ThemeButton } from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
 import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
 import {PhotoType} from "./PostCreationModal";
+import CropperElement from "./CropperElement";
+import "cropperjs/dist/cropper.css"; 
+import EasyCropper, { CropArgType } from "./EasyCropper";
+import getCroppedImg from "./cropImage";
+
 
 const PostResizeModal = ({
                            handleFullScreen,
@@ -43,15 +49,16 @@ const PostResizeModal = ({
   photoFile: File;
   handleAddPhotoButton: () => void;
 }) => {
-  const [value, setValue] = useState(50); // начальное значение для zoom
+  const [value, setValue] = useState(2); // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
   const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({width: 1, height: 1}); //соотношение сторон кадра
-  const [savedImageUrl, setSavedImageUrl] = useState<string>(''); // сохранение измененное в canvas
+  // const [savedImageUrl, setSavedImageUrl] = useState<string | null>(''); // сохранение измененное в canvas
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null)
 
-
+  // const cropperRef = useRef<ReactCropperElement>(null)
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,15 +67,23 @@ const PostResizeModal = ({
     }
   };
 
-  // сохранение изменений в canvas
-  const saveImage = (canvasUrl: string) => {
-    setSavedImageUrl(canvasUrl);
-  };
-
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    setPhotoPost([...photoPost, {photoUrl: savedImageUrl, filter: '', photoUrlWithFilter: ''}]);
-  };
+ 
+    try {
+      if (croppedAreaPixels) {
+        const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels)
+        if (croppedImage) {
+          setPhotoPost([...photoPost, {photoUrl: croppedImage, filter: '', photoUrlWithFilter: croppedImage}]);
+        }
+      }
+    
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const photoFileURL = URL.createObjectURL(photoFile)
 
   // Удаление изображения из массива
   const removePhotoFromList = (index: number) => {
@@ -106,14 +121,31 @@ const PostResizeModal = ({
           Next
         </Button>
       </StyledModalHeaderNext>
-      <StyledPhotoEditor full={full}>
-        <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)}
+      <StyledPhotoEditor>
+        <EasyCropper photoFileURL={photoFileURL} setCroppedAreaPixels={setCroppedAreaPixels} zoomTo={value}/>
+        {/* <CropperElement photoFile={photoFile} setSavedImageUrl={setSavedImageUrl} zoomTo={value}/> */}
+        {/* <Cropper 
+          src={URL.createObjectURL(photoFile)}
+          style={{
+            width: "100%",
+            height: "300px",
+          }}
+          initialAspectRatio={16 / 9}
+          guides={true}
+          ref={cropperRef}
+          viewMode={1}
+          minCropBoxHeight={10}
+          minCropBoxWidth={10}
+          background={false}
+          responsive={true}
+        />         */}
+        {/* <CanvasWithAspectRatio photo={URL.createObjectURL(photoFile)}
                                width={2000}
                                height={2000}
                                frame={{width: sizePhoto.width, height: sizePhoto.height}}
                                scale={value / 100}
                                saveImage={saveImage}
-        />
+        /> */}
       </StyledPhotoEditor>
       {openZoom && (
         <StyledSliderContainer>
@@ -226,11 +258,14 @@ type IconAddPhotoType = {
   full?: boolean;
 };
 
+// const StyledCropper = styled(Cropper)`
+//   @import "styles/copper.css";
+// `
 
-const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
+const StyledPhotoEditor = styled.div`
   position: absolute;
-  width: ${(props) => (props.full ? "100%" : "490px")};
-  height: ${(props) => (props.full ? "" : "490px")};
+  width: 490px;
+  height: 490px;
   top: 62px;
   display: flex;
   justify-content: center;
