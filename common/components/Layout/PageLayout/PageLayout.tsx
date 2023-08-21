@@ -11,6 +11,7 @@ import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
 
 const media = mediaSizes.media;
+const sidebar = mediaSizes.sidebarMedia;
 
 export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
@@ -59,28 +60,32 @@ const Page = styled.div`
   display: flex;
   max-width: 1310px;
   width: 100%;
-  gap: 16px;
+  /* gap: 16px; */
 
-  padding: 0 10px;
+  padding: 0 0px;
   /* margin: auto; */
 `;
 
 export const Main = styled.div`
   padding-top: 36px;
-  padding-left: 26px;
+  padding-left: 0px;
   flex-grow: 1;
   max-width: 80vw;
+
+  @media (max-width: ${"1400px"}) {
+    padding-left: 0px;
+  }
 `;
 
 export const NavbarWrapper = styled.div`
   height: 660px;
-  width: 17vw;
+  width: 220px;
   min-width: 150px;
   max-width: 220px;
   align-items: start;
   font-family: Inter;
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${media}) {
     display: none;
   }
 `;
