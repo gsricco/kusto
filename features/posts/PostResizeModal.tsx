@@ -1,7 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
-import AvatarEditor from "react-avatar-editor";
-import Cropper, { ReactCropperElement } from 'react-cropper';
-import { Slider } from "./Slider";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import fullScreen from "../../public/img/icons/expand-outline.svg";
 import fullScreenOn from "../../public/img/icons/expand.svg";
@@ -30,6 +27,7 @@ import {PhotoType} from "./PostCreationModal";
 import "cropperjs/dist/cropper.css"; 
 import EasyCropper, { CropArgType } from "./EasyCropper";
 import getCroppedImg, { getImageRatio } from "./cropImage";
+import { Slider } from "./Slider";
 
 
 const PostResizeModal = ({
@@ -56,12 +54,19 @@ const PostResizeModal = ({
   const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null) // сохранение вырезанной области
   const [isObjectFit, setIsObjectFit] = useState(false)
+  const [photoFileURL, setPhotoFileURL] = useState<string>()
 
   useEffect(() => {  
-    imageRatio()
-  })
-
-  const photoFileURL = URL.createObjectURL(photoFile)
+    const reader = new FileReader();
+      reader.onloadend = () => {
+          const url = reader.result;
+          if(typeof url == 'string') {
+            setPhotoFileURL(url)
+            imageRatio(url)
+          }
+      };
+      reader.readAsDataURL(photoFile);
+  }, [])
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +79,7 @@ const PostResizeModal = ({
   const handleSave = async () => {
  
     try {
-      if (croppedAreaPixels) {
+      if (croppedAreaPixels && photoFileURL) {
         const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels)
         if (croppedImage) {
           setPhotoPost([...photoPost, {photoUrl: croppedImage, filter: '', photoUrlWithFilter: croppedImage}]);
@@ -85,10 +90,10 @@ const PostResizeModal = ({
       console.error(e)
     }
   }
-  // let initialRatio : number
-  const imageRatio = async () => {
+
+  const imageRatio = async (url: string) => {
     try {
-      let ratio = await getImageRatio(photoFileURL)
+      let ratio = await getImageRatio(url)
       setInitialRatio(ratio)
     } catch (e) {
       console.error(e)
@@ -134,10 +139,12 @@ const PostResizeModal = ({
       <StyledPhotoEditor>
         <EasyCropper 
           photoFileURL={photoFileURL} 
-          // setCroppedAreaPixels={setCroppedAreaPixels} 
+          setCroppedAreaPixels={setCroppedAreaPixels} 
           zoomTo={value}
           aspectRatio={ratio}
           isObjectFit={isObjectFit}
+          setZoom={setValue}
+          // onCropComplete={onCropComplete}
         />     
       </StyledPhotoEditor>
       {openZoom && (

@@ -1,20 +1,15 @@
 import Cropper from 'react-easy-crop'
 import { useState, useCallback, useEffect } from 'react'
 
-const EasyCroppe = ({photoFileURL, zoomTo, aspectRatio = 1, isObjectFit}: {
-    photoFileURL: string
-    // setCroppedAreaPixels: (image: CropArgType | null) => void
+const EasyCroppe = ({photoFileURL, zoomTo, aspectRatio, isObjectFit, setZoom, setCroppedAreaPixels}: {
+    photoFileURL: string | undefined
+    setCroppedAreaPixels: (image: CropArgType | null) => void
     zoomTo: number
     aspectRatio: number
     isObjectFit: boolean
+    setZoom: (zoomTo: number) => void
 }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
-    const [zoom, setZoom] = useState(1)
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null)
-
-    useEffect(() => {  
-        setZoom(zoomTo)        
-    })
 
     let objectFit: 'contain' | 'cover' | 'horizontal-cover' | 'vertical-cover' = 'vertical-cover'
     if (isObjectFit) {
@@ -28,13 +23,12 @@ const EasyCroppe = ({photoFileURL, zoomTo, aspectRatio = 1, isObjectFit}: {
     <Cropper
       image={photoFileURL}
       crop={crop}
-      zoom={zoom}
+      zoom={zoomTo}
       aspect={aspectRatio}
       objectFit={objectFit}
       onCropChange={setCrop}
       onCropComplete={onCropComplete}
-      onZoomChange={setZoom}
-      
+      onZoomChange={setZoom}      
     />
   )
 }
