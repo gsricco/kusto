@@ -115,6 +115,8 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             src={images.length ? images[currentImage].url : ""}
             width={490}
             height={560}
+            style={{objectFit: 'contain'}}
+
           />
           {images.length > 1 ? (
             <>
@@ -395,6 +397,8 @@ const SingleCommentWrapper = styled.div`
 
 const StyledImageWrapper = styled.div`
   position: relative;
+  width: 490px;
+  height: 540px;
 `;
 
 const StyledUsername = styled.p``;

@@ -102,3 +102,12 @@ export default async function getCroppedImg(
 //     }, 'image/jpeg')
 //   })
 }
+
+export const getImageRatio =  async (imageSrc: string): Promise<number> => {
+    const image = await createImage(imageSrc)
+    const width = image.width
+    const height = image.height
+    const imageRatio = width / height
+
+    return imageRatio
+}

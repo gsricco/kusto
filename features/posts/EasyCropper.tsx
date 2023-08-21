@@ -1,55 +1,31 @@
 import Cropper from 'react-easy-crop'
 import { useState, useCallback, useEffect } from 'react'
-import getCroppedImg from './cropImage'
 
-const EasyCroppe = ({photoFileURL, setCroppedAreaPixels, zoomTo}: {
+const EasyCroppe = ({photoFileURL, setCroppedAreaPixels, zoomTo, aspectRatio = 1}: {
     photoFileURL: string
     setCroppedAreaPixels: (image: CropArgType | null) => void
     zoomTo: number
+    aspectRatio: number
 }) => {
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [zoom, setZoom] = useState(1)
-//   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null)
-//   const [croppedImage, setCroppedImage] = useState<string | null>(null)
+    const [crop, setCrop] = useState({ x: 0, y: 0 })
+    const [zoom, setZoom] = useState(1)
     useEffect(() => {  
-        setZoom(zoomTo)
-        // showCroppedImage()
+        setZoom(zoomTo)        
     })
-  const onCropComplete = useCallback((croppedArea: CropArgType, croppedAreaPixels: CropArgType) => {
-    setCroppedAreaPixels(croppedAreaPixels)
-
-    // setSavedImageUrl(croppedArea)
-  }, [])
-
-
-//   const showCroppedImage = useCallback(async () => {
-//     try {
-//         if (croppedAreaPixels) {
-//             const croppedImage = await getCroppedImg(
-//             photoFileURL,
-//             croppedAreaPixels,
-//             // rotation
-//             )
-//             console.log('donee', { croppedImage })
-//             setCroppedImage(croppedImage)
-//             // setSavedImageUrl(croppedImage)
-
-//         }
-      
-//     } catch (e) {
-//       console.error(e)
-//     }
-//   }, [croppedAreaPixels])
+    const onCropComplete = useCallback((croppedArea: CropArgType, croppedAreaPixels: CropArgType) => {
+        setCroppedAreaPixels(croppedAreaPixels)
+    }, [])
 
   return (
     <Cropper
       image={photoFileURL}
       crop={crop}
       zoom={zoom}
-      aspect={4 / 3}
+      aspect={aspectRatio}
       onCropChange={setCrop}
       onCropComplete={onCropComplete}
       onZoomChange={setZoom}
+      
     />
   )
 }
