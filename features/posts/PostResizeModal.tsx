@@ -55,6 +55,7 @@ const PostResizeModal = ({
   const [initialRatio, setInitialRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null) // сохранение вырезанной области
+  const [isObjectFit, setIsObjectFit] = useState(false)
 
   useEffect(() => {  
     imageRatio()
@@ -84,7 +85,7 @@ const PostResizeModal = ({
       console.error(e)
     }
   }
-
+  // let initialRatio : number
   const imageRatio = async () => {
     try {
       let ratio = await getImageRatio(photoFileURL)
@@ -133,9 +134,10 @@ const PostResizeModal = ({
       <StyledPhotoEditor>
         <EasyCropper 
           photoFileURL={photoFileURL} 
-          setCroppedAreaPixels={setCroppedAreaPixels} 
+          // setCroppedAreaPixels={setCroppedAreaPixels} 
           zoomTo={value}
           aspectRatio={ratio}
+          isObjectFit={isObjectFit}
         />     
       </StyledPhotoEditor>
       {openZoom && (
@@ -162,25 +164,25 @@ const PostResizeModal = ({
         <StyledResizeBlock>
           <StyleItemSize onClick={() => {
             setRatio(initialRatio);
-            // setValue(50)
+            setIsObjectFit(true)
           }}>
             <StyledIconSize src={addPhoto} alt={"original"}/> <span>original</span>
           </StyleItemSize>
           <StyleItemSize onClick={() => {
             setRatio(1 / 1);
-            // setValue(50)
+            setIsObjectFit(false)
           }}>
             <StyledIconSize src={resize11} alt={"1:1"}/>1:1
           </StyleItemSize>
           <StyleItemSize onClick={() => {
             setRatio(4 / 5);
-            // setValue(50)
+            setIsObjectFit(false)
           }}>
             <StyledIconSize src={resize45} alt={"4:5"}/>4:5
           </StyleItemSize>
           <StyleItemSize onClick={() => {
             setRatio(16 / 9);
-            // setValue(50)
+            setIsObjectFit(false)
           }}>
             <StyledIconSize src={resize169} alt={"16:9"}/>16:9
           </StyleItemSize>
