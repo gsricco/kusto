@@ -4,13 +4,13 @@ import { createTheme } from "@mui/material/styles";
 export const theme = createTheme({
   palette: {
     primary: {
-      main: baseTheme.colors.accent[700],
+      main: baseTheme.colors.accent[700]
     },
     text: {
       primary: baseTheme.colors.light[100]
     },
     action: {
-      disabled: baseTheme.colors.dark[100],
+      disabled: baseTheme.colors.dark[100]
       // hover: baseTheme.colors.dark[100],
     }
   },
@@ -87,20 +87,34 @@ export const theme = createTheme({
           border: "1px solid",
           borderColor: baseTheme.colors.dark[100],
           borderRadius: "2px",
-          backgroundColor: baseTheme.colors.dark[500],
+          backgroundColor: baseTheme.colors.dark[500]
         }
       }
-    }, 
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         // стили для поля отображения даты при активации календаря (hover, selected, focused...)
         notchedOutline: {
-          border: 'none'
+          border: "none"
         },
         input: {
           paddingLeft: "8px",
-          fontSize: "16px",          
-        },
+          fontSize: "16px"
+        }
+      }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          background: baseTheme.colors.dark[500]
+        }
+      }
+    },
+    MuiPickersToolbar: {
+      styleOverrides: {
+        root: {
+          display: "none"
+        }
       }
     }
   }
