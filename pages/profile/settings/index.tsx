@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import { FormValueProfile } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
@@ -16,7 +16,7 @@ import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import Image from "next/image";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import { getLayout } from "../../../common/components/Layout/PageLayout/PageLayout";
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import Calendar from "common/components/Calendar/Calendar";
@@ -30,6 +30,8 @@ import {
 } from "styles/styledComponents/profile/Settings.styled";
 import FilterModal from "features/posts/FilterModal";
 import { isElementAccessExpression } from "typescript";
+import { StyledErrorMsg, StyledField } from "common/components/Formik/Formik.styled";
+import ProfileCalendar from "features/settings/ProfileCalendar";
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -186,7 +188,13 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <Calendar setFieldValue={setFieldValue} date={data?.dateOfBirthday || ""} />
+                  <ProfileCalendar
+                    setFieldValue={setFieldValue}
+                    date={values.birthday || ""}
+                    errors={errors["birthday"]}
+                    touched={touched["birthday"]}
+                  />
+
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}

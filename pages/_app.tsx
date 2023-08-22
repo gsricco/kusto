@@ -25,9 +25,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return getLayout(
     <Provider store={store}>
       <GlobalStyle />
-      <PrivateRoute>
-        <Component {...pageProps} />
-      </PrivateRoute>
+      {/* <PrivateRoute> */}
+      <Component {...pageProps} />
+      {/* </PrivateRoute> */}
     </Provider>
   );
 };
