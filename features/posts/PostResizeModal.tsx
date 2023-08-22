@@ -188,7 +188,11 @@ const PostResizeModal = ({
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton} disabled={photoPost.length == 0 ? true : false}>
+        <Button
+          theme={ThemeButton.CLEAR}
+          onClick={handleNextToFilterButton}
+          disabled={photoPost.length == 0 ? true : false}
+        >
           Next
         </Button>
       </StyledModalHeaderNext>

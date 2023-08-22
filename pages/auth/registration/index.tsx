@@ -33,7 +33,7 @@ import { ThemeButton } from "../../../common/enums/themeButton";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import styled from "styled-components";
 import { registrationErrorHandler } from "common/utils/registrationErrorHandler";
-import {Modal} from "../../../common/components/Modals/ModalPublic/Modal";
+import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;

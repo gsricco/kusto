@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import PhotoEditorModal from "./PhotoEditorModal";
 import closeIcon from "/public/img/icons/close_white.svg";
+import { ThemeButton } from "common/enums/themeButton";
+import { Button } from "common/components/Button/Button";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
@@ -62,10 +64,11 @@ const PhotoSelectModal = ({
                 )}
               </StyledModalImageContainer>
               <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
-
-              <StyledLabel htmlFor="file-upload">
-                <StyledText>Select from Computer</StyledText>
-              </StyledLabel>
+              <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
+                <StyledLabel htmlFor="file-upload">
+                  <StyledText>Select from Computer</StyledText>
+                </StyledLabel>
+              </Button>
             </>
           )}
         </StyledModalBody>
@@ -153,13 +156,10 @@ const StyledModalBody = styled.div`
 `;
 
 const StyledLabel = styled.label`
-  margin: 0 auto;
-  background: #397df6;
-  width: 228px;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  padding: 6px 0;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding-top: 8px; // не подучается центрировать по вертикали
 `;
 
 const StyledText = styled.div`

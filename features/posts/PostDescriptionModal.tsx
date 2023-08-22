@@ -10,7 +10,7 @@ import { useCreatePostMutation } from "assets/store/api/posts/postsApi"
 const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
-  handleModalClose,
+  handleModalClose
 }: {
   handleBackToFilters: (photoPost: PhotoType[]) => void;
   photoPost: PhotoType[];
@@ -28,7 +28,6 @@ const PostDescriptionModal = ({
   console.log(photoPost)
   // Обработчик нажатия кнопки Publish
   const handlePublishButton = async () => {
-
     const formData = new FormData();
 
     // преобразование url всех изображений в file

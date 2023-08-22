@@ -30,61 +30,64 @@ const PostCreationModal = ({
 
   // Обработчик перехода из окна изменения размеров в окно выбора изображения
   const handleAddPhotoButton = () => {
-    setOpenComp(true)
-    setOpenResize(false)
-  }
+    setOpenComp(true);
+    setOpenResize(false);
+  };
 
   // Обработчик перехода из окна изменения размеров в окно наложения фильтров
   const handleNextToFilterButton = () => {
-    setIsFilterOpen(true)
-    setOpenResize(false)
-  }
+    setIsFilterOpen(true);
+    setOpenResize(false);
+  };
 
   // Обработчик перехода из окна наложения фильтров в окно добавления описания
   const handleNextToPublishButton = (photoPost: PhotoType[]) => {
-    setIsDescriptionOpen(true)
-    setIsFilterOpen(false)
-    setPhotoPost(photoPost)
-  }
+    setIsDescriptionOpen(true);
+    setIsFilterOpen(false);
+    setPhotoPost(photoPost);
+  };
 
   // Обработчик перехода из окна наложения фильтров в окно изменения размеров
   const handleBackToEditor = (photoPost: PhotoType[]) => {
-    setOpenResize(true)
-    setIsFilterOpen(false)
-    setPhotoPost(photoPost)
-  }
+    setOpenResize(true);
+    setIsFilterOpen(false);
+    setPhotoPost(photoPost);
+  };
 
   // Обработчик перехода из окна добавления описания в окно наложения фильтров
   const handleBackToFilters = (photoPost: PhotoType[]) => {
-    setIsFilterOpen(true)
-    setIsDescriptionOpen(false)
-    setPhotoPost(photoPost)
-  }
+    setIsFilterOpen(true);
+    setIsDescriptionOpen(false);
+    setPhotoPost(photoPost);
+  };
 
   return (
     <>
-      {openComp && <PostPhotoSelectModal
+      {openComp && (
+        <PostPhotoSelectModal
           handleModalClose={handleEditorClose}
           avatar={""}
           setPhotoFile={setPhotoFile}
           handleNextToResize={handleNextToResize}
-      />
-      }
-      {openResize && photoFile && <PostResizeModal
+        />
+      )}
+      {openResize && photoFile && (
+        <PostResizeModal
           photoFile={photoFile}
           handleFullScreen={handleFullScreen}
           handleNextToFilterButton={handleNextToFilterButton}
           handleAddPhotoButton={handleAddPhotoButton}
           setPhotoPost={setPhotoPost}
           photoPost={photoPost}
-      />
-      }
-      {isFilterOpen &&  <FilterModal
+        />
+      )}
+      {isFilterOpen && (
+        <FilterModal
           handleBackToEditor={handleBackToEditor}
           handleNextToPublishButton={handleNextToPublishButton}
           photoPost={photoPost}
-      />
-      }
+        />
+      )}
       {isDescriptionOpen && (
         <PostDescriptionModal
           handleBackToFilters={handleBackToFilters}
@@ -100,7 +103,7 @@ const PostCreationModal = ({
 export default PostCreationModal;
 
 export type PhotoType = {
-  photoUrl: string
-  filter: string
-  photoUrlWithFilter: string
-}
+  photoUrl: string;
+  filter: string;
+  photoUrlWithFilter: string;
+};

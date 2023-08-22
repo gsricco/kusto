@@ -8,7 +8,7 @@ export const StyledSidebar = styled.div<{ showNavbar: string | string[] | undefi
   max-width: 220px;
   min-width: 160px;
   height: 660px;
-  width: 17vw;
+  width: 220px;
   opacity: ${(props) => (props.showNavbar ? 0 : 1)};
 
   border-right: 1px solid ${baseTheme.colors.dark[300]};
