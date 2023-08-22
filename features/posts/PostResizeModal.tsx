@@ -377,14 +377,14 @@ const StyledIconFullScreen = styled(Image)`
 `;
 
 const StyledIconZoom = styled(StyledIconFullScreen)`
-  left: 80px;
+  left: 20px;
 `;
 
 const StyledIconAddPhoto = styled(StyledIconFullScreen)<IconAddPhotoType>`
   left: ${(props) => (props.full ? "95%" : "430px")};
 `;
 const StyledIconResize = styled(StyledIconZoom)`
-  left: 140px;
+  left: 80px;
 `;
 
 const StyledIconPlusPhoto = styled(Image)`
