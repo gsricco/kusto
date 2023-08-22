@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
-import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
+import { useLazyProfileQuery } from "assets/store/api/profile/profileApi";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { useLazyGetUserPostsQuery } from "assets/store/api/posts/postsApi";
-import { useAppSelector } from "common/hooks";
-import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
-import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
+import { useLazyGetPostQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
-import { LoadingStyle, PostCountStyle } from "styles/styledComponents/profile/profile.styled";
+import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 const MyProfile = () => {
-  const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
   const posts = data?.items || [];
@@ -40,7 +37,7 @@ const MyProfile = () => {
     }
   }, [userId, pageNumber, pageSize]);
 
-  const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  // const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   if (userStatus !== "fulfilled") {
     return <div style={LoadingStyle}>Loading...</div>;
