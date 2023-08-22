@@ -18,8 +18,9 @@ const PostDescriptionModal = ({
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]); // изображение из массива, отображаемое в модальном окне 
   const [description, setDescription] = useState("");  // описание, добавляемое к изображениям
-  const [createPostHandler] = useCreatePostMutation();  // сохрание поста на сервере
+  const [disabled, setDisabled] = useState(false)
 
+  const [createPostHandler] = useCreatePostMutation();  // сохрание поста на сервере
   // Обработчик нажатия кнопки Back
   const handleBack = () => {
     handleBackToFilters(photoPost);
@@ -43,7 +44,11 @@ const PostDescriptionModal = ({
     // добавление описания в FormData
     formData.append("description", description);
 
+    setDisabled(true)
     createPostHandler(formData)
+      .unwrap()
+      .then(() => handleModalClose())
+      .catch((error) => console.log(error))
    
 };
 
@@ -58,6 +63,7 @@ const PostDescriptionModal = ({
         photo={photo}
         nextStep="Publish"
         handleNextStepButton={handlePublishButton}
+        disabled={disabled}
       >
         <StyledDescriptionContainer>
           <StyledTitle>Add publication descriptions</StyledTitle>

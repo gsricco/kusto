@@ -23,6 +23,7 @@ type Props = {
   nextStep: string;
   handleNextStepButton: () => void;
   addPOstHandler?: () => void;
+  disabled?: boolean
 };
 export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   children,
@@ -34,6 +35,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   setPhoto,
   nextStep,
   handleNextStepButton,
+  disabled = false,
   ...otherProps
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -65,7 +67,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="back" />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{title}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextStepButton}>
+        <Button theme={ThemeButton.CLEAR} onClick={handleNextStepButton} disabled={disabled}>
           {nextStep}
         </Button>
       </StyledModalHeaderNext>
