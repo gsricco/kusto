@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {ModalSizePropsType} from "./types";
+import { ModalSizePropsType } from "./types";
 
 export const StyledModalOverlay = styled.div`
   z-index: 1000;
@@ -29,11 +29,10 @@ export const StyledModalHeader = styled.div`
   padding: 12px 24px;
   border-bottom: 1px solid #4c4c4c;
 `;
-export const StyledModalHeaderNext = styled.div
-  `
-    width: 100%;
+export const StyledModalHeaderNext = styled.div`
+  width: 100%;
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
   padding: 12px 24px;
   border-bottom: 1px solid #4c4c4c;
 `;
@@ -52,7 +51,6 @@ export const StyledModalTitleNext = styled.span`
   font-family: Inter;
   font-weight: 700;
   line-height: 36px;
-
 `;
 
 export const StyledCloseButton = styled.button`
@@ -84,11 +82,9 @@ export const StyledModalBody = styled.div`
   padding: 30px 24px;
 `;
 
-export const StyledBlockButton = styled.div
-  `
-    display: flex;
-    justify-content: right;
-    margin-top: 20px;
-    gap: 20px;
-  `;
-
+export const StyledBlockButton = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+  gap: 20px;
+`;
