@@ -172,6 +172,7 @@ const PostResizeModal = ({
           <StyleItemSize onClick={() => {
             setRatio(initialRatio);
             setIsObjectFit(true)
+            setValue(1)
           }}>
             <StyledIconSize src={addPhoto} alt={"original"}/> <span>original</span>
           </StyleItemSize>
@@ -215,9 +216,9 @@ const PostResizeModal = ({
           </div>
         </StyledAddBlock>
       )}
-      <div onClick={handleClickFullScreen}>
+      {/* <div onClick={handleClickFullScreen}>
         <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
-      </div>
+      </div> */}
       <div onClick={() => {
         setResize(!resize);
         if(openZoom===true)setOpenZoom(!openZoom)
