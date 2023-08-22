@@ -46,4 +46,9 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 600;
     line-height: 24px;
   }
+
+  html{
+    height: 100vh;
+    background: black;
+  }
 `;

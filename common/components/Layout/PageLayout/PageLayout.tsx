@@ -85,7 +85,7 @@ export const NavbarWrapper = styled.div`
   align-items: start;
   font-family: Inter;
 
-  @media (max-width: ${media}) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
