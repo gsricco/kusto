@@ -42,29 +42,30 @@ const MyProfile = () => {
 
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
-  if (userStatus !== "fulfilled") return <div style={LoadingStyle}>Loading...</div>;
+  if (userStatus !== "fulfilled") {
+    return <div style={LoadingStyle}>Loading...</div>;
+  }
 
   return (
     <>
-      <LoginNavigate>
-        {isAppInitialized && (
-          <>
-            <ProfileElement
-              user={user}
-              posts={posts}
-              setIsPostActive={setIsPostActive}
-              getCurrentPost={getCurrentPost}
-              setPageSize={setPageSize}
-              pageSize={pageSize}
-              totalCount={totalCount}
-              status={status}
-              isLoading={isLoading}
-            />
-            {/* <PostCountStyle>posts: {totalCount}</PostCountStyle> */}
-            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
-          </>
-        )}
-      </LoginNavigate>
+      {/* <LoginNavigate> */}
+      {/* {isAppInitialized && ( */}
+      <>
+        <ProfileElement
+          user={user}
+          posts={posts}
+          setIsPostActive={setIsPostActive}
+          getCurrentPost={getCurrentPost}
+          setPageSize={setPageSize}
+          pageSize={pageSize}
+          totalCount={totalCount}
+          status={status}
+          isLoading={isLoading}
+        />
+        {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+      </>
+      {/* )} */}
+      {/* </LoginNavigate> */}
     </>
   );
 };

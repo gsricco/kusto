@@ -9,7 +9,12 @@ export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
   const isAuthInitialized = useAppSelector(isAppInitializedSelector);
 
   useEffect(() => {
-    if (!isAuthInitialized) router.push(Path.LOGIN);
+    setTimeout(() => {
+      if (!isAuthInitialized) {
+        router.push(Path.LOGIN);
+        console.log("REDIRECT, isAuthInitialized =", isAuthInitialized);
+      }
+    }, 1000);
   }, []);
 
   return <>{children}</>;
