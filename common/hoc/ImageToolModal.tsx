@@ -10,6 +10,8 @@ import {
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { PhotoType } from "features/posts/PostCreationModal";
+import prev from "../../public/img/icons/prevOut.svg";
+import next from "../../public/img/icons/nextOut.svg";
 
 type Props = {
   handleModalClose?: () => void;
@@ -68,8 +70,8 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
         </Button>
       </StyledModalHeaderNext>
       <StyledModalBody>
-        <div onClick={handlePrevPhoto}> Prev </div>
         <StyledImageContainer>
+          <Prev alt="prev" src={prev} onClick={handlePrevPhoto} />
           <Image
             src={photo.photoUrl}
             width={0}
@@ -77,8 +79,8 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
             alt="nolmal"
             style={{ width: "100%", height: "100%", objectFit: "contain", filter: photo.filter }}
           />
+          <Next alt="next" src={next} onClick={handleNextPhoto} />
         </StyledImageContainer>
-        <div onClick={handleNextPhoto}> Next </div>
         {children}
       </StyledModalBody>
     </StyledModalContainer>
@@ -86,6 +88,21 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
 };
 
 // styles
+
+const Common = styled(Image)`
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  z-index: 10;
+`;
+
+const Prev = styled(Common)`
+  left: 5%;
+`;
+
+const Next = styled(Common)`
+  right: 5%;
+`;
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -103,7 +120,6 @@ const StyledModalContainer = styled.div`
     width: 90vw;
     max-width: 972px;
   }
-
 `;
 
 const StyledModalBody = styled.div`
@@ -116,10 +132,13 @@ const StyledModalBody = styled.div`
 
 const StyledImageContainer = styled.div`
   flex-shrink: 2;
+  z-index: 1;
 
   min-width: 300px;
   width: 490px;
   height: 100%;
+
+  position: relative;
 `;
 
 const StyledFiltersContainer = styled.div`
@@ -132,5 +151,5 @@ const StyledFiltersContainer = styled.div`
   width: calc(100% - 490px);
   min-width: 180px;
 
-    //overflow: scroll;
+  //overflow: scroll;
 `;

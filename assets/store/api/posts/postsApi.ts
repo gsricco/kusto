@@ -42,7 +42,7 @@ export const postsApi = createApi({
     }),
     getUserPost: builder.query<GetUserPostResponse, string>({
       query: (userId) => ({
-        url: userId
+        url: `${userId}?pageSize=50`
       }),
       providesTags: ["deletePost", "createPost"]
     })

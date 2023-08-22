@@ -32,6 +32,7 @@ import {
   useLazyGetUserPostQuery
 } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
+import emptyPhoto from "../../public/img/404.svg";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
@@ -147,19 +148,18 @@ const MyProfile = () => {
             </HeaderStyle>
             <PhotosBlock>
               {posts?.map((post) => (
-                <>
-                  <Image
-                    alt="post image"
-                    src={post.images.length ? post.images[0].url : ""}
-                    width={211}
-                    height={228}
-                    onClick={() =>
-                      getCurrentPost(post.id)
-                        .unwrap()
-                        .then(() => setIsPostActive(true))
-                    }
-                  />
-                </>
+                <Image
+                  key={post.id}
+                  alt="post image"
+                  src={post.images.length ? post.images[0].url : emptyPhoto}
+                  width={211}
+                  height={228}
+                  onClick={() =>
+                    getCurrentPost(post.id)
+                      .unwrap()
+                      .then(() => setIsPostActive(true))
+                  }
+                />
               ))}
             </PhotosBlock>
           </ProfileWrapper>
