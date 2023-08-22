@@ -121,21 +121,25 @@ const PostResizeModal = ({
 
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    try {
-      if (croppedAreaPixels && photoFileURL) {
-        const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels);
-        if (croppedImage) {
-          setPhotoPost([
-            ...photoPost,
-            { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
-          ]);
-          if (disabled) {
-            setDisabled(false);
+    if (photoPost.length < 10) {
+      try {
+        if (croppedAreaPixels && photoFileURL) {
+          const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels);
+          if (croppedImage) {
+            setPhotoPost([
+              ...photoPost,
+              { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
+            ]);
+            if (disabled) {
+              setDisabled(false);
+            }
           }
         }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
+    } else {
+      return;
     }
   };
 
@@ -176,8 +180,6 @@ const PostResizeModal = ({
       return item;
     });
   };
-
-  console.log(!!photoPost.length);
 
   return (
     <>
@@ -256,10 +258,13 @@ const PostResizeModal = ({
               />
             ))}
           </StyledPhotoPost>
-          <div onClick={handleAddPhotoButton}>
+          <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
             <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
           </div>
-          <div onClick={handleSave}>
+          <div
+            onClick={handleSave}
+            style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}
+          >
             <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
           </div>
         </StyledAddBlock>
@@ -371,6 +376,7 @@ const StyledIconSize = styled(Image)`
   width: 26px;
   height: 26px;
   background: ${baseTheme.colors.dark["100"]};
+  cursor: pointer;
 `;
 
 const StyledIconFullScreen = styled(Image)`
@@ -388,6 +394,7 @@ const StyledIconZoom = styled(StyledIconFullScreen)`
 
 const StyledIconAddPhoto = styled(StyledIconFullScreen)<IconAddPhotoType>`
   left: ${(props) => (props.full ? "95%" : "430px")};
+  cursor: pointer;
 `;
 const StyledIconResize = styled(StyledIconZoom)`
   left: 80px;
