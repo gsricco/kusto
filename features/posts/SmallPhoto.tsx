@@ -1,11 +1,10 @@
-import AvatarEditor from "react-avatar-editor";
 import { styled } from "styled-components";
 import Image from "next/image";
 
 const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
   return (
     <>
-      <Image // width и height задается в styled component с учетом border
+      <Image
         src={photo}
         width={90}
         height={90}

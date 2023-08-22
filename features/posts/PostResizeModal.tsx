@@ -97,6 +97,7 @@ const PostResizeModal = ({
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
   const [isObjectFit, setIsObjectFit] = useState(false);
   const [photoFileURL, setPhotoFileURL] = useState<string>();
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     const reader = new FileReader();
@@ -128,6 +129,9 @@ const PostResizeModal = ({
             ...photoPost,
             { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
           ]);
+          if (disabled) {
+            setDisabled(false);
+          }
         }
       }
     } catch (e) {
@@ -173,6 +177,8 @@ const PostResizeModal = ({
     });
   };
 
+  console.log(!!photoPost.length);
+
   return (
     <>
       <StyledModalHeaderNext>
@@ -180,7 +186,7 @@ const PostResizeModal = ({
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton}>
+        <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton} disabled={disabled}>
           Next
         </Button>
       </StyledModalHeaderNext>
