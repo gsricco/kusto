@@ -1,21 +1,22 @@
 {
-    "add_photo" : "Add Photo",
-    "select_from_comp": "Select from Computer",
+    "add_photo" : "Добавить фото",
+    "select_from_comp": "Выбрать файл",
+    "open_draft": "Сохранить черновик",
 
-    "cropping": "Cropping",
-    "next": "Next",
-    "original": "Original",
+    "cropping": "Изменение размеров",
+    "next": "Далее",
+    "original": "Оригинал",
 
-    "filters": "Filters",
+    "filters": "Фильтры",
 
-    "close": "Close",
-    "close_creation_info": "Do you really want to close the creation of a publication? If you close everything will be deleted",
-    "discard": "Discard",
-    "save_draft": "Save draft",
+    "close": "Закрыть",
+    "close_creation_info": "Вы действительно хотите закрыть окно создания нового поста? При закрытии окна все сделанные изменения пропадут",
+    "discard": "Отмена",
+    "save_draft": "Сохранить черновик",
 
-    "publication": "Publication",
-    "publish": "Publish",
-    "add_descr": "Add publication descriptions",
-    "add_location": "Add location"
+    "publication": "Создание поста",
+    "publish": "Опубликовать",
+    "add_descr": "Добавить описание",
+    "add_location": "Добавить местоположение"
 
 }

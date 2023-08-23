@@ -1,10 +1,10 @@
 {
-    "home": "Home",
-    "create": "Create",
-    "my_profile": "My Profile",
-    "messenger": "Messenger",
-    "search": "Search",
-    "statistics": "Statistics",
-    "favorites": "Favorites",
-    "log_out": "Log Out"
+    "home": "Главная",
+    "create": "Создать",
+    "my_profile": "Мой профиль",
+    "messenger": "Сообщения",
+    "search": "Поиск",
+    "statistics": "Статистика",
+    "favorites": "Избранное",
+    "log_out": "Выйти"
 }
