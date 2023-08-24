@@ -4,8 +4,24 @@ import { getLayout } from "../../../../common/components/Layout/PageLayout/PageL
 import { styled } from "styled-components";
 import Image from "next/image";
 import chrome from "public/img/icons/chrome-svgrepo-com.svg";
-import { fakeDevices } from "./fakeDevices";
 import { getUsetBrowser } from "common/utils/getUserBrowser";
+import iphone from "public/img/icons/phone_iphone.svg";
+import mac from "public/img/icons/desktop_mac.svg";
+
+const fakeDevices = [
+  {
+    deviseIcon: mac,
+    device: "Apple iMac 27",
+    ip: "22.345.345.12",
+    lastVisit: "22.09.2022"
+  },
+  {
+    deviseIcon: iphone,
+    device: "Iphone 14 Pro Max",
+    ip: "22.345.345.12",
+    lastVisit: "22.09.2022"
+  }
+];
 
 const Devices = () => {
   const [ip, setIp] = useState();
