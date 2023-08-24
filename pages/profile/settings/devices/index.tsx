@@ -5,16 +5,19 @@ import { styled } from "styled-components";
 import Image from "next/image";
 import chrome from "public/img/icons/chrome-svgrepo-com.svg";
 import { fakeDevices } from "./fakeDevices";
+import { getUsetBrowser } from "common/utils/getUserBrowser";
 
 const Devices = () => {
   const [ip, setIp] = useState();
   const [currentStatus, setCurrentStatus] = useState("Online");
+  const browser = getUsetBrowser();
 
   useEffect(() => {
     fetch("https://ipapi.co/json/")
       .then((res) => res.json())
       .then((res) => setIp(res.ip));
-  });
+  }, []);
+
   return (
     <SettingsPageWrapper>
       <PageWrapper>
@@ -23,7 +26,7 @@ const Devices = () => {
           <ActiveSession>
             <DeviceIcon alt="browser icon" src={chrome} />
             <Wrapper>
-              <Browser>Chrome</Browser>
+              <Browser>{browser}</Browser>
               <SessionIp>IP: {ip}</SessionIp>
               <IsOnline>{currentStatus}</IsOnline>
             </Wrapper>
@@ -88,6 +91,9 @@ const IsOnline = styled.p`
 
 const Browser = styled.p`
   padding-bottom: 13px;
+  &::first-letter {
+    text-transform: uppercase;
+  }
 `;
 const SessionIp = styled.p``;
 
