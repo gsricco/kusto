@@ -42,7 +42,7 @@ const Devices = () => {
           <ActiveSession>
             <DeviceIcon alt="browser icon" src={chrome} />
             <Wrapper>
-              <Browser>{browser}</Browser>
+              <Browser suppressHydrationWarning>{browser}</Browser>
               <SessionIp>IP: {ip}</SessionIp>
               <IsOnline>{currentStatus}</IsOnline>
             </Wrapper>
