@@ -1,7 +1,4 @@
 import React, { FC, useState } from "react";
-import Image from "next/image";
-import { AppLink } from "../AppLink/AppLink";
-import { StyledDiv } from "../Navbar.styled";
 import { StyledModalContainer, StyledModalOverlay } from "../../Modals/Modal.styled";
 import { Provider } from "react-redux";
 import { store } from "assets/store/store";
@@ -34,6 +31,7 @@ export const CreatePost: FC<CreatePostProps> = ({ isOpenModalEdit, setIsOpenModa
               height={fullScreen ? "100%" : "564px"}
             >
               <PostCreationModal
+                setIsOpenModalEdit={setIsOpenModalEdit}
                 handleEditorClose={closeModal}
                 handleFullScreen={handleFullScreen}
               />
