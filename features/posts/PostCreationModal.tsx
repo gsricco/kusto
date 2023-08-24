@@ -3,13 +3,14 @@ import PostPhotoSelectModal from "./PostPhotoSelectModal";
 import FilterModal from "./FilterModal";
 import PostDescriptionModal from "./PostDescriptionModal";
 import PostResizeModal from "./PostResizeModal";
+import { TFunction } from "next-i18next";
 
 ///  //  Модальное окно для создания поста: выбор изображений,       //  ///
 //     наложение фильтров,  изменение размеров, добавление описания        //
 
 const PostCreationModal = ({
   handleEditorClose,
-  handleFullScreen
+  handleFullScreen,
 }: {
   handleEditorClose: () => void;
   handleFullScreen: (full: boolean) => void;

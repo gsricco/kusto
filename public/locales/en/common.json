@@ -53,5 +53,7 @@
   "pas_match": "Please make sure your passwords match",
   "req_email": "Required email",
   "req_user": "Required Username",
-  "inv_user": "Invalid Username"
+  "inv_user": "Invalid Username",
+
+  "select_fromcomp": "Выбрать файл"
 }

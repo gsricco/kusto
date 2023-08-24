@@ -32,13 +32,14 @@ import "cropperjs/dist/cropper.css";
 import EasyCropper, { CropArgType } from "./EasyCropper";
 import getCroppedImg, { getImageRatio } from "./cropImage";
 import { Slider } from "./Slider";
+import { useTranslation } from "next-i18next";
 
-const sizeData = [
+const initSizeData = [
   {
     size: "original",
     alt: "original size",
     src: addPhotoGrey,
-    selected: true,
+    selected: false,
     srcActive: addPhoto,
     setRatio: 1,
     setIsObjectFit: true
@@ -47,7 +48,7 @@ const sizeData = [
     size: "1:1",
     alt: "1:1",
     src: resize11,
-    selected: false,
+    selected: true,
     srcActive: resize11a,
     setRatio: 1 / 1,
     setIsObjectFit: false
@@ -92,12 +93,13 @@ const PostResizeModal = ({
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-  const [initialRatio, setInitialRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
-  const [isObjectFit, setIsObjectFit] = useState(false);
-  const [photoFileURL, setPhotoFileURL] = useState<string>();
-  // const [disabled, setDisabled] = useState(true);
+  const [isObjectFit, setIsObjectFit] = useState(false);  // параметр вписывания изображения для easy-crop
+  const [sizeData, setSizeData] = useState(initSizeData); // 
+  const [photoFileURL, setPhotoFileURL] = useState<string>(); //url изображени, загруженного из компьютера
+
+  const { t } = useTranslation("post_cr")
 
   useEffect(() => {
     const reader = new FileReader();
@@ -130,9 +132,6 @@ const PostResizeModal = ({
               ...photoPost,
               { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
             ]);
-            // if (disabled) {
-            //   setDisabled(false);
-            // }
           }
         }
       } catch (e) {
@@ -143,10 +142,15 @@ const PostResizeModal = ({
     }
   };
 
+  // Определение соотношения сторон загруженного изображения
   const imageRatio = async (url: string) => {
     try {
       let ratio = await getImageRatio(url);
-      setInitialRatio(ratio);
+      let sizeDataWithRatio = sizeData.map((item) => {
+        if(item.size == "original") item.setRatio = ratio
+        return item
+      })
+      setSizeData(sizeDataWithRatio)
     } catch (e) {
       console.error(e);
     }
@@ -171,14 +175,16 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
+  // Изменение стиля иконки при выборе данного размера изображения
   const selectSize = (ind: number) => {
-    sizeData.map((item, index) => {
+    const sizeDataSelected = sizeData.map((item, index) => {
       item.selected = false;
       if (index === ind) {
         item.selected = true;
       }
       return item;
     });
+    setSizeData(sizeDataSelected)
   };
 
   return (
@@ -187,13 +193,13 @@ const PostResizeModal = ({
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
         </StyledCloseNextButton>
-        <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
+        <StyledModalTitleNext>{t("cropping")}</StyledModalTitleNext>
         <Button
           theme={ThemeButton.CLEAR}
           onClick={handleNextToFilterButton}
           disabled={photoPost.length == 0 ? true : false}
         >
-          Next
+          {t("next")}
         </Button>
       </StyledModalHeaderNext>
       <StyledPhotoEditor>
@@ -244,7 +250,7 @@ const PostResizeModal = ({
                 }}
               >
                 <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
-                {item.size}
+                {t(item.size)}
               </StyleItemSize>
             );
           })}
