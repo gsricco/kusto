@@ -18,6 +18,7 @@ import {
   ScrollStyle
 } from "styles/styledComponents/profile/profile.styled";
 import { baseTheme } from "styles/styledComponents/theme";
+import emptyPhoto from "../../public/img/404.svg";
 
 type PropsType = {
   posts: CreatePostResponse[] | undefined;
@@ -52,30 +53,39 @@ export const PostPhotos: React.FC<PropsType> = ({
   isLoading,
   status
 }) => {
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    var element = e.currentTarget;
+  const [page, setPage] = useState(1);
+  const scrollHandler = () => {
     // console.log('scrollHeight', element.scrollHeight)
     // console.log('scrollTop', element.scrollTop)
     // console.log('clientHeight', element.clientHeight)
     // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+    console.log(document.documentElement.scrollHeight - document.documentElement.scrollTop);
 
-    if (element.scrollHeight - element.scrollTop < scrollSize) {
+    if (document.documentElement.scrollHeight - document.documentElement.scrollTop <= 1000) {
       let newPageSize = pageSize + 9;
       if (totalCount + 9 >= newPageSize) {
         setPageSize(newPageSize);
+        setPage((prev) => prev + 1);
       }
     }
   };
   if (isLoading) console.log("%c loading posts...", consoleStyle);
 
+  console.log(document.documentElement.scrollHeight - document.documentElement.scrollTop);
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return () => document.removeEventListener("scroll", scrollHandler);
+  }, [totalCount, page]);
+
   return (
     <>
-      <ScrollStyle onScroll={status === "fulfilled" ? scrollHandler : () => {}}>
+      <ScrollStyle>
         <PhotosBlock>
           {posts?.map((p) => (
             <PhotoStyle key={p.id}>
               <Image
-                src={p.images.length ? p.images[0].url : ""}
+                src={p.images.length ? p.images[0].url : emptyPhoto}
                 width={postSize}
                 height={postSize}
                 alt={"post image"}

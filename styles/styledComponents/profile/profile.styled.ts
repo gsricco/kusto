@@ -218,17 +218,14 @@ export const PhotoStyle = styled.div`
 export const ScrollStyle = styled.div`
   position: relative;
   flex-grow: 0;
-  margin: 40px 0px -20px; // ссылка сюда
+  /* margin: 40px 0px -20px; // ссылка сюда */
   max-width: 850px;
   width: calc(100% - 60px); // подправить
-  height: 360px;
-  overflow-y: scroll;
+
   padding: 5px 5px 5px 5px;
   border-radius: 2px;
   border: 1px solid ${baseTheme.colors.dark[100]};
   @media (max-width: ${media}) {
-    height: 340px;
-    margin: 29px -68px -20px; // ссылка сюда
     width: calc(100vw - 50px); // подправить
   }
 `;
@@ -243,7 +240,7 @@ export const LoadingStyle: React.CSSProperties = {
 };
 
 export const LoadingPostStyle = styled.div`
-  display: flex;
+  /* display: flex;
   position: absolute;
   z-index: 7;
   font-size: 25px;
@@ -252,11 +249,11 @@ export const LoadingPostStyle = styled.div`
   color: ${baseTheme.colors.success[500]};
   @media (max-width: ${media}) {
     margin: 125px calc(30vw - 50px);
-  }
+  } */
 `;
 
 export const LoadingPostBackStyle = styled.div`
-  display: flex;
+  /* display: flex;
   position: absolute;
   z-index: 1;
   background: ${baseTheme.colors.dark[500]};
@@ -270,7 +267,7 @@ export const LoadingPostBackStyle = styled.div`
     height: 339px;
     width: calc(100vw - 70px);
     margin: 30px -67px;
-  }
+  } */
 `;
 export const PostCountStyle = styled.div`
   font-size: 14px;

@@ -17,6 +17,7 @@ import nextBtn from "../../../public/img/icons/next.svg";
 import { useAuthMeQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
 import { fakeData } from "./fakeData";
 import { Modal } from "../../components/Modals/ModalPublic/Modal";
+import emptyPhoto from "../../../public/img/404.svg";
 
 type PostProps = {
   postInfo: any;
@@ -112,7 +113,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
         <StyledImageWrapper>
           <StyledPostImage
             alt="post image"
-            src={images.length ? images[currentImage].url : ""}
+            src={images.length ? images[currentImage].url : emptyPhoto}
             width={490}
             height={560}
           />
