@@ -31,15 +31,15 @@ const Devices = () => {
           <EndSessionsBtn>Terminate all other session</EndSessionsBtn>
         </SessionWrapper>
         <SessionWrapper>
-          <SectionTitle>Active sessions</SectionTitle>
-          {fakeDevices.map((device) => {
+          <>Active sessions</>
+          {fakeDevices.map((device, index) => {
             return (
-              <ActiveSession style={{ marginBottom: "12px" }}>
+              <ActiveSession style={{ marginBottom: "12px" }} key={index}>
                 <DeviceIcon alt="browser icon" src={device.deviseIcon} />
                 <Wrapper>
                   <Browser>{device.device}</Browser>
                   <SessionIp>IP: {device.ip}</SessionIp>
-                  <p>{device.lastVisit}</p>
+                  <LastVisit>{device.lastVisit}</LastVisit>
                 </Wrapper>
               </ActiveSession>
             );
@@ -68,6 +68,8 @@ const ActiveSession = styled.div`
   gap: 12px;
 `;
 
+const LastVisit = styled.p``;
+
 const EndSessionsBtn = styled.button`
   margin-top: 24px;
   margin-bottom: 18px;
@@ -77,6 +79,7 @@ const EndSessionsBtn = styled.button`
   background: black;
   align-self: flex-end;
   padding: 6px 0;
+  cursor: pointer;
 `;
 
 const IsOnline = styled.p`
@@ -86,11 +89,6 @@ const IsOnline = styled.p`
 const Browser = styled.p`
   padding-bottom: 13px;
 `;
-
-const DeviceWrapper = styled.div``;
-
-const Device = styled.h3``;
-
 const SessionIp = styled.p``;
 
 const DeviceIcon = styled(Image)`

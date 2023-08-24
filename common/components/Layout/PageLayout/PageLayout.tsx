@@ -24,13 +24,20 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
     setIsOpenModalEdit(true);
   };
 
+  const { asPath } = useRouter();
+
+  const checkPath = () => {
+    console.log(asPath.includes("/settings") ? "settings" : "profile");
+    return asPath.includes("/settings") ? "settings" : "profile";
+  };
+
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Header />
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
-          <NavbarWrapper>
+          <NavbarWrapper settings={checkPath()}>
             <Navbar showNavbar={profile} openModalHandler={openModalHandler} />
           </NavbarWrapper>
           <Main>{children}</Main>
@@ -77,7 +84,7 @@ export const Main = styled.div`
   }
 `;
 
-export const NavbarWrapper = styled.div`
+export const NavbarWrapper = styled.div<{ settings?: string }>`
   height: 660px;
   width: 220px;
   /* min-width: 150px; */
@@ -85,7 +92,7 @@ export const NavbarWrapper = styled.div`
   align-items: start;
   font-family: Inter;
 
-  @media (max-width: ${media}) {
+  @media (max-width: ${(props) => (props.settings === "settings" ? "1024px" : "760px")}) {
     display: none;
   }
 `;
