@@ -10,8 +10,6 @@ import {
   StyledSidebar
 } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
-import { CreatePost } from "./CreatePost/CreatePost";
-import { AppLink } from "./AppLink/AppLink";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 

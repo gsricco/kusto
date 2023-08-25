@@ -37,7 +37,8 @@ export const postsApi = createApi({
       query: (postId) => ({
         url: `post/${postId}`
       }),
-      providesTags: ["editPost"]
+      providesTags: ["editPost"],
+      extraOptions: { maxRetries: 3 }
     }),
     deletePost: builder.mutation<void, string>({
       query: (postId) => ({
@@ -50,7 +51,8 @@ export const postsApi = createApi({
       query: ({ userId, pageNumber, pageSize }) => ({
         url: userId + `?pageNumber=${pageNumber}&pageSize=${pageSize}`
       }),
-      providesTags: ["deletePost", "createPost"]
+      providesTags: ["deletePost", "createPost"],
+      extraOptions: { maxRetries: 3 }
     })
   })
 });
