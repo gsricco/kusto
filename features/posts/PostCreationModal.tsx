@@ -26,8 +26,6 @@ const PostCreationModal = ({
   const [openResize, setOpenResize] = useState(false); // открытие модального окна изменения размеров изображения
   const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
 
-  const modalRef = useRef();
-
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
     setOpenComp(false);

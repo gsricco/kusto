@@ -16,6 +16,7 @@ export const profileApi = createApi({
         url: "users/profiles/profile",
         method: "GET"
       }),
+      extraOptions: { maxRetries: 3 },
       providesTags: ["UserInfo"]
     }),
     saveProfileInfo: builder.mutation<any, any>({
@@ -31,7 +32,8 @@ export const profileApi = createApi({
       query: () => ({
         url: "auth/me",
         method: "GET"
-      })
+      }),
+      extraOptions: { maxRetries: 3 }
     }),
     saveAvatar: builder.mutation<void, FormData>({
       query: (body: FormData) => {
