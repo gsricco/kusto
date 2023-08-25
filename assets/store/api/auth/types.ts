@@ -9,6 +9,7 @@ export type LoginType = {
 };
 export type SendLinkType = {
   email: string;
+  recaptchaValue: string | null | undefined;
 };
 export type NewPasswordType = {
   newPassword: string;
