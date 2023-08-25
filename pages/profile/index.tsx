@@ -15,17 +15,6 @@ import { useTranslation } from "next-i18next";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string, ["common"], config))
-    }
-  };
-}
-
-
-
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context;
 
   return {
     props: {
@@ -36,7 +25,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const MyProfile = () => {
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
-
 
   const posts = data?.items || [];
   const totalCount = data?.totalCount || 0;
