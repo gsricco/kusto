@@ -33,6 +33,10 @@ const nextConfig = {
   },
   compiler: {
     styledComponents: true
+  },
+  env: {
+    RECAPTCHA_SITE_KEY: "6Le96RMnAAAAAE9dOL6eVQHJ1HYsNAo4OUbDGWIg"
+
   }
 };
 

@@ -24,6 +24,9 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
+import { useRef } from 'react'
+import ReCAPTCHA from "react-google-recaptcha"
+
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -46,7 +49,11 @@ export default function Recovery() {
   const [recoveryHandler, result] = useSendRecoveryLinkMutation();
 
   const { t } = useTranslation();
+  const captchaRef = useRef<ReCAPTCHA>(null)
 
+  const secret = "6Le96RMnAAAAAE9dOL6eVQHJ1HYsNAo4OUbDGWIg"
+  // const secret = process.env.RECAPTCHA_SITE_KEY as string
+  
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
@@ -59,16 +66,29 @@ export default function Recovery() {
   }, [result]);
 
   const handleSubmit = async (values: FormValueRecovery, { resetForm }: ResetForm) => {
-    const data = {
-      email: values.email
-    };
+    const captcha = await captchaRef.current?.executeAsync();
 
-    await recoveryHandler(data)
-      .unwrap()
-      .then(() => {
-        setEmail(values.email);
-        resetForm();
-      });
+    if (captchaRef.current !== null)  {
+      console.log("ERROR")  
+    } else {
+      const recaptcha = captchaRef.current as unknown as ReCAPTCHA
+      const token = recaptcha.getValue();
+      recaptcha.reset();
+    
+
+      const data = {
+        email: values.email,
+        recaptchaValue: captcha
+      };
+
+      await recoveryHandler(data)
+        .unwrap()
+        .then(() => {
+          setEmail(values.email);
+          resetForm();
+        });
+      }
+    
   };
 
   return (
@@ -114,7 +134,12 @@ export default function Recovery() {
         <StyledSignInWrapper margin={"24px 0"}>
           <StyledSignIn href={Path.LOGIN}>{t("back_singIn_btn")} </StyledSignIn>
         </StyledSignInWrapper>
-        <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" />
+        <ReCAPTCHA
+          sitekey={secret} 
+          size="normal"
+          // ref={captchaRef}
+        />
+        {/* <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" /> */}
       </WrapperContainerAuth>
       {isModalOpen && (
         <Modal
