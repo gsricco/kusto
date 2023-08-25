@@ -47,6 +47,7 @@
   "req_email": "Required email",
   "req_user": "Required Username",
   "inv_user": "Invalid Username",
+
   "profile_settings": "Profile Settings",
   "paid": "paid",
   "user_name": "User Name",
@@ -69,4 +70,5 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday"
+
 }
