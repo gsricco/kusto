@@ -37,7 +37,6 @@ import { GetStaticPropsContext } from "next";
 import config from "next-i18next.config.js";
 import { useTranslation } from "next-i18next";
 
-
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
 

@@ -10,8 +10,6 @@ import {
   StyledSidebar
 } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
-import { CreatePost } from "./CreatePost/CreatePost";
-import { AppLink } from "./AppLink/AppLink";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 
@@ -19,10 +17,10 @@ export type NavbarPropsType = {
   showNavbar: string | string[] | undefined;
   openModalHandler: () => void;
 };
-export const Navbar = ({ showNavbar, openModalHandler}: NavbarPropsType) => {
+export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
   const location = usePathname();
 
-  const { t } = useTranslation("nav_bar")
+  const { t } = useTranslation("nav_bar");
 
   const isActive = (name: string) => (location === name ? "active" : "");
 

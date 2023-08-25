@@ -7,11 +7,12 @@ import ProfileElement from "features/profile/ProfileElement";
 import { useLazyGetPostQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
 import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
-import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetStaticPropsContext } from "next";
 import config from "next-i18next.config.js";
-import { useTranslation } from "next-i18next";
+import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
