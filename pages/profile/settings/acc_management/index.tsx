@@ -1,43 +1,43 @@
-import React, { useState } from "react";
-import { SettingsPageWrapper } from "../../../../features/settings/SettingsPageWrapper";
-import { getLayout } from "../../../../common/components/Layout/PageLayout/PageLayout";
-import { styled } from "styled-components";
-import Image from "next/image";
-import stripe from "public/img/icons/stripe-svgrepo-com.svg";
-import paypal from "public/img/icons/paypal-svgrepo-com.svg";
+import React, { useState } from 'react'
+import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
+import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
+import { styled } from 'styled-components'
+import Image from 'next/image'
+import stripe from 'public/img/icons/stripe-svgrepo-com.svg'
+import paypal from 'public/img/icons/paypal-svgrepo-com.svg'
 
-const payments = ["$10 per 1 Day", "$50 per 7 Day", "$100 per month"];
-const accountType = ["Personal", "Business"];
+const payments = ['$10 per 1 Day', '$50 per 7 Day', '$100 per month']
+const accountType = ['Personal', 'Business']
 
 const AccountManagement = () => {
-  const [accountTypeChecked, setAccountTypeChecked] = useState([true, false]);
-  const [paymentChecked, setPaymentChecked] = useState([true, false, false]);
+  const [accountTypeChecked, setAccountTypeChecked] = useState([true, false])
+  const [paymentChecked, setPaymentChecked] = useState([true, false, false])
 
   const selectAccountType = (ind: number) => {
-    setAccountTypeChecked((accountTypeChecked) =>
+    setAccountTypeChecked(accountTypeChecked =>
       accountTypeChecked.map((item, index) => {
         if (ind === index) {
-          item = true;
+          item = true
         } else {
-          item = false;
+          item = false
         }
-        return item;
+        return item
       })
-    );
-  };
+    )
+  }
 
   const selectPayment = (ind: number) => {
-    setPaymentChecked((paymentChecked) =>
+    setPaymentChecked(paymentChecked =>
       paymentChecked.map((item, index) => {
         if (index === ind) {
-          item = true;
+          item = true
         } else {
-          item = false;
+          item = false
         }
-        return item;
+        return item
       })
-    );
-  };
+    )
+  }
 
   return (
     <SettingsPageWrapper>
@@ -81,19 +81,19 @@ const AccountManagement = () => {
         )}
       </PageWrapper>
     </SettingsPageWrapper>
-  );
-};
+  )
+}
 
-AccountManagement.getLayout = getLayout;
-export default AccountManagement;
+AccountManagement.getLayout = getLayout
+export default AccountManagement
 
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
-`;
+`
 
-const Section = styled.section``;
+const Section = styled.section``
 
 const TypeForm = styled.form`
   display: flex;
@@ -102,62 +102,62 @@ const TypeForm = styled.form`
   border: 1px solid #333;
   padding: 23px 12px;
   gap: 24px;
-`;
+`
 
-const PaymentsForm = styled(TypeForm)``;
+const PaymentsForm = styled(TypeForm)``
 
 const AccountType = styled.h2`
   color: white;
   margin-bottom: 6px;
-`;
+`
 
 const Text = styled.span`
   margin-left: 12px;
   font-size: 14px;
   font-weight: 400;
-`;
+`
 
 const Type = styled.input.attrs({
-  type: "radio",
-  name: "type"
+  type: 'radio',
+  name: 'type',
 })`
   &:checked {
     accent-color: black;
   }
-`;
+`
 
 const LabelType = styled.label.attrs({
-  htmlFor: "type"
+  htmlFor: 'type',
 })`
   margin-right: 12px;
-`;
+`
 
 const PaymentsLabel = styled.label.attrs({
-  htmlFor: "payments"
+  htmlFor: 'payments',
 })`
   margin-right: 12px;
-`;
+`
 
 const Payment = styled.input.attrs({
-  type: "radio",
-  name: "paymenys"
+  type: 'radio',
+  name: 'paymenys',
 })`
   &:checked {
     accent-color: black;
   }
-`;
+`
 
 const PaymentsSection = styled.section`
   align-self: flex-end;
   display: flex;
   gap: 54px;
   align-items: center;
-`;
+`
 
 const PayPal = styled(Image)`
   cursor: pointer;
-`;
+`
 
-const Stripe = styled(PayPal)``;
+const Stripe = styled(PayPal)``
 
-const SubscriptionCost = styled(AccountType)``;
+const SubscriptionCost = styled(AccountType)``

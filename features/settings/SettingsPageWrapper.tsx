@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
-import { TabBar } from "./TabBar";
-import styled from "styled-components";
+import { ReactNode } from 'react'
+import { TabBar } from './TabBar'
+import styled from 'styled-components'
 
 type SettingsPageWrapperType = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export const SettingsPageWrapper = ({ children }: SettingsPageWrapperType) => {
   return (
@@ -14,8 +14,8 @@ export const SettingsPageWrapper = ({ children }: SettingsPageWrapperType) => {
         <StyledContent>{children}</StyledContent>
       </StyledContainerSettings>
     </SettingsWrapper>
-  );
-};
+  )
+}
 
 const SettingsWrapper = styled.div`
   min-height: 90vh;
@@ -26,13 +26,13 @@ const SettingsWrapper = styled.div`
   @media (max-width: 1000px) {
     justify-content: center;
   }
-`;
+`
 
 export const StyledContainerSettings = styled.div`
   max-width: 726px;
   width: 100%;
-`;
+`
 
 const StyledContent = styled.div`
   margin-top: 25px;
-`;
+`

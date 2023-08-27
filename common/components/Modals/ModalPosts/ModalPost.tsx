@@ -1,5 +1,5 @@
-import Image from "next/image";
-import React, { useState } from "react";
+import Image from 'next/image'
+import React, { useState } from 'react'
 import {
   StyledCloseButton,
   StyledCloseNextButton,
@@ -8,11 +8,11 @@ import {
   StyledModalHeaderNext,
   StyledModalOverlay,
   StyledModalTitle,
-  StyledModalTitleNext
-} from "../Modal.styled";
-import { ModalPostPropsType } from "../types";
-import { Button } from "../../Button/Button";
-import { ThemeButton } from "../../../enums/themeButton";
+  StyledModalTitleNext,
+} from '../Modal.styled'
+import { ModalPostPropsType } from '../types'
+import { Button } from '../../Button/Button'
+import { ThemeButton } from '../../../enums/themeButton'
 
 export const ModalPost = ({
   handleModalClose,
@@ -24,14 +24,14 @@ export const ModalPost = ({
   bodyText,
   children,
   width,
-  height
+  height,
 }: ModalPostPropsType) => {
-  const [isHeader, setIsHeader] = useState<boolean>(!!title);
-  const [isHeaderNext, setIsHeaderNext] = useState<boolean>(!!nextTitle);
+  const [isHeader, setIsHeader] = useState<boolean>(!!title)
+  const [isHeaderNext, setIsHeaderNext] = useState<boolean>(!!nextTitle)
 
   const handleClickModalClose = () => {
-    handleModalClose();
-  };
+    handleModalClose()
+  }
   return (
     <StyledModalOverlay>
       <StyledModalContainer width={width} height={height}>
@@ -65,5 +65,5 @@ export const ModalPost = ({
         {children}
       </StyledModalContainer>
     </StyledModalOverlay>
-  );
-};
+  )
+}

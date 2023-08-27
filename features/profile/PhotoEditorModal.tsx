@@ -1,34 +1,34 @@
-import React, { useRef, useState } from "react";
-import AvatarEditor from "react-avatar-editor";
-import { Slider } from "./Slider";
-import { Button } from "common/components/Button/Button";
-import { ThemeButton } from "common/enums/themeButton";
-import styled from "styled-components";
-import { useSaveAvatarMutation } from "assets/store/api/profile/profileApi";
+import React, { useRef, useState } from 'react'
+import AvatarEditor from 'react-avatar-editor'
+import { Slider } from './Slider'
+import { Button } from 'common/components/Button/Button'
+import { ThemeButton } from 'common/enums/themeButton'
+import styled from 'styled-components'
+import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi'
 
 ////  //  Модальное окно редактирования изображения  //  ////
 
 const PhotoEditorModal = ({
   photo,
-  handleEditorClose
+  handleEditorClose,
 }: {
-  photo: File;
-  handleEditorClose: () => void;
+  photo: File
+  handleEditorClose: () => void
 }) => {
-  const [value, setValue] = useState(12); // начальное значение для zoom
-  const [rotateAngle, setRotateAngle] = useState(0); // начальное значение для rotate
+  const [value, setValue] = useState(12) // начальное значение для zoom
+  const [rotateAngle, setRotateAngle] = useState(0) // начальное значение для rotate
 
-  const [saveAvatarHandler] = useSaveAvatarMutation();
+  const [saveAvatarHandler] = useSaveAvatarMutation()
 
-  const cropRef = useRef<AvatarEditor | null>(null);
+  const cropRef = useRef<AvatarEditor | null>(null)
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider =
     (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
-        setState(parseInt(e.target.value));
+        setState(parseInt(e.target.value))
       }
-    };
+    }
 
   // const handleFilterModal = () => {
   //   handleFilterModalOpen(photo)
@@ -39,28 +39,28 @@ const PhotoEditorModal = ({
   const handleSave = async () => {
     // подготовка данных
     if (cropRef.current) {
-      const avatar = cropRef.current.getImage().toDataURL();
+      const avatar = cropRef.current.getImage().toDataURL()
 
       // преобразование base64 в file
-      const result = await fetch(avatar);
-      const blob = await result.blob();
-      const file = new File([blob], "avatar", { type: "image/png" });
+      const result = await fetch(avatar)
+      const blob = await result.blob()
+      const file = new File([blob], 'avatar', { type: 'image/png' })
 
       // преобразование file в FormData
-      const formData = new FormData();
-      formData.append("avatar", file as File);
+      const formData = new FormData()
+      formData.append('avatar', file as File)
 
       try {
         await saveAvatarHandler(formData)
           .unwrap()
           .then(() => {
-            handleEditorClose();
-          });
+            handleEditorClose()
+          })
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
-  };
+  }
 
   return (
     <>
@@ -74,8 +74,8 @@ const PhotoEditorModal = ({
           scale={value / 10}
           rotate={rotateAngle}
           style={{
-            width: "100%",
-            height: "100%"
+            width: '100%',
+            height: '100%',
           }}
         />
       </StyledAvatarEditor>
@@ -91,10 +91,10 @@ const PhotoEditorModal = ({
           value={value}
           type="range"
           style={{
-            width: "80%",
-            "--min": 10,
-            "--max": 50,
-            "--val": value
+            width: '80%',
+            '--min': 10,
+            '--max': 50,
+            '--val': value,
           }}
         />
       </StyledSliderContainer>
@@ -109,24 +109,24 @@ const PhotoEditorModal = ({
           value={rotateAngle}
           type="range"
           style={{
-            width: "80%",
-            "--min": -180,
-            "--max": 180,
-            "--val": rotateAngle
+            width: '80%',
+            '--min': -180,
+            '--max': 180,
+            '--val': rotateAngle,
           }}
         />
       </StyledSliderContainer>
       <StyledContainerButton>
-        <Button theme={ThemeButton.PRIMARY} width={"86px"} onClick={handleSave}>
+        <Button theme={ThemeButton.PRIMARY} width={'86px'} onClick={handleSave}>
           Save
         </Button>
       </StyledContainerButton>
     </>
-  );
-};
+  )
+}
 
 // Стили
-export default PhotoEditorModal;
+export default PhotoEditorModal
 
 const StyledAvatarEditor = styled.div`
   margin: 20px auto;
@@ -139,7 +139,7 @@ const StyledAvatarEditor = styled.div`
     max-width: 340px;
     max-height: 340px;
   }
-`;
+`
 
 const StyledSliderContainer = styled.div`
   display: flex;
@@ -148,9 +148,9 @@ const StyledSliderContainer = styled.div`
 
   & label {
   }
-`;
+`
 
 const StyledContainerButton = styled.div`
   margin-left: auto;
   margin-right: 24px;
-`;
+`

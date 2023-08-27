@@ -1,5 +1,5 @@
-import { styled } from "styled-components";
-import Image from "next/image";
+import { styled } from 'styled-components'
+import Image from 'next/image'
 
 const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
   return (
@@ -9,27 +9,27 @@ const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
         width={90}
         height={90}
         alt="saved photo"
-        style={{ objectFit: "contain", left: "30px", top: "10px", padding: "5px 0" }}
+        style={{ objectFit: 'contain', left: '30px', top: '10px', padding: '5px 0' }}
       />
       <StyleDeletePhoto
         onClick={() => {
-          removePhotoFromList(index);
+          removePhotoFromList(index)
         }}
       >
         <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
       </StyleDeletePhoto>
     </>
-  );
-};
+  )
+}
 
-export default SmallPhoto;
+export default SmallPhoto
 
 // Типы
 type SmallProtoProps = {
-  photo: string;
-  removePhotoFromList: (index: number) => void;
-  index: number;
-};
+  photo: string
+  removePhotoFromList: (index: number) => void
+  index: number
+}
 
 // Стили
 const StyleDeletePhoto = styled.button`
@@ -41,4 +41,4 @@ const StyleDeletePhoto = styled.button`
   right: 21px;
   bottom: 28px;
   cursor: pointer;
-`;
+`

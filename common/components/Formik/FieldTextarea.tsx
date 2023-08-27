@@ -1,6 +1,6 @@
-import { TextAreaPropsType } from "./types";
-import { ChangeEvent } from "react";
-import { StyledTextArea } from "./Formik.styled";
+import { TextAreaPropsType } from './types'
+import { ChangeEvent } from 'react'
+import { StyledTextArea } from './Formik.styled'
 
 export const FieldTextarea = (props: TextAreaPropsType) => {
   return (
@@ -9,5 +9,5 @@ export const FieldTextarea = (props: TextAreaPropsType) => {
       width={props.width}
       value={props.value}
     />
-  );
-};
+  )
+}

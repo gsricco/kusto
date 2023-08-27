@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {
   CheckLinkType,
   LoginResponseType,
@@ -7,83 +7,83 @@ import {
   NewPasswordResType,
   NewPasswordType,
   RegistrationType,
-  SendLinkType
-} from "./types";
-import { getItem } from "../../../../common/hooks/useLocalStorage";
+  SendLinkType,
+} from './types'
+import { getItem } from '../../../../common/hooks/useLocalStorage'
 
 export const authApi = createApi({
-  reducerPath: "authApi",
+  reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/",
-    fetchFn: async (url) => {
-      const token = getItem("accessToken");
+    baseUrl: 'https://calypso-one.vercel.app/',
+    fetchFn: async url => {
+      const token = getItem('accessToken')
       const options = {
         headers: new Headers({
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        })
-      };
-      return await fetch(url, options);
-    }
+          'Content-Type': 'application/json',
+        }),
+      }
+      return await fetch(url, options)
+    },
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     registration: builder.mutation<any, RegistrationType>({
-      query: (body) => ({
-        url: "auth/registration",
-        method: "POST",
-        body
-      })
+      query: body => ({
+        url: 'auth/registration',
+        method: 'POST',
+        body,
+      }),
     }),
     login: builder.mutation<LoginResponseType, LoginType>({
-      query: (body) => ({
-        url: "auth/login",
-        method: "POST",
-        body
-      })
+      query: body => ({
+        url: 'auth/login',
+        method: 'POST',
+        body,
+      }),
     }),
     sendRecoveryLink: builder.mutation<any, SendLinkType>({
-      query: (body) => ({
-        method: "POST",
+      query: body => ({
+        method: 'POST',
         url: `/auth/password-recovery`,
-        body
-      })
+        body,
+      }),
     }),
     newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
-      query: (body) => {
+      query: body => {
         return {
-          method: "POST",
+          method: 'POST',
           url: `/auth/new-password`,
-          body
-        };
-      }
+          body,
+        }
+      },
     }),
     checkLinkHandler: builder.query<any, CheckLinkType>({
-      query: (code) => {
+      query: code => {
         return {
-          method: "GET",
-          url: `/auth/email-confirmation/${code}`
-        };
-      }
+          method: 'GET',
+          url: `/auth/email-confirmation/${code}`,
+        }
+      },
     }),
     refreshLink: builder.mutation<any, any>({
-      query: (body) => {
+      query: body => {
         return {
-          method: "POST",
+          method: 'POST',
           url: `/auth/refresh-link`,
-          body
-        };
-      }
+          body,
+        }
+      },
     }),
     me: builder.query<MeType, void>({
       query: () => {
         return {
-          method: "GET",
-          url: `/auth/me`
-        };
-      }
-    })
-  })
-});
+          method: 'GET',
+          url: `/auth/me`,
+        }
+      },
+    }),
+  }),
+})
 
 export const {
   useRegistrationMutation,
@@ -92,5 +92,5 @@ export const {
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
-  useLazyMeQuery
-} = authApi;
+  useLazyMeQuery,
+} = authApi

@@ -14,3 +14,5 @@ declare namespace NodeJS {
     GOOGLE_REDIRECT_URI: string | null;
   }
 }
+
+declare module '@it-incubator/prettier-config'

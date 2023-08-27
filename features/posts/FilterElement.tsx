@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Canvas from "./Canvas";
-import { useState } from "react";
-import Image from "next/image";
+import styled from 'styled-components'
+import Canvas from './Canvas'
+import { useState } from 'react'
+import Image from 'next/image'
 
 /// //  Элемент, отображающий изображение с наложенным фильтром   /// //
 
@@ -9,16 +9,16 @@ const FilterElement = ({
   photoUrl,
   filterTitle,
   filter,
-  handleFilter
+  handleFilter,
 }: {
-  photoUrl: string;
-  filterTitle: string;
-  filter: string;
-  handleFilter: (filterTitle: string) => void;
+  photoUrl: string
+  filterTitle: string
+  filter: string
+  handleFilter: (filterTitle: string) => void
 }) => {
   const handleFilterChose = () => {
-    handleFilter(filter);
-  };
+    handleFilter(filter)
+  }
 
   return (
     <StyledModalBody onClick={handleFilterChose}>
@@ -27,14 +27,14 @@ const FilterElement = ({
         width={108}
         height={108}
         alt="nolmal"
-        style={{ objectFit: "contain", filter: filter }}
+        style={{ objectFit: 'contain', filter: filter }}
       />
       <StyledFilterTitle>{filterTitle}</StyledFilterTitle>
     </StyledModalBody>
-  );
-};
+  )
+}
 
-export default FilterElement;
+export default FilterElement
 
 const StyledModalBody = styled.div`
   display: flex;
@@ -42,10 +42,10 @@ const StyledModalBody = styled.div`
 
   padding: 10px;
   margin: auto;
-`;
+`
 
 const StyledFilterTitle = styled.div`
   width: 100%;
   max-width: 160px;
   text-align: center;
-`;
+`

@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import PostPhotoSelectModal from "./PostPhotoSelectModal";
-import FilterModal from "./FilterModal";
-import PostDescriptionModal from "./PostDescriptionModal";
-import PostResizeModal from "./PostResizeModal";
-import { useOutsideClick } from "common/hooks/useOutsideClick";
-import { Modal } from "common/components/Modals/ModalPublic/Modal";
-import styled from "styled-components";
-import { TFunction } from "next-i18next";
-
+import React, { useState, useRef, useEffect } from 'react'
+import PostPhotoSelectModal from './PostPhotoSelectModal'
+import FilterModal from './FilterModal'
+import PostDescriptionModal from './PostDescriptionModal'
+import PostResizeModal from './PostResizeModal'
+import { useOutsideClick } from 'common/hooks/useOutsideClick'
+import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import styled from 'styled-components'
+import { TFunction } from 'next-i18next'
 
 ///  //  Модальное окно для создания поста: выбор изображений,       //  ///
 //     наложение фильтров,  изменение размеров, добавление описания        //
@@ -15,67 +14,67 @@ import { TFunction } from "next-i18next";
 const PostCreationModal = ({
   handleEditorClose,
   handleFullScreen,
-  setIsOpenModalEdit
+  setIsOpenModalEdit,
 }: {
-  handleEditorClose: () => void;
-  handleFullScreen: (full: boolean) => void;
-  setIsOpenModalEdit: (state: boolean) => void;
+  handleEditorClose: () => void
+  handleFullScreen: (full: boolean) => void
+  setIsOpenModalEdit: (state: boolean) => void
 }) => {
-  const [openComp, setOpenComp] = useState(true); // открытие модального окна для выбора изображения
-  const [photoPost, setPhotoPost] = useState<PhotoType[]>([]); // массив объектов с параметрами изображения
-  const [isFilterOpen, setIsFilterOpen] = useState(false); // открытие модального окна для наложения фильтров
-  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false); // открытие модального окна для описания поста
-  const [openResize, setOpenResize] = useState(false); // открытие модального окна изменения размеров изображения
-  const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+  const [openComp, setOpenComp] = useState(true) // открытие модального окна для выбора изображения
+  const [photoPost, setPhotoPost] = useState<PhotoType[]>([]) // массив объектов с параметрами изображения
+  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
+  const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
+  const [photoFile, setPhotoFile] = useState<File>() // изображение, передаваемое в компоненту редактирования
 
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
-    setOpenComp(false);
-    setOpenResize(true);
-  };
+    setOpenComp(false)
+    setOpenResize(true)
+  }
 
   // Обработчик перехода из окна изменения размеров в окно выбора изображения
   const handleAddPhotoButton = () => {
-    setOpenComp(true);
-    setOpenResize(false);
-  };
+    setOpenComp(true)
+    setOpenResize(false)
+  }
 
   // Обработчик перехода из окна изменения размеров в окно наложения фильтров
   const handleNextToFilterButton = () => {
-    setIsFilterOpen(true);
-    setOpenResize(false);
-  };
+    setIsFilterOpen(true)
+    setOpenResize(false)
+  }
 
   // Обработчик перехода из окна наложения фильтров в окно добавления описания
   const handleNextToPublishButton = (photoPost: PhotoType[]) => {
-    setIsDescriptionOpen(true);
-    setIsFilterOpen(false);
-    setPhotoPost(photoPost);
-  };
+    setIsDescriptionOpen(true)
+    setIsFilterOpen(false)
+    setPhotoPost(photoPost)
+  }
 
   // Обработчик перехода из окна наложения фильтров в окно изменения размеров
   const handleBackToEditor = (photoPost: PhotoType[]) => {
-    setOpenResize(true);
-    setIsFilterOpen(false);
-    setPhotoPost(photoPost);
-  };
+    setOpenResize(true)
+    setIsFilterOpen(false)
+    setPhotoPost(photoPost)
+  }
 
   // Обработчик перехода из окна добавления описания в окно наложения фильтров
   const handleBackToFilters = (photoPost: PhotoType[]) => {
-    setIsFilterOpen(true);
-    setIsDescriptionOpen(false);
-    setPhotoPost(photoPost);
-  };
+    setIsFilterOpen(true)
+    setIsDescriptionOpen(false)
+    setPhotoPost(photoPost)
+  }
 
-  const [closeCreation, setCloseCreation] = useState(false);
+  const [closeCreation, setCloseCreation] = useState(false)
 
   const ref = useOutsideClick(() => {
-    setCloseCreation(true);
-  });
+    setCloseCreation(true)
+  })
 
   const close = () => {
-    setIsOpenModalEdit(false);
-  };
+    setIsOpenModalEdit(false)
+  }
 
   return (
     <>
@@ -98,7 +97,7 @@ const PostCreationModal = ({
         {openComp && (
           <PostPhotoSelectModal
             handleModalClose={handleEditorClose}
-            avatar={""}
+            avatar={''}
             setPhotoFile={setPhotoFile}
             handleNextToResize={handleNextToResize}
           />
@@ -129,17 +128,17 @@ const PostCreationModal = ({
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
 // Стили
-export default PostCreationModal;
+export default PostCreationModal
 
 export type PhotoType = {
-  photoUrl: string;
-  filter: string;
-  photoUrlWithFilter: string;
-};
+  photoUrl: string
+  filter: string
+  photoUrlWithFilter: string
+}
 
 const ModalBtn = styled.button`
   background: black;
@@ -152,4 +151,4 @@ const ModalBtn = styled.button`
     color: white;
     background: #397df6;
   }
-`;
+`

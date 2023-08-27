@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { NextPageWithLayout } from "./_app";
-import { getLayout } from "../common/components/Layout/BaseLayout/BaseLayout";
-import Link from "next/link";
-import { Path } from "../common/enums/path";
-import kusto from "../public/img/kusto.png";
-import styled from "styled-components";
-import { baseTheme } from "../styles/styledComponents/theme";
+import Image from 'next/image'
+import { NextPageWithLayout } from './_app'
+import { getLayout } from '../common/components/Layout/BaseLayout/BaseLayout'
+import Link from 'next/link'
+import { Path } from '../common/enums/path'
+import kusto from '../public/img/kusto.png'
+import styled from 'styled-components'
+import { baseTheme } from '../styles/styledComponents/theme'
 
 const Home: NextPageWithLayout = () => (
   <>
@@ -43,10 +43,10 @@ const Home: NextPageWithLayout = () => (
       </p>
     </StyledBlockMain>
   </>
-);
+)
 
-Home.getLayout = getLayout;
-export default Home;
+Home.getLayout = getLayout
+export default Home
 
 const StyledBlockMain = styled.div`
   display: flex;
@@ -57,4 +57,4 @@ const StyledBlockMain = styled.div`
     color: ${baseTheme.colors.light[100]};
     text-decoration: none;
   }
-`;
+`
