@@ -51,7 +51,7 @@ export default function Recovery() {
   const { t } = useTranslation();
   const captchaRef = useRef<ReCAPTCHA>(null)
 
-  const secret = "6Le96RMnAAAAAE9dOL6eVQHJ1HYsNAo4OUbDGWIg"
+  const secret = "6LfzA8wnAAAAAA57MQH3xVO0jhHQjAn4iTJyo8tv"
   // const secret = process.env.RECAPTCHA_SITE_KEY as string
   
   const handleModalClose = () => {
@@ -137,7 +137,7 @@ export default function Recovery() {
         <ReCAPTCHA
           sitekey={secret} 
           size="normal"
-          // ref={captchaRef}
+          ref={captchaRef}
         />
         {/* <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" /> */}
       </WrapperContainerAuth>

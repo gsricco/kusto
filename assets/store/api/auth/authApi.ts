@@ -14,7 +14,7 @@ import { getItem } from "../../../../common/hooks/useLocalStorage";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/",
+    baseUrl: "https://kustogram.site/api/v1/",
     fetchFn: async (url) => {
       const token = getItem("accessToken");
       const options = {
