@@ -51,7 +51,7 @@ export default function Recovery() {
   const { t } = useTranslation();
   const captchaRef = useRef<ReCAPTCHA>(null)
 
-  const secret = "6Le96RMnAAAAAE9dOL6eVQHJ1HYsNAo4OUbDGWIg"
+  const secret = "6LcmGd8nAAAAAEYCarXOl4AWXZ80PLvtwAy58X-v"
   // const secret = process.env.RECAPTCHA_SITE_KEY as string
   
   const handleModalClose = () => {
@@ -66,19 +66,20 @@ export default function Recovery() {
   }, [result]);
 
   const handleSubmit = async (values: FormValueRecovery, { resetForm }: ResetForm) => {
-    const captcha = await captchaRef.current?.executeAsync();
-
-    if (captchaRef.current !== null)  {
+    // const captcha = await captchaRef.current?.executeAsync();
+    if (captchaRef.current == null)  {
       console.log("ERROR")  
     } else {
       const recaptcha = captchaRef.current as unknown as ReCAPTCHA
       const token = recaptcha.getValue();
+      console.log(token)
+
       recaptcha.reset();
     
 
       const data = {
         email: values.email,
-        recaptchaValue: captcha
+        recaptchaValue: token
       };
 
       await recoveryHandler(data)
@@ -137,7 +138,7 @@ export default function Recovery() {
         <ReCAPTCHA
           sitekey={secret} 
           size="normal"
-          // ref={captchaRef}
+          ref={captchaRef}
         />
         {/* <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" /> */}
       </WrapperContainerAuth>
