@@ -1,42 +1,37 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
+import { useRegistrationMutation } from 'assets/store/api/auth/authApi'
+import { RegistrationResponseError } from 'assets/store/api/auth/types'
+import { Button } from 'common/components/Button/Button'
+import { FormikLabel } from 'common/components/Formik/FormikLabel'
+import { FormValueRegistration, ResetForm, SetFieldErrorType } from 'common/components/Formik/types'
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
+import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
+import { useShowPassword } from 'common/hooks/useShowPassword'
 import { registrationErrorHandler } from 'common/utils/registrationErrorHandler'
+import { validateRegistration } from 'common/utils/validateRegistraition'
+import AuthIcons from 'features/auth/AuthIcons'
+import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
+import config from 'next-i18next.config.js'
+import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
+import showPasswordBtn from 'public/img/icons/eye-outline.svg'
 import styled from 'styled-components'
-import { useRegistrationMutation } from '../../../assets/store/api/auth/authApi'
-import { Button } from '../../../common/components/Button/Button'
-import { getLayout } from '../../../common/components/Layout/BaseLayout/BaseLayout'
-import { useShowPassword } from '../../../common/hooks/useShowPassword'
-import { validateRegistration } from '../../../common/utils/validateRegistraition'
-import AuthIcons from '../../../features/auth/AuthIcons'
-import { WrapperContainerAuth } from '../../../features/auth/WrapperContainerAuth'
-import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
-import {
-  FormValueRegistration,
-  ResetForm,
-  SetFieldErrorType,
-} from '../../../common/components/Formik/types'
-import config from '../../../next-i18next.config.js'
-import hidePasswordBtn from '../../../public/img/icons/eye-off-outline.svg'
-import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
+import { StyledContainerAuth } from 'styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
   StyledSignIn,
   StyledSignInWrapper,
   StyledText,
-} from '../../../styles/styledComponents/auth/FormikAuth.styled'
-
-import { Path } from '../../../common/enums/path'
-import { ThemeButton } from '../../../common/enums/themeButton'
-import { useLocalStorage } from '../../../common/hooks/useLocalStorage'
-import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
-import showPasswordBtn from '../../../public/img/icons/eye-outline.svg'
+} from 'styles/styledComponents/auth/FormikAuth.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -48,7 +43,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
-export default function Registration() {
+const Registration = () => {
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
     useShowPassword()
 
@@ -62,7 +57,7 @@ export default function Registration() {
   const [registrationHandler] = useRegistrationMutation()
   const [isModalActive, setIsModalActive] = useState(false)
   const router = useRouter()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { setItem, getItem } = useLocalStorage()
 
   const handleModalClose = () => {
@@ -88,8 +83,8 @@ export default function Registration() {
           resetForm()
           setIsModalActive(true)
         })
-    } catch (error: any) {
-      registrationErrorHandler(error, t, { setFieldError })
+    } catch (error: unknown) {
+      registrationErrorHandler(error as RegistrationResponseError, t, { setFieldError })
     }
   }
 
@@ -199,5 +194,7 @@ export default function Registration() {
 const StyledButton = styled(Button)`
   margin-top: 20px;
 `
+
+export default Registration
 
 Registration.getLayout = getLayout

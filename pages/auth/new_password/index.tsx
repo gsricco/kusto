@@ -1,28 +1,25 @@
-import React from 'react'
-
 import { RegistrationResponseError } from 'assets/store/api/auth/types'
 import { Formik } from 'formik'
-
-import { Button } from '../../../common/components/Button/Button'
-import { validateNewPassword } from '../../../common/utils/validateNewPassword'
-import { useRouter } from 'next/router'
-import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
-import config from 'next-i18next.config.js'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
-import { Path } from '../../../common/enums/path'
-import { ThemeButton } from '../../../common/enums/themeButton'
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 import { baseTheme } from 'styles/styledComponents/theme'
+
 import { useNewPasswordMutation } from '../../../assets/store/api/auth/authApi'
+import { Button } from '../../../common/components/Button/Button'
 import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
 import { FormNewPasswordType, ResetForm } from '../../../common/components/Formik/types'
 import { getLayout } from '../../../common/components/Layout/BaseLayout/BaseLayout'
+import { Path } from '../../../common/enums/path'
+import { ThemeButton } from '../../../common/enums/themeButton'
 import { useShowPassword } from '../../../common/hooks/useShowPassword'
+import { validateNewPassword } from '../../../common/utils/validateNewPassword'
 import { WrapperContainerAuth } from '../../../features/auth/WrapperContainerAuth'
 import hidePasswordBtn from '../../../public/img/icons/eye-off-outline.svg'
 import showPasswordBtn from '../../../public/img/icons/eye-outline.svg'
+import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
@@ -40,7 +37,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
-export default function NewPassword() {
+const NewPassword = () => {
   const initialAuthValues = {
     passwordConfirmation: '',
     newPassword: '',
@@ -148,5 +145,7 @@ export default function NewPassword() {
     </StyledContainerAuth>
   )
 }
+
+export default NewPassword
 
 NewPassword.getLayout = getLayout

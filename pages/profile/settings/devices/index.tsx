@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { getUserBrowser } from 'common/utils/getUserBrowser'
 import Image from 'next/image'
@@ -52,10 +52,10 @@ const Devices = () => {
           <EndSessionsBtn>Terminate all other session</EndSessionsBtn>
         </SessionWrapper>
         <SessionWrapper>
-          <>Active sessions</>
-          {fakeDevices.map((device, index) => {
+          <div>Active sessions</div>
+          {fakeDevices.map(device => {
             return (
-              <ActiveSession key={index} style={{ marginBottom: '12px' }}>
+              <ActiveSession key={device.deviseIcon} style={{ marginBottom: '12px' }}>
                 <DeviceIcon alt="browser icon" src={device.deviseIcon} />
                 <Wrapper>
                   <Browser>{device.device}</Browser>

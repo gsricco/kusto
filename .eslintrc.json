@@ -133,7 +133,7 @@
     ],
     "no-use-before-define": "off",
     "no-param-reassign": [
-      "error",
+      "warn",
       {
         "props": true,
         "ignorePropertyModificationsFor": [
@@ -206,7 +206,8 @@
     "no-continue": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
-    "no-unused-expressions": ["error", { "allowTernary": true }]
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "react/jsx-no-useless-fragment": "warn"
   },
   "globals": {
     "JSX": true

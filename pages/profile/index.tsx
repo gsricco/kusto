@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
 import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
 import Post from 'common/components/Post/Post'
-import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
-import { LoginNavigate } from 'common/hoc/LoginNavigate'
+// import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+// import { LoginNavigate } from 'common/hoc/LoginNavigate'
 import ProfileElement from 'features/profile/ProfileElement'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -24,6 +24,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 const MyProfile = () => {
+  const postsPerPage = 9
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
@@ -34,7 +35,7 @@ const MyProfile = () => {
   const [isPostActive, setIsPostActive] = useState(false)
 
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(9)
+  const [pageSize, setPageSize] = useState(postsPerPage)
   const [userId, setUserId] = useState('')
 
   const { t } = useTranslation()

@@ -129,7 +129,7 @@ const PostResizeModal = ({
     try {
       const ratio = await getImageRatio(url)
       const sizeDataWithRatio = sizeData.map(item => {
-        if (item.size == 'original') item.setRatio = ratio
+        if (item.size === 'original') item.setRatio = ratio
 
         return item
       })

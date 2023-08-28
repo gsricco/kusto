@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
 

@@ -1,14 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Field, Formik } from 'formik'
-
-import { FormValueProfile } from '../../../common/components/Formik/types'
-
+import {
+  useLazyAuthMeQuery,
+  useLazyProfileQuery,
+  useSaveProfileInfoMutation,
+} from 'assets/store/api/profile/profileApi'
+import { Button } from 'common/components/Button/Button'
+import { FormikLabel } from 'common/components/Formik/FormikLabel'
+import { FormValueProfile } from 'common/components/Formik/types'
+import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
+import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
+import { validateProfile } from 'common/utils/validateProfile'
+import PhotoSelectModal from 'features/profile/PhotoSelectModal'
+import ProfileCalendar from 'features/settings/ProfileCalendar'
+import { SettingsPageWrapper } from 'features/settings/SettingsPageWrapper'
+import { Formik } from 'formik'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
-import { getLayout } from '../../../common/components/Layout/PageLayout/PageLayout'
+// import Calendar from 'common/components/Calendar/Calendar'
+// import FilterModal from 'features/posts/FilterModal'
+// import { isElementAccessExpression } from 'typescript'
+// import { StyledErrorMsg, StyledField } from 'common/components/Formik/Formik.styled'
+import { GetStaticPropsContext } from 'next'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Path } from '../../../common/enums/path'
-import Calendar from 'common/components/Calendar/Calendar'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 import {
   BlockButton,
   IconBlock,
@@ -17,29 +37,6 @@ import {
   StyledLine,
   StyledProfileForm,
 } from 'styles/styledComponents/profile/Settings.styled'
-import FilterModal from 'features/posts/FilterModal'
-import { isElementAccessExpression } from 'typescript'
-import { StyledErrorMsg, StyledField } from 'common/components/Formik/Formik.styled'
-import PhotoSelectModal from 'features/profile/PhotoSelectModal'
-import ProfileCalendar from 'features/settings/ProfileCalendar'
-import { GetStaticPropsContext } from 'next'
-import Image from 'next/image'
-import config from 'next-i18next.config.js'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
-import {
-  useLazyAuthMeQuery,
-  useLazyProfileQuery,
-  useSaveProfileInfoMutation,
-} from '../../../assets/store/api/profile/profileApi'
-import { Button } from '../../../common/components/Button/Button'
-import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
-import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
-import { ThemeButton } from '../../../common/enums/themeButton'
-import { useLocalStorage } from '../../../common/hooks/useLocalStorage'
-import { validateProfile } from '../../../common/utils/validateProfile'
-import { SettingsPageWrapper } from '../../../features/settings/SettingsPageWrapper'
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -128,7 +125,9 @@ const GeneralInformation = () => {
           setIsModalOpen({ photoModal: false, saveProfileModal: true, filterModal: false })
           router.push(Path.PROFILE_SETTINGS)
         })
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
   // обработчик нажатия кнопки для открытия окна смены аватарки
   const handleAddPhoto = () => {

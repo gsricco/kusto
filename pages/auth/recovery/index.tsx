@@ -1,32 +1,30 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
+import { useSendRecoveryLinkMutation } from 'assets/store/api/auth/authApi'
+import { Button } from 'common/components/Button/Button'
+import { FormikLabel } from 'common/components/Formik/FormikLabel'
+import { FormValueRecovery, ResetForm } from 'common/components/Formik/types'
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
+import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { validateRecovery } from 'common/utils/validateRecovery'
+import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
-import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import ReCAPTCHA from 'react-google-recaptcha'
-
-import { useSendRecoveryLinkMutation } from '../../../assets/store/api/auth/authApi'
-import { Button } from '../../../common/components/Button/Button'
-import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
-import { getLayout } from '../../../common/components/Layout/BaseLayout/BaseLayout'
-import { WrapperContainerAuth } from '../../../features/auth/WrapperContainerAuth'
-import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
+import { StyledContainerAuth } from 'styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
   StyledRecoveryWrapper,
   StyledSignIn,
   StyledSignInWrapper,
   StyledText,
-} from '../../../styles/styledComponents/auth/FormikAuth.styled'
-import { FormValueRecovery, ResetForm } from '../../../common/components/Formik/types'
-import { validateRecovery } from '../../../common/utils/validateRecovery'
-import { baseTheme } from '../../../styles/styledComponents/theme'
-import { ThemeButton } from '../../../common/enums/themeButton'
-import { Path } from '../../../common/enums/path'
-import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
+} from 'styles/styledComponents/auth/FormikAuth.styled'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -38,7 +36,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
-export default function Recovery() {
+const Recovery = () => {
   const initialAuthValues = {
     email: '',
   }
@@ -73,7 +71,7 @@ export default function Recovery() {
       console.log('ERROR')
     } else {
       const recaptcha = captchaRef.current as unknown as ReCAPTCHA
-      const token = recaptcha.getValue()
+      // const token = recaptcha.getValue()
 
       recaptcha.reset()
 
@@ -143,6 +141,7 @@ export default function Recovery() {
       </WrapperContainerAuth>
       {isModalOpen && (
         <Modal
+          // eslint-disable-next-line no-useless-concat
           bodyText={`${t('email_modal_text')} ` + `${email}`}
           handleModalClose={handleModalClose}
           height="auto"
@@ -156,5 +155,7 @@ export default function Recovery() {
     </StyledContainerAuth>
   )
 }
+
+export default Recovery
 
 Recovery.getLayout = getLayout

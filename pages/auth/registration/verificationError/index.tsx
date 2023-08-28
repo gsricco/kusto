@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { GetStaticPropsContext } from 'next'
