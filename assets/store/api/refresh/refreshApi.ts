@@ -4,7 +4,7 @@ import { AccessToken } from "./types";
 export const refreshApi = createApi({
   reducerPath: "refreshApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/auth/",
+    baseUrl: "https://kustogram.site/api/v1/",
     credentials: "include",
     prepareHeaders: (headers) => {
       return headers;

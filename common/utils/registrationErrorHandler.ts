@@ -10,7 +10,19 @@ export const registrationErrorHandler = (
   if ("data" in error) {
     const messages = error.data.errorsMessages;
     messages.forEach(({ message, field }) => {
-      setFieldError(field, message);
+      let tMessage = ''
+      switch(message) {
+        case "Invalid email": 
+          tMessage = t("invalid_email")
+          break
+        case "User with this email is already registered":
+          tMessage = t("email_err")
+          break
+        case "User with this username is already registered":
+          tMessage = t("user_err")
+          break
+      }
+      setFieldError(field, tMessage);
     });
 
     // if (messages.length > 1) {
