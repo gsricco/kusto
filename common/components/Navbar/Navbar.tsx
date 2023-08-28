@@ -17,10 +17,10 @@ export type NavbarPropsType = {
   showNavbar: string | string[] | undefined;
   openModalHandler: () => void;
 };
-export const Navbar = ({ showNavbar, openModalHandler}: NavbarPropsType) => {
+export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
   const location = usePathname();
 
-  const { t } = useTranslation("nav_bar")
+  const { t } = useTranslation("nav_bar");
 
   const isActive = (name: string) => (location === name ? "active" : "");
 

@@ -10,7 +10,7 @@ type CreatePostProps = {
   setIsOpenModalEdit: (state: boolean) => void;
 };
 
-export const CreatePost: FC<CreatePostProps> = ({ isOpenModalEdit, setIsOpenModalEdit}) => {
+export const CreatePost: FC<CreatePostProps> = ({ isOpenModalEdit, setIsOpenModalEdit }) => {
   // const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(true);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
 
