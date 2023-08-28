@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+
 import { getItem } from './useLocalStorage'
 
 export const useAuth = () => {

@@ -7,12 +7,12 @@ const Canvas = ({
   height,
   setImageUrl,
 }: {
+  filter: string
+  height: string
   key?: number
   photo: string
-  filter: string
-  width: string
-  height: string
   setImageUrl: (canvasUrl: string) => void
+  width: string
 }) => {
   const canvasRef = useRef(null)
 
@@ -27,8 +27,10 @@ const Canvas = ({
       let newHeight = 0
       let xOffset = 0
       let yOffset = 0
+
       if (canvas) {
         const ratio = img.width / img.height
+
         newWidth = canvas.width
         newHeight = newWidth / ratio
         if (newHeight > canvas.height) {
@@ -41,7 +43,8 @@ const Canvas = ({
         context.filter = filter
 
         setTimeout(function () {
-          let canvasUrl = canvas.toDataURL('image/jpeg')
+          const canvasUrl = canvas.toDataURL('image/jpeg')
+
           setImageUrl(canvasUrl)
         }, 2000)
       }
@@ -52,7 +55,7 @@ const Canvas = ({
     img.src = photo
   }, [])
 
-  return <canvas ref={canvasRef} width={width} height={height} />
+  return <canvas ref={canvasRef} height={height} width={width} />
 }
 
 export default Canvas

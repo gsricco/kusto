@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
+import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+
 import {
   CreatePostResponse,
   EditPostRequest,
@@ -6,7 +8,6 @@ import {
   GetUserPostsRequest,
   GetUserPostsResponse,
 } from './types'
-import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
@@ -56,7 +57,7 @@ export const postsApi = createApi({
     }),
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
       query: ({ userId, pageNumber, pageSize }) => ({
-        url: userId + `?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       }),
       providesTags: ['deletePost', 'createPost'],
       extraOptions: { maxRetries: 3 },

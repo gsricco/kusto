@@ -1,8 +1,10 @@
-import styled from 'styled-components'
-import { baseTheme } from '../theme'
-import Link from 'next/link'
-import Image from 'next/image'
 import { Form } from 'formik'
+import Image from 'next/image'
+import Link from 'next/link'
+import styled from 'styled-components'
+
+import { baseTheme } from '../theme'
+
 import { AuthFormPropsType } from './types'
 
 // export const StyledContainerAuth = styled.div
@@ -53,9 +55,9 @@ export const StyledSignInWrapper = styled.div<{ margin?: string }>`
 
 export const StyledText = styled.p<{
   color?: string
+  fontSize?: string
   textAlign?: string
   width?: string
-  fontSize?: string
 }>`
   width: ${props => (props.width ? props.width : '300px')};
   text-align: ${props => (props.textAlign ? props.textAlign : 'center')};

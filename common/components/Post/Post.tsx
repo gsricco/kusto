@@ -1,22 +1,25 @@
-import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
-import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
+
+import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
+import { useAuthMeQuery, useProfileQuery } from 'assets/store/api/profile/profileApi'
+import Image from 'next/image'
 import { styled } from 'styled-components'
-import more from '../../../public/img/icons/more-horizontal-outline.svg'
+
+import bookMark from '../../../public/img/icons/bookmark-select.svg'
+import bookMarkOutline from '../../../public/img/icons/bookmark.svg'
 import close from '../../../public/img/icons/close_white.svg'
+import edit from '../../../public/img/icons/edit-2-outline.svg'
 import likeOutline from '../../../public/img/icons/heart-outline.svg'
 import like from '../../../public/img/icons/heart.svg'
+import more from '../../../public/img/icons/more-horizontal-outline.svg'
+import nextBtn from '../../../public/img/icons/next.svg'
 import planeOutline from '../../../public/img/icons/paper-plane-outline.svg'
 import plane from '../../../public/img/icons/paper-plane.svg'
-import bookMarkOutline from '../../../public/img/icons/bookmark.svg'
-import bookMark from '../../../public/img/icons/bookmark-select.svg'
-import edit from '../../../public/img/icons/edit-2-outline.svg'
-import trash from '../../../public/img/icons/trash-outline.svg'
 import prevBtn from '../../../public/img/icons/prev.svg'
-import nextBtn from '../../../public/img/icons/next.svg'
-import { useAuthMeQuery, useProfileQuery } from 'assets/store/api/profile/profileApi'
-import { fakeData } from './fakeData'
+import trash from '../../../public/img/icons/trash-outline.svg'
 import { Modal } from '../../components/Modals/ModalPublic/Modal'
+
+import { fakeData } from './fakeData'
 
 type PostProps = {
   postInfo: any
@@ -46,12 +49,10 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
       } else {
         setCurrentImage(prev => prev + 1)
       }
+    } else if (currentImage === 0) {
+      setCurrentImage(images.length - 1)
     } else {
-      if (currentImage === 0) {
-        setCurrentImage(images.length - 1)
-      } else {
-        setCurrentImage(prev => prev - 1)
-      }
+      setCurrentImage(prev => prev - 1)
     }
   }
 
@@ -81,9 +82,10 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
       const data = {
         postId: postInfo.id,
         body: {
-          description: description,
+          description,
         },
       }
+
       updatePost(data)
         .unwrap()
         .then(() => setIsEditDescription(false))
@@ -98,9 +100,9 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
     <StyledPostOverlay>
       {isDeleteModal && (
         <Modal
-          title="Delete Post"
-          bodyText={`Are you sure you want to delete this post?`}
+          bodyText="Are you sure you want to delete this post?"
           handleCrossClick={handleCrossClick}
+          title="Delete Post"
         >
           <>
             <ModalButton onClick={deletePostHandler}>Yes</ModalButton>
@@ -112,9 +114,9 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
         <StyledImageWrapper>
           <StyledPostImage
             alt="post image"
+            height={560}
             src={images.length ? images[currentImage].url : ''}
             width={490}
-            height={560}
           />
           {images.length > 1 ? (
             <>
@@ -128,7 +130,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             <StyledCommentsHeading>
               <CloseModal alt="close" src={close} onClick={() => setIsPostActive(false)} />
               <User>
-                <StyledAvatar alt="avatar" src={profile?.photo || ''} width={48} height={48} />
+                <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
                 <StyledUsername>{user?.login}</StyledUsername>
               </User>
               <EditPost
@@ -139,11 +141,11 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               {isPostManagmentsActive && (
                 <PostManagment>
                   <Operation onClick={editPostOperation}>
-                    <StyledIcon src={edit} alt="edit" />
+                    <StyledIcon alt="edit" src={edit} />
                     <TypeOfOperation>Edit Post</TypeOfOperation>
                   </Operation>
                   <Operation onClick={deleteOperationHandler}>
-                    <StyledIcon src={trash} alt="delete" />
+                    <StyledIcon alt="delete" src={trash} />
                     <TypeOfOperation>Delete Post</TypeOfOperation>
                   </Operation>
                 </PostManagment>
@@ -152,7 +154,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             <CommentsWrapper>
               {postInfo?.description && (
                 <SingleCommentWrapper>
-                  <StyledAvatar alt="avatar" src={profile?.photo || ''} width={36} height={36} />
+                  <StyledAvatar alt="avatar" height={36} src={profile?.photo || ''} width={36} />
                   <PostDescription>
                     {profile?.login} {postInfo?.description}
                   </PostDescription>
@@ -165,9 +167,9 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
 
                   <StyledIcon
                     alt="like"
+                    size="small"
                     src={isLiked ? like : likeOutline}
                     onClick={() => setIsLiked(prev => !prev)}
-                    size="small"
                   />
                 </SingleCommentWrapper>
               ))}
@@ -193,7 +195,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               <StyledIcon alt="close" src={close} onClick={closeDescriptionModal} />
             </EditPostHeader>
             <User>
-              <StyledAvatar alt="avatar" src={profile?.photo || ''} width={48} height={48} />
+              <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
               <StyledUsername>{user?.login}</StyledUsername>
             </User>
             <NewDescriptionWrapper>

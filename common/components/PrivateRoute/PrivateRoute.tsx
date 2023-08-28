@@ -1,7 +1,8 @@
-import { Path } from 'common/enums/path'
 import React, { useEffect, ReactNode } from 'react'
-import { useRouter } from 'next/router'
+
+import { Path } from 'common/enums/path'
 import { useAuth } from 'common/hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const canActivate = useAuth()

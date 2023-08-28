@@ -1,15 +1,19 @@
-import type { AppProps } from 'next/app'
 import React, { ReactElement, ReactNode } from 'react'
-import { NextPage } from 'next'
-import { useLoader } from '../common/hooks/useLoader'
-import 'styles/nprogress.css'
-import { Provider } from 'react-redux'
-import { store } from '../assets/store/store'
-import { appWithTranslation } from 'next-i18next'
-import { createGlobalStyle } from 'styled-components'
-import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 
-export type NextPageWithLayout<P = {}> = NextPage<P> & {
+import { NextPage } from 'next'
+import type { AppProps } from 'next/app'
+import { appWithTranslation } from 'next-i18next'
+import { Provider } from 'react-redux'
+import { createGlobalStyle } from 'styled-components'
+
+import { store } from '../assets/store/store'
+import { useLoader } from '../common/hooks/useLoader'
+
+import 'styles/nprogress.css'
+
+// import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+
+export type NextPageWithLayout<P = object> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 

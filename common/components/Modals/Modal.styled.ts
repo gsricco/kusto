@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { ModalSizePropsType } from './types'
 
 export const StyledModalOverlay = styled.div<{ bg?: string }>`

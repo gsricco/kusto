@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import fullScreen from '../../public/img/icons/expand-outline.svg'
-import fullScreenOn from '../../public/img/icons/expand.svg'
-import zoom from '../../public/img/icons/maximize-outline.svg'
-import zoomOn from '../../public/img/icons/maximize.svg'
-import addPhoto from '../../public/img/icons/image-outline.svg'
-import addPhotoOn from '../../public/img/icons/image.svg'
-import plusPhoto from '../../public/img/icons/plus-circle-outline.svg'
-import resizePhoto from '../../public/img/icons/photo-resize.svg'
-import resizePhotoOn from '../../public/img/icons/photo-resizeOn.svg'
-import savePhoto from '../../public/img/icons/save-photos.svg'
+
 import Image from 'next/image'
-import { baseTheme } from '../../styles/styledComponents/theme'
+import styled from 'styled-components'
+
+import { Button } from '../../common/components/Button/Button'
 import {
   StyledCloseNextButton,
   StyledModalHeaderNext,
   StyledModalTitleNext,
 } from '../../common/components/Modals/Modal.styled'
-import { Button } from '../../common/components/Button/Button'
 import { ThemeButton } from '../../common/enums/themeButton'
-import SmallPhoto from './SmallPhoto'
+import fullScreen from '../../public/img/icons/expand-outline.svg'
+import fullScreenOn from '../../public/img/icons/expand.svg'
+import addPhoto from '../../public/img/icons/image-outline.svg'
+import addPhotoOn from '../../public/img/icons/image.svg'
+import zoom from '../../public/img/icons/maximize-outline.svg'
+import zoomOn from '../../public/img/icons/maximize.svg'
+import resizePhoto from '../../public/img/icons/photo-resize.svg'
+import resizePhotoOn from '../../public/img/icons/photo-resizeOn.svg'
+import plusPhoto from '../../public/img/icons/plus-circle-outline.svg'
+import savePhoto from '../../public/img/icons/save-photos.svg'
+import { baseTheme } from '../../styles/styledComponents/theme'
+
 import { PhotoType } from './PostCreationModal'
+import SmallPhoto from './SmallPhoto'
 import 'cropperjs/dist/cropper.css'
 import EasyCropper, { CropArgType } from './EasyCropper'
 import getCroppedImg, { getImageRatio } from './cropImage'
 import { Slider } from './Slider'
+
 import { useTranslation } from 'next-i18next'
 import { initSizeData } from 'common/constants/Post/initialSizeData'
+
 import ResizeElement from './ResizeElement'
 import AddPhotoElement from './AddPhotoElement'
 
@@ -38,31 +43,33 @@ const PostResizeModal = ({
   photoFile,
   handleAddPhotoButton,
 }: {
+  handleAddPhotoButton: () => void
   handleFullScreen: (full: boolean) => void
   handleNextToFilterButton: () => void
-  setPhotoPost: (photoPost: PhotoType[]) => void
-  photoPost: PhotoType[]
   photoFile: File
-  handleAddPhotoButton: () => void
+  photoPost: PhotoType[]
+  setPhotoPost: (photoPost: PhotoType[]) => void
 }) => {
   const [value, setValue] = useState(1) // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false) // открытие окна zoom
   const [openAddPhoto, setOpenAddPhoto] = useState(false) // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false) // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false) // открытие окна изменения соотношения сторон изображения
-  const [ratio, setRatio] = useState(1) //первоначальное соотношение сторон кадра
+  const [ratio, setRatio] = useState(1) // первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null) // сохранение вырезанной области
   const [isObjectFit, setIsObjectFit] = useState(false) // параметр вписывания изображения для easy-crop
   const [sizeData, setSizeData] = useState(initSizeData) // массив параметров для модального окна изменения размеров
-  const [photoFileURL, setPhotoFileURL] = useState<string>() //url изображени, загруженного из компьютера
+  const [photoFileURL, setPhotoFileURL] = useState<string>() // url изображени, загруженного из компьютера
 
   const { t } = useTranslation('post_cr')
 
   useEffect(() => {
     const reader = new FileReader()
+
     reader.onloadend = () => {
       const url = reader.result
-      if (typeof url == 'string') {
+
+      if (typeof url === 'string') {
         setPhotoFileURL(url)
         imageRatio(url)
       }
@@ -84,6 +91,7 @@ const PostResizeModal = ({
       try {
         if (croppedAreaPixels && photoFileURL) {
           const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels)
+
           if (croppedImage) {
             setPhotoPost([
               ...photoPost,
@@ -95,7 +103,6 @@ const PostResizeModal = ({
         console.error(e)
       }
     } else {
-      return
     }
   }
 
@@ -120,11 +127,13 @@ const PostResizeModal = ({
   // Определение соотношения сторон загруженного изображения
   const imageRatio = async (url: string) => {
     try {
-      let ratio = await getImageRatio(url)
-      let sizeDataWithRatio = sizeData.map(item => {
+      const ratio = await getImageRatio(url)
+      const sizeDataWithRatio = sizeData.map(item => {
         if (item.size == 'original') item.setRatio = ratio
+
         return item
       })
+
       setSizeData(sizeDataWithRatio)
     } catch (e) {
       console.error(e)
@@ -160,56 +169,56 @@ const PostResizeModal = ({
     <>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
-          <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
+          <Image priority alt="close" height={24} src="/img/icons/arrow-ios-back.svg" width={24} />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{t('cropping')}</StyledModalTitleNext>
         <Button
+          disabled={photoPost.length == 0}
           theme={ThemeButton.CLEAR}
           onClick={handleNextToFilterButton}
-          disabled={photoPost.length == 0 ? true : false}
         >
           {t('next')}
         </Button>
       </StyledModalHeaderNext>
       <StyledPhotoEditor>
         <EasyCropper
-          photoFileURL={photoFileURL}
-          setCroppedAreaPixels={setCroppedAreaPixels}
-          zoomTo={value}
           aspectRatio={ratio}
           isObjectFit={isObjectFit}
+          photoFileURL={photoFileURL}
+          setCroppedAreaPixels={setCroppedAreaPixels}
           setZoom={setValue}
+          zoomTo={value}
         />
       </StyledPhotoEditor>
 
       {openZoom && (
         <StyledSliderContainer>
-          <label htmlFor="zoom"></label>
+          <label htmlFor="zoom" />
           <Slider
-            min="1"
-            max="5"
             id="zoom"
-            onInput={handleSlider(setValue)}
-            onChange={handleSlider(setValue)}
-            value={value}
+            max="5"
+            min="1"
             type="range"
+            value={value}
             style={{
               width: '45%',
               '--min': 1,
               '--max': 5,
               '--val': value,
             }}
+            onChange={handleSlider(setValue)}
+            onInput={handleSlider(setValue)}
           />
         </StyledSliderContainer>
       )}
 
       {resize && (
         <ResizeElement
-          sizeData={sizeData}
-          setValue={setValue}
-          setRatio={setRatio}
           setIsObjectFit={setIsObjectFit}
+          setRatio={setRatio}
           setSizeData={setSizeData}
+          setValue={setValue}
+          sizeData={sizeData}
         />
         // <StyledResizeBlock>
         //   {sizeData.map((item, index) => {
@@ -236,10 +245,10 @@ const PostResizeModal = ({
 
       {openAddPhoto && (
         <AddPhotoElement
-          photoPost={photoPost}
           handleAddPhotoButton={handleAddPhotoButton}
-          setPhotoPost={setPhotoPost}
           handleSave={handleSave}
+          photoPost={photoPost}
+          setPhotoPost={setPhotoPost}
         />
         // <StyledAddBlock>
         //   <StyledPhotoPost id={"scrollable-container"}>
@@ -268,16 +277,16 @@ const PostResizeModal = ({
         <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
       </div> */}
       <div onClick={() => handleResizeOpen()}>
-        <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen} />
+        <StyledIconResize alt={fullScreen} src={resize ? resizePhotoOn : resizePhoto} />
       </div>
       <div onClick={() => handleZoomOpen()}>
-        <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom} />
+        <StyledIconZoom alt={zoom} src={!openZoom ? zoom : zoomOn} />
       </div>
       <div onClick={() => setOpenAddPhoto(!openAddPhoto)}>
         <StyledIconAddPhoto
-          src={!openAddPhoto ? addPhoto : addPhotoOn}
           alt={addPhoto}
           full={full}
+          src={!openAddPhoto ? addPhoto : addPhotoOn}
         />
       </div>
     </>

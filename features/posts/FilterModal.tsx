@@ -1,11 +1,13 @@
-import FilterElement from './FilterElement'
 import { useState } from 'react'
-import { filtersList } from 'common/utils/filters'
+
 import { ImageToolModal } from 'common/hoc/ImageToolModal'
-import { styled } from 'styled-components'
-import { PhotoType } from './PostCreationModal'
-import Canvas from './Canvas'
+import { filtersList } from 'common/utils/filters'
 import { useTranslation } from 'next-i18next'
+import { styled } from 'styled-components'
+
+import Canvas from './Canvas'
+import FilterElement from './FilterElement'
+import { PhotoType } from './PostCreationModal'
 
 const FilterModal = ({
   handleModalClose,
@@ -13,10 +15,10 @@ const FilterModal = ({
   handleBackToEditor,
   handleNextToPublishButton,
 }: {
-  handleModalClose?: () => void
-  photoPost: PhotoType[]
   handleBackToEditor: (filterPhotoList: PhotoType[]) => void
+  handleModalClose?: () => void
   handleNextToPublishButton: (filterPhotoList: PhotoType[]) => void
+  photoPost: PhotoType[]
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]) // изображение из массива, отображаемое в модальном окне
   const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost) // массив изображений с выбранными фильтрами
@@ -29,8 +31,10 @@ const FilterModal = ({
       if (el.photoUrl == photo.photoUrl) {
         el.filter = filter
       }
+
       return el
     })
+
     setFilterPhotoList(filterPhotoPost)
   }
 
@@ -50,21 +54,23 @@ const FilterModal = ({
       if (el.photoUrl == photo.photoUrl) {
         el.photoUrlWithFilter = photoUrlFilter
       }
+
       return el
     })
+
     setFilterPhotoList(filterPhotoPost)
   }
 
   return (
     <ImageToolModal
-      handleModalClose={handleModalClose}
-      photoPost={photoPost}
       handleBack={handleBack}
-      title={t('filters')}
-      setPhoto={setPhoto}
-      photo={photo}
-      nextStep={t('next')}
+      handleModalClose={handleModalClose}
       handleNextStepButton={handleNextButton}
+      nextStep={t('next')}
+      photo={photo}
+      photoPost={photoPost}
+      setPhoto={setPhoto}
+      title={t('filters')}
     >
       <StyledFiltersContainer key={photo.photoUrl}>
         {filtersList.map((el, index) => (
@@ -72,19 +78,19 @@ const FilterModal = ({
             key={index}
             filter={el.filter}
             filterTitle={el.filterTitle}
-            photoUrl={photo.photoUrl}
             handleFilter={handleFilter}
+            photoUrl={photo.photoUrl}
           />
         ))}
       </StyledFiltersContainer>
 
       <HiddenCanvas key={photo.filter}>
         <Canvas
-          photo={photo.photoUrl}
           filter={photo.filter}
-          width={'450px'}
-          height={'450px'}
+          height="450px"
+          photo={photo.photoUrl}
           setImageUrl={handleCanvas}
+          width="450px"
         />
       </HiddenCanvas>
     </ImageToolModal>

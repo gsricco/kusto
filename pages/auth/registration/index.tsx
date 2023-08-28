@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
+
+import { registrationErrorHandler } from 'common/utils/registrationErrorHandler'
 import { Formik } from 'formik'
-import showPasswordBtn from '../../../public/img/icons/eye-outline.svg'
-import hidePasswordBtn from '../../../public/img/icons/eye-off-outline.svg'
+import { GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import styled from 'styled-components'
+import { useRegistrationMutation } from '../../../assets/store/api/auth/authApi'
+import { Button } from '../../../common/components/Button/Button'
 import { getLayout } from '../../../common/components/Layout/BaseLayout/BaseLayout'
 import { useShowPassword } from '../../../common/hooks/useShowPassword'
 import { validateRegistration } from '../../../common/utils/validateRegistraition'
 import AuthIcons from '../../../features/auth/AuthIcons'
 import { WrapperContainerAuth } from '../../../features/auth/WrapperContainerAuth'
-import { Button } from '../../../common/components/Button/Button'
 import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
-import { useRegistrationMutation } from '../../../assets/store/api/auth/authApi'
 import {
   FormValueRegistration,
   ResetForm,
   SetFieldErrorType,
 } from '../../../common/components/Formik/types'
+import config from '../../../next-i18next.config.js'
+import hidePasswordBtn from '../../../public/img/icons/eye-off-outline.svg'
 import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
@@ -23,20 +31,16 @@ import {
   StyledSignInWrapper,
   StyledText,
 } from '../../../styles/styledComponents/auth/FormikAuth.styled'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPropsContext } from 'next'
-import config from '../../../next-i18next.config.js'
-import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
+
 import { Path } from '../../../common/enums/path'
 import { ThemeButton } from '../../../common/enums/themeButton'
 import { useLocalStorage } from '../../../common/hooks/useLocalStorage'
-import styled from 'styled-components'
-import { registrationErrorHandler } from 'common/utils/registrationErrorHandler'
 import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
+import showPasswordBtn from '../../../public/img/icons/eye-outline.svg'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'], config)),
@@ -75,6 +79,7 @@ export default function Registration() {
       password: values.password,
       login: values.username,
     }
+
     try {
       await registrationHandler(data)
         .unwrap()
@@ -92,11 +97,11 @@ export default function Registration() {
     <>
       {isModalActive && (
         <Modal
-          title="Email sent"
           bodyText={`We have sent a link to confirm your email to ${getItem('email')}`}
           handleModalClose={handleModalClose}
+          title="Email sent"
         >
-          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={'96px'}>
+          <Button theme={ThemeButton.PRIMARY} width="96px" onClick={handleModalClose}>
             OK
           </Button>
         </Modal>
@@ -112,38 +117,38 @@ export default function Registration() {
             {({ errors, touched, values, setFieldValue }) => (
               <StyledAuthForm>
                 <FormikLabel
-                  name="username"
-                  onChange={e => setFieldValue('username', e)}
-                  value={values.username}
-                  type={'text'}
-                  title={t('username')}
                   border={errors.username?.length && touched.username ? 'red' : 'white'}
                   errors={errors}
-                  touched={touched}
+                  name="username"
                   t={t}
+                  title={t('username')}
+                  touched={touched}
+                  type="text"
+                  value={values.username}
+                  onChange={e => setFieldValue('username', e)}
                 />
                 <FormikLabel
-                  name="email"
-                  onChange={e => setFieldValue('email', e)}
-                  value={values.email}
-                  type={'email'}
-                  title={'Email'}
                   border={errors.email?.length && touched.email ? 'red' : 'white'}
                   errors={errors}
-                  touched={touched}
+                  name="email"
                   t={t}
+                  title="Email"
+                  touched={touched}
+                  type="email"
+                  value={values.email}
+                  onChange={e => setFieldValue('email', e)}
                 />
                 <FormikLabel
-                  id="pass"
-                  name="password"
-                  onChange={e => setFieldValue('password', e)}
-                  value={values.password}
-                  type={passwordType}
-                  title={t('password')}
                   border={errors.password?.length && touched.password ? 'red' : 'white'}
                   errors={errors}
-                  touched={touched}
+                  id="pass"
+                  name="password"
                   t={t}
+                  title={t('password')}
+                  touched={touched}
+                  type={passwordType}
+                  value={values.password}
+                  onChange={e => setFieldValue('password', e)}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"
@@ -152,20 +157,20 @@ export default function Registration() {
                   />
                 </FormikLabel>
                 <FormikLabel
+                  errors={errors}
                   id="pass"
                   name="passwordConfirmation"
-                  onChange={e => setFieldValue('passwordConfirmation', e)}
-                  value={values.passwordConfirmation}
-                  type={passwordConfirmationType}
+                  t={t}
                   title={t('password_conf_label')}
+                  touched={touched}
+                  type={passwordConfirmationType}
+                  value={values.passwordConfirmation}
                   border={
                     errors.passwordConfirmation?.length && touched.passwordConfirmation
                       ? 'red'
                       : 'white'
                   }
-                  errors={errors}
-                  touched={touched}
-                  t={t}
+                  onChange={e => setFieldValue('passwordConfirmation', e)}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"

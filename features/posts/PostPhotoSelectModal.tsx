@@ -1,9 +1,9 @@
-import { TFunction } from 'next-i18next'
-import Image from 'next/image'
 import React from 'react'
+
+import Image from 'next/image'
+import { TFunction, useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
-import { useTranslation } from 'next-i18next'
 
 const PostPhotoSelectModal = ({
   handleModalClose,
@@ -11,16 +11,17 @@ const PostPhotoSelectModal = ({
   setPhotoFile,
   handleNextToResize,
 }: {
-  handleModalClose: () => void
   avatar?: string
-  setPhotoFile: (photoFile: File) => void
+  handleModalClose: () => void
   handleNextToResize: () => void
+  setPhotoFile: (photoFile: File) => void
 }) => {
   const { t } = useTranslation('post_cr')
 
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0]
+
       console.log(['file', file])
       setPhotoFile(file)
       handleNextToResize()
@@ -28,31 +29,29 @@ const PostPhotoSelectModal = ({
   }
 
   return (
-    <>
-      <StyledModalBody>
-        <StyledModalHeader>
-          <StyledModalTitle>{t('add_photo')}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
-            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
-          </StyledCloseButton>
-        </StyledModalHeader>
-        <StyledModalImageContainer>
-          {avatar ? (
-            <Image id="avatar" src={avatar} alt="Avatar" />
-          ) : (
-            <StyledModalImage
-              priority
-              src={'/img/icons/image-outline.svg'}
-              height={48}
-              width={48}
-              alt="avatar"
-            />
-          )}
-        </StyledModalImageContainer>
-        <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
-        <StyledLabel htmlFor="file-upload">{t('select_from_comp')}</StyledLabel>
-      </StyledModalBody>
-    </>
+    <StyledModalBody>
+      <StyledModalHeader>
+        <StyledModalTitle>{t('add_photo')}</StyledModalTitle>
+        <StyledCloseButton onClick={handleModalClose}>
+          <Image priority alt="close" height={24} src="/img/icons/close_white.svg" width={24} />
+        </StyledCloseButton>
+      </StyledModalHeader>
+      <StyledModalImageContainer>
+        {avatar ? (
+          <Image alt="Avatar" id="avatar" src={avatar} />
+        ) : (
+          <StyledModalImage
+            priority
+            alt="avatar"
+            height={48}
+            src="/img/icons/image-outline.svg"
+            width={48}
+          />
+        )}
+      </StyledModalImageContainer>
+      <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
+      <StyledLabel htmlFor="file-upload">{t('select_from_comp')}</StyledLabel>
+    </StyledModalBody>
   )
 }
 

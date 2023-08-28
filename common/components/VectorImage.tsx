@@ -1,14 +1,16 @@
 import React from 'react'
+
 import Image from 'next/image'
 import styled from 'styled-components'
+
 import { useWindowSize } from '../hooks/useWindowSize'
 
 type PropsType = {
-  image: string
-  screenWidth: number
-  imageWidth: number
-  imageHeight?: number
   alt?: string
+  image: string
+  imageHeight?: number
+  imageWidth: number
+  screenWidth: number
 }
 
 export const VectorImage: React.FC<PropsType> = ({
@@ -27,7 +29,7 @@ export const VectorImage: React.FC<PropsType> = ({
 
   return (
     <StyledVectorImage>
-      <Image width={imageSize} height={imageHeight} src={image} alt={alt} />
+      <Image alt={alt} height={imageHeight} src={image} width={imageSize} />
     </StyledVectorImage>
   )
 }

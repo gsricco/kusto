@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
 type SizeProps = {
-  width: undefined | number
-  height: undefined | number
+  height: number | undefined
+  width: number | undefined
 }
 
 export function useWindowSize() {
@@ -12,6 +12,7 @@ export function useWindowSize() {
     width: undefined,
     height: undefined,
   })
+
   useEffect(() => {
     // Handler to call on window resize
     function handleResize() {
@@ -25,8 +26,10 @@ export function useWindowSize() {
     window.addEventListener('resize', handleResize)
     // Call handler right away so state gets updated with initial window size
     handleResize()
+
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize)
   }, []) // Empty array ensures that effect is only run on mount
+
   return windowSize
 }

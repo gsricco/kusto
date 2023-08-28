@@ -1,20 +1,23 @@
-import Image from 'next/image'
 import { useState } from 'react'
+
+import { Button } from 'common/components/Button/Button'
+import { ThemeButton } from 'common/enums/themeButton'
+import Image from 'next/image'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
-import PhotoEditorModal from './PhotoEditorModal'
-import closeIcon from '/public/img/icons/close_white.svg'
-import { ThemeButton } from 'common/enums/themeButton'
-import { Button } from 'common/components/Button/Button'
 
-////  //  Модальное окно загрузки новой аватарки  //  ////
+import closeIcon from '../../../../../../../public/img/icons/close_white.svg'
+
+import PhotoEditorModal from './PhotoEditorModal'
+
+/// /  //  Модальное окно загрузки новой аватарки  //  ////
 
 const PhotoSelectModal = ({
   handleModalClose,
   avatar,
 }: {
-  handleModalClose: () => void
   avatar?: string
+  handleModalClose: () => void
 }) => {
   const [photo, setPhoto] = useState<File>() // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
@@ -25,6 +28,7 @@ const PhotoSelectModal = ({
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0]
+
       setPhoto(file)
       setIsEditorOpen(true)
     }
@@ -42,29 +46,29 @@ const PhotoSelectModal = ({
         <StyledModalHeader>
           <StyledModalTitle>Add a Profile Photo</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
-            <Image priority src={closeIcon} height={24} width={24} alt="close" />
+            <Image priority alt="close" height={24} src={closeIcon} width={24} />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
           {isEditorOpen && photo ? (
-            <PhotoEditorModal photo={photo} handleEditorClose={handleEditorClose} />
+            <PhotoEditorModal handleEditorClose={handleEditorClose} photo={photo} />
           ) : (
             <>
               <StyledModalImageContainer>
                 {avatar ? (
-                  <img id="avatar" src={avatar} alt="Avatar" />
+                  <img alt="Avatar" id="avatar" src={avatar} />
                 ) : (
                   <StyledModalImage
                     priority
-                    src={'/img/icons/image-outline.svg'}
-                    height={48}
-                    width={48}
                     alt="avatar"
+                    height={48}
+                    src="/img/icons/image-outline.svg"
+                    width={48}
                   />
                 )}
               </StyledModalImageContainer>
-              <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
-              <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
+              <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
+              <Button id="upload-btn" theme={ThemeButton.PRIMARY} width="222px">
                 <StyledLabel htmlFor="file-upload">
                   <StyledText>Select from Computer</StyledText>
                 </StyledLabel>

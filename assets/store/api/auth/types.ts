@@ -1,6 +1,6 @@
 export type RegistrationType = {
-  login: string
   email: string
+  login: string
   password: string
 }
 export type LoginType = {
@@ -13,18 +13,18 @@ export type SendLinkType = {
 }
 export type NewPasswordType = {
   newPassword: string
-  recoveryCode: string | string[] | undefined
+  recoveryCode: string[] | string | undefined
 }
-export type CheckLinkType = string | string[] | undefined
+export type CheckLinkType = string[] | string | undefined
 
 export type NewPasswordResType = {
-  status: number
   data: {
     errorsMessages: {
-      message: string
       field: string
+      message: string
     }[]
   }
+  status: number
 }
 export type LoginResponseType = {
   accessToken: string
@@ -37,14 +37,14 @@ type ErrorMessagesType = {
 }
 
 export type RegistrationResponseError = {
-  status: number
   data: {
     errorsMessages: ErrorMessagesType[]
   }
+  status: number
 }
 
 export type MeType = {
+  email: string
   id: string
   login: string
-  email: string
 }

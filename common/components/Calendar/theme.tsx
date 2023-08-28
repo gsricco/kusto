@@ -1,5 +1,5 @@
-import { baseTheme } from 'styles/styledComponents/theme'
 import { createTheme } from '@mui/material/styles'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 export const theme = createTheme({
   palette: {

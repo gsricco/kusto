@@ -1,16 +1,18 @@
-import { styled } from 'styled-components'
-import { baseTheme } from '../../styles/styledComponents/theme'
+import { SizeDataType } from 'common/constants/Post/initialSizeData'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
-import { SizeDataType } from 'common/constants/Post/initialSizeData'
+import { styled } from 'styled-components'
+
+import { baseTheme } from '../../styles/styledComponents/theme'
+
 import { StyledAddBlock } from './AddPhotoElement'
 
 type ResizeElementType = {
-  sizeData: SizeDataType[]
-  setValue: (value: number) => void
-  setRatio: (ratio: number) => void
   setIsObjectFit: (isObjectFit: boolean) => void
+  setRatio: (ratio: number) => void
   setSizeData: (sizeData: SizeDataType[]) => void
+  setValue: (value: number) => void
+  sizeData: SizeDataType[]
 }
 
 const ResizeElement = ({
@@ -29,8 +31,10 @@ const ResizeElement = ({
       if (index === ind) {
         item.selected = true
       }
+
       return item
     })
+
     setSizeData(sizeDataSelected)
   }
 

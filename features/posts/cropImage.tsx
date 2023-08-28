@@ -1,9 +1,11 @@
 import { Stringifier } from 'styled-components/dist/types'
+
 import { CropArgType } from './EasyCropper'
 
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image()
+
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', error => reject(error))
     image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
@@ -99,8 +101,8 @@ export default async function getCroppedImg(
 
 export const getImageRatio = async (imageSrc: string): Promise<number> => {
   const image = await createImage(imageSrc)
-  const width = image.width
-  const height = image.height
+  const { width } = image
+  const { height } = image
   const imageRatio = width / height
 
   return imageRatio

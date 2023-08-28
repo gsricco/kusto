@@ -1,6 +1,8 @@
 import { ReactNode } from 'react'
-import { TabBar } from './TabBar'
+
 import styled from 'styled-components'
+
+import { TabBar } from './TabBar'
 
 type SettingsPageWrapperType = {
   children: ReactNode

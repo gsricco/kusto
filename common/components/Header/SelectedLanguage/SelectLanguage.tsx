@@ -1,7 +1,8 @@
-import { baseTheme } from '../../../../styles/styledComponents/theme'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import styled from 'styled-components'
+
+import { baseTheme } from '../../../../styles/styledComponents/theme'
 
 // Компонента выбора языка (русский и английский)
 export const SelectLanguage = () => {

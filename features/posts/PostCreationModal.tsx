@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
-import PostPhotoSelectModal from './PostPhotoSelectModal'
+
+import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import { useOutsideClick } from 'common/hooks/useOutsideClick'
+import { TFunction } from 'next-i18next'
+import styled from 'styled-components'
+
 import FilterModal from './FilterModal'
 import PostDescriptionModal from './PostDescriptionModal'
+import PostPhotoSelectModal from './PostPhotoSelectModal'
 import PostResizeModal from './PostResizeModal'
-import { useOutsideClick } from 'common/hooks/useOutsideClick'
-import { Modal } from 'common/components/Modals/ModalPublic/Modal'
-import styled from 'styled-components'
-import { TFunction } from 'next-i18next'
 
 ///  //  Модальное окно для создания поста: выбор изображений,       //  ///
 //     наложение фильтров,  изменение размеров, добавление описания        //
@@ -81,11 +83,11 @@ const PostCreationModal = ({
       {closeCreation && (
         <Modal
           bg="no bg"
-          height="250px"
+          bodyText="Do you really want to close the creation of a publication? If you close everything will be deleted"
           handleCrossClick={() => setCloseCreation(false)}
+          height="250px"
           title="Undo Creation
         "
-          bodyText="Do you really want to close the creation of a publication? If you close everything will be deleted"
         >
           <>
             <ModalBtn onClick={close}>Yes</ModalBtn>
@@ -96,20 +98,20 @@ const PostCreationModal = ({
       <div ref={ref}>
         {openComp && (
           <PostPhotoSelectModal
+            avatar=""
             handleModalClose={handleEditorClose}
-            avatar={''}
-            setPhotoFile={setPhotoFile}
             handleNextToResize={handleNextToResize}
+            setPhotoFile={setPhotoFile}
           />
         )}
         {openResize && photoFile && (
           <PostResizeModal
-            photoFile={photoFile}
+            handleAddPhotoButton={handleAddPhotoButton}
             handleFullScreen={handleFullScreen}
             handleNextToFilterButton={handleNextToFilterButton}
-            handleAddPhotoButton={handleAddPhotoButton}
-            setPhotoPost={setPhotoPost}
+            photoFile={photoFile}
             photoPost={photoPost}
+            setPhotoPost={setPhotoPost}
           />
         )}
         {isFilterOpen && (
@@ -135,8 +137,8 @@ const PostCreationModal = ({
 export default PostCreationModal
 
 export type PhotoType = {
-  photoUrl: string
   filter: string
+  photoUrl: string
   photoUrlWithFilter: string
 }
 

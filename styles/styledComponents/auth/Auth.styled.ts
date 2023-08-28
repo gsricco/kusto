@@ -1,6 +1,7 @@
-import { FormAuthPropsType } from '../../../features/auth/types'
-import styled from 'styled-components'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+import { FormAuthPropsType } from '../../../features/auth/types'
 import { baseTheme } from '../theme'
 
 export const StyledContainerAuth = styled.div`
@@ -13,7 +14,7 @@ export const StyledContainerAuth = styled.div`
   align-items: center;
 `
 
-//WrapperContainerAuth
+// WrapperContainerAuth
 export const StyledFormAuth = styled.div<FormAuthPropsType>`
   max-width: ${props => (props.width ? props.width : '378px')};
   width: 100%;
@@ -47,7 +48,7 @@ export const StaledTitle = styled.h1<{ marginBottom?: string }>`
   color: ${baseTheme.colors.light['100']};
 `
 
-//Login
+// Login
 
 export const StyledForgotLink = styled(Link)`
   color: ${baseTheme.colors.light[900]};

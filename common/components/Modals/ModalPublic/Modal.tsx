@@ -1,5 +1,7 @@
-import Image from 'next/image'
 import React from 'react'
+
+import Image from 'next/image'
+
 import {
   StyledBlockButton,
   StyledCloseButton,
@@ -32,17 +34,17 @@ export const Modal = ({
 
   return (
     <StyledModalOverlay bg={bg}>
-      <StyledModalContainer width={width} height={height}>
+      <StyledModalContainer height={height} width={width}>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
           <StyledCloseButton onClick={onCloseButtonClick}>
             <Image
               priority
-              src="/img/icons/close_white.svg"
-              height={24}
-              width={24}
               alt="close"
+              height={24}
+              src="/img/icons/close_white.svg"
               style={{ cursor: 'pointer' }}
+              width={24}
             />
           </StyledCloseButton>
         </StyledModalHeader>

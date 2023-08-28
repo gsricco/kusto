@@ -3,8 +3,8 @@ import { Form } from 'formik'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 
-const media = mediaSizes.media
-const sidebarMedia = mediaSizes.sidebarMedia
+const { media } = mediaSizes
+const { sidebarMedia } = mediaSizes
 
 export const StyledContent = styled.div`
   position: relative;

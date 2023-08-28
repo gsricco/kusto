@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react'
+
 import { Field, Formik } from 'formik'
+
 import { FormValueProfile } from '../../../common/components/Formik/types'
-import { Button } from '../../../common/components/Button/Button'
-import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
-import { validateProfile } from '../../../common/utils/validateProfile'
-import { SettingsPageWrapper } from '../../../features/settings/SettingsPageWrapper'
-import {
-  useLazyAuthMeQuery,
-  useLazyProfileQuery,
-  useSaveProfileInfoMutation,
-} from '../../../assets/store/api/profile/profileApi'
+
 import type {} from '@mui/x-date-pickers/themeAugmentation'
-import { ThemeButton } from '../../../common/enums/themeButton'
-import PhotoSelectModal from 'features/profile/PhotoSelectModal'
-import Image from 'next/image'
-import { useLocalStorage } from '../../../common/hooks/useLocalStorage'
-import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
 import { getLayout } from '../../../common/components/Layout/PageLayout/PageLayout'
 import { useRouter } from 'next/router'
 import { Path } from '../../../common/enums/path'
@@ -31,17 +20,33 @@ import {
 import FilterModal from 'features/posts/FilterModal'
 import { isElementAccessExpression } from 'typescript'
 import { StyledErrorMsg, StyledField } from 'common/components/Formik/Formik.styled'
+import PhotoSelectModal from 'features/profile/PhotoSelectModal'
 import ProfileCalendar from 'features/settings/ProfileCalendar'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPropsContext } from 'next'
+import Image from 'next/image'
 import config from 'next-i18next.config.js'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import {
+  useLazyAuthMeQuery,
+  useLazyProfileQuery,
+  useSaveProfileInfoMutation,
+} from '../../../assets/store/api/profile/profileApi'
+import { Button } from '../../../common/components/Button/Button'
+import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
+import { Modal } from '../../../common/components/Modals/ModalPublic/Modal'
+import { ThemeButton } from '../../../common/enums/themeButton'
+import { useLocalStorage } from '../../../common/hooks/useLocalStorage'
+import { validateProfile } from '../../../common/utils/validateProfile'
+import { SettingsPageWrapper } from '../../../features/settings/SettingsPageWrapper'
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
@@ -115,6 +120,7 @@ const GeneralInformation = () => {
       city: values.city,
       userInfo: values.aboutMe,
     }
+
     try {
       await saveProfileInfoHandler(data)
         .unwrap()
@@ -145,10 +151,10 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
-                <Image src={avatar} alt={'Avatar'} width={192} height={192} />
+                <Image alt="Avatar" height={192} src={avatar} width={192} />
               </IconBlock>
               <div style={{}}>
-                <Button theme={ThemeButton.OUTLINED} width={'auto'} onClick={handleAddPhoto}>
+                <Button theme={ThemeButton.OUTLINED} width="auto" onClick={handleAddPhoto}>
                   {t('add_prof_photo')}
                 </Button>
               </div>
@@ -161,77 +167,77 @@ const GeneralInformation = () => {
               {({ errors, touched, values, setFieldValue }) => (
                 <StyledProfileForm>
                   <FormikLabel
-                    name="username"
-                    onChange={e => setFieldValue('username', e)}
-                    value={values.username}
-                    type={'text'}
-                    title={t('username')}
                     border={errors.username?.length && touched.username ? 'red' : 'white'}
                     errors={errors}
-                    touched={touched}
-                    width={'100%'}
+                    name="username"
                     t={t}
+                    title={t('username')}
+                    touched={touched}
+                    type="text"
+                    value={values.username}
+                    width="100%"
+                    onChange={e => setFieldValue('username', e)}
                   />
                   <FormikLabel
-                    name="firstname"
-                    onChange={e => setFieldValue('firstname', e)}
-                    value={values.firstname}
-                    type={'text'}
-                    title={t('f_name')}
                     border={errors.firstname?.length && touched.firstname ? 'red' : 'white'}
                     errors={errors}
-                    touched={touched}
-                    width={'100%'}
+                    name="firstname"
                     t={t}
+                    title={t('f_name')}
+                    touched={touched}
+                    type="text"
+                    value={values.firstname}
+                    width="100%"
+                    onChange={e => setFieldValue('firstname', e)}
                   />
                   <FormikLabel
-                    name="lastname"
-                    onChange={e => setFieldValue('lastname', e)}
-                    value={values.lastname}
-                    type={'text'}
-                    title={t('l_name')}
                     border={errors.lastname?.length && touched.lastname ? 'red' : 'white'}
                     errors={errors}
-                    touched={touched}
-                    width={'100%'}
+                    name="lastname"
                     t={t}
+                    title={t('l_name')}
+                    touched={touched}
+                    type="text"
+                    value={values.lastname}
+                    width="100%"
+                    onChange={e => setFieldValue('lastname', e)}
                   />
                   <FormikLabel
-                    name="city"
-                    onChange={e => setFieldValue('city', e)}
-                    value={values.city}
-                    type={'text'}
-                    title={t('city')}
                     border={errors.city?.length && touched.city ? 'red' : 'white'}
                     errors={errors}
-                    touched={touched}
-                    width={'100%'}
+                    name="city"
                     t={t}
+                    title={t('city')}
+                    touched={touched}
+                    type="text"
+                    value={values.city}
+                    width="100%"
+                    onChange={e => setFieldValue('city', e)}
                   />
                   <ProfileCalendar
-                    setFieldValue={setFieldValue}
                     date={values.birthday || ''}
-                    errors={errors['birthday']}
-                    touched={touched['birthday']}
+                    errors={errors.birthday}
+                    setFieldValue={setFieldValue}
                     t={t}
+                    touched={touched.birthday}
                   />
 
                   <FormikLabel
-                    name="aboutMe"
-                    onChange={e => setFieldValue('aboutMe', e)}
-                    value={values.aboutMe}
-                    type={'textarea'}
-                    title={t('about_me')}
                     border={errors.aboutMe?.length && touched.aboutMe ? 'red' : 'white'}
                     errors={errors}
-                    touched={touched}
-                    width={'100%'}
-                    textAreaData={values.aboutMe}
+                    name="aboutMe"
                     t={t}
+                    textAreaData={values.aboutMe}
+                    title={t('about_me')}
+                    touched={touched}
+                    type="textarea"
+                    value={values.aboutMe}
+                    width="100%"
+                    onChange={e => setFieldValue('aboutMe', e)}
                   />
                   <BlockButton>
                     <StyledLine />
-                    <Button theme={ThemeButton.PRIMARY} type="submit" width={'auto'}>
+                    <Button theme={ThemeButton.PRIMARY} type="submit" width="auto">
                       {t('save_changes')}
                     </Button>
                   </BlockButton>
@@ -240,15 +246,15 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen.photoModal && (
-            <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
+            <PhotoSelectModal avatar={data?.photo} handleModalClose={handleModalClose} />
           )}
           {isModalOpen.saveProfileModal && (
             <Modal
-              title={t('general_info')}
               bodyText={t('profile_changes_saved')}
               handleModalClose={handleModalClose}
+              title={t('general_info')}
             >
-              <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={'96px'}>
+              <Button theme={ThemeButton.PRIMARY} width="96px" onClick={handleModalClose}>
                 OK
               </Button>
             </Modal>

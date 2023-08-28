@@ -1,17 +1,17 @@
 import { FC, useEffect, useRef } from 'react'
 
 type FrameType = {
-  width: number
   height: number
+  width: number
 }
 
 type CanvasWithAspectRatioProps = {
-  photo: string
-  width: number
-  height: number
   frame: FrameType
-  scale: number
+  height: number
+  photo: string
   saveImage: (canvasUrl: string) => void
+  scale: number
+  width: number
 }
 
 const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
@@ -31,7 +31,8 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
 
     img.onload = function () {
       const imageAspectRatio = img.width / img.height
-      let newWidth, newHeight
+      let newWidth
+      let newHeight
       const targetAspectRatio = frameWidth / frameHeight // Выбор нужного соотношение сторон (4:5 или 16:9)
 
       console.log(imageAspectRatio, targetAspectRatio)
@@ -53,13 +54,14 @@ const CanvasWithAspectRatio: FC<CanvasWithAspectRatioProps> = ({
       context!.drawImage(img, xOffset, yOffset, newWidth, newHeight)
 
       const canvasUrl = canvas!.toDataURL()
+
       saveImage(canvasUrl)
     }
 
     img.src = photo
   }, [scale])
 
-  return <canvas ref={canvasRef} width={width * scale} height={height * scale} />
+  return <canvas ref={canvasRef} height={height * scale} width={width * scale} />
 }
 
 export default CanvasWithAspectRatio

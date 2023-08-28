@@ -1,5 +1,9 @@
-import Image from 'next/image'
 import React, { useState } from 'react'
+
+import Image from 'next/image'
+
+import { ThemeButton } from '../../../enums/themeButton'
+import { Button } from '../../Button/Button'
 import {
   StyledCloseButton,
   StyledCloseNextButton,
@@ -11,8 +15,6 @@ import {
   StyledModalTitleNext,
 } from '../Modal.styled'
 import { ModalPostPropsType } from '../types'
-import { Button } from '../../Button/Button'
-import { ThemeButton } from '../../../enums/themeButton'
 
 export const ModalPost = ({
   handleModalClose,
@@ -32,14 +34,15 @@ export const ModalPost = ({
   const handleClickModalClose = () => {
     handleModalClose()
   }
+
   return (
     <StyledModalOverlay>
-      <StyledModalContainer width={width} height={height}>
+      <StyledModalContainer height={height} width={width}>
         {isHeader && (
           <StyledModalHeader>
             <StyledModalTitle>{title}</StyledModalTitle>
             <StyledCloseButton onClick={handleClickModalClose}>
-              <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
+              <Image priority alt="close" height={24} src="/img/icons/close_white.svg" width={24} />
             </StyledCloseButton>
           </StyledModalHeader>
         )}
@@ -48,10 +51,10 @@ export const ModalPost = ({
             <StyledCloseNextButton onClick={handleModalBack}>
               <Image
                 priority
-                src="/img/icons/arrow-ios-back.svg"
-                height={24}
-                width={24}
                 alt="close"
+                height={24}
+                src="/img/icons/arrow-ios-back.svg"
+                width={24}
               />
             </StyledCloseNextButton>
             <StyledModalTitleNext>{nextTitle}</StyledModalTitleNext>

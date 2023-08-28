@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { getLayout } from '../../../../common/components/Layout/BaseLayout/BaseLayout'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { GetStaticPropsContext } from 'next'
-import config from 'next-i18next.config.js'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+
 import { useRefreshLinkMutation } from '../../../../assets/store/api/auth/authApi'
+import { getLayout } from '../../../../common/components/Layout/BaseLayout/BaseLayout'
 import { Modal } from '../../../../common/components/Modals/ModalPublic/Modal'
 import VerificationWindow from '../../../../features/auth/VerificationWindow'
-import { useLocalStorage } from 'common/hooks/useLocalStorage'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'], config)),
@@ -45,16 +48,16 @@ const Verification = () => {
       {' '}
       {isModalActive && (
         <Modal
-          title="Refresh link"
           bodyText={`We have sent a refresh link your email to ${getItem('email')}`}
           handleModalClose={handleModalClose}
+          title="Refresh link"
         />
       )}
       <VerificationWindow
-        handleClick={handleClick}
-        title={t('link_exp_title')}
-        text={t('link_exp_text')}
         btnTitle={t('resend_btn')}
+        handleClick={handleClick}
+        text={t('link_exp_text')}
+        title={t('link_exp_title')}
       />
     </>
   )

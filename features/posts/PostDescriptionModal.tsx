@@ -1,9 +1,11 @@
-import { ImageToolModal } from 'common/hoc/ImageToolModal'
 import { useState } from 'react'
-import { styled } from 'styled-components'
-import { PhotoType } from './PostCreationModal'
+
 import { useCreatePostMutation } from 'assets/store/api/posts/postsApi'
+import { ImageToolModal } from 'common/hoc/ImageToolModal'
 import { useTranslation } from 'next-i18next'
+import { styled } from 'styled-components'
+
+import { PhotoType } from './PostCreationModal'
 
 ///  //   Модальное окно с областью отображения отредактированных   //  ///
 //          изображений и добавлением описания к ним          //
@@ -14,8 +16,8 @@ const PostDescriptionModal = ({
   handleModalClose,
 }: {
   handleBackToFilters: (photoPost: PhotoType[]) => void
-  photoPost: PhotoType[]
   handleModalClose: () => void
+  photoPost: PhotoType[]
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]) // изображение из массива, отображаемое в модальном окне
   const [description, setDescription] = useState('') // описание, добавляемое к изображениям
@@ -55,27 +57,25 @@ const PostDescriptionModal = ({
   }
 
   return (
-    <>
-      <ImageToolModal
-        handleModalClose={handleModalClose}
-        photoPost={photoPost}
-        handleBack={handleBack}
-        title={t('publication')}
-        setPhoto={setPhoto}
-        photo={photo}
-        nextStep={t('publish')}
-        handleNextStepButton={handlePublishButton}
-        disabled={disabled}
-      >
-        <StyledDescriptionContainer>
-          <StyledTitle>{t('add_descr')}</StyledTitle>
-          <StyledDescription onChange={e => setDescription(e.target.value)}>
-            {description}
-          </StyledDescription>
-          <StyledDescriptionLimit>{description.length}/500</StyledDescriptionLimit>
-        </StyledDescriptionContainer>
-      </ImageToolModal>
-    </>
+    <ImageToolModal
+      disabled={disabled}
+      handleBack={handleBack}
+      handleModalClose={handleModalClose}
+      handleNextStepButton={handlePublishButton}
+      nextStep={t('publish')}
+      photo={photo}
+      photoPost={photoPost}
+      setPhoto={setPhoto}
+      title={t('publication')}
+    >
+      <StyledDescriptionContainer>
+        <StyledTitle>{t('add_descr')}</StyledTitle>
+        <StyledDescription onChange={e => setDescription(e.target.value)}>
+          {description}
+        </StyledDescription>
+        <StyledDescriptionLimit>{description.length}/500</StyledDescriptionLimit>
+      </StyledDescriptionContainer>
+    </ImageToolModal>
   )
 }
 

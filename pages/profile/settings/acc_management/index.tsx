@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
-import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
-import { styled } from 'styled-components'
+
 import Image from 'next/image'
-import stripe from 'public/img/icons/stripe-svgrepo-com.svg'
 import paypal from 'public/img/icons/paypal-svgrepo-com.svg'
+import stripe from 'public/img/icons/stripe-svgrepo-com.svg'
+import { styled } from 'styled-components'
+
+import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
+import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
 
 const payments = ['$10 per 1 Day', '$50 per 7 Day', '$100 per month']
 const accountType = ['Personal', 'Business']
@@ -21,6 +23,7 @@ const AccountManagement = () => {
         } else {
           item = false
         }
+
         return item
       })
     )
@@ -34,6 +37,7 @@ const AccountManagement = () => {
         } else {
           item = false
         }
+
         return item
       })
     )

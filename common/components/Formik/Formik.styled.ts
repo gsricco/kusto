@@ -1,9 +1,11 @@
-import styled from 'styled-components'
 import { Field } from 'formik'
+import styled from 'styled-components'
+
 import { baseTheme } from '../../../styles/styledComponents/theme'
+
 import { StyledErrorMsgPropsType, TextAreaPropsType } from './types'
 
-//FormikField
+// FormikField
 export const StyledField = styled(Field)`
   max-width: ${props => (props.width ? props.width : '330px')};
   width: 100%;
@@ -68,12 +70,12 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   }
 `
 
-//FormikLabel
+// FormikLabel
 export const StyledInputContainer = styled.div`
   position: relative;
 `
 
-export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
+export const StyledLabel = styled.label<{ margin?: string; witherror: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;

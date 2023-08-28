@@ -1,29 +1,31 @@
-import Image from 'next/image'
-import styled from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
 import { FC, PropsWithChildren, useState } from 'react'
+
+import { Button } from 'common/components/Button/Button'
 import {
   StyledCloseNextButton,
   StyledModalHeaderNext,
   StyledModalTitleNext,
 } from 'common/components/Modals/Modal.styled'
-import { Button } from 'common/components/Button/Button'
 import { ThemeButton } from 'common/enums/themeButton'
 import { PhotoType } from 'features/posts/PostCreationModal'
-import prev from '../../public/img/icons/prevOut.svg'
+import Image from 'next/image'
+import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
+
 import next from '../../public/img/icons/nextOut.svg'
+import prev from '../../public/img/icons/prevOut.svg'
 
 type Props = {
-  handleModalClose?: () => void
-  photoPost: PhotoType[]
-  handleBack: (photoPost: PhotoType[]) => void
-  title: string
-  setPhoto: (photo: PhotoType) => void
-  photo: PhotoType
-  nextStep: string
-  handleNextStepButton: () => void
   addPOstHandler?: () => void
   disabled?: boolean
+  handleBack: (photoPost: PhotoType[]) => void
+  handleModalClose?: () => void
+  handleNextStepButton: () => void
+  nextStep: string
+  photo: PhotoType
+  photoPost: PhotoType[]
+  setPhoto: (photo: PhotoType) => void
+  title: string
 }
 export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   children,
@@ -42,6 +44,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
 
   const handleNextPhoto = () => {
     const newIndex = photoIndex + 1
+
     if (newIndex <= photoPost.length - 1) {
       setPhotoIndex(newIndex)
       setPhoto(photoPost[newIndex])
@@ -50,6 +53,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
 
   const handlePrevPhoto = () => {
     const newIndex = photoIndex - 1
+
     if (newIndex >= 0) {
       setPhotoIndex(newIndex)
       setPhoto(photoPost[newIndex])
@@ -64,10 +68,10 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
     <StyledModalContainer>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleBackButton}>
-          <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="back" />
+          <Image priority alt="back" height={24} src="/img/icons/arrow-ios-back.svg" width={24} />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{title}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextStepButton} disabled={disabled}>
+        <Button disabled={disabled} theme={ThemeButton.CLEAR} onClick={handleNextStepButton}>
           {nextStep}
         </Button>
       </StyledModalHeaderNext>
@@ -75,11 +79,11 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
         <StyledImageContainer>
           <Prev alt="prev" src={prev} onClick={handlePrevPhoto} />
           <Image
-            src={photo.photoUrl}
-            width={0}
-            height={0}
             alt="nolmal"
+            height={0}
+            src={photo.photoUrl}
             style={{ width: '100%', height: '100%', objectFit: 'contain', filter: photo.filter }}
+            width={0}
           />
           <Next alt="next" src={next} onClick={handleNextPhoto} />
         </StyledImageContainer>

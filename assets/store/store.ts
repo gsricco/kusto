@@ -1,8 +1,9 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
-import { authApi } from './api/auth/authApi'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
-import { profileApi } from './api/profile/profileApi'
+
+import { authApi } from './api/auth/authApi'
 import { postsApi } from './api/posts/postsApi'
+import { profileApi } from './api/profile/profileApi'
 import { refreshApi } from './api/refresh/refreshApi'
 
 export const store = configureStore({

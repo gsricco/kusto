@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
-import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
-import { styled } from 'styled-components'
+
+import { getUserBrowser } from 'common/utils/getUserBrowser'
 import Image from 'next/image'
 import chrome from 'public/img/icons/chrome-svgrepo-com.svg'
-import { getUserBrowser } from 'common/utils/getUserBrowser'
-import iphone from 'public/img/icons/phone_iphone.svg'
 import mac from 'public/img/icons/desktop_mac.svg'
+import iphone from 'public/img/icons/phone_iphone.svg'
+import { styled } from 'styled-components'
+
+import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
+import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
 
 const fakeDevices = [
   {
@@ -53,7 +55,7 @@ const Devices = () => {
           <>Active sessions</>
           {fakeDevices.map((device, index) => {
             return (
-              <ActiveSession style={{ marginBottom: '12px' }} key={index}>
+              <ActiveSession key={index} style={{ marginBottom: '12px' }}>
                 <DeviceIcon alt="browser icon" src={device.deviseIcon} />
                 <Wrapper>
                   <Browser>{device.device}</Browser>

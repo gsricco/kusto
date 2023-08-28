@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
 import { AccessToken } from './types'
 
 export const refreshApi = createApi({

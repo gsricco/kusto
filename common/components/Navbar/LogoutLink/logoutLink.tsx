@@ -1,14 +1,16 @@
 import { FC, useState } from 'react'
+
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
-import { AppLink } from '../AppLink/AppLink'
-import { Modal } from '../../Modals/ModalPublic/Modal'
-import { Button } from '../../Button/Button'
+
+import { Path } from '../../../enums/path'
 import { ThemeButton } from '../../../enums/themeButton'
 import { useLocalStorage } from '../../../hooks/useLocalStorage'
-import { useRouter } from 'next/router'
-import { Path } from '../../../enums/path'
-import { useTranslation } from 'next-i18next'
+import { Button } from '../../Button/Button'
+import { Modal } from '../../Modals/ModalPublic/Modal'
+import { AppLink } from '../AppLink/AppLink'
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
@@ -38,24 +40,24 @@ export const LogoutLink: FC = () => {
 
   return (
     <>
-      <AppLink onClick={() => setIsOpenModalEdit(true)} href={''}>
+      <AppLink href="" onClick={() => setIsOpenModalEdit(true)}>
         <StyledDiv>
-          <Image src={'/img/icons/log-out.svg'} alt={'logOut'} width={24} height={24} />
+          <Image alt="logOut" height={24} src="/img/icons/log-out.svg" width={24} />
           <p>{t('log_out')}</p>
         </StyledDiv>
       </AppLink>
       {isOpenModalEdit && (
         <Modal
-          width={'440px'}
-          title={'Log Out'}
           bodyText={`Are you really want to log out of your account "${userEmail}"`}
           handleModalClose={onClose}
+          title="Log Out"
+          width="440px"
         >
           <>
             <Button
               theme={hovered ? ThemeButton.PRIMARY : ThemeButton.OUTLINED}
+              width="96px"
               onClick={logoutHandler}
-              width={'96px'}
               onMouseEnter={handleMouseLeave}
               onMouseLeave={handleMouseEnter}
             >
@@ -63,8 +65,8 @@ export const LogoutLink: FC = () => {
             </Button>
             <Button
               theme={hovered ? ThemeButton.OUTLINED : ThemeButton.PRIMARY}
+              width="96px"
               onClick={onClose}
-              width={'96px'}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >

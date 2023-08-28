@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react'
+
 import Link, { LinkProps } from 'next/link'
 import styled from 'styled-components'
+
 import { baseTheme } from '../../../../styles/styledComponents/theme'
 
 export enum ThemeAppLink {
@@ -8,8 +10,8 @@ export enum ThemeAppLink {
 }
 
 interface AppLinkProps extends LinkProps {
-  theme?: ThemeAppLink
   children: ReactNode
+  theme?: ThemeAppLink
 }
 
 export const AppLink: FC<AppLinkProps> = props => {

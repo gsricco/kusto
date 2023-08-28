@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Link } from '../../styles/styledComponents/profile/profile.styled'
 
 /*   __________<Нахождение ссылки в тексте (НЕ УДАЛЯТЬ!!!)>______ */
@@ -11,10 +12,11 @@ export const urlify = (text: string) => {
 
   return text.split(urlRegex).map((part, i, a) => {
     let url
+
     if (part?.match(urlRegex)) {
       if (part.match(urlRegex2)) {
         url = part
-      } else url = 'https://' + part
+      } else url = `https://${part}`
 
       return (
         <Link key={i} href={url}>
@@ -22,6 +24,7 @@ export const urlify = (text: string) => {
         </Link>
       )
     }
+
     return part
   })
 }

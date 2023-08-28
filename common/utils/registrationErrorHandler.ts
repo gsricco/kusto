@@ -9,8 +9,10 @@ export const registrationErrorHandler = (
 ): void => {
   if ('data' in error) {
     const messages = error.data.errorsMessages
+
     messages.forEach(({ message, field }) => {
       let tMessage = ''
+
       switch (message) {
         case 'Invalid email':
           tMessage = t('invalid_email')

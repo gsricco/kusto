@@ -1,15 +1,17 @@
 import Image from 'next/image'
-import { NextPageWithLayout } from './_app'
-import { getLayout } from '../common/components/Layout/BaseLayout/BaseLayout'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+import { getLayout } from '../common/components/Layout/BaseLayout/BaseLayout'
 import { Path } from '../common/enums/path'
 import kusto from '../public/img/kusto.png'
-import styled from 'styled-components'
 import { baseTheme } from '../styles/styledComponents/theme'
+
+import { NextPageWithLayout } from './_app'
 
 const Home: NextPageWithLayout = () => (
   <>
-    <Image src={kusto} alt="Logo" width={180} height={180} priority />
+    <Image priority alt="Logo" height={180} src={kusto} width={180} />
     <StyledBlockMain>
       <p>
         <Link href={Path.LOGIN}>Login</Link>

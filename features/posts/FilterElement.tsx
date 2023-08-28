@@ -1,7 +1,9 @@
-import styled from 'styled-components'
-import Canvas from './Canvas'
 import { useState } from 'react'
+
 import Image from 'next/image'
+import styled from 'styled-components'
+
+import Canvas from './Canvas'
 
 /// //  Элемент, отображающий изображение с наложенным фильтром   /// //
 
@@ -11,10 +13,10 @@ const FilterElement = ({
   filter,
   handleFilter,
 }: {
-  photoUrl: string
-  filterTitle: string
   filter: string
+  filterTitle: string
   handleFilter: (filterTitle: string) => void
+  photoUrl: string
 }) => {
   const handleFilterChose = () => {
     handleFilter(filter)
@@ -23,11 +25,11 @@ const FilterElement = ({
   return (
     <StyledModalBody onClick={handleFilterChose}>
       <Image
-        src={photoUrl}
-        width={108}
-        height={108}
         alt="nolmal"
-        style={{ objectFit: 'contain', filter: filter }}
+        height={108}
+        src={photoUrl}
+        style={{ objectFit: 'contain', filter }}
+        width={108}
       />
       <StyledFilterTitle>{filterTitle}</StyledFilterTitle>
     </StyledModalBody>

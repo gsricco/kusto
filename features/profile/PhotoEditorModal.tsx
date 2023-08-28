@@ -1,19 +1,21 @@
 import React, { useRef, useState } from 'react'
-import AvatarEditor from 'react-avatar-editor'
-import { Slider } from './Slider'
+
+import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi'
 import { Button } from 'common/components/Button/Button'
 import { ThemeButton } from 'common/enums/themeButton'
+import AvatarEditor from 'react-avatar-editor'
 import styled from 'styled-components'
-import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi'
 
-////  //  Модальное окно редактирования изображения  //  ////
+import { Slider } from './Slider'
+
+/// /  //  Модальное окно редактирования изображения  //  ////
 
 const PhotoEditorModal = ({
   photo,
   handleEditorClose,
 }: {
-  photo: File
   handleEditorClose: () => void
+  photo: File
 }) => {
   const [value, setValue] = useState(12) // начальное значение для zoom
   const [rotateAngle, setRotateAngle] = useState(0) // начальное значение для rotate
@@ -48,6 +50,7 @@ const PhotoEditorModal = ({
 
       // преобразование file в FormData
       const formData = new FormData()
+
       formData.append('avatar', file as File)
 
       try {
@@ -67,12 +70,12 @@ const PhotoEditorModal = ({
       <StyledAvatarEditor>
         <AvatarEditor // width и height задается в styled component с учетом border
           ref={cropRef}
-          image={photo}
           border={12}
           borderRadius={158}
           color={[23, 23, 23, 0.6]}
-          scale={value / 10}
+          image={photo}
           rotate={rotateAngle}
+          scale={value / 10}
           style={{
             width: '100%',
             height: '100%',
@@ -83,41 +86,41 @@ const PhotoEditorModal = ({
       <StyledSliderContainer>
         <label htmlFor="zoom">Zoom:</label>
         <Slider
-          min="10"
-          max="50"
           id="zoom"
-          onInput={handleSlider(setValue)}
-          onChange={handleSlider(setValue)}
-          value={value}
+          max="50"
+          min="10"
           type="range"
+          value={value}
           style={{
             width: '80%',
             '--min': 10,
             '--max': 50,
             '--val': value,
           }}
+          onChange={handleSlider(setValue)}
+          onInput={handleSlider(setValue)}
         />
       </StyledSliderContainer>
       <StyledSliderContainer>
         <label htmlFor="rotate">Rotate:</label>
         <Slider
-          min="-180"
-          max="180"
           id="rotate"
-          onInput={handleSlider(setRotateAngle)}
-          onChange={handleSlider(setRotateAngle)}
-          value={rotateAngle}
+          max="180"
+          min="-180"
           type="range"
+          value={rotateAngle}
           style={{
             width: '80%',
             '--min': -180,
             '--max': 180,
             '--val': rotateAngle,
           }}
+          onChange={handleSlider(setRotateAngle)}
+          onInput={handleSlider(setRotateAngle)}
         />
       </StyledSliderContainer>
       <StyledContainerButton>
-        <Button theme={ThemeButton.PRIMARY} width={'86px'} onClick={handleSave}>
+        <Button theme={ThemeButton.PRIMARY} width="86px" onClick={handleSave}>
           Save
         </Button>
       </StyledContainerButton>

@@ -1,6 +1,6 @@
-import { baseTheme } from 'styles/styledComponents/theme'
 import { createTheme } from '@mui/material/styles'
 import { theme } from 'common/components/Calendar/theme'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 export const themeError = createTheme({
   ...theme,

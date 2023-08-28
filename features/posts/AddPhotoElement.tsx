@@ -1,17 +1,18 @@
+import Image from 'next/image'
+import fullScreen from 'public/img/icons/expand-outline.svg'
+import plusPhoto from 'public/img/icons/plus-circle-outline.svg'
+import savePhoto from 'public/img/icons/save-photos.svg'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
-import SmallPhoto from './SmallPhoto'
-import plusPhoto from 'public/img/icons/plus-circle-outline.svg'
-import fullScreen from 'public/img/icons/expand-outline.svg'
-import savePhoto from 'public/img/icons/save-photos.svg'
+
 import { PhotoType } from './PostCreationModal'
-import Image from 'next/image'
+import SmallPhoto from './SmallPhoto'
 
 type AddPhotoElementType = {
-  photoPost: PhotoType[]
   handleAddPhotoButton: () => void
-  setPhotoPost: (photoPost: PhotoType[]) => void
   handleSave: () => Promise<void>
+  photoPost: PhotoType[]
+  setPhotoPost: (photoPost: PhotoType[]) => void
 }
 const AddPhotoElement = ({
   photoPost,
@@ -22,6 +23,7 @@ const AddPhotoElement = ({
   // Удаление изображения из массива
   const removePhotoFromList = (index: number) => {
     const newPhotoList = []
+
     for (let i = 0; i < photoPost.length; i++) {
       if (index === i) {
         continue
@@ -31,23 +33,30 @@ const AddPhotoElement = ({
     }
     setPhotoPost(newPhotoList)
   }
+
+  const photoPostLength = 10 // максимальное количество фотографий
+
   return (
     <StyledAddBlock>
-      <StyledPhotoPost id={'scrollable-container'}>
+      <StyledPhotoPost id="scrollable-container">
         {photoPost.map((photo, index) => (
           <SmallPhoto
-            photo={photo.photoUrl}
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
             index={index}
+            photo={photo.photoUrl}
             removePhotoFromList={removePhotoFromList}
           />
         ))}
       </StyledPhotoPost>
-      <div onClick={handleAddPhotoButton} style={{ cursor: 'pointer' }}>
-        <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
+      <div style={{ cursor: 'pointer' }} onClick={handleAddPhotoButton}>
+        <StyledIconPlusPhoto alt={fullScreen} src={plusPhoto} />
       </div>
-      <div onClick={handleSave} style={{ cursor: photoPost.length < 10 ? 'pointer' : 'default' }}>
-        <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
+      <div
+        style={{ cursor: photoPost.length < photoPostLength ? 'pointer' : 'default' }}
+        onClick={handleSave}
+      >
+        <StyledIconSavePhoto alt={savePhoto} src={savePhoto} />
       </div>
     </StyledAddBlock>
   )

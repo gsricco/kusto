@@ -1,11 +1,11 @@
 import addPhotoGrey from 'public/img/icons/image-outline-grey.svg'
 import addPhoto from 'public/img/icons/image-outline.svg'
 import resize11 from 'public/img/icons/resize11.svg'
-import resize45 from 'public/img/icons/resize45.svg'
-import resize169 from 'public/img/icons/resize169.svg'
 import resize11a from 'public/img/icons/resize11a.svg'
-import resize45a from 'public/img/icons/resize45a.svg'
+import resize169 from 'public/img/icons/resize169.svg'
 import resize169a from 'public/img/icons/resize169a.svg'
+import resize45 from 'public/img/icons/resize45.svg'
+import resize45a from 'public/img/icons/resize45a.svg'
 
 export const initSizeData = [
   {

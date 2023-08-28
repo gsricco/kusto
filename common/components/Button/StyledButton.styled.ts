@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { StyledButtonPropsType } from './types'
 
 export const StyledButton = styled.button.attrs(props => ({

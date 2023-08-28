@@ -1,27 +1,30 @@
 import React from 'react'
-import styled from 'styled-components'
-import { baseTheme } from '../../styles/styledComponents/theme'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import styled from 'styled-components'
+
+import { baseTheme } from '../../styles/styledComponents/theme'
 
 export const TabBar = () => {
   const location = usePathname()
   const isActive = (name: string) => (location.includes(name) ? 'active' : '')
+
   return (
     <StyledNavigation>
       <StyledItem
-        href={'/profile/settings'}
         active={location === '/profile/settings' ? 'active' : ''}
+        href="/profile/settings"
       >
         General information
       </StyledItem>
-      <StyledItem href={'/profile/settings/devices'} active={isActive('devices')}>
+      <StyledItem active={isActive('devices')} href="/profile/settings/devices">
         Devices
       </StyledItem>
-      <StyledItem href={'/profile/settings/acc_management'} active={isActive('acc_management')}>
+      <StyledItem active={isActive('acc_management')} href="/profile/settings/acc_management">
         Account Management
       </StyledItem>
-      <StyledItem href={'/profile/settings/payments'} active={isActive('payments')}>
+      <StyledItem active={isActive('payments')} href="/profile/settings/payments">
         My payments
       </StyledItem>
     </StyledNavigation>

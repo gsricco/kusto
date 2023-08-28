@@ -1,28 +1,31 @@
 import React from 'react'
-import { Button } from '../../../../common/components/Button/Button'
-import {
-  StyledSignInWrapper,
-  StyledText,
-} from '../../../../styles/styledComponents/auth/FormikAuth.styled'
-import { WrapperContainerNoFrame } from '../../../../features/auth/WrapperContainerNoFrame'
-import VectorImage from '../../../../common/components/VectorImage'
+
+import { GetStaticPropsContext } from 'next'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+
+import { Button } from '../../../../common/components/Button/Button'
+import { getLayout } from '../../../../common/components/Layout/BaseLayout/BaseLayout'
+import VectorImage from '../../../../common/components/VectorImage'
+import { Path } from '../../../../common/enums/path'
+import { ThemeButton } from '../../../../common/enums/themeButton'
+import { WrapperContainerNoFrame } from '../../../../features/auth/WrapperContainerNoFrame'
 import mail from '../../../../public/img/icons/web-app-ui-sign-up-bro.svg'
 import {
   StyledContainerAuth,
   StyledContainerButton,
   StyledImage,
 } from '../../../../styles/styledComponents/auth/Auth.styled'
-import { getLayout } from '../../../../common/components/Layout/BaseLayout/BaseLayout'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPropsContext } from 'next'
-import config from 'next-i18next.config.js'
-import { useTranslation } from 'next-i18next'
-import { ThemeButton } from '../../../../common/enums/themeButton'
-import { Path } from '../../../../common/enums/path'
+import {
+  StyledSignInWrapper,
+  StyledText,
+} from '../../../../styles/styledComponents/auth/FormikAuth.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'], config)),
@@ -45,13 +48,13 @@ const SuccessRegistration = () => {
           <StyledText>{t('email_confirm')}</StyledText>
         </StyledSignInWrapper>
         <StyledContainerButton>
-          <Button theme={ThemeButton.PRIMARY} width="182px" onClick={handleClick} type="button">
+          <Button theme={ThemeButton.PRIMARY} type="button" width="182px" onClick={handleClick}>
             {t('sign_in')}
           </Button>
         </StyledContainerButton>
 
         <StyledImage>
-          <VectorImage image={mail} screenWidth={447} imageWidth={423} />
+          <VectorImage image={mail} imageWidth={423} screenWidth={447} />
         </StyledImage>
       </WrapperContainerNoFrame>
     </StyledContainerAuth>

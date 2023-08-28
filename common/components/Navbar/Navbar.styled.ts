@@ -1,9 +1,11 @@
 import styled from 'styled-components'
+
 import { baseTheme } from '../../../styles/styledComponents/theme'
+
 import { NavbarPropsType } from './Navbar'
 
-//Navbar
-export const StyledSidebar = styled.div<{ showNavbar: string | string[] | undefined }>`
+// Navbar
+export const StyledSidebar = styled.div<{ showNavbar: string[] | string | undefined }>`
   position: relative;
   max-width: 220px;
   min-width: 160px;
@@ -53,7 +55,7 @@ export const StyledCreate = styled.div`
   }
 `
 
-//MainLink
+// MainLink
 export const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;

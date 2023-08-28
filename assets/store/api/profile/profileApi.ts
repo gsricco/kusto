@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
-import { AuthMeType, UserType } from './types'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+
+import { AuthMeType, UserType } from './types'
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
@@ -45,16 +46,18 @@ export const profileApi = createApi({
         return {
           method: 'POST',
           url: `users/profiles/save-avatar`,
-          body: body,
+          body,
         }
       },
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           profileApi.util.updateQueryData('profile', undefined, draft => {
             const file = URL.createObjectURL(body.entries().next().value[1])
-            Object.assign(draft ? draft : {}, { photo: file })
+
+            Object.assign(draft || {}, { photo: file })
           })
         )
+
         try {
           await queryFulfilled
         } catch {

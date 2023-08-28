@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
-import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
-import { LoginNavigate } from 'common/hoc/LoginNavigate'
-import { useLazyGetUserPostsQuery } from 'assets/store/api/posts/postsApi'
-import ProfileElement from 'features/profile/ProfileElement'
-import { useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
-import Post from 'common/components/Post/Post'
-import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
+import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
+import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
+import Post from 'common/components/Post/Post'
+import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+import { LoginNavigate } from 'common/hoc/LoginNavigate'
+import ProfileElement from 'features/profile/ProfileElement'
+import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPropsContext } from 'next'
 import config from 'next-i18next.config.js'
-import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+
+import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -68,16 +68,16 @@ const MyProfile = () => {
       {/* {isAppInitialized && ( */}
       <>
         <ProfileElement
-          user={user}
+          getCurrentPost={getCurrentPost}
+          isLoading={isLoading}
+          pageSize={pageSize}
           posts={posts}
           setIsPostActive={setIsPostActive}
-          getCurrentPost={getCurrentPost}
           setPageSize={setPageSize}
-          pageSize={pageSize}
-          totalCount={totalCount}
           status={status}
-          isLoading={isLoading}
           t={t}
+          totalCount={totalCount}
+          user={user}
         />
         {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
       </>
@@ -87,5 +87,6 @@ const MyProfile = () => {
     </>
   )
 }
+
 MyProfile.getLayout = getLayout
 export default MyProfile

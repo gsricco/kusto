@@ -1,17 +1,17 @@
 export type UserType = {
-  userId?: string
-  login: string
+  city: string
+  dateOfBirthday: string
   firstName: string
   lastName: string
-  dateOfBirthday: string
-  city: string
-  userInfo?: string
+  login: string
   photo?: string
+  userId?: string
+  userInfo?: string
 }
 
 export type AvatarType = {
-  formData: FormData
   avatar: string
+  formData: FormData
 }
 
 export type AuthMeType = {

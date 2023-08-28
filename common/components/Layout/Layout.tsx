@@ -1,11 +1,14 @@
-import Header from '../Header/Header'
-import { NextPage } from 'next'
 import { PropsWithChildren } from 'react'
+
+import { NextPage } from 'next'
 import styled from 'styled-components'
+
 import { baseTheme } from '../../../styles/styledComponents/theme'
+import Header from '../Header/Header'
 
 export const Layout: NextPage<PropsWithChildren> = props => {
   const { children } = props
+
   return (
     <StyledWrapper>
       <Header />

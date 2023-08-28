@@ -10,6 +10,8 @@ export const contentTypeSetup = (
     headers.set('Content-Type', `application/json`)
   }
   const token = getItem('accessToken')
+
   headers.set('Authorization', `Bearer ${token}`)
+
   return headers
 }

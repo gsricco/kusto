@@ -12,25 +12,25 @@ export type EditPostRequest = {
 }
 
 export type CreatePostResponse = {
-  id: string
-  userId: string
-  description: string
   createdAt: string
+  description: string
+  id: string
   images: Images[]
+  userId: string
 }
 
 export type GetPostResponse = CreatePostResponse
 
 export type GetUserPostsResponse = {
-  pagesCount: number
+  items: CreatePostResponse[]
   page: number
   pageSize: number
+  pagesCount: number
   totalCount: number
-  items: CreatePostResponse[]
 }
 
 export type GetUserPostsRequest = {
-  userId: string
   pageNumber: number
   pageSize: number
+  userId: string
 }

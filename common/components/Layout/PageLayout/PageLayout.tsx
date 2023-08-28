@@ -1,17 +1,19 @@
-import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement, useState } from 'react'
+
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import styled from 'styled-components'
+
+import { baseTheme } from '../../../../styles/styledComponents/theme'
 import Header from '../../Header/Header'
 import { Navbar } from '../../Navbar/Navbar'
-import styled from 'styled-components'
-import { baseTheme } from '../../../../styles/styledComponents/theme'
-import { useRouter } from 'next/router'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers'
-import { mediaSizes } from 'common/constants/Profile/mediaSizes'
-import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
-import { useTranslation } from 'next-i18next'
 
-const media = mediaSizes.media
+const { media } = mediaSizes
 const sidebar = mediaSizes.sidebarMedia
 
 export const PageLayout: NextPage<PropsWithChildren> = props => {
@@ -33,7 +35,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar showNavbar={profile} openModalHandler={openModalHandler} />
+            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>

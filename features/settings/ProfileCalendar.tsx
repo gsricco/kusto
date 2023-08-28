@@ -6,13 +6,13 @@ const ProfileCalendar = ({ setFieldValue, date, errors, touched, t }: CalendarPr
   return (
     <>
       <Field
-        name="birthday"
         component={Calendar}
-        setFieldValue={setFieldValue}
         date={date}
         errors={errors}
-        touched={touched}
+        name="birthday"
+        setFieldValue={setFieldValue}
         t={t}
+        touched={touched}
       />
       {!!errors && touched && <StyledErrorMsg>{errors}</StyledErrorMsg>}
     </>

@@ -1,4 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { getItem } from '../../../../common/hooks/useLocalStorage'
+
 import {
   CheckLinkType,
   LoginResponseType,
@@ -9,7 +12,6 @@ import {
   RegistrationType,
   SendLinkType,
 } from './types'
-import { getItem } from '../../../../common/hooks/useLocalStorage'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -23,6 +25,7 @@ export const authApi = createApi({
           'Content-Type': 'application/json',
         }),
       }
+
       return await fetch(url, options)
     },
   }),
