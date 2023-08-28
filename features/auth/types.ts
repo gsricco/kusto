@@ -1,11 +1,11 @@
 export type FormAuthPropsType = {
-  width?: string
   height?: string
+  width?: string
 }
 
 export type VerificationWindowType = {
-  handleClick: () => void
-  title: string
-  text: string
   btnTitle: string
+  handleClick: () => void
+  text: string
+  title: string
 }
