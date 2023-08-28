@@ -8,7 +8,6 @@ import { Modal } from "common/components/Modals/ModalPublic/Modal";
 import styled from "styled-components";
 import { TFunction } from "next-i18next";
 
-
 ///  //  Модальное окно для создания поста: выбор изображений,       //  ///
 //     наложение фильтров,  изменение размеров, добавление описания        //
 
