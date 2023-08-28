@@ -4,10 +4,9 @@ import { Button } from 'common/components/Button/Button'
 import { ThemeButton } from 'common/enums/themeButton'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
+import closeIcon from 'public/img/icons/close_white.svg'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
-
-import closeIcon from '../../../../../../../public/img/icons/close_white.svg'
 
 import PhotoEditorModal from './PhotoEditorModal'
 
