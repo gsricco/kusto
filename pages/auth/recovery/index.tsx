@@ -51,7 +51,7 @@ export default function Recovery() {
   const { t } = useTranslation();
   const captchaRef = useRef<ReCAPTCHA>(null)
 
-  const secret = "6LfzA8wnAAAAAA57MQH3xVO0jhHQjAn4iTJyo8tv"
+  const secret = "6LcmGd8nAAAAAEYCarXOl4AWXZ80PLvtwAy58X-v"
   // const secret = process.env.RECAPTCHA_SITE_KEY as string
   
   const handleModalClose = () => {
@@ -66,19 +66,20 @@ export default function Recovery() {
   }, [result]);
 
   const handleSubmit = async (values: FormValueRecovery, { resetForm }: ResetForm) => {
-    const captcha = await captchaRef.current?.executeAsync();
-
-    if (captchaRef.current !== null)  {
+    // const captcha = await captchaRef.current?.executeAsync();
+    if (captchaRef.current == null)  {
       console.log("ERROR")  
     } else {
       const recaptcha = captchaRef.current as unknown as ReCAPTCHA
       const token = recaptcha.getValue();
+      console.log(token)
+
       recaptcha.reset();
     
 
       const data = {
         email: values.email,
-        recaptchaValue: captcha
+        recaptchaValue: token
       };
 
       await recoveryHandler(data)
