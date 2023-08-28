@@ -1,11 +1,9 @@
-import { DatePicker } from '@mui/x-date-pickers'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import styled from 'styled-components'
 
 import { baseTheme } from '../theme'
 
 const { media } = mediaSizes
-const { sidebarMedia } = mediaSizes
 
 export const ProfileWrapper = styled.div`
   position: relative;

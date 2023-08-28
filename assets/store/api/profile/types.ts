@@ -19,3 +19,12 @@ export type AuthMeType = {
   id: string
   login: string
 }
+
+export type SaveProfileInfoType = {
+  city: string
+  dateOfBirthday: string
+  firstName: string
+  lastName: string
+  login: string
+  userInfo: string
+}

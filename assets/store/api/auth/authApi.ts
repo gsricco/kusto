@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-import { getItem } from '../../../../common/hooks/useLocalStorage'
+import { getItem } from 'common/hooks/useLocalStorage'
 
 import {
   CheckLinkType,
@@ -9,6 +8,7 @@ import {
   MeType,
   NewPasswordResType,
   NewPasswordType,
+  RefreshLinkType,
   RegistrationType,
   SendLinkType,
 } from './types'
@@ -26,11 +26,12 @@ export const authApi = createApi({
         }),
       }
 
-      return await fetch(url, options)
+      // return await fetch(url, options)
+      return fetch(url, options)
     },
   }),
   endpoints: builder => ({
-    registration: builder.mutation<any, RegistrationType>({
+    registration: builder.mutation<unknown, RegistrationType>({
       query: body => ({
         url: 'auth/registration',
         method: 'POST',
@@ -44,7 +45,7 @@ export const authApi = createApi({
         body,
       }),
     }),
-    sendRecoveryLink: builder.mutation<any, SendLinkType>({
+    sendRecoveryLink: builder.mutation<unknown, SendLinkType>({
       query: body => ({
         method: 'POST',
         url: `/auth/password-recovery`,
@@ -60,7 +61,7 @@ export const authApi = createApi({
         }
       },
     }),
-    checkLinkHandler: builder.query<any, CheckLinkType>({
+    checkLinkHandler: builder.query<unknown, CheckLinkType>({
       query: code => {
         return {
           method: 'GET',
@@ -68,7 +69,7 @@ export const authApi = createApi({
         }
       },
     }),
-    refreshLink: builder.mutation<any, any>({
+    refreshLink: builder.mutation<unknown, RefreshLinkType>({
       query: body => {
         return {
           method: 'POST',

@@ -1,9 +1,4 @@
-import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import styled from 'styled-components'
-
-import { baseTheme } from '../theme'
-
-const { media } = mediaSizes
 
 export const SigninWrapper = styled.div`
   /* position: relative; */

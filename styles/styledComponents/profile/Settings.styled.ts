@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 
 const { media } = mediaSizes
-const { sidebarMedia } = mediaSizes
 
 export const StyledContent = styled.div`
   position: relative;

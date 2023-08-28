@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 
-import { AuthMeType, UserType } from './types'
+import { AuthMeType, SaveProfileInfoType, UserType } from './types'
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
@@ -26,7 +26,7 @@ export const profileApi = createApi({
       }),
       providesTags: ['UserInfo'],
     }),
-    saveProfileInfo: builder.mutation<any, any>({
+    saveProfileInfo: builder.mutation<unknown, SaveProfileInfoType>({
       query: (body: UserType) => {
         return {
           method: 'POST',

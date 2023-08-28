@@ -48,3 +48,7 @@ export type MeType = {
   id: string
   login: string
 }
+
+export type RefreshLinkType = {
+  email: string
+}
