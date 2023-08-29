@@ -16,7 +16,8 @@ import {
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1/',
+    baseUrl: 'https://kustogram.site/api/v1',
+    credentials: 'include',
     fetchFn: async url => {
       const token = getItem('accessToken')
       const options = {
