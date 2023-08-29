@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-magic-numbers */
 import { useRef, useEffect } from 'react'
 
@@ -22,7 +23,6 @@ const Canvas = ({
 
     const img = new Image()
 
-    // eslint-disable-next-line func-names
     img.onload = function () {
       let newWidth = 0
       let newHeight = 0
@@ -42,11 +42,12 @@ const Canvas = ({
         yOffset = newHeight < canvas.height ? (canvas.height - newHeight) / 2 : 0
 
         context.filter = filter
-
-        setTimeout(() => {
+        console.log('canvas')
+        setTimeout(function () {
           const canvasUrl = canvas.toDataURL('image/jpeg')
 
           setImageUrl(canvasUrl)
+          console.log('photo URLLLL', canvasUrl)
         }, 2000)
       }
 

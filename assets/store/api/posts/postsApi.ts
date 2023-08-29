@@ -11,7 +11,7 @@ import {
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
-    baseUrl: 'https://calypso-one.vercel.app/posts/',
+    baseUrl: 'https://kustogram.site/api/v1/posts/',
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ['createPost']),
   }),

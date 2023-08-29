@@ -5,7 +5,7 @@ import { AuthMeType, SaveProfileInfoType, UserType } from './types'
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
-    baseUrl: 'https://calypso-one.vercel.app/',
+    baseUrl: 'https://kustogram.site/api/v1/',
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ['saveAvatar']),
   }),
