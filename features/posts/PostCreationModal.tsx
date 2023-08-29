@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
 import { useOutsideClick } from 'common/hooks/useOutsideClick'
 import { TFunction } from 'next-i18next'
 import styled from 'styled-components'

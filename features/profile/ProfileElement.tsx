@@ -16,9 +16,12 @@ import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
-import { urlify } from 'common/utils/urlify'
+// import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import type { Session } from 'next-auth'
+import { TFunction } from 'next-i18next'
 import {
   AboutMeBlock,
   AboutMeText,
@@ -34,13 +37,9 @@ import {
   StyledAvatarBlock,
   UserNameStyle,
 } from 'styles/styledComponents/profile/profile.styled'
-import type { Session } from 'next-auth'
 import { baseTheme } from 'styles/styledComponents/theme'
 
 import Paid from '../../public/img/icons/paid.svg'
-
-import { useRouter } from 'next/router'
-import { TFunction } from 'next-i18next'
 
 type PropsType = {
   getCurrentPost: LazyQueryTrigger<
@@ -195,7 +194,8 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText>
+              <AboutMeText>{user ? user.userInfo : t('about_me')}</AboutMeText>
+              {/* <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText> */}
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
