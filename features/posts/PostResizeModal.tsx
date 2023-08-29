@@ -1,39 +1,34 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react'
 
-import Image from 'next/image'
-import styled from 'styled-components'
-
-import { Button } from '../../common/components/Button/Button'
+import { Button } from 'common/components/Button/Button'
 import {
   StyledCloseNextButton,
   StyledModalHeaderNext,
   StyledModalTitleNext,
-} from '../../common/components/Modals/Modal.styled'
-import { ThemeButton } from '../../common/enums/themeButton'
-import fullScreen from '../../public/img/icons/expand-outline.svg'
-import fullScreenOn from '../../public/img/icons/expand.svg'
-import addPhoto from '../../public/img/icons/image-outline.svg'
-import addPhotoOn from '../../public/img/icons/image.svg'
-import zoom from '../../public/img/icons/maximize-outline.svg'
-import zoomOn from '../../public/img/icons/maximize.svg'
-import resizePhoto from '../../public/img/icons/photo-resize.svg'
-import resizePhotoOn from '../../public/img/icons/photo-resizeOn.svg'
-import plusPhoto from '../../public/img/icons/plus-circle-outline.svg'
-import savePhoto from '../../public/img/icons/save-photos.svg'
-import { baseTheme } from '../../styles/styledComponents/theme'
-
-import { PhotoType } from './PostCreationModal'
-import SmallPhoto from './SmallPhoto'
-import 'cropperjs/dist/cropper.css'
-import EasyCropper, { CropArgType } from './EasyCropper'
-import getCroppedImg, { getImageRatio } from './cropImage'
-import { Slider } from './Slider'
-
-import { useTranslation } from 'next-i18next'
+} from 'common/components/Modals/Modal.styled'
 import { initSizeData } from 'common/constants/Post/initialSizeData'
+import { ThemeButton } from 'common/enums/themeButton'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import fullScreen from 'public/img/icons/expand-outline.svg'
+import addPhoto from 'public/img/icons/image-outline.svg'
+import addPhotoOn from 'public/img/icons/image.svg'
+import zoom from 'public/img/icons/maximize-outline.svg'
+import zoomOn from 'public/img/icons/maximize.svg'
+import resizePhoto from 'public/img/icons/photo-resize.svg'
+import resizePhotoOn from 'public/img/icons/photo-resizeOn.svg'
+import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
-import ResizeElement from './ResizeElement'
 import AddPhotoElement from './AddPhotoElement'
+import getCroppedImg, { getImageRatio } from './cropImage'
+import EasyCropper, { CropArgType } from './EasyCropper'
+import { PhotoType } from './PostCreationModal'
+import 'cropperjs/dist/cropper.css'
+import ResizeElement from './ResizeElement'
+import { Slider } from './Slider'
 
 const PostResizeModal = ({
   handleFullScreen,
@@ -63,6 +58,8 @@ const PostResizeModal = ({
 
   const { t } = useTranslation('post_cr')
 
+  const photoPostLength = 10
+
   useEffect(() => {
     const reader = new FileReader()
 
@@ -81,13 +78,13 @@ const PostResizeModal = ({
   const handleSlider =
     (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
-        setState(parseInt(e.target.value))
+        setState(parseInt(e.target.value, 10))
       }
     }
 
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    if (photoPost.length < 10) {
+    if (photoPost.length < photoPostLength) {
       try {
         if (croppedAreaPixels && photoFileURL) {
           const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels)
@@ -103,6 +100,7 @@ const PostResizeModal = ({
         console.error(e)
       }
     } else {
+      console.log('error')
     }
   }
 
@@ -119,17 +117,17 @@ const PostResizeModal = ({
   }
 
   // Обработчик нажатия кнопки Full Screen
-  const handleClickFullScreen = () => {
-    handleFullScreen(!full)
-    setFullScreen(!full)
-  }
+  // const handleClickFullScreen = () => {
+  //   handleFullScreen(!full)
+  //   setFullScreen(!full)
+  // }
 
   // Определение соотношения сторон загруженного изображения
   const imageRatio = async (url: string) => {
     try {
-      const ratio = await getImageRatio(url)
+      const newRatio = await getImageRatio(url)
       const sizeDataWithRatio = sizeData.map(item => {
-        if (item.size === 'original') item.setRatio = ratio
+        if (item.size === 'original') item.setRatio = newRatio
 
         return item
       })
@@ -173,7 +171,7 @@ const PostResizeModal = ({
         </StyledCloseNextButton>
         <StyledModalTitleNext>{t('cropping')}</StyledModalTitleNext>
         <Button
-          disabled={photoPost.length == 0}
+          disabled={photoPost.length === 0}
           theme={ThemeButton.CLEAR}
           onClick={handleNextToFilterButton}
         >

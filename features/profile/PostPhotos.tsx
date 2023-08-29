@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryDefinition,
-  QueryStatus,
-} from '@reduxjs/toolkit/dist/query'
-import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import { CreatePostResponse } from 'assets/store/api/posts/types'
+import { useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
+// import {
+//   BaseQueryFn,
+//   FetchArgs,
+//   FetchBaseQueryError,
+//   FetchBaseQueryMeta,
+//   QueryDefinition,
+//   QueryStatus,
+// } from '@reduxjs/toolkit/dist/query'
+// import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
+import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import Image from 'next/image'
 import {
-  LoadingPostStyle,
-  LoadingStyle,
   PhotoStyle,
   PhotosBlock,
   PostWrapper,
@@ -21,38 +20,42 @@ import {
 import { baseTheme } from 'styles/styledComponents/theme'
 
 type PropsType = {
-  getCurrentPost: LazyQueryTrigger<
-    QueryDefinition<
-      string,
-      BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-      'createPost' | 'deletePost' | 'editPost',
-      CreatePostResponse,
-      'postsApi'
-    >
-  >
+  // getCurrentPost: LazyQueryTrigger<
+  //   QueryDefinition<
+  //     string,
+  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+  //     'createPost' | 'deletePost' | 'editPost',
+  //     CreatePostResponse,
+  //     'postsApi'
+  //   >
+  // >
   isLoading: boolean
-  pageSize: number
+  // pageSize: number
   postSize: number
   posts: CreatePostResponse[] | undefined
-  scrollSize: number
-  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>
-  setPageSize: React.Dispatch<React.SetStateAction<number>>
-  status: QueryStatus
-  totalCount: number
+  // scrollSize: number
+  setIsPostActive: (isPostActive: boolean) => void
+  // setPageSize: (pageSize: number) => void
+  setPostInfo: (postInfo: GetPostResponse | undefined) => void
+  // status: QueryStatus
+  // totalCount: number
 }
 
 export const PostPhotos: React.FC<PropsType> = ({
   posts,
   postSize,
   setIsPostActive,
-  setPageSize,
-  pageSize,
-  getCurrentPost,
-  totalCount,
-  scrollSize,
+  // setPageSize,
+  setPostInfo,
+  // pageSize,
+  // getCurrentPost,
+  // totalCount,
+  // scrollSize,
   isLoading,
-  status,
+  // status,
 }) => {
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
+
   if (isLoading) console.log('%c loading posts...', consoleStyle)
 
   return (
@@ -68,7 +71,10 @@ export const PostPhotos: React.FC<PropsType> = ({
               onClick={() =>
                 getCurrentPost(p.id)
                   .unwrap()
-                  .then(() => setIsPostActive(true))
+                  .then(() => {
+                    setIsPostActive(true)
+                    setPostInfo(postInfo)
+                  })
               }
 
               // style={{ }}

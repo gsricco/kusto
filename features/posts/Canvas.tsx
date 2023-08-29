@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from 'react'
+/* eslint-disable no-magic-numbers */
+import { useRef, useEffect } from 'react'
 
 const Canvas = ({
   photo,
@@ -9,7 +10,6 @@ const Canvas = ({
 }: {
   filter: string
   height: string
-  key?: number
   photo: string
   setImageUrl: (canvasUrl: string) => void
   width: string
@@ -22,6 +22,7 @@ const Canvas = ({
 
     const img = new Image()
 
+    // eslint-disable-next-line func-names
     img.onload = function () {
       let newWidth = 0
       let newHeight = 0
@@ -42,7 +43,7 @@ const Canvas = ({
 
         context.filter = filter
 
-        setTimeout(function () {
+        setTimeout(() => {
           const canvasUrl = canvas.toDataURL('image/jpeg')
 
           setImageUrl(canvasUrl)

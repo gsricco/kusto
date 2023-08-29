@@ -1,9 +1,5 @@
-import { useState } from 'react'
-
 import Image from 'next/image'
 import styled from 'styled-components'
-
-import Canvas from './Canvas'
 
 /// //  Элемент, отображающий изображение с наложенным фильтром   /// //
 

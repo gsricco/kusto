@@ -41,7 +41,7 @@ const nextConfig = {
     RECAPTCHA_SITE_KEY: '6Le96RMnAAAAAE9dOL6eVQHJ1HYsNAo4OUbDGWIg',
   },
   eslint: {
-    dirs: ['pages', 'styles', 'public', 'assets', 'common'], // Only run ESLint on the 'pages' directories during production builds (next build)
+    dirs: ['pages', 'styles', 'public', 'assets', 'common', 'features'], // Only run ESLint on the 'pages' directories during production builds (next build)
   },
 }
 
