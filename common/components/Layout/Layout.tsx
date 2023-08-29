@@ -7,6 +7,7 @@ import { baseTheme } from '../../../styles/styledComponents/theme'
 import Header from '../Header/Header'
 
 export const Layout: NextPage<PropsWithChildren> = props => {
+  // eslint-disable-next-line react/prop-types
   const { children } = props
 
   return (

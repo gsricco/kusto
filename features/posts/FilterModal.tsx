@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { useState } from 'react'
 
 import { ImageToolModal } from 'common/hoc/ImageToolModal'
@@ -28,7 +29,7 @@ const FilterModal = ({
   // Обработчик выбора фильтра
   const handleFilter = (filter: string) => {
     const filterPhotoPost = photoPost.map(el => {
-      if (el.photoUrl == photo.photoUrl) {
+      if (el.photoUrl === photo.photoUrl) {
         el.filter = filter
       }
 
@@ -51,7 +52,7 @@ const FilterModal = ({
   // Обработчик для сохранения url изображения с указанным фильтром, полученного из canvas
   const handleCanvas = (photoUrlFilter: string) => {
     const filterPhotoPost = photoPost.map(el => {
-      if (el.photoUrl == photo.photoUrl) {
+      if (el.photoUrl === photo.photoUrl) {
         el.photoUrlWithFilter = photoUrlFilter
       }
 
@@ -73,9 +74,9 @@ const FilterModal = ({
       title={t('filters')}
     >
       <StyledFiltersContainer key={photo.photoUrl}>
-        {filtersList.map((el, index) => (
+        {filtersList.map(el => (
           <FilterElement
-            key={index}
+            key={el.filterTitle}
             filter={el.filter}
             filterTitle={el.filterTitle}
             handleFilter={handleFilter}

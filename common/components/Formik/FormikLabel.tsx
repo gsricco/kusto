@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { StyledErrorMsg, StyledInputContainer, StyledLabel, StyledTitle } from './Formik.styled'
 import { FormikField } from './FormikField'
 import { labelType } from './types'

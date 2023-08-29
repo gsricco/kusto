@@ -1,8 +1,5 @@
 import styled from 'styled-components'
-
-import { baseTheme } from '../../../styles/styledComponents/theme'
-
-import { NavbarPropsType } from './Navbar'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 // Navbar
 export const StyledSidebar = styled.div<{ showNavbar: string[] | string | undefined }>`

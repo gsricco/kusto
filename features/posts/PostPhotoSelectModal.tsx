@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Image from 'next/image'
-import { TFunction, useTranslation } from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 

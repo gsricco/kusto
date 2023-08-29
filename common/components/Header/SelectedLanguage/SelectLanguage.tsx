@@ -19,7 +19,7 @@ export const SelectLanguage = () => {
   }
 
   return (
-    <StyledSelectLanguage value={i18n.language == 'ru' ? 'ru' : 'en'} onChange={handleLangChange}>
+    <StyledSelectLanguage value={i18n.language === 'ru' ? 'ru' : 'en'} onChange={handleLangChange}>
       <option value="en">&#127468;&#127463; English</option>
       <option value="ru">&#127479;&#127482; Русский</option>
     </StyledSelectLanguage>

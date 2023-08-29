@@ -1,4 +1,5 @@
-import { Stringifier } from 'styled-components/dist/types'
+/* eslint-disable no-magic-numbers */
+// import { Stringifier } from 'styled-components/dist/types'
 
 import { CropArgType } from './EasyCropper'
 

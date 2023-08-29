@@ -1,15 +1,11 @@
-import React from 'react'
-
 import { ThemeProvider } from '@emotion/react'
 import { DatePicker } from '@mui/x-date-pickers'
 import { theme } from 'common/components/Calendar/theme'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { Field, FormikErrors } from 'formik'
 import { TFunction } from 'next-i18next'
 
-import { StyledErrorMsg, StyledTitle } from '../Formik/Formik.styled'
-import { FormikAllValuesType } from '../Formik/types'
+import { StyledTitle } from '../Formik/Formik.styled'
 
 import { themeError } from './themeError'
 
@@ -40,9 +36,9 @@ const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) =>
           format="DD/MM/YYYY"
           value={birthDate}
           onChange={newValue => {
-            const date = newValue?.format('DD/MM/YYYY')
+            const newDate = newValue?.format('DD/MM/YYYY')
 
-            setFieldValue('birthday', date)
+            setFieldValue('birthday', newDate)
           }}
         />
       </ThemeProvider>

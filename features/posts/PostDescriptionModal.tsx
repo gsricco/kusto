@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { useState } from 'react'
 
 import { useCreatePostMutation } from 'assets/store/api/posts/postsApi'
@@ -37,11 +39,10 @@ const PostDescriptionModal = ({
     const formData = new FormData()
 
     // преобразование url всех изображений в file
-    for (const photo of photoPost) {
-      const result = await fetch(photo.photoUrlWithFilter)
+    for (const photoPostEl of photoPost) {
+      const result = await fetch(photoPostEl.photoUrlWithFilter)
       const blob = await result.blob()
       const file = new File([blob], 'avatar', { type: 'image/jpeg' })
-      // console.log("FILE", photo.photoUrlWithFilter)
 
       // добавление file в FormData
       formData.append('posts', file as File)

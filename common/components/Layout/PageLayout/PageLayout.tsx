@@ -6,7 +6,6 @@ import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 
 import { baseTheme } from '../../../../styles/styledComponents/theme'
@@ -14,9 +13,10 @@ import Header from '../../Header/Header'
 import { Navbar } from '../../Navbar/Navbar'
 
 const { media } = mediaSizes
-const sidebar = mediaSizes.sidebarMedia
+// const sidebar = mediaSizes.sidebarMedia
 
 export const PageLayout: NextPage<PropsWithChildren> = props => {
+  // eslint-disable-next-line react/prop-types
   const { children } = props
 
   const router = useRouter()

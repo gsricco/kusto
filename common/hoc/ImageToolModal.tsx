@@ -147,15 +147,15 @@ const StyledImageContainer = styled.div`
   position: relative;
 `
 
-const StyledFiltersContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-shrink: 3;
+// const StyledFiltersContainer = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   flex-shrink: 3;
 
-  height: 100%;
-  padding: 10px;
-  width: calc(100% - 490px);
-  min-width: 180px;
+//   height: 100%;
+//   padding: 10px;
+//   width: calc(100% - 490px);
+//   min-width: 180px;
 
-  //overflow: scroll;
-`
+//   //overflow: scroll;
+// `
