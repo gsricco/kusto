@@ -85,6 +85,7 @@ const Login = () => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then(res => {
           removeItem('email')
+          setItem('userEmail', data.email)
           resetForm()
           getInitialize()
         })
