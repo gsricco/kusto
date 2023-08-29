@@ -23,6 +23,8 @@ export const registrationErrorHandler = (
         case 'User with this username is already registered':
           tMessage = t('user_err')
           break
+        default:
+          tMessage = t('some_err')
       }
       setFieldError(field, tMessage)
     })

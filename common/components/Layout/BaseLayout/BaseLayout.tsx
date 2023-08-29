@@ -5,6 +5,7 @@ import { NextPage } from 'next'
 import { Layout } from '../Layout'
 
 export const BaseLayout: NextPage<PropsWithChildren> = props => {
+  // eslint-disable-next-line react/prop-types
   const { children } = props
 
   return <Layout>{children}</Layout>

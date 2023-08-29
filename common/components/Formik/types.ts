@@ -32,7 +32,7 @@ export type labelType = {
   title: string
   touched: FormikTouched<FormikAllValuesType>
   type?: string
-  value: string,
+  value: string
   width?: string
 }
 

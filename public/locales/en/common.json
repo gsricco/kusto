@@ -68,5 +68,6 @@
   "Required lastname": "Required lastname",
   "Required city": "Required city",
   "Too Short!": "Too Short!",
-  "Required birthday": "Required birthday"
+  "Required birthday": "Required birthday",
+  "some_err": "There is some error. Please, try again."
 }

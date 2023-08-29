@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Image from 'next/image'
 
 import {
@@ -13,7 +11,7 @@ import {
 } from '../Modal.styled'
 import { ModalPropsType } from '../types'
 
-export const Modal = ({
+const Modal = ({
   handleModalClose,
   handleCrossClick,
   title,
@@ -56,3 +54,5 @@ export const Modal = ({
     </StyledModalOverlay>
   )
 }
+
+export default Modal

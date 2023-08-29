@@ -3,12 +3,12 @@ import { ChangeEvent } from 'react'
 import { StyledTextArea } from './Formik.styled'
 import { TextAreaPropsType } from './types'
 
-export const FieldTextarea = (props: TextAreaPropsType) => {
+export const FieldTextarea = ({ value, width, onChange }: TextAreaPropsType) => {
   return (
     <StyledTextArea
-      value={props.value}
-      width={props.width}
-      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e)}
+      value={value}
+      width={width}
+      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e)}
     />
   )
 }

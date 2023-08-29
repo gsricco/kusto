@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import Image from 'next/image'
 
@@ -18,12 +18,10 @@ import { ModalPostPropsType } from '../types'
 
 export const ModalPost = ({
   handleModalClose,
-  handleCrossClick,
   handleModalNext,
   handleModalBack,
   title,
   nextTitle,
-  bodyText,
   children,
   width,
   height,
