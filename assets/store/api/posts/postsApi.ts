@@ -1,69 +1,69 @@
-import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react'
+import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+
 import {
   CreatePostResponse,
   EditPostRequest,
   GetPostResponse,
   GetUserPostsRequest,
-  GetUserPostsResponse
-} from "./types";
-import { contentTypeSetup } from "common/utils/contentTypeSetup";
+  GetUserPostsResponse,
+} from './types'
 
 const staggeredBaseQuery = retry(
   fetchBaseQuery({
-    baseUrl: "https://kustogram.site/api/v1/posts/",
-    // baseUrl: process.env.BASE_URL + "posts/",
+    baseUrl: 'https://kustogram.site/api/v1/posts/',
     prepareHeaders: (headers, { endpoint }) =>
-      contentTypeSetup(headers, { endpoint }, ["createPost"])
+      contentTypeSetup(headers, { endpoint }, ['createPost']),
   }),
   {
-    maxRetries: 2
+    maxRetries: 2,
   }
-);
+)
 
 export const postsApi = createApi({
-  reducerPath: "postsApi",
+  reducerPath: 'postsApi',
   baseQuery: staggeredBaseQuery,
-  tagTypes: ["editPost", "deletePost", "createPost"],
-  endpoints: (builder) => ({
+  tagTypes: ['editPost', 'deletePost', 'createPost'],
+  endpoints: builder => ({
     createPost: builder.mutation<CreatePostResponse, FormData>({
-      query: (body) => ({
-        url: "post",
-        method: "POST",
-        body
+      query: body => ({
+        url: 'post',
+        method: 'POST',
+        body,
       }),
-      invalidatesTags: ["createPost"]
+      invalidatesTags: ['createPost'],
     }),
     updatePost: builder.mutation<void, EditPostRequest>({
       query: ({ body, postId }) => ({
         url: `post/${postId}`,
-        method: "PUT",
-        body
+        method: 'PUT',
+        body,
       }),
-      invalidatesTags: ["editPost"]
+      invalidatesTags: ['editPost'],
     }),
     getPost: builder.query<GetPostResponse, string>({
-      query: (postId) => ({
-        url: `post/${postId}`
+      query: postId => ({
+        url: `post/${postId}`,
       }),
-      providesTags: ["editPost"],
-      extraOptions: { maxRetries: 3 }
+      providesTags: ['editPost'],
+      extraOptions: { maxRetries: 3 },
     }),
     deletePost: builder.mutation<void, string>({
-      query: (postId) => ({
+      query: postId => ({
         url: `post/${postId}`,
-        method: "DELETE"
+        method: 'DELETE',
       }),
-      invalidatesTags: ["deletePost"]
+      invalidatesTags: ['deletePost'],
     }),
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
       query: ({ userId, pageNumber, pageSize }) => ({
-        url: userId + `?pageNumber=${pageNumber}&pageSize=${pageSize}`
+        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       }),
-      providesTags: ["deletePost", "createPost"],
-      extraOptions: { maxRetries: 3 }
-    })
-  })
-});
+      providesTags: ['deletePost', 'createPost'],
+      extraOptions: { maxRetries: 3 },
+    }),
+  }),
+})
 
 export const {
   useCreatePostMutation,
@@ -71,5 +71,5 @@ export const {
   useDeletePostMutation,
   useLazyGetPostQuery,
   useLazyGetUserPostsQuery,
-  useGetUserPostsQuery
-} = postsApi;
+  useGetUserPostsQuery,
+} = postsApi
