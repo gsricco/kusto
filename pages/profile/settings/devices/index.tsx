@@ -1,14 +1,29 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { getUserBrowser } from 'common/utils/getUserBrowser'
+import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 import chrome from 'public/img/icons/chrome-svgrepo-com.svg'
 import mac from 'public/img/icons/desktop_mac.svg'
 import iphone from 'public/img/icons/phone_iphone.svg'
+import { useTranslation } from 'react-i18next'
 import { styled } from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { locale } = context
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+    },
+  }
+}
 
 const fakeDevices = [
   {
@@ -26,6 +41,7 @@ const fakeDevices = [
 ]
 
 const Devices = () => {
+  const { t } = useTranslation()
   const [ip, setIp] = useState()
   const [currentStatus, setCurrentStatus] = useState('Online')
   const browser = getUserBrowser()
@@ -40,7 +56,7 @@ const Devices = () => {
     <SettingsPageWrapper>
       <PageWrapper>
         <SessionWrapper>
-          <SectionTitle>This devices</SectionTitle>
+          <SectionTitle>{t('this_devices')}</SectionTitle>
           <ActiveSession>
             <DeviceIcon alt="browser icon" src={chrome} />
             <Wrapper>
@@ -49,11 +65,13 @@ const Devices = () => {
               <IsOnline>{currentStatus}</IsOnline>
             </Wrapper>
           </ActiveSession>
-          <EndSessionsBtn>Terminate all other session</EndSessionsBtn>
+          <EndSessionsBtn>
+            <EndSessionsBtnText>{t('terminate_session')}</EndSessionsBtnText>
+          </EndSessionsBtn>
         </SessionWrapper>
         <SessionWrapper>
-          <div>Active sessions</div>
-          {fakeDevices.map(device => {
+          <div style={{ marginBottom: '18px' }}>{t('active_sessions')}</div>
+          {fakeDevices.map((device, index) => {
             return (
               <ActiveSession key={device.deviseIcon} style={{ marginBottom: '12px' }}>
                 <DeviceIcon alt="browser icon" src={device.deviseIcon} />
@@ -84,8 +102,8 @@ const PageWrapper = styled.div``
 const ActiveSession = styled.div`
   display: flex;
   padding: 17px 0;
-  background: #171717;
-  border: 1px solid #333;
+  background: ${baseTheme.colors.dark[500]};
+  border: 1px solid ${baseTheme.colors.dark[300]};
   gap: 12px;
 `
 
@@ -95,16 +113,25 @@ const EndSessionsBtn = styled.button`
   margin-top: 24px;
   margin-bottom: 18px;
   width: 260px;
-  color: #397df6;
-  border: 1px solid #397df6;
-  background: black;
+  color: ${baseTheme.colors.accent[500]};
+  border: 1px solid ${baseTheme.colors.accent[500]};
+  background: ${baseTheme.colors.dark[700]};
   align-self: flex-end;
   padding: 6px 0;
   cursor: pointer;
 `
 
+const EndSessionsBtnText = styled.p`
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+`
+
 const IsOnline = styled.p`
-  color: #3677f7;
+  color: ${baseTheme.colors.info[0]};
+  font-weight: 500;
 `
 
 const Browser = styled.p`

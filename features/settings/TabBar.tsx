@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { baseTheme } from '../../styles/styledComponents/theme'
 
 export const TabBar = () => {
+  const { t } = useTranslation()
   const location = usePathname()
   const isActive = (name: string) => (location.includes(name) ? 'active' : '')
 
@@ -14,16 +16,16 @@ export const TabBar = () => {
         active={location === '/profile/settings' ? 'active' : ''}
         href="/profile/settings"
       >
-        General information
+        {t('general_info')}
       </StyledItem>
       <StyledItem active={isActive('devices')} href="/profile/settings/devices">
-        Devices
+        {t('devices')}
       </StyledItem>
       <StyledItem active={isActive('acc_management')} href="/profile/settings/acc_management">
-        Account Management
+        {t('acc_management')}
       </StyledItem>
       <StyledItem active={isActive('payments')} href="/profile/settings/payments">
-        My payments
+        {t('my_payments')}
       </StyledItem>
     </StyledNavigation>
   )

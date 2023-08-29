@@ -1,17 +1,33 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
+import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 import paypal from 'public/img/icons/paypal-svgrepo-com.svg'
 import stripe from 'public/img/icons/stripe-svgrepo-com.svg'
+import { useTranslation } from 'react-i18next'
 import { styled } from 'styled-components'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
 
-const payments = ['$10 per 1 Day', '$50 per 7 Day', '$100 per month']
-const accountType = ['Personal', 'Business']
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { locale } = context
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+    },
+  }
+}
 
 const AccountManagement = () => {
+  const { t } = useTranslation()
+
+  const payments = [t('10_1_Day'), t('50_7_Day'), t('100_month')]
+  const accountType = [t('personal'), t('business')]
+
   const [accountTypeChecked, setAccountTypeChecked] = useState([true, false])
   const [paymentChecked, setPaymentChecked] = useState([true, false, false])
 
@@ -47,7 +63,7 @@ const AccountManagement = () => {
     <SettingsPageWrapper>
       <PageWrapper>
         <Section>
-          <AccountType>Account type:</AccountType>
+          <AccountType>{t('account_type')}</AccountType>
           <TypeForm>
             {accountType.map((type, index) => (
               <LabelType key={type}>
@@ -63,7 +79,7 @@ const AccountManagement = () => {
         {accountTypeChecked[1] && (
           <>
             <Section>
-              <SubscriptionCost>Your subscription costs:</SubscriptionCost>
+              <SubscriptionCost>{t('your_subscription_costs')}</SubscriptionCost>
               <PaymentsForm>
                 {payments.map((payment, index) => (
                   <PaymentsLabel key={payment}>
@@ -78,7 +94,7 @@ const AccountManagement = () => {
             </Section>
             <PaymentsSection>
               <PayPal alt="paypal" src={paypal} />
-              <Text>Or</Text>
+              <Text>{t('or')}</Text>
               <Stripe alt="stripe" src={stripe} />
             </PaymentsSection>
           </>

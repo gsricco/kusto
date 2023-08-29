@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button } from 'common/components/Button/Button'
 import { ThemeButton } from 'common/enums/themeButton'
 import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 import closeIcon from 'public/img/icons/close_white.svg'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
@@ -20,6 +21,7 @@ const PhotoSelectModal = ({
 }) => {
   const [photo, setPhoto] = useState<File>() // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
+  const { t } = useTranslation() // переводчик
 
   // const image = avatar || "/img/icons/image-outline.svg"
 
@@ -43,7 +45,7 @@ const PhotoSelectModal = ({
     <StyledModalOverlay>
       <StyledModalContainer>
         <StyledModalHeader>
-          <StyledModalTitle>Add a Profile Photo</StyledModalTitle>
+          <StyledModalTitle>{t('add_prof_photo')}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
             <Image priority alt="close" height={24} src={closeIcon} width={24} />
           </StyledCloseButton>
@@ -69,7 +71,7 @@ const PhotoSelectModal = ({
               <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
               <Button id="upload-btn" theme={ThemeButton.PRIMARY} width="222px">
                 <StyledLabel htmlFor="file-upload">
-                  <StyledText>Select from Computer</StyledText>
+                  <StyledText>{t('select_from_comp')}</StyledText>
                 </StyledLabel>
               </Button>
             </>

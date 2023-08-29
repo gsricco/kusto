@@ -43,5 +43,8 @@ export const baseTheme = {
       900: '#8D9094',
       950: '#BDC1C7',
     },
+    info: {
+      0: '#3677F7',
+    },
   },
 }
