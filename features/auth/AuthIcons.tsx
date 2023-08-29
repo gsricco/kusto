@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Path } from 'common/enums/path'
 import Image from 'next/image'
 import { useRouter } from 'next/router'

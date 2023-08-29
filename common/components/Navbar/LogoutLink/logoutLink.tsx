@@ -9,7 +9,7 @@ import { Path } from '../../../enums/path'
 import { ThemeButton } from '../../../enums/themeButton'
 import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { Button } from '../../Button/Button'
-import { Modal } from '../../Modals/ModalPublic/Modal'
+import Modal from '../../Modals/ModalPublic/Modal'
 import { AppLink } from '../AppLink/AppLink'
 
 export const LogoutLink: FC = () => {

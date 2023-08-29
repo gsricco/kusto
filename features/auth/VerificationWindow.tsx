@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Button } from 'common/components/Button/Button'
 import VectorImage from 'common/components/VectorImage'
 import { ThemeButton } from 'common/enums/themeButton'
