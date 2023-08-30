@@ -46,43 +46,19 @@ export const useOAuthCode = (provider: PropsType) =>
       if (code) {
         console.log(code)
         if (provider.isGoogle) {
-          handle({ code }, { isGoogle: true })
+          handle({ code }, { isGoogle: true, isGithub: false })
           console.log('isGoogle request')
         }
 
         if (provider.isGithub) {
-          handle({ code }, { isGithub: true })
+          handle({ code }, { isGoogle: false, isGithub: true })
           console.log('isGithub request')
         }
       }
     }, [code])
 
-    // route.push(Path.PROFILE_SETTINGS)
-    // if (code) {
-    // console.log(code);
-    // handleWithGoogle({ code });                         // запустить после переделки
-
-    // window.location.assign(Path.PROFILE_SETTINGS);
-
-    // axios.post('https://calypso-one.vercel.app/auth/google', { code })
-    //     .then(res => {
-    //         console.log('google Responses', res)
-    //         debugger
-    //         window.location.assign(Path.PROFILE_SETTINGS)
-    //     })
-    // }
-
     useEffect(() => {
       if (GoogleData) console.log('GoogleData:', GoogleData)
       if (GithubData) console.log('GithubData:', GithubData)
     }, [])
-
-    // const fetchUserByGoogle = (code: string) => {
-    //     axios.post('/', {code})
-    //     .then(prom => {
-    //         console.log('google promice', prom)
-    //         route.push(Path.PROFILE_SETTINGS)
-
-    //     })
-    // }
   }
