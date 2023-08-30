@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import * as Yup from 'yup'
 
 export const validateProfile = Yup.object().shape({

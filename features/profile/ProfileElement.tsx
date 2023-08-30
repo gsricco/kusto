@@ -1,24 +1,21 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-magic-numbers */
 import React, { useState, useEffect } from 'react'
 
 import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryDefinition,
   QueryStatus,
 } from '@reduxjs/toolkit/dist/query'
-import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import { CreatePostResponse } from 'assets/store/api/posts/types'
+import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import { UserType } from 'assets/store/api/profile/types'
 import { Button } from 'common/components/Button/Button'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
-import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { TFunction } from 'next-i18next'
 import {
   AboutMeBlock,
   AboutMeText,
@@ -34,30 +31,17 @@ import {
   StyledAvatarBlock,
   UserNameStyle,
 } from 'styles/styledComponents/profile/profile.styled'
-import type { Session } from 'next-auth'
-import { baseTheme } from 'styles/styledComponents/theme'
 
 import Paid from '../../public/img/icons/paid.svg'
-
-import { useRouter } from 'next/router'
-import { TFunction } from 'next-i18next'
+import { urlify } from 'common/utils/urlify'
 
 type PropsType = {
-  getCurrentPost: LazyQueryTrigger<
-    QueryDefinition<
-      string,
-      BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-      'createPost' | 'deletePost' | 'editPost',
-      CreatePostResponse,
-      'postsApi'
-    >
-  >
   isLoading: boolean
   pageSize: number
   posts?: CreatePostResponse[] | undefined
-  session?: Session | null | undefined
-  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>
-  setPageSize: React.Dispatch<React.SetStateAction<number>>
+  setIsPostActive: (isPostActive: boolean) => void
+  setPageSize: (pageSize: number) => void
+  setPostInfo: (postInfo: GetPostResponse | undefined) => void
   status: QueryStatus
   t: TFunction
   totalCount: number
@@ -70,7 +54,8 @@ const ProfileElement: React.FC<PropsType> = ({
   setIsPostActive,
   setPageSize,
   pageSize,
-  getCurrentPost,
+  setPostInfo,
+  // getCurrentPost,
   totalCount,
   isLoading,
   status,
@@ -132,7 +117,7 @@ const ProfileElement: React.FC<PropsType> = ({
         </>
       )}
 
-      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => {}}>
+      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => { }}>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
@@ -150,11 +135,10 @@ const ProfileElement: React.FC<PropsType> = ({
           <StyledAvatarBlock>
             <IconBlock>
               <Image
+                alt="avatar"
                 height={avatarSize}
                 src={user?.photo || avatar}
                 width={avatarSize}
-                alt="avatar"
-                // style={{ maxWidth: "204px", maxHeight: "204px" }}
               />
             </IconBlock>
           </StyledAvatarBlock>
@@ -203,16 +187,11 @@ const ProfileElement: React.FC<PropsType> = ({
         {/* <PhotosBlock> */}
 
         <PostPhotos
-          getCurrentPost={getCurrentPost}
           isLoading={isLoading}
-          pageSize={pageSize}
           postSize={postSize}
           posts={posts}
-          scrollSize={scrollSize}
           setIsPostActive={setIsPostActive}
-          setPageSize={setPageSize}
-          status={status}
-          totalCount={totalCount}
+          setPostInfo={setPostInfo}
         />
 
         {/* </PhotosBlock> */}

@@ -17,6 +17,7 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://kustogram.site/api/v1',
+    credentials: 'include',
     fetchFn: async url => {
       const token = getItem('accessToken')
       const options = {
@@ -60,8 +61,7 @@ export const authApi = createApi({
         body,
       }),
     }),
-
-    sendRecoveryLink: builder.mutation<any, SendLinkType>({
+    sendRecoveryLink: builder.mutation<unknown, SendLinkType>({
       query: body => ({
         method: 'POST',
         url: `/auth/password-recovery`,

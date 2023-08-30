@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from 'react'
+import { useEffect, ReactNode } from 'react'
 
 import { Path } from 'common/enums/path'
 import { useAuth } from 'common/hooks/useAuth'

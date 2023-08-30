@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { SizeDataType } from 'common/constants/Post/initialSizeData'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
@@ -52,7 +53,7 @@ const ResizeElement = ({
       {sizeData.map((item, index) => {
         return (
           <StyleItemSize
-            key={index}
+            key={item.size}
             selected={item.selected ? 'selected' : ''}
             onClick={() => handleResizeClick(item, index)}
           >

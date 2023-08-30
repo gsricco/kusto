@@ -10,7 +10,7 @@ export const oauthRequest = (providerName: string, providerParams: ProvidersProp
   }
 
   if (providerName === 'google') {
-    data = providerParams.provider.google
+    data = providerParams.provider.github
   }
   if (providerName === 'github') {
     data = providerParams.provider.github

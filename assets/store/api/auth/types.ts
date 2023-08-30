@@ -52,3 +52,18 @@ export type MeType = {
 export type RefreshLinkType = {
   email: string
 }
+
+export type NotAuthorization = {
+  error: {
+    data: string
+    error: string
+    originalStatus: number
+    status: string
+  }
+}
+
+export type RefreshTokenResponse = {
+  data: {
+    accessToken: string
+  }
+}

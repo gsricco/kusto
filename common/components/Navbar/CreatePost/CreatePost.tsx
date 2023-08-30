@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { store } from 'assets/store/store'
 import PostCreationModal from 'features/posts/PostCreationModal'
-import { TFunction } from 'next-i18next'
 import { Provider } from 'react-redux'
 
 import { StyledModalContainer, StyledModalOverlay } from '../../Modals/Modal.styled'

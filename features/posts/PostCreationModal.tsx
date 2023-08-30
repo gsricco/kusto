@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 
-import { Modal } from 'common/components/Modals/ModalPublic/Modal'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
 import { useOutsideClick } from 'common/hooks/useOutsideClick'
-import { TFunction } from 'next-i18next'
 import styled from 'styled-components'
 
 import FilterModal from './FilterModal'
@@ -48,24 +47,24 @@ const PostCreationModal = ({
   }
 
   // Обработчик перехода из окна наложения фильтров в окно добавления описания
-  const handleNextToPublishButton = (photoPost: PhotoType[]) => {
+  const handleNextToPublishButton = (newPhotoPost: PhotoType[]) => {
     setIsDescriptionOpen(true)
     setIsFilterOpen(false)
-    setPhotoPost(photoPost)
+    setPhotoPost(newPhotoPost)
   }
 
   // Обработчик перехода из окна наложения фильтров в окно изменения размеров
-  const handleBackToEditor = (photoPost: PhotoType[]) => {
+  const handleBackToEditor = (newPhotoPost: PhotoType[]) => {
     setOpenResize(true)
     setIsFilterOpen(false)
-    setPhotoPost(photoPost)
+    setPhotoPost(newPhotoPost)
   }
 
   // Обработчик перехода из окна добавления описания в окно наложения фильтров
-  const handleBackToFilters = (photoPost: PhotoType[]) => {
+  const handleBackToFilters = (newPhotoPost: PhotoType[]) => {
     setIsFilterOpen(true)
     setIsDescriptionOpen(false)
-    setPhotoPost(photoPost)
+    setPhotoPost(newPhotoPost)
   }
 
   const [closeCreation, setCloseCreation] = useState(false)

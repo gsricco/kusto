@@ -6,7 +6,6 @@ import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 
 import { baseTheme } from '../../../../styles/styledComponents/theme'
@@ -15,7 +14,7 @@ import { Navbar } from '../../Navbar/Navbar'
 import { Menubar } from 'common/components/Menu/Menubar'
 
 const { media } = mediaSizes
-const sidebar = mediaSizes.sidebarMedia
+// const sidebar = mediaSizes.sidebarMedia
 
 export const PageLayout: NextPage<PropsWithChildren> = props => {
   const { children } = props
@@ -28,7 +27,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
   const openModalHandler = () => {
     setIsOpenModalEdit(true)
   }
-
+ 
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -36,6 +35,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
+            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
             <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
           </NavbarWrapper>
           <Main>{children}</Main>
@@ -64,7 +64,6 @@ const StyledWrapper = styled.div`
   background: ${baseTheme.colors.dark['700']};
   color: ${baseTheme.colors.light[100]};
 `
-
 const Page = styled.div`
   display: flex;
   max-width: 1310px;
@@ -74,7 +73,6 @@ const Page = styled.div`
   padding: 0 0px;
   /* margin: auto; */
 `
-
 export const Main = styled.div`
   /* padding-top: 36px; */
   padding-left: 0px;

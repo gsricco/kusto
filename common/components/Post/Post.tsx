@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
+import { CreatePostResponse } from 'assets/store/api/posts/types'
 import { useAuthMeQuery, useProfileQuery } from 'assets/store/api/profile/profileApi'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
 import Image from 'next/image'
+import bookMarkOutline from 'public/img/icons/bookmark.svg'
+import close from 'public/img/icons/close_white.svg'
+import edit from 'public/img/icons/edit-2-outline.svg'
+import likeOutline from 'public/img/icons/heart-outline.svg'
+import like from 'public/img/icons/heart.svg'
+import more from 'public/img/icons/more-horizontal-outline.svg'
+import nextBtn from 'public/img/icons/next.svg'
+import planeOutline from 'public/img/icons/paper-plane-outline.svg'
+import prevBtn from 'public/img/icons/prev.svg'
+import trash from 'public/img/icons/trash-outline.svg'
 import { styled } from 'styled-components'
-
-import bookMark from '../../../public/img/icons/bookmark-select.svg'
-import bookMarkOutline from '../../../public/img/icons/bookmark.svg'
-import close from '../../../public/img/icons/close_white.svg'
-import edit from '../../../public/img/icons/edit-2-outline.svg'
-import likeOutline from '../../../public/img/icons/heart-outline.svg'
-import like from '../../../public/img/icons/heart.svg'
-import more from '../../../public/img/icons/more-horizontal-outline.svg'
-import nextBtn from '../../../public/img/icons/next.svg'
-import planeOutline from '../../../public/img/icons/paper-plane-outline.svg'
-import plane from '../../../public/img/icons/paper-plane.svg'
-import prevBtn from '../../../public/img/icons/prev.svg'
-import trash from '../../../public/img/icons/trash-outline.svg'
-import { Modal } from '../../components/Modals/ModalPublic/Modal'
 
 import { fakeData } from './fakeData'
 
 type PostProps = {
-  postInfo: any
+  postInfo: CreatePostResponse | undefined
   setIsPostActive: (state: boolean) => void
 }
 
@@ -39,17 +37,22 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
   const { data: user } = useAuthMeQuery()
   const [isPostManagmentsActive, setIsPostManagmentActive] = useState(false)
   const [comment, setComment] = useState('')
-  const [description, setDescription] = useState(postInfo.description || '')
+  const [description, setDescription] = useState(postInfo?.description || '')
   const [isEditDescription, setIsEditDescription] = useState(false)
 
+  let imageSrc = ''
+
+  if (images && images.length) {
+    imageSrc = images[currentImage].url
+  }
   const switchFotoHandler = (direction: string): void => {
-    if (direction === 'next') {
+    if (images && direction === 'next') {
       if (currentImage + 1 === images.length) {
         setCurrentImage(0)
       } else {
         setCurrentImage(prev => prev + 1)
       }
-    } else if (currentImage === 0) {
+    } else if (images && currentImage === 0) {
       setCurrentImage(images.length - 1)
     } else {
       setCurrentImage(prev => prev - 1)
@@ -67,9 +70,11 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
   }
 
   const deletePostHandler = () => {
-    deletePost(postInfo.id)
-      .unwrap()
-      .then(() => setIsPostActive(false))
+    if (postInfo) {
+      deletePost(postInfo.id)
+        .unwrap()
+        .then(() => setIsPostActive(false))
+    }
   }
 
   const closeDescriptionModal = () => {
@@ -78,7 +83,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
   }
 
   const newDescriptionHandler = () => {
-    if (description !== postInfo.descrption) {
+    if (postInfo && description !== postInfo.description) {
       const data = {
         postId: postInfo.id,
         body: {
@@ -112,13 +117,8 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
       )}
       <StyledModalContainer>
         <StyledImageWrapper>
-          <StyledPostImage
-            alt="post image"
-            height={560}
-            src={images.length ? images[currentImage].url : ''}
-            width={490}
-          />
-          {images.length > 1 ? (
+          <StyledPostImage alt="post image" height={560} src={imageSrc} width={490} />
+          {images && images.length > 1 ? (
             <>
               <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchFotoHandler('prev')} />
               <NextPhoto alt="next" src={nextBtn} onClick={() => switchFotoHandler('next')} />
@@ -161,7 +161,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
                 </SingleCommentWrapper>
               )}
               {fakeData.map((item, index) => (
-                <SingleCommentWrapper key={index}>
+                <SingleCommentWrapper key={item.id}>
                   <StyledAvatar alt="avatar" src={item.userImage} />
                   <StyledComment>{`${item.userName + index} ${item.comment}`}</StyledComment>
 

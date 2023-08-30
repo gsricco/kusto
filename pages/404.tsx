@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { Button } from '../common/components/Button/Button'
 import { getLayout } from '../common/components/Layout/BaseLayout/BaseLayout'
-import { Modal } from '../common/components/Modals/ModalPublic/Modal'
+import Modal from '../common/components/Modals/ModalPublic/Modal'
 import { ThemeButton } from '../common/enums/themeButton'
 
 const NotFound = () => {

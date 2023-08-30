@@ -1,15 +1,14 @@
 import { useState } from 'react'
 
+import { useRefreshLinkMutation } from 'assets/store/api/auth/authApi'
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
+import VerificationWindow from 'features/auth/VerificationWindow'
 import { GetStaticPropsContext } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
-
-import { useRefreshLinkMutation } from '../../../../assets/store/api/auth/authApi'
-import { getLayout } from '../../../../common/components/Layout/BaseLayout/BaseLayout'
-import { Modal } from '../../../../common/components/Modals/ModalPublic/Modal'
-import VerificationWindow from '../../../../features/auth/VerificationWindow'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

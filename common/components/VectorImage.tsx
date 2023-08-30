@@ -20,12 +20,23 @@ export const VectorImage: React.FC<PropsType> = ({
   imageHeight,
   alt = 'vector-image',
 }) => {
-  const { width, height } = useWindowSize()
-  const imageSize = width
-    ? width > screenWidth
-      ? imageWidth
-      : width - screenWidth + imageWidth
-    : imageWidth
+  const { width } = useWindowSize()
+  let imageSize
+
+  if (width) {
+    if (width > screenWidth) {
+      imageSize = imageWidth
+    } else {
+      imageSize = width - screenWidth + imageWidth
+    }
+  } else {
+    imageSize = imageWidth
+  }
+  // const imageSize = width
+  //   ? width > screenWidth
+  //     ? imageWidth
+  //     : width - screenWidth + imageWidth
+  //   : imageWidth
 
   return (
     <StyledVectorImage>

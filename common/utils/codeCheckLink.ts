@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 export const codeCheckLink = () => {
   let code: string | undefined = ''
 

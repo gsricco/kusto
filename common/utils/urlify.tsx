@@ -2,7 +2,8 @@ import React from 'react'
 
 import { Link } from '../../styles/styledComponents/profile/profile.styled'
 
-/*   __________<Нахождение ссылки в тексте (НЕ УДАЛЯТЬ!!!)>______ */
+//   return text.split(urlRegex).map((part, i, a) => {
+//     let url
 
 export const urlify = (text: string) => {
   const urlRegex =

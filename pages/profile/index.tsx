@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
+import { GetPostResponse } from 'assets/store/api/posts/types'
 import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
 import Post from 'common/components/Post/Post'
 // import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
@@ -31,12 +32,13 @@ const MyProfile = () => {
   const posts = data?.items || []
   const totalCount = data?.totalCount || 0
 
-  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
+  // const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
   const [isPostActive, setIsPostActive] = useState(false)
 
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(postsPerPage)
-  const [Id, setId] = useState('')
+  const [userId, setUserId] = useState('')
+  const [postInfo, setPostInfo] = useState<GetPostResponse | undefined>()
 
   const { t } = useTranslation()
 
@@ -45,16 +47,16 @@ const MyProfile = () => {
       .unwrap()
       .then(({ userId }) => {
         if (userId) {
-          setId(userId)
+          setUserId(userId)
         }
       })
   }, [])
 
   useEffect(() => {
-    if (Id) {
-      getUserPosts({ userId: Id, pageNumber, pageSize })
+    if (userId) {
+      getUserPosts({ userId, pageNumber, pageSize })
     }
-  }, [Id, pageNumber, pageSize])
+  }, [userId, pageNumber, pageSize])
 
   // const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
@@ -69,16 +71,17 @@ const MyProfile = () => {
       {/* {isAppInitialized && ( */}
       <>
         <ProfileElement
-          getCurrentPost={getCurrentPost}
           isLoading={isLoading}
           pageSize={pageSize}
           posts={posts}
           setIsPostActive={setIsPostActive}
           setPageSize={setPageSize}
+          setPostInfo={setPostInfo}
           status={status}
           t={t}
           totalCount={totalCount}
           user={user}
+          // getCurrentPost={getCurrentPost}
         />
         {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
       </>

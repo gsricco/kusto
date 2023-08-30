@@ -82,9 +82,10 @@ const Login = () => {
     try {
       await loginHandler(data)
         .unwrap()
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        //// eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then(res => {
           removeItem('email')
+          setItem('userEmail', data.email)
           resetForm()
           getInitialize()
         })

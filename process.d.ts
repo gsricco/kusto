@@ -12,7 +12,6 @@ declare namespace NodeJS {
     GOOGLE_SECRET: string | null;
     NEXTAUTH_SECRET: string;
     NEXTAUTH_URL: string;
-    BASE_URL: string;
   }
 }
 

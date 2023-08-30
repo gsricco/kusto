@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import addPhotoGrey from 'public/img/icons/image-outline-grey.svg'
 import addPhoto from 'public/img/icons/image-outline.svg'
 import resize11 from 'public/img/icons/resize11.svg'

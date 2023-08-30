@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import React, { useRef, useState } from 'react'
 
 import { useSaveAvatarMutation } from 'assets/store/api/profile/profileApi'
@@ -28,7 +29,7 @@ const PhotoEditorModal = ({
   const handleSlider =
     (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
-        setState(parseInt(e.target.value))
+        setState(parseInt(e.target.value, 10))
       }
     }
 
