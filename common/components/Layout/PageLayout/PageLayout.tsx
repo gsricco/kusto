@@ -27,7 +27,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
   const openModalHandler = () => {
     setIsOpenModalEdit(true)
   }
- 
+
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -35,7 +35,6 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
             <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
           </NavbarWrapper>
           <Main>{children}</Main>
