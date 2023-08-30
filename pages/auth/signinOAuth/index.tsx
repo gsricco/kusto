@@ -13,8 +13,13 @@ import {
   buttonStyle,
   spanStyle,
 } from 'styles/styledComponents/auth/signin.styled'
+import { GetStaticPropsContext } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const { locale } = context
   return {
     props: {
       provider: {
@@ -31,12 +36,14 @@ export const getStaticProps = async () => {
           ID: process.env.GITHUB_ID,
         },
       },
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
     },
   }
 }
 
 const Signin = (props: ProvidersPropsType) => {
-  const route = useRouter()
+  // const route = useRouter()
+  const { t } = useTranslation()
 
   const handle = (providerName: string) => {
     const url = oauthRequest(providerName, props)
@@ -44,35 +51,31 @@ const Signin = (props: ProvidersPropsType) => {
     console.log(url)
     window.location.assign(url)
   }
+  const buttonData = [
+    { name: 'google', src: google, text: 'Google' },
+    { name: 'github', src: github, text: 'GitHub' },
+  ]
 
   return (
     <SigninWrapper>
       <BlockButton>
-        <Button
-          style={buttonStyle}
-          theme={ThemeButton.SECONDARY}
-          type="button"
-          width="300"
-          onClick={() => {
-            handle('google')
-          }}
-        >
-          <Image alt="google" height={24} src={google} width={24} />
-          <span style={spanStyle}>Sign in with Google</span>
-        </Button>
-
-        <Button
-          style={buttonStyle}
-          theme={ThemeButton.SECONDARY}
-          type="button"
-          width="300"
-          onClick={() => {
-            handle('github')
-          }}
-        >
-          <Image alt="github" height={24} src={github} width={24} />
-          <span style={spanStyle}>Sign in with GitHub</span>
-        </Button>
+        {buttonData.map((provider, i) => {
+          return (
+            <Button
+              key={i}
+              style={buttonStyle}
+              theme={ThemeButton.SECONDARY}
+              type="button"
+              width="300"
+              onClick={() => {
+                handle(provider.name)
+              }}
+            >
+              <Image alt="google" height={24} src={provider.src} width={24} />
+              <span style={spanStyle}>{`${t('signin')} ${provider.text}`}</span>
+            </Button>
+          )
+        })}
       </BlockButton>
     </SigninWrapper>
   )
