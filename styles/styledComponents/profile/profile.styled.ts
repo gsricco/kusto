@@ -168,7 +168,6 @@ export const AboutMeBlock = styled.div`
   flex-direction: column-reverse;
   flex-shrink: 0;
   margin-top: 24px;
-  padding-right: 72px;
 
   @media (max-width: ${media}) {
     margin-top: 50px;
@@ -183,6 +182,8 @@ export const AboutMeBlock = styled.div`
 `
 
 export const AboutMeText = styled.p`
+  word-break: break-all;
+  text-align: justify;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;

@@ -52,30 +52,30 @@ type PropsType = {
   //     'postsApi'
   //   >
   // >
-  isLoading: boolean
-  pageSize: number
+  // isLoading: boolean
+  // pageSize: number
   posts?: CreatePostResponse[] | undefined
-  // session?: Session | null | undefined
-  setIsPostActive: (isPostActive: boolean) => void
-  setPageSize: (pageSize: number) => void
-  setPostInfo: (postInfo: GetPostResponse | undefined) => void
-  status: QueryStatus
+  // // session?: Session | null | undefined
+  // setIsPostActive: (isPostActive: boolean) => void
+  // setPageSize: (pageSize: number) => void
+  // setPostInfo: (postInfo: GetPostResponse | undefined) => void
+  // status: QueryStatus
   t: TFunction
-  totalCount: number
+  // totalCount: number
   user?: UserType | undefined
 }
 
 const ProfileElement: React.FC<PropsType> = ({
   user,
   posts,
-  setIsPostActive,
-  setPageSize,
-  pageSize,
-  setPostInfo,
-  // getCurrentPost,
-  totalCount,
-  isLoading,
-  status,
+  // setIsPostActive,
+  // setPageSize,
+  // pageSize,
+  // setPostInfo,
+  // // getCurrentPost,
+  // totalCount,
+  // isLoading,
+  // status,
   t,
 }) => {
   const avatar = '/img/icons/avatar.svg'
@@ -94,21 +94,21 @@ const ProfileElement: React.FC<PropsType> = ({
 
   /*  ____________</переменные для мобильной версии>_______________ */
 
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    const element = e.currentTarget
-    // console.log('scrollHeight', element.scrollHeight)
-    // console.log('scrollTop', element.scrollTop)
-    // console.log('clientHeight', element.clientHeight)
-    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+  // const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+  //   const element = e.currentTarget
+  //   // console.log('scrollHeight', element.scrollHeight)
+  //   // console.log('scrollTop', element.scrollTop)
+  //   // console.log('clientHeight', element.clientHeight)
+  //   // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
 
-    if (element.scrollHeight - element.scrollTop < scrollSize) {
-      const newPageSize = pageSize + 9
+  //   if (element.scrollHeight - element.scrollTop < scrollSize) {
+  //     const newPageSize = pageSize + 9
 
-      if (totalCount + 9 >= newPageSize) {
-        setPageSize(newPageSize)
-      }
-    }
-  }
+  //     if (totalCount + 9 >= newPageSize) {
+  //       setPageSize(newPageSize)
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     if (width) {
@@ -127,14 +127,14 @@ const ProfileElement: React.FC<PropsType> = ({
 
   return (
     <>
-      {status !== 'fulfilled' && (
+      {/* {status !== 'fulfilled' && (
         <>
           <LoadingPostStyle>{`${t('loading')}...`}</LoadingPostStyle>
           <LoadingPostBackStyle />
         </>
-      )}
+      )} */}
 
-      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => {}}>
+      <ProfileWrapper>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
@@ -203,7 +203,7 @@ const ProfileElement: React.FC<PropsType> = ({
           </InfoBlock>
         </HeaderStyle>
 
-        {/* <PhotosBlock> */}
+        {/* <PhotosBlock> 
 
         <PostPhotos
           // getCurrentPost={getCurrentPost}
@@ -219,7 +219,7 @@ const ProfileElement: React.FC<PropsType> = ({
           // totalCount={totalCount}
         />
 
-        {/* </PhotosBlock> */}
+         </PhotosBlock> */}
       </ProfileWrapper>
     </>
   )

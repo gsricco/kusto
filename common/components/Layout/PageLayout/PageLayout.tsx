@@ -71,14 +71,15 @@ const Page = styled.div`
 `
 
 export const Main = styled.div`
+  width: 100%;
   /* padding-top: 36px; */
-  padding-left: 0px;
-  flex-grow: 1;
-  max-width: 80vw;
+  /* padding-left: 0px; */
+  /* flex-grow: 1;
+  max-width: 80vw; */
 
-  @media (max-width: ${'1400px'}) {
+  /* @media (max-width: ${'1400px'}) {
     padding-left: 0px;
-  }
+  } */
 `
 
 export const NavbarWrapper = styled.div`
