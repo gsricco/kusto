@@ -2,9 +2,7 @@
 /* eslint-disable no-magic-numbers */
 import React, { useState, useEffect } from 'react'
 
-import {
-  QueryStatus,
-} from '@reduxjs/toolkit/dist/query'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import { UserType } from 'assets/store/api/profile/types'
 import { Button } from 'common/components/Button/Button'
@@ -117,7 +115,7 @@ const ProfileElement: React.FC<PropsType> = ({
         </>
       )}
 
-      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => { }}>
+      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => {}}>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
