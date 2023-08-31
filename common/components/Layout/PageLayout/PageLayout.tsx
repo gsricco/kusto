@@ -1,30 +1,32 @@
-import { NextPage } from "next";
-import { PropsWithChildren, ReactElement, useState } from "react";
-import Header from "../../Header/Header";
-import { Navbar } from "../../Navbar/Navbar";
-import styled from "styled-components";
-import { baseTheme } from "../../../../styles/styledComponents/theme";
-import { useRouter } from "next/router";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { mediaSizes } from "common/constants/Profile/mediaSizes";
-import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
-import { useTranslation } from "next-i18next";
+import { PropsWithChildren, ReactElement, useState } from 'react'
 
-const media = mediaSizes.media;
-const sidebar = mediaSizes.sidebarMedia;
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
 
-export const PageLayout: NextPage<PropsWithChildren> = (props) => {
-  const { children } = props;
+import { baseTheme } from '../../../../styles/styledComponents/theme'
+import Header from '../../Header/Header'
+import { Navbar } from '../../Navbar/Navbar'
 
-  const router = useRouter();
-  const { profile } = router.query;
+const { media } = mediaSizes
+// const sidebar = mediaSizes.sidebarMedia
 
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
+export const PageLayout: NextPage<PropsWithChildren> = props => {
+  // eslint-disable-next-line react/prop-types
+  const { children } = props
+
+  const router = useRouter()
+  const { profile } = router.query
+
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
 
   const openModalHandler = () => {
-    setIsOpenModalEdit(true);
-  };
+    setIsOpenModalEdit(true)
+  }
 
   return (
     <StyledWrapper>
@@ -33,18 +35,18 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar showNavbar={profile} openModalHandler={openModalHandler} />
+            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
       </LocalizationProvider>
     </StyledWrapper>
-  );
-};
+  )
+}
 
 export const getLayout = (page: ReactElement) => {
-  return <PageLayout>{page}</PageLayout>;
-};
+  return <PageLayout>{page}</PageLayout>
+}
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -54,9 +56,9 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background: ${baseTheme.colors.dark["700"]};
+  background: ${baseTheme.colors.dark['700']};
   color: ${baseTheme.colors.light[100]};
-`;
+`
 
 const Page = styled.div`
   display: flex;
@@ -66,18 +68,19 @@ const Page = styled.div`
 
   padding: 0 0px;
   /* margin: auto; */
-`;
+`
 
 export const Main = styled.div`
+  width: 100%;
   /* padding-top: 36px; */
-  padding-left: 0px;
-  flex-grow: 1;
-  max-width: 80vw;
+  /* padding-left: 0px; */
+  /* flex-grow: 1;
+  max-width: 80vw; */
 
-  @media (max-width: ${"1400px"}) {
+  /* @media (max-width: ${'1400px'}) {
     padding-left: 0px;
-  }
-`;
+  } */
+`
 
 export const NavbarWrapper = styled.div`
   height: 660px;
@@ -90,4 +93,4 @@ export const NavbarWrapper = styled.div`
   @media (max-width: ${media}) {
     display: none;
   }
-`;
+`
