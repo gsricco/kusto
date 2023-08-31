@@ -33,10 +33,15 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
 
   useEffect(() => {
     if (connectionError) {
-      console.log(
-        `%c Connection Error: ${connectionError.data.errorsMessages[0].message}`,
-        consoleStyle
-      )
+      if (connectionError.status! >= 500) {
+        console.log(`%c Internal server error ${connectionError.status}`, consoleStyle)
+      } else if (connectionError.data.errorsMessages) {
+        console.log(
+          `%c Connection Error: ${connectionError.status} _ ${connectionError.data.errorsMessages[0].message} `,
+          consoleStyle
+        )
+      } else console.log('Some Connection Error')
+      console.log(connectionError)
     }
 
     if (accountError) console.log(`%c Account Error: ${accountError}`, consoleStyle)
@@ -46,9 +51,11 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
     }
   }, [connectionError, accountError])
 
+  useEffect(() => {}, [errors])
+
   return (
     <div>
-      {status !== 'rejected' && status !== 'fulfilled' && (
+      {status !== 'rejected' && status !== 'fulfilled' && !errors && (
         <div style={LoadingStyle}>{t('loading')} ...</div>
       )}
       {status === 'rejected' && <div style={LoadingStyle}> {t('con_rejected')} </div>}

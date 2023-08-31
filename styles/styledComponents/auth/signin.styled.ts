@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import { baseTheme } from '../theme'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+
+const media = mediaSizes.media
 
 export const SigninWrapper = styled.div`
   /* position: relative; */
@@ -45,6 +48,13 @@ export const SigninOauthWrapper = styled.div`
   border: 1px solid ${baseTheme.colors.dark[100]};
   top: 40%;
   left: calc(50% - 289px);
+
+  @media (max-width: ${media}) {
+    top: 30%;
+    height: 350px;
+    width: 300px;
+    left: calc(50% - 150px);
+  }
 `
 
 export const StyledOauthHeader = styled.div`
@@ -53,13 +63,19 @@ export const StyledOauthHeader = styled.div`
   border-bottom: 1px solid ${baseTheme.colors.dark[100]};
   width: 100%;
   height: 59px;
+  @media (max-width: ${media}) {
+    height: 90px;
+  }
 `
 export const StyledOauthTitle = styled.span`
   color: ${baseTheme.colors.light[100]};
   font-size: 20px;
   font-family: Inter;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 36px;
+  @media (max-width: ${media}) {
+    font-size: 16px;
+  }
 `
 
 export const StyledOauthErrorBody = styled.div`
@@ -88,6 +104,10 @@ export const StyledOauthText = styled.span`
   font-family: Inter;
   font-weight: 500;
   line-height: 36px;
+  @media (max-width: ${media}) {
+    font-size: 14px;
+    font-weight: 400;
+  }
 `
 
 export const StyledOAuthBlockButton = styled.div`

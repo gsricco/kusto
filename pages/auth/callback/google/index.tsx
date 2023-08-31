@@ -8,6 +8,7 @@ import config from 'next-i18next.config.js'
 
 export type ErrorType = {
   data: { errorsMessages: Array<{ message: string }> }
+  status: number | null
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
