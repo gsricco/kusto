@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { redirect } from 'pages/auth/login'
 import { ErrorType } from 'pages/auth/callback/google'
 
-type ProviderType = {
+export type ProviderType = {
   isGithub?: boolean
   isGoogle?: boolean
 }

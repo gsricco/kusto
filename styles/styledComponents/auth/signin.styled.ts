@@ -34,13 +34,11 @@ export const spanStyle: React.CSSProperties = {
 }
 
 export const SigninOauthWrapper = styled.div`
-  /* position: relative; */
   display: inline-flex;
   position: fixed;
   flex-wrap: wrap;
-  /* align-items: center;
-  justify-content: center; */
-  height: 228px;
+
+  height: 250px;
   width: 578px;
   background: ${baseTheme.colors.dark[300]};
   border-radius: 2px;
@@ -67,16 +65,22 @@ export const StyledOauthTitle = styled.span`
 export const StyledOauthErrorBody = styled.div`
   display: flex;
   flex-direction: column;
-
   color: ${baseTheme.colors.danger[300]};
+  padding: 0px 24px;
+`
+export const StyledOautSuccessBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: ${baseTheme.colors.success[300]};
   padding: 30px 24px;
 `
 export const StyledOauthBody = styled.div`
   display: flex;
   flex-direction: column;
-
-  color: ${baseTheme.colors.success[300]};
-  padding: 30px 24px;
+  color: ${baseTheme.colors.light[100]};
+  padding: 10px 24px;
+  width: 100%;
+  text-align: center;
 `
 
 export const StyledOauthText = styled.span`
@@ -84,4 +88,11 @@ export const StyledOauthText = styled.span`
   font-family: Inter;
   font-weight: 500;
   line-height: 36px;
+`
+
+export const StyledOAuthBlockButton = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
 `
