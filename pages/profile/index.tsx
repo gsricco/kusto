@@ -26,10 +26,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const postsAmount = 9
+const higAltitude = 1500
 
 const MyProfile = () => {
-  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
-  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
+  const [getProfileInfo, { data: user }] = useLazyProfileQuery()
+  const [getUserPosts] = useLazyGetUserPostsQuery()
 
   const [posts, setPosts] = useState<CreatePostResponse[]>([])
   // const totalCount = data?.totalCount || 0
@@ -70,6 +71,14 @@ const MyProfile = () => {
           setTotalCount(res.totalCount)
         })
     }
+
+    if (posts.length === totalCount) {
+      const postsWrapper = document.getElementById('postsWrapper')
+
+      if (postsWrapper) {
+        postsWrapper.style.paddingBottom = '20px'
+      }
+    }
   }, [isFetching, userId])
 
   const scrollHandler = () => {
@@ -82,15 +91,30 @@ const MyProfile = () => {
     }
   }
 
+  const checkDeviceHeight = () => {
+    if (window.innerHeight > higAltitude) {
+      return '300px'
+    }
+
+    return '20px'
+  }
+
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
 
     return () => document.removeEventListener('scroll', scrollHandler)
   }, [totalCount])
 
+  useEffect(() => {
+    const postsWrapper = document.getElementById('postsWrapper')
+
+    if (postsWrapper) {
+      postsWrapper.style.paddingBottom = checkDeviceHeight()
+    }
+  }, [])
+
   return (
     <>
-      {}
       <ProfileElement t={t} user={user} />
       <PostsWrapper>
         {posts.map(post => {
@@ -110,7 +134,6 @@ const MyProfile = () => {
           )
         })}
       </PostsWrapper>
-
       {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
     </>
   )
@@ -119,7 +142,9 @@ const MyProfile = () => {
 MyProfile.getLayout = getLayout
 export default MyProfile
 
-const PostsWrapper = styled.div`
+const PostsWrapper = styled.div.attrs({
+  id: 'postsWrapper',
+})`
   width: 100%;
   display: flex;
   gap: 10px;

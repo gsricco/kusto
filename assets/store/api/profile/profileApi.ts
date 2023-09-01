@@ -49,6 +49,7 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
         const refreshRes = refreshResult as RefreshTokenResponse
 
         setItem('accessToken', refreshRes.data.accessToken)
+        setItem('profile', refreshRes.data.profile)
         result = await baseQuery(args, api, extraOptions)
       } else {
         console.log('smth went wrong')

@@ -65,5 +65,6 @@ export type NotAuthorization = {
 export type RefreshTokenResponse = {
   data: {
     accessToken: string
+    profile: boolean
   }
 }

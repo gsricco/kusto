@@ -44,7 +44,9 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   height: 84px;
   padding-left: 8px;
   position: relative;
-
+  &::-webkit-scrollbar {
+    width: 0;
+  }
   font-size: 14px;
 
   outline: none;

@@ -15,9 +15,8 @@ import {
 
 export type NavbarPropsType = {
   openModalHandler: () => void
-  showNavbar: string[] | string | undefined
 }
-export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
+export const Navbar = ({ openModalHandler }: NavbarPropsType) => {
   const location = usePathname()
 
   const { t } = useTranslation('nav_bar')
@@ -35,7 +34,7 @@ export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
   ))
 
   return (
-    <StyledSidebar showNavbar={showNavbar}>
+    <StyledSidebar>
       <StyledCreate onClick={openModalHandler}>
         <StyledDiv style={{ cursor: 'pointer' }}>
           <Image alt="CreatePost" height={24} src="/img/icons/plus-square.svg" width={24} />

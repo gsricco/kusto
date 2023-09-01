@@ -86,6 +86,7 @@ const Login = () => {
         .then(res => {
           removeItem('email')
           setItem('userEmail', data.email)
+          setItem('profile', res.profile)
           resetForm()
           getInitialize()
         })

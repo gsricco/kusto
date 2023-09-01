@@ -1,9 +1,10 @@
-import { PropsWithChildren, ReactElement, useState } from 'react'
+import { PropsWithChildren, ReactElement, useLayoutEffect, useState } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { getItem } from 'common/hooks/useLocalStorage'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -19,14 +20,24 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
   // eslint-disable-next-line react/prop-types
   const { children } = props
 
-  const router = useRouter()
-  const { profile } = router.query
+  // const router = useRouter()
+  // const { profile } = router.query
+
+  const profile = getItem('profile')
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
 
   const openModalHandler = () => {
     setIsOpenModalEdit(true)
   }
+
+  useLayoutEffect(() => {
+    const navbar = document.getElementById('navbar')
+
+    if (navbar) {
+      navbar.style.display = profile ? 'block' : 'none'
+    }
+  }, [])
 
   return (
     <StyledWrapper>
@@ -35,7 +46,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
+            <Navbar openModalHandler={openModalHandler} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
