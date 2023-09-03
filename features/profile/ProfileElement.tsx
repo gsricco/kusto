@@ -10,7 +10,7 @@ import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
-import { urlify } from 'common/utils/urlify'
+// import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -108,9 +108,9 @@ const ProfileElement: React.FC<PropsType> = ({
 
   const userFirstName = user?.firstName !== null ? user?.firstName : ''
   const userLastName = user?.lastName !== null ? user?.lastName : ''
-  let name = `${userFirstName} ${userLastName}`
+  const name = `${userFirstName} ${userLastName}`
 
-  if (!userFirstName || !userLastName) name = user?.login!
+  // if (!userFirstName || !userLastName) name = user?.login!
 
   return (
     <>
