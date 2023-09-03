@@ -37,7 +37,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
     if (navbar) {
       navbar.style.display = profile ? 'block' : 'none'
     }
-  }, [])
+  }, [profile])
 
   return (
     <StyledWrapper>

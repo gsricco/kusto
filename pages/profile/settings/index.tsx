@@ -123,6 +123,7 @@ const GeneralInformation = () => {
         .unwrap()
         .then(() => {
           setIsModalOpen({ photoModal: false, saveProfileModal: true, filterModal: false })
+          setItem('profile', true)
           router.push(Path.PROFILE_SETTINGS)
         })
     } catch (error) {
