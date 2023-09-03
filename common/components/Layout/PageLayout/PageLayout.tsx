@@ -2,6 +2,7 @@ import { PropsWithChildren, ReactElement, useState } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Menubar } from 'common/components/Menu/Menubar'
 import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
@@ -39,6 +40,10 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
+
+        <MenuWrapper>
+          <Menubar openModalHandler={openModalHandler} showMenuBar={profile} />
+        </MenuWrapper>
       </LocalizationProvider>
     </StyledWrapper>
   )
@@ -91,5 +96,22 @@ export const NavbarWrapper = styled.div`
 
   @media (max-width: ${media}) {
     display: none;
+  }
+`
+// from gennadyi
+export const MenuWrapper = styled.div`
+  display: none;
+
+  @media (max-width: ${media}) {
+    display: flex;
+    height: 60px;
+    width: 100%;
+    flex-shrink: 0;
+    min-width: 360px;
+    /* max-width: 220px; */
+    align-items: center;
+    font-family: Inter;
+    justify-content: center;
+    border-top: 1px solid ${baseTheme.colors.dark[300]};
   }
 `

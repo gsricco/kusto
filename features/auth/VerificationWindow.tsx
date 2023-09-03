@@ -1,7 +1,8 @@
+import React from 'react'
+
 import { Button } from 'common/components/Button/Button'
 import VectorImage from 'common/components/VectorImage'
 import { ThemeButton } from 'common/enums/themeButton'
-import { WrapperContainerNoFrame } from 'features/auth/WrapperContainerNoFrame'
 import {
   StyledContainerAuth,
   StyledContainerButtonVer,
@@ -15,6 +16,7 @@ import {
 import overtime from '../../public/img/icons/web-app-ui-time-management-rafiki.svg'
 
 import { VerificationWindowType } from './types'
+import { WrapperContainerNoFrame } from './WrapperContainerNoFrame'
 
 const VerificationWindow = ({ handleClick, title, text, btnTitle }: VerificationWindowType) => {
   return (

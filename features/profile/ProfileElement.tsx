@@ -2,15 +2,7 @@
 /* eslint-disable no-magic-numbers */
 import React, { useState, useEffect } from 'react'
 
-import {
-  // BaseQueryFn,
-  // FetchArgs,
-  // FetchBaseQueryError,
-  // FetchBaseQueryMeta,
-  // QueryDefinition,
-  QueryStatus,
-} from '@reduxjs/toolkit/dist/query'
-// import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import { UserType } from 'assets/store/api/profile/types'
 import { Button } from 'common/components/Button/Button'
@@ -18,11 +10,10 @@ import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
-// import { urlify } from 'common/utils/urlify'
+import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-// import type { Session } from 'next-auth'
 import { TFunction } from 'next-i18next'
 import {
   AboutMeBlock,
@@ -43,19 +34,9 @@ import {
 import Paid from '../../public/img/icons/paid.svg'
 
 type PropsType = {
-  // getCurrentPost: LazyQueryTrigger<
-  //   QueryDefinition<
-  //     string,
-  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-  //     'createPost' | 'deletePost' | 'editPost',
-  //     CreatePostResponse,
-  //     'postsApi'
-  //   >
-  // >
   isLoading: boolean
   pageSize: number
   posts?: CreatePostResponse[] | undefined
-  // session?: Session | null | undefined
   setIsPostActive: (isPostActive: boolean) => void
   setPageSize: (pageSize: number) => void
   setPostInfo: (postInfo: GetPostResponse | undefined) => void
@@ -90,7 +71,7 @@ const ProfileElement: React.FC<PropsType> = ({
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228
-  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 628) : 628
+  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 660) : 660
 
   /*  ____________</переменные для мобильной версии>_______________ */
 
@@ -124,6 +105,12 @@ const ProfileElement: React.FC<PropsType> = ({
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS)
   }
+
+  const userFirstName = user?.firstName !== null ? user?.firstName : ''
+  const userLastName = user?.lastName !== null ? user?.lastName : ''
+  let name = `${userFirstName} ${userLastName}`
+
+  if (!userFirstName || !userLastName) name = user?.login!
 
   return (
     <>
@@ -162,7 +149,8 @@ const ProfileElement: React.FC<PropsType> = ({
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {user ? `${user.firstName} ${user?.lastName}` : t('user_name')}
+            {/* {user ? `${user.firstName} ${user.lastName}` : t('user_name')} */}
+            {name}
             {isPaid && (
               <Image alt={t('paid')} height={paidImageSize} src={Paid} width={paidImageSize} />
             )}
@@ -197,8 +185,7 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{user ? user.userInfo : t('about_me')}</AboutMeText>
-              {/* <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText> */}
+              <AboutMeText>{user?.userInfo || t('about_me')}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
@@ -206,17 +193,11 @@ const ProfileElement: React.FC<PropsType> = ({
         {/* <PhotosBlock> */}
 
         <PostPhotos
-          // getCurrentPost={getCurrentPost}
           isLoading={isLoading}
-          // pageSize={pageSize}
           postSize={postSize}
           posts={posts}
-          // scrollSize={scrollSize}
           setIsPostActive={setIsPostActive}
-          // setPageSize={setPageSize}
           setPostInfo={setPostInfo}
-          // status={status}
-          // totalCount={totalCount}
         />
 
         {/* </PhotosBlock> */}
