@@ -3,8 +3,12 @@ import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
 import { ThemeButton } from 'common/enums/themeButton'
 import { oauthRequest } from 'features/auth/oauth2Request'
 import { ProvidersPropsType } from 'features/auth/types'
+import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 import github from 'public/img/icons/github-svgrepo-com.svg'
 import google from 'public/img/icons/google-svgrepo-com.svg'
 import {
@@ -13,13 +17,10 @@ import {
   buttonStyle,
   spanStyle,
 } from 'styles/styledComponents/auth/signin.styled'
-import { GetStaticPropsContext } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import config from 'next-i18next.config.js'
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
+
   return {
     props: {
       provider: {
@@ -62,7 +63,7 @@ const Signin = (props: ProvidersPropsType) => {
         {buttonData.map((provider, i) => {
           return (
             <Button
-              key={i}
+              key={provider.name}
               style={buttonStyle}
               theme={ThemeButton.SECONDARY}
               type="button"

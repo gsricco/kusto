@@ -1,8 +1,10 @@
-import styled from "styled-components";
-import { baseTheme } from "../../../styles/styledComponents/theme";
-import { MenuBarPropsType } from "./Menubar";
+import styled from 'styled-components'
 
-export const StyledMenuBar = styled.div<{ showMenuBar: string | string[] | undefined }>`
+import { baseTheme } from '../../../styles/styledComponents/theme'
+
+import { MenuBarPropsType } from './Menubar'
+
+export const StyledMenuBar = styled.div<{ showMenuBar: string[] | string | undefined }>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -10,8 +12,8 @@ export const StyledMenuBar = styled.div<{ showMenuBar: string | string[] | undef
   min-width: 360px;
   height: 60px;
   /* width: 100vw; */
-  opacity: ${(props) => (props.showMenuBar ? 0 : 1)};
-`;
+  opacity: ${props => (props.showMenuBar ? 0 : 1)};
+`
 
 export const StyledItemBlock = styled.div`
   /* margin-left: 45px; */
@@ -26,19 +28,19 @@ export const StyledItemBlock = styled.div`
       display: none;
     }
   }
-`;
+`
 
 export const StyledCreate = styled.div`
   position: absolute;
   top: 15px;
   left: 108px;
-`;
+`
 
-//MainLink
+// MainLink
 export const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
   gap: 12px;
   justify-content: center;
   align-items: center;
-`;
+`

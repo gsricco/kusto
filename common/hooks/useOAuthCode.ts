@@ -7,8 +7,8 @@ import {
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { redirect } from 'pages/auth/login'
 import { ErrorType } from 'pages/auth/callback/google'
+import { redirect } from 'pages/auth/login'
 import { baseTheme } from 'styles/styledComponents/theme'
 
 export type ProviderType = {
@@ -18,8 +18,8 @@ export type ProviderType = {
 
 type CodeType = {
   provider: ProviderType
-  setConnectionError: (conError: ErrorType) => void
   setAccountError: (accError: string) => void
+  setConnectionError: (conError: ErrorType) => void
   setStatus: (status: string) => void
 }
 
