@@ -87,6 +87,14 @@ export const authApi = createApi({
         }
       },
     }),
+    logout: builder.mutation<void, void>({
+      query: () => {
+        return {
+          method: 'POST',
+          url: `/auth/logout`,
+        }
+      },
+    }),
   }),
 })
 
@@ -98,4 +106,5 @@ export const {
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
   useLazyMeQuery,
+  useLogoutMutation,
 } = authApi
