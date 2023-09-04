@@ -84,7 +84,7 @@ export const SelectLanguage = () => {
     //   <option value="en">&#127468;&#127463; English</option>
     //   <option value="ru">&#127479;&#127482; Русский</option>
     // </StyledSelectLanguage>
-    <SelectionLanguage onMouseLeave={mouseLeave} onClick={handleLangeSelect}>
+    <SelectionLanguage onClick={handleLangeSelect}>
       {
         <LangBox>
           <SelectLangBlock>
@@ -98,7 +98,7 @@ export const SelectLanguage = () => {
       }
 
       {showLongBarOption && (
-        <OptionBox>
+        <OptionBox onMouseLeave={mouseLeave}>
           <OptionRow onClick={() => handleLangChange('en')}>
             <Image
               priority
@@ -199,15 +199,10 @@ const ArrBlock = styled.div`
 `
 
 const OptionBox = styled.div`
-  position: absolute;
-
   width: 163px;
   height: 72px;
   top: 48px;
-  right: 10px;
-
   /* margin-left: 0px; */
-
   color: ${baseTheme.colors.dark[900]};
   box-sizing: border-box;
   cursor: pointer;
@@ -215,6 +210,8 @@ const OptionBox = styled.div`
   transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%); */
 
   @media (max-width: ${media}) {
+    right: 60px;
+    position: absolute;
     margin-left: 0px;
   }
 `
