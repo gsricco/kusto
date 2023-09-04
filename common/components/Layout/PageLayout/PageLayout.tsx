@@ -7,7 +7,7 @@ import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 
