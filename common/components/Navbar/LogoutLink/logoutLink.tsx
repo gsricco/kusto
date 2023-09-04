@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useLogoutMutation } from 'assets/store/api/auth/authApi'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -11,7 +12,6 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { Button } from '../../Button/Button'
 import Modal from '../../Modals/ModalPublic/Modal'
 import { AppLink } from '../AppLink/AppLink'
-import { useLogoutMutation } from 'assets/store/api/auth/authApi'
 
 export const LogoutLink: FC = () => {
   const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false)
@@ -89,7 +89,7 @@ type PropsType = {
   setIsOpenModalLogout: (isOpenModalLogout: boolean) => void
 }
 
-export const LogoutModal: React.FC<PropsType> = ({ isOpenModalLogout, setIsOpenModalLogout }) => {
+export const LogoutModal = ({ isOpenModalLogout, setIsOpenModalLogout }: PropsType) => {
   // const [isOpenModalLogout, setIsOpenModalLogout] = useState(false)
   const [logout] = useLogoutMutation()
   const { clearAll, getItem } = useLocalStorage()

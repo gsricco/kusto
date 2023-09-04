@@ -14,6 +14,7 @@ import { useShowPassword } from 'common/hooks/useShowPassword'
 import { registrationErrorHandler } from 'common/utils/registrationErrorHandler'
 import { validateRegistration } from 'common/utils/validateRegistraition'
 import AuthIcons from 'features/auth/AuthIcons'
+import { ProvidersPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
@@ -32,7 +33,6 @@ import {
   StyledSignInWrapper,
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
-import { ProvidersPropsType } from 'features/auth/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

@@ -12,6 +12,7 @@ import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useShowPassword } from 'common/hooks/useShowPassword'
 import { validateLogin } from 'common/utils/validateLogin'
 import AuthIcons from 'features/auth/AuthIcons'
+import { ProvidersPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
@@ -34,7 +35,6 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
-import { ProvidersPropsType } from 'features/auth/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

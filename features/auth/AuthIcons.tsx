@@ -1,17 +1,16 @@
-import { Path } from 'common/enums/path'
+import { ProvidersPropsType } from 'features/auth/types'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
-import { ProvidersPropsType } from 'features/auth/types'
+
 import github from '../../public/img/icons/github-svgrepo-com.svg'
 import google from '../../public/img/icons/google-svgrepo-com.svg'
 import { baseTheme } from '../../styles/styledComponents/theme'
+
 import { oauthRequest } from './oauth2Request'
-import { GetStaticPropsContext } from 'next'
-import { useTranslation } from 'next-i18next'
 
 const AuthIcons = (providerParams: ProvidersPropsType) => {
-  const { push } = useRouter()
   const { t } = useTranslation()
 
   const handle = (providerName: string) => {
@@ -32,25 +31,25 @@ const AuthIcons = (providerParams: ProvidersPropsType) => {
       > */}
       <SigninStyle>
         <Image
+          alt="google"
+          height={36}
+          src={google}
+          width={36}
           onClick={() => {
             handle('google')
           }}
-          alt="google"
-          src={google}
-          height={36}
-          width={36}
         />
       </SigninStyle>
 
       <SigninStyle>
         <Image
+          alt="github"
+          height={36}
+          src={github}
+          width={36}
           onClick={() => {
             handle('github')
           }}
-          alt="github"
-          src={github}
-          height={36}
-          width={36}
         />
       </SigninStyle>
 
