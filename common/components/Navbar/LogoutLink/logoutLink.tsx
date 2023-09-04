@@ -11,6 +11,7 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { Button } from '../../Button/Button'
 import Modal from '../../Modals/ModalPublic/Modal'
 import { AppLink } from '../AppLink/AppLink'
+import { useLogoutMutation } from 'assets/store/api/auth/authApi'
 
 export const LogoutLink: FC = () => {
   const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false)
@@ -90,15 +91,23 @@ type PropsType = {
 
 export const LogoutModal: React.FC<PropsType> = ({ isOpenModalLogout, setIsOpenModalLogout }) => {
   // const [isOpenModalLogout, setIsOpenModalLogout] = useState(false)
-
+  const [logout] = useLogoutMutation()
   const { clearAll, getItem } = useLocalStorage()
   const router = useRouter()
 
   const userEmail = getItem('userEmail')
 
-  const logoutHandler = () => {
-    clearAll()
-    router.push(Path.LOGIN)
+  const logoutHandler = async () => {
+    try {
+      await logout()
+        .unwrap()
+        .then(() => {
+          clearAll()
+          router.push(Path.LOGIN)
+        })
+    } catch {
+      console.log('log out error')
+    }
   }
   const onClose = () => {
     setIsOpenModalLogout(false)
