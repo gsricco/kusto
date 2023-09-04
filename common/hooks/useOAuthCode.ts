@@ -47,10 +47,10 @@ export const useOAuthCode = ({
       await getProfile(code)
         .unwrap()
         .then(res => {
-          console.log(
-            `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
-            consoleStyle
-          )
+          // console.log(
+          //   `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
+          //   consoleStyle
+          // )
 
           redirect(res, setItem, route)
         })
@@ -65,7 +65,7 @@ export const useOAuthCode = ({
 
   useEffect(() => {
     if (code) {
-      console.log(code)
+      // console.log(code)
       handle({ code }, provider)
     }
 

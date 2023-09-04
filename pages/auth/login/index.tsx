@@ -34,18 +34,34 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+import { ProvidersPropsType } from 'features/auth/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
 
   return {
     props: {
+      provider: {
+        google: {
+          AUTH_URL: process.env.GOOGLE_AUTH_URL,
+          SCOPE: process.env.GOOGLE_SCOPE,
+          REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+          ID: process.env.GOOGLE_ID,
+        },
+        github: {
+          AUTH_URL: process.env.GITHUB_AUTH_URL,
+          SCOPE: process.env.GITHUB_SCOPE,
+          REDIRECT_URI: process.env.GITHUB_REDIRECT_URI,
+          ID: process.env.GITHUB_ID,
+        },
+      },
       ...(await serverSideTranslations(locale as string, ['common'], config)),
     },
   }
 }
 
-const Login = () => {
+const Login = (props: ProvidersPropsType) => {
+  const { provider } = props
   /*   ________Инициализация_____________ */ // ?
 
   const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
@@ -103,26 +119,12 @@ const Login = () => {
     redirect(loginRes, setItem, route)
   }, [me, isLoading, error, loginRes])
 
-  // const style = {
-  //   display: 'flex',
-  //   with: 'maxContent',
-  //   justifyContent: 'center',
-  //   textAlign: 'center',
-  //   marginTop: '20px',
-  //   color: baseTheme.colors.success[500],
-  // }
-
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>
-
-  // if (isAppInitialized) {
-  //   redirect(loginRes, setItem, route);
-  //   console.log("%c You are initialialized", consoleStyle);
-  // }
 
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={t('signIn_title')}>
-        <AuthIcons />
+        <AuthIcons provider={provider} />
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateLogin}
@@ -195,9 +197,3 @@ export const redirect = (
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
   }
 }
-
-// const consoleStyle = `
-// padding: 20px;
-// background-color: ${baseTheme.colors.success[300]};
-// border-radius: 20px;
-// color: white}`

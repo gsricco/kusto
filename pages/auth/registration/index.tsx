@@ -32,20 +32,37 @@ import {
   StyledSignInWrapper,
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
+import { ProvidersPropsType } from 'features/auth/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
 
   return {
     props: {
+      provider: {
+        google: {
+          AUTH_URL: process.env.GOOGLE_AUTH_URL,
+          SCOPE: process.env.GOOGLE_SCOPE,
+          REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+          ID: process.env.GOOGLE_ID,
+        },
+        github: {
+          AUTH_URL: process.env.GITHUB_AUTH_URL,
+          SCOPE: process.env.GITHUB_SCOPE,
+          REDIRECT_URI: process.env.GITHUB_REDIRECT_URI,
+          ID: process.env.GITHUB_ID,
+        },
+      },
       ...(await serverSideTranslations(locale as string, ['common'], config)),
     },
   }
 }
 
-const Registration = () => {
+const Registration = (props: ProvidersPropsType) => {
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
     useShowPassword()
+
+  const { provider } = props
 
   const initialAuthValues = {
     username: '',
@@ -103,7 +120,7 @@ const Registration = () => {
       )}
       <StyledContainerAuth style={{ filter: isModalActive ? 'blur(4px)' : 'blur(0px)' }}>
         <WrapperContainerAuth title={t('sign_up')}>
-          <AuthIcons />
+          <AuthIcons provider={provider} />
           <Formik
             initialValues={initialAuthValues}
             validationSchema={validateRegistration}
