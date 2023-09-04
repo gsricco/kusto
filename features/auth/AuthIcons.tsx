@@ -7,21 +7,40 @@ import github from '../../public/img/icons/github-svgrepo-com.svg'
 import google from '../../public/img/icons/google-svgrepo-com.svg'
 import { baseTheme } from '../../styles/styledComponents/theme'
 
-const AuthIcons = () => {
-  const { push } = useRouter()
+import { oauthRequest } from './oauth2Request'
+import { ProvidersPropsType } from './types'
+
+const AuthIcons = (provider: ProvidersPropsType) => {
+  // const { push } = useRouter()
+  const router = useRouter()
+
+  const handle = (providerName: string) => {
+    const url = oauthRequest(providerName, provider)
+
+    router.push(url)
+  }
 
   return (
     <StyledIconBlock>
-      <Link
-        href="/api/auth/signin"
-        onClick={async e => {
-          e.preventDefault()
-          push(Path.SIGNIN)
+      <Image
+        alt="google"
+        height={36}
+        src={google}
+        width={36}
+        onClick={() => {
+          handle('google')
         }}
-      >
-        <Image alt="google" height={36} src={google} width={36} />
-        <Image alt="github" height={36} src={github} width={36} />
-      </Link>
+      />
+      <Image
+        alt="github"
+        height={36}
+        src={github}
+        width={36}
+        onClick={() => {
+          handle('github')
+        }}
+      />
+
       <Message>SignIn with Google or Github</Message>
     </StyledIconBlock>
   )

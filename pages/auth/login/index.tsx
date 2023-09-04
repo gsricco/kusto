@@ -12,6 +12,7 @@ import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useShowPassword } from 'common/hooks/useShowPassword'
 import { validateLogin } from 'common/utils/validateLogin'
 import AuthIcons from 'features/auth/AuthIcons'
+import { ProvidersPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
@@ -35,17 +36,31 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common'], config)),
+      provider: {
+        google: {
+          AUTH_URL: process.env.GOOGLE_AUTH_URL,
+          SCOPE: process.env.GOOGLE_SCOPE,
+          REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+          ID: process.env.GOOGLE_ID,
+        },
+        github: {
+          AUTH_URL: process.env.GITHUB_AUTH_URL,
+          SCOPE: process.env.GITHUB_SCOPE,
+          REDIRECT_URI: process.env.GITHUB_REDIRECT_URI,
+          ID: process.env.GITHUB_ID,
+        },
+      },
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
     },
   }
 }
 
-const Login = () => {
+const Login = (props: ProvidersPropsType) => {
   /*   ________Инициализация_____________ */ // ?
 
   const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
@@ -82,7 +97,7 @@ const Login = () => {
     try {
       await loginHandler(data)
         .unwrap()
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then(res => {
           removeItem('email')
           setItem('userEmail', data.email)
@@ -112,6 +127,8 @@ const Login = () => {
   //   color: baseTheme.colors.success[500],
   // }
 
+  const { provider } = props
+
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>
 
   // if (isAppInitialized) {
@@ -122,7 +139,7 @@ const Login = () => {
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={t('signIn_title')}>
-        <AuthIcons />
+        <AuthIcons provider={provider} />
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateLogin}

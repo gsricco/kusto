@@ -47,6 +47,7 @@ export const useOAuthCode = ({
       await getProfile(code)
         .unwrap()
         .then(res => {
+          setItem('profile', res.profile)
           console.log(
             `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
             consoleStyle
