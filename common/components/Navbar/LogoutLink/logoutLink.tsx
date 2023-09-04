@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 
+import { useLogoutMutation } from 'assets/store/api/auth/authApi'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -14,17 +15,26 @@ import { AppLink } from '../AppLink/AppLink'
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
-
+  const [logOutHandler] = useLogoutMutation()
   const { clearAll, getItem } = useLocalStorage()
   const { t } = useTranslation('nav_bar')
   const router = useRouter()
 
   const userEmail = getItem('userEmail')
 
-  const logoutHandler = () => {
-    clearAll()
-    router.push(Path.LOGIN)
+  const logoutHandler = async () => {
+    try {
+      await logOutHandler()
+        .unwrap()
+        .then(() => {
+          clearAll()
+          router.push(Path.LOGIN)
+        })
+    } catch {
+      console.log('log out error')
+    }
   }
+
   const onClose = () => {
     setIsOpenModalEdit(false)
   }

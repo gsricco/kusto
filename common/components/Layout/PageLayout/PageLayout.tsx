@@ -2,13 +2,15 @@ import { PropsWithChildren, ReactElement, useState } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { store } from 'assets/store/store'
 import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { Provider } from 'react-redux'
 import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
-import { baseTheme } from '../../../../styles/styledComponents/theme'
 import Header from '../../Header/Header'
 import { Navbar } from '../../Navbar/Navbar'
 
@@ -29,18 +31,20 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
   }
 
   return (
-    <StyledWrapper>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Header />
-        <Page>
-          <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
-          <NavbarWrapper>
-            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
-          </NavbarWrapper>
-          <Main>{children}</Main>
-        </Page>
-      </LocalizationProvider>
-    </StyledWrapper>
+    <Provider store={store}>
+      <StyledWrapper>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Header />
+          <Page>
+            <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
+            <NavbarWrapper>
+              <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
+            </NavbarWrapper>
+            <Main>{children}</Main>
+          </Page>
+        </LocalizationProvider>
+      </StyledWrapper>
+    </Provider>
   )
 }
 
