@@ -1,11 +1,12 @@
-import { Path } from 'common/enums/path'
+// import { ProvidersPropsType } from 'features/auth/types'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+// import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 
 import github from '../../public/img/icons/github-svgrepo-com.svg'
 import google from '../../public/img/icons/google-svgrepo-com.svg'
-import { baseTheme } from '../../styles/styledComponents/theme'
+// import { baseTheme } from '../../styles/styledComponents/theme'
 
 import { oauthRequest } from './oauth2Request'
 import { ProvidersPropsType } from './types'
@@ -41,7 +42,7 @@ const AuthIcons = (provider: ProvidersPropsType) => {
         }}
       />
 
-      <Message>SignIn with Google or Github</Message>
+      {/* <Message>SignIn with Google or Github</Message> */}
     </StyledIconBlock>
   )
 }
@@ -64,23 +65,29 @@ const StyledIconBlock = styled.div`
     display: block;
     text-align: center;
   }
+  & img {
+    cursor: pointer;
+  }
 `
+// const SigninStyle = styled.div`
+//   cursor: pointer;
+// `
 
-const Link = styled.a`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`
+// const Link = styled.a`
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+// `
 
-const Message = styled.div`
-  position: absolute;
-  top: -90px;
-  left: 16px;
-  display: none;
-  color: ${baseTheme.colors.warning[100]};
-  background: ${baseTheme.colors.dark[300]};
-  opacity: 0.9;
-  padding: 10px;
-  border-radius: 2px;
-  font-family: Inter;
-`
+// const Message = styled.div`
+//   position: absolute;
+//   top: -90px;
+//   left: 16px;
+//   display: none;
+//   color: ${baseTheme.colors.warning[100]};
+//   background: ${baseTheme.colors.dark[300]};
+//   opacity: 0.9;
+//   padding: 10px;
+//   border-radius: 2px;
+//   font-family: Inter;
+// `

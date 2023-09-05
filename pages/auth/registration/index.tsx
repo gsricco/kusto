@@ -53,7 +53,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
           ID: process.env.GITHUB_ID,
         },
       },
-      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+      ...(await serverSideTranslations(locale as string, ['common'], config)),
     },
   }
 }
@@ -61,6 +61,8 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 const Registration = (props: ProvidersPropsType) => {
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
     useShowPassword()
+
+  const { provider } = props
 
   const initialAuthValues = {
     username: '',
@@ -102,8 +104,6 @@ const Registration = (props: ProvidersPropsType) => {
       registrationErrorHandler(error as RegistrationResponseError, t, { setFieldError })
     }
   }
-
-  const { provider } = props
 
   return (
     <>

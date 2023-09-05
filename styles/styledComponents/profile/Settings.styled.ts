@@ -1,6 +1,5 @@
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Form } from 'formik'
-import Image from 'next/image'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 

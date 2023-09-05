@@ -63,20 +63,12 @@
       "error",
       {
         "newlines-between": "always",
-        "pathGroupsExcludedImportTypes": [
-          "react"
-        ],
+        "pathGroupsExcludedImportTypes": ["react"],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
         },
-        "groups": [
-          "builtin",
-          "external",
-          "parent",
-          "sibling",
-          "index"
-        ],
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
         "pathGroups": [
           {
             "pattern": "react",
@@ -89,16 +81,7 @@
     "no-magic-numbers": [
       "error",
       {
-        "ignore": [
-          0,
-          1,
-          -1,
-          100,
-          300,
-          500,
-          700,
-          900
-        ]
+        "ignore": [0, 1, -1, 100, 300, 500, 700, 900]
       }
     ],
     "padding-line-between-statements": [
@@ -110,25 +93,13 @@
       },
       {
         "blankLine": "always",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
+        "prev": ["const", "let", "var"],
         "next": "*"
       },
       {
         "blankLine": "any",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
-        "next": [
-          "const",
-          "let",
-          "var"
-        ]
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
       }
     ],
     "no-use-before-define": "off",
@@ -136,10 +107,7 @@
       "warn",
       {
         "props": true,
-        "ignorePropertyModificationsFor": [
-          "state",
-          "self"
-        ]
+        "ignorePropertyModificationsFor": ["state", "self"]
       }
     ],
     "react-hooks/rules-of-hooks": "error",
@@ -155,10 +123,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".jsx",
-          ".tsx"
-        ]
+        "extensions": [".jsx", ".tsx"]
       }
     ],
     "react/jsx-props-no-spreading": [
@@ -171,9 +136,10 @@
       "error",
       {
         "callbacksLast": true,
-        "shorthandFirst": true,
+        "shorthandFirst": false,
+        "shorthandLast": true,
+        "ignoreCase": true,
         "multiline": "last",
-        "ignoreCase": false,
         "noSortAlphabetically": false,
         "reservedFirst": true
       }

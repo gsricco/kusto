@@ -61,6 +61,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 }
 
 const Login = (props: ProvidersPropsType) => {
+  const { provider } = props
   /*   ________Инициализация_____________ */ // ?
 
   const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
@@ -118,23 +119,7 @@ const Login = (props: ProvidersPropsType) => {
     redirect(loginRes, setItem, route)
   }, [me, isLoading, error, loginRes])
 
-  // const style = {
-  //   display: 'flex',
-  //   with: 'maxContent',
-  //   justifyContent: 'center',
-  //   textAlign: 'center',
-  //   marginTop: '20px',
-  //   color: baseTheme.colors.success[500],
-  // }
-
-  const { provider } = props
-
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>
-
-  // if (isAppInitialized) {
-  //   redirect(loginRes, setItem, route);
-  //   console.log("%c You are initialialized", consoleStyle);
-  // }
 
   return (
     <StyledContainerAuth>
@@ -212,9 +197,3 @@ export const redirect = (
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
   }
 }
-
-// const consoleStyle = `
-// padding: 20px;
-// background-color: ${baseTheme.colors.success[300]};
-// border-radius: 20px;
-// color: white}`

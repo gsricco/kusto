@@ -194,7 +194,6 @@ const ProfileElement: React.FC<PropsType> = ({
 
         <PostPhotos
           isLoading={isLoading}
-          postSize={postSize}
           posts={posts}
           setIsPostActive={setIsPostActive}
           setPostInfo={setPostInfo}

@@ -46,7 +46,6 @@ export const authApi = createApi({
         body,
       }),
     }),
-
     loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
       query: body => ({
         url: 'auth/google',

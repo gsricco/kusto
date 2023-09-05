@@ -7,10 +7,9 @@ import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-// import { Provider } from 'react-redux'
 import styled from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
 
+import { baseTheme } from '../../../../styles/styledComponents/theme'
 import Header from '../../Header/Header'
 import { Navbar } from '../../Navbar/Navbar'
 
@@ -65,7 +64,6 @@ const StyledWrapper = styled.div`
   background: ${baseTheme.colors.dark['700']};
   color: ${baseTheme.colors.light[100]};
 `
-
 const Page = styled.div`
   display: flex;
   max-width: 1310px;

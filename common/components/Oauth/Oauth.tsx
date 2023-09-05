@@ -61,12 +61,13 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
           <CircularProgress size={100} />
         )}
       </LoaderWrapper>
-      {/* {status === 'rejected' && <div style={LoadingStyle}> {t('con_rejected')} </div>} */}
+      {status === 'rejected' && <div style={LoadingStyle}> {t('con_rejected')} </div>}
       {/* <SigninOauthWrapper> */}
       {/* <StyledOauthHeader>
           <StyledOauthTitle>{t(provider.isGoogle ? 'google_con' : 'github_con')}</StyledOauthTitle>
-        </StyledOauthHeader>
-        {errors && (
+        </StyledOauthHeader> */}
+      {errors && (
+        <SigninOauthWrapper>
           <StyledOauthBody>
             <StyledOauthErrorBody>
               {connectionError && <StyledOauthText>{t('server_err')}</StyledOauthText>}
@@ -89,9 +90,10 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
               </Button>
             </StyledOAuthBlockButton>
           </StyledOauthBody>
-        )}
+        </SigninOauthWrapper>
+      )}
 
-        {!errors && (
+      {/* {!errors && (
           <StyledOauthBody>
             <StyledOautSuccessBody>
               <StyledOauthText>{t('success')} </StyledOauthText>
