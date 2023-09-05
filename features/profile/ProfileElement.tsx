@@ -108,9 +108,9 @@ const ProfileElement: React.FC<PropsType> = ({
 
   const userFirstName = user?.firstName !== null ? user?.firstName : ''
   const userLastName = user?.lastName !== null ? user?.lastName : ''
-  const name = `${userFirstName} ${userLastName}`
+  let name = `${userFirstName} ${userLastName}`
 
-  // if (!userFirstName || !userLastName) name = user?.login!
+  if (!userFirstName || !userLastName) name = 'New User'
 
   return (
     <>
@@ -195,6 +195,7 @@ const ProfileElement: React.FC<PropsType> = ({
         <PostPhotos
           isLoading={isLoading}
           posts={posts}
+          postSize={postSize}
           setIsPostActive={setIsPostActive}
           setPostInfo={setPostInfo}
         />
