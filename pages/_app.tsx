@@ -1,38 +1,44 @@
-import type { AppProps } from "next/app";
-import React, { ReactElement, ReactNode } from "react";
-import { NextPage } from "next";
-import { useLoader } from "../common/hooks/useLoader";
-import "styles/nprogress.css";
-import { Provider } from "react-redux";
-import { store } from "../assets/store/store";
-import { appWithTranslation } from "next-i18next";
-import { createGlobalStyle } from "styled-components";
-import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+import React, { ReactElement, ReactNode } from 'react'
 
-export type NextPageWithLayout<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
+import { NextPage } from 'next'
+import type { AppProps } from 'next/app'
+import { appWithTranslation } from 'next-i18next'
+import { Provider } from 'react-redux'
+import { createGlobalStyle } from 'styled-components'
+
+import { store } from '../assets/store/store'
+import { useLoader } from '../common/hooks/useLoader'
+
+import 'styles/nprogress.css'
+
+// import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+
+export type NextPageWithLayout<P = object> = NextPage<P> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
+  Component: NextPageWithLayout
+}
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  useLoader();
+  useLoader()
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? (page => page)
 
-  return getLayout(
+  return (
     <Provider store={store}>
-      <GlobalStyle />
-      {/* <PrivateRoute> */}
-      <Component {...pageProps} />
-      {/* </PrivateRoute> */}
+      {getLayout(
+        <>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </>
+      )}
     </Provider>
-  );
-};
+  )
+}
 
-export default appWithTranslation(App as React.FC);
+export default appWithTranslation(App as React.FC)
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -48,7 +54,20 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html{
-    height: 100vh;
-    background: black;
+    height:100vh;
+    background:black;
+    &::-webkit-scrollbar {
+  width: 10px;
   }
-`;
+  &::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #333;
+}
+
+&::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background-color: black;
+}
+  }
+`
