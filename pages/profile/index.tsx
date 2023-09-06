@@ -31,7 +31,7 @@ const MyProfile = () => {
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
-  const [posts, setPosts] = useState<CreatePostResponse[]>([])
+  // const [posts, setPosts] = useState<CreatePostResponse[]>([])
   // const totalCount = data?.totalCount || 0
 
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
@@ -45,6 +45,8 @@ const MyProfile = () => {
   const [totalCount, setTotalCount] = useState(postsAmount)
 
   const [isFetching, setIsFetching] = useState(true)
+
+  const posts = data?.items || []
 
   const { t } = useTranslation()
 
@@ -63,7 +65,6 @@ const MyProfile = () => {
       getUserPosts({ userId, pageNumber, pageSize })
         .unwrap()
         .then(res => {
-          setPosts(res.items)
           setPageCount(res.pagesCount)
           setPageSize(prev => prev + postsAmount)
           setIsFetching(false)
