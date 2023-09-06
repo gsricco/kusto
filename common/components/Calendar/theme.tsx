@@ -84,8 +84,17 @@ export const theme = createTheme({
       },
       styleOverrides: {
         root: {
+          ':focus': {
+            borderColor: '#397DF6',
+          },
+          ':hover': {
+            borderColor: '#8D9094',
+          },
+          ':active': {
+            borderColor: 'white',
+          },
           border: '1px solid',
-          borderColor: baseTheme.colors.dark[100],
+          borderColor: '#4C4C4C',
           borderRadius: '2px',
           backgroundColor: baseTheme.colors.dark[500],
         },
@@ -98,8 +107,18 @@ export const theme = createTheme({
           border: 'none',
         },
         input: {
+          ':hover': {
+            color: '#8D9094',
+          },
+          ':active': {
+            color: 'white',
+          },
+          ':focus': {
+            border: '1px solid green',
+          },
           paddingLeft: '8px',
           fontSize: '16px',
+          color: '#FFFFFF',
         },
       },
     },

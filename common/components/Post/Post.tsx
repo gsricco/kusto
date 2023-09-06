@@ -239,6 +239,7 @@ const NewDescription = styled.textarea.attrs({
   border: none;
   outline: none;
   height: 120px;
+  resize: none;
   &::-webkit-scrollbar {
     width: 0;
   }
