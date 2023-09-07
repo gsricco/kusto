@@ -12,6 +12,17 @@ import { styled } from 'styled-components'
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
 
+const fakeSubscriptions = [
+  {
+    expireAt: '12.10.2023',
+    nextPayment: '13.10.2023',
+  },
+  {
+    expireAt: '19.12.2023',
+    nextPayment: '20.12.2023',
+  },
+]
+
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
 
@@ -63,6 +74,29 @@ const AccountManagement = () => {
     <SettingsPageWrapper>
       <PageWrapper>
         <Section>
+          <CurrentSubscription>Current Subscription:</CurrentSubscription>
+          <SubscriptionsWrapper>
+            {fakeSubscriptions.map(subscription => {
+              return (
+                <Wrapper key={subscription.expireAt}>
+                  <ExpireWrapper>
+                    <SubscriptionsHeading>Expire at</SubscriptionsHeading>
+                    <Date>{subscription.expireAt}</Date>
+                  </ExpireWrapper>
+                  <NextPayments>
+                    <SubscriptionsHeading>Next payment</SubscriptionsHeading>
+                    <NextPayments>{subscription.nextPayment}</NextPayments>
+                  </NextPayments>
+                </Wrapper>
+              )
+            })}
+          </SubscriptionsWrapper>
+          <AutoRenewalWrapper>
+            <CheckBox type="checkbox" />
+            <AutoRenewal>Auto-Renewal</AutoRenewal>
+          </AutoRenewalWrapper>
+        </Section>
+        <Section>
           <AccountType>{t('account_type')}</AccountType>
           <TypeForm>
             {accountType.map((type, index) => (
@@ -107,7 +141,57 @@ const AccountManagement = () => {
 AccountManagement.getLayout = getLayout
 export default AccountManagement
 
-const PageWrapper = styled.div`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const CurrentSubscription = styled.h2``
+
+const AutoRenewalWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+const AutoRenewal = styled.p``
+
+const CheckBox = styled.input`
+  accent-color: white;
+  padding: 5px;
+`
+
+const SubscriptionsWrapper = styled(Column)`
+  margin: 18px 0 13px;
+  background: #171717;
+  padding: 12px 24px;
+  gap: 12px;
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  gap: 48px;
+`
+
+const ExpireWrapper = styled(Column)`
+  gap: 12px;
+`
+
+const NextPayments = styled(Column)`
+  gap: 12px;
+`
+const SubscriptionsHeading = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  color: #8d9094;
+`
+
+const Date = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+`
+
+const PageWrapper = styled(Column)`
   display: flex;
   flex-direction: column;
   gap: 40px;
