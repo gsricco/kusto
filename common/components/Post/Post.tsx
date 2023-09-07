@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
 import { CreatePostResponse } from 'assets/store/api/posts/types'
@@ -131,7 +131,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               <CloseModal alt="close" src={close} onClick={() => setIsPostActive(false)} />
               <User>
                 <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
-                <StyledUsername>{user?.login}</StyledUsername>
+                <StyledUsername>{profile?.login}</StyledUsername>
               </User>
               <EditPost
                 alt="more"
@@ -289,6 +289,12 @@ const CloseModal = styled(Image)`
   right: -30px;
   top: -30px;
   cursor: pointer;
+  @media (max-height: 650px) {
+    top: 20px;
+  }
+  @media (max-height: 530px) {
+    top: 50px;
+  }
 `
 
 const LikesSection = styled.div`
@@ -357,7 +363,7 @@ const TypeOfOperation = styled.p`
 `
 
 const StyledPostOverlay = styled.div`
-  z-index: 10;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;
@@ -370,6 +376,7 @@ const StyledPostOverlay = styled.div`
 `
 
 const StyledModalContainer = styled.div`
+  margin: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
