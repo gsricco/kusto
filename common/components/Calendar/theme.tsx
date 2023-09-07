@@ -113,9 +113,6 @@ export const theme = createTheme({
           ':active': {
             color: 'white',
           },
-          ':focus': {
-            border: '1px solid green',
-          },
           paddingLeft: '8px',
           fontSize: '16px',
           color: '#FFFFFF',
