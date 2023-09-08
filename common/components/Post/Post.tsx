@@ -236,13 +236,12 @@ const NewDescription = styled.textarea.attrs({
   background: #171717;
   color: #fff;
   padding: 0 12px;
-  border: none;
-  outline: none;
   height: 120px;
   resize: none;
   &::-webkit-scrollbar {
     width: 0;
   }
+  border: 1px solid #4c4c4c;
 `
 
 const SaveChanges = styled.button`
@@ -257,7 +256,7 @@ const SaveChanges = styled.button`
 `
 
 const EditPostContainer = styled.div`
-  background: #4c4c4c;
+  background: #333;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -424,7 +423,7 @@ const StyledPostImage = styled(Image)`
 const StyledComents = styled.div`
   display: flex;
   flex-direction: column;
-  background: #4c4c4c;
+  background: #333;
   height: 100%;
   width: 100%;
 `

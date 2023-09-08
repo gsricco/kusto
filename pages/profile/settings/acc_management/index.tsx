@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { useClient } from 'common/hooks/useClients'
+import { Field, Form, Formik, useFormik } from 'formik'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -34,107 +36,103 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const AccountManagement = () => {
-  const { t } = useTranslation()
-
+  const { t, i18n } = useTranslation()
   const payments = [t('10_1_Day'), t('50_7_Day'), t('100_month')]
   const accountType = [t('personal'), t('business')]
+  const len = i18n.language
 
-  const [accountTypeChecked, setAccountTypeChecked] = useState([true, false])
-  const [paymentChecked, setPaymentChecked] = useState([true, false, false])
+  const client = useClient()
 
-  const selectAccountType = (ind: number) => {
-    setAccountTypeChecked(accountTypeChecked =>
-      accountTypeChecked.map((item, index) => {
-        if (ind === index) {
-          item = true
-        } else {
-          item = false
-        }
+  const typeForm = useFormik({
+    initialValues: {
+      type: t(accountType[0]),
+    },
+    onSubmit: values => console.log(values),
+  })
 
-        return item
-      })
-    )
-  }
+  useEffect(() => {
+    typeForm.setFieldValue('name', t(accountType[0]).toString())
+    console.log(typeForm.values)
+  }, [len])
 
-  const selectPayment = (ind: number) => {
-    setPaymentChecked(paymentChecked =>
-      paymentChecked.map((item, index) => {
-        if (index === ind) {
-          item = true
-        } else {
-          item = false
-        }
-
-        return item
-      })
-    )
-  }
+  console.log(typeForm.initialValues.type, 'init')
+  console.log(typeForm.values.type, 'val')
 
   return (
-    <SettingsPageWrapper>
-      <PageWrapper>
-        <Section>
-          <CurrentSubscription>Current Subscription:</CurrentSubscription>
-          <SubscriptionsWrapper>
-            {fakeSubscriptions.map(subscription => {
-              return (
-                <Wrapper key={subscription.expireAt}>
-                  <ExpireWrapper>
-                    <SubscriptionsHeading>Expire at</SubscriptionsHeading>
-                    <Date>{subscription.expireAt}</Date>
-                  </ExpireWrapper>
-                  <NextPayments>
-                    <SubscriptionsHeading>Next payment</SubscriptionsHeading>
-                    <NextPayments>{subscription.nextPayment}</NextPayments>
-                  </NextPayments>
-                </Wrapper>
-              )
-            })}
-          </SubscriptionsWrapper>
-          <AutoRenewalWrapper>
-            <CheckBox type="checkbox" />
-            <AutoRenewal>Auto-Renewal</AutoRenewal>
-          </AutoRenewalWrapper>
-        </Section>
-        <Section>
-          <AccountType>{t('account_type')}</AccountType>
-          <TypeForm>
-            {accountType.map((type, index) => (
-              <LabelType key={type}>
-                <Type
-                  checked={accountTypeChecked[index]}
-                  onChange={() => selectAccountType(index)}
-                />
-                <Text>{type}</Text>
-              </LabelType>
-            ))}
-          </TypeForm>
-        </Section>
-        {accountTypeChecked[1] && (
-          <>
-            <Section>
-              <SubscriptionCost>{t('your_subscription_costs')}</SubscriptionCost>
-              <PaymentsForm>
-                {payments.map((payment, index) => (
-                  <PaymentsLabel key={payment}>
-                    <Payment
-                      checked={paymentChecked[index]}
-                      onChange={() => selectPayment(index)}
-                    />
-                    <Text>{payment}</Text>
-                  </PaymentsLabel>
-                ))}
-              </PaymentsForm>
-            </Section>
-            <PaymentsSection>
-              <PayPal alt="paypal" src={paypal} />
-              <Text>{t('or')}</Text>
-              <Stripe alt="stripe" src={stripe} />
-            </PaymentsSection>
-          </>
-        )}
-      </PageWrapper>
-    </SettingsPageWrapper>
+    client && (
+      <SettingsPageWrapper>
+        <PageWrapper>
+          <Section>
+            <CurrentSubscription>Current Subscription:</CurrentSubscription>
+            <SubscriptionsWrapper>
+              {fakeSubscriptions.map(subscription => {
+                return (
+                  <Wrapper key={subscription.expireAt}>
+                    <ExpireWrapper>
+                      <SubscriptionsHeading>Expire at</SubscriptionsHeading>
+                      <Date>{subscription.expireAt}</Date>
+                    </ExpireWrapper>
+                    <NextPayments>
+                      <SubscriptionsHeading>Next payment</SubscriptionsHeading>
+                      <NextPayments>{subscription.nextPayment}</NextPayments>
+                    </NextPayments>
+                  </Wrapper>
+                )
+              })}
+            </SubscriptionsWrapper>
+            <AutoRenewalWrapper>
+              <CheckBox type="checkbox" />
+              <AutoRenewal>Auto-Renewal</AutoRenewal>
+            </AutoRenewalWrapper>
+          </Section>
+          <Section>
+            <AccountType>{t('account_type')}</AccountType>
+            <TypeForm onSubmit={typeForm.handleSubmit}>
+              {accountType.map(type => (
+                <LabelType key={type}>
+                  <Type
+                    checked={typeForm.values.type === type.toString()}
+                    type="radio"
+                    value={type.toString()}
+                    onChange={typeForm.handleChange}
+                  />
+                  <Text>{type}</Text>
+                </LabelType>
+              ))}
+            </TypeForm>
+          </Section>
+          {typeForm.values.type === t(accountType[1]).toString() ? (
+            <>
+              <Section>
+                <SubscriptionCost>{t('your_subscription_costs')}</SubscriptionCost>
+                <Formik
+                  initialValues={{
+                    payment: `${t('10_1_Day').toString()}`,
+                  }}
+                  onSubmit={() => console.log(1)}
+                >
+                  {() => (
+                    <PaymentsForm>
+                      {payments.map(payment => (
+                        <PaymentsLabel key={payment}>
+                          <Payment name="payment" type="radio" value={payment.toString()} />
+                          <Text>{payment}</Text>
+                        </PaymentsLabel>
+                      ))}
+                    </PaymentsForm>
+                  )}
+                </Formik>
+              </Section>
+              <PaymentsSection>
+                <PayPal alt="paypal" src={paypal} />
+                <Text>{t('or')}</Text>
+                <Stripe alt="stripe" src={stripe} />
+              </PaymentsSection>
+            </>
+          ) : null}
+        </PageWrapper>
+      </SettingsPageWrapper>
+    )
   )
 }
 
@@ -208,7 +206,14 @@ const TypeForm = styled.form`
   gap: 24px;
 `
 
-const PaymentsForm = styled(TypeForm)``
+const PaymentsForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  background: #171717;
+  border: 1px solid #333;
+  padding: 23px 12px;
+  gap: 24px;
+`
 
 const AccountType = styled.h2`
   color: white;
@@ -236,16 +241,11 @@ const LabelType = styled.label.attrs({
   margin-right: 12px;
 `
 
-const PaymentsLabel = styled.label.attrs({
-  htmlFor: 'payments',
-})`
+const PaymentsLabel = styled.label`
   margin-right: 12px;
 `
 
-const Payment = styled.input.attrs({
-  type: 'radio',
-  name: 'paymenys',
-})`
+const Payment = styled(Field)`
   &:checked {
     accent-color: black;
   }
