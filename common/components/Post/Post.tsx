@@ -288,12 +288,6 @@ const CloseModal = styled(Image)`
   right: -30px;
   top: -30px;
   cursor: pointer;
-  @media (max-height: 650px) {
-    top: 20px;
-  }
-  @media (max-height: 530px) {
-    top: 50px;
-  }
 `
 
 const LikesSection = styled.div`
@@ -382,6 +376,10 @@ const StyledModalContainer = styled.div`
   height: 560px;
   max-width: 1000px;
   width: 80vw;
+  @media (max-height: 630px) {
+    position: absolute;
+    top: 20px;
+  }
 `
 
 const CommentsWrapper = styled.div`

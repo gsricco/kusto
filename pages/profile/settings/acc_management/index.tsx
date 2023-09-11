@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { useClient } from 'common/hooks/useClients'
-import { Field, Form, Formik, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -43,20 +43,43 @@ const AccountManagement = () => {
 
   const client = useClient()
 
+  const [selectedAccType, setSelectedAccType] = useState<string | null>(null)
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
+
+  const setInitialAccType = () => {
+    if (selectedAccType === 'Business' || selectedAccType === 'Для бизнеса') {
+      return len === 'en' ? 'Business' : 'Для бизнеса'
+    }
+
+    return len === 'en' ? 'Personal' : 'Личный'
+  }
+
+  const setInitialPayment = () => {
+    if (selectedPayment === '50 долларов США за 7 дней' || selectedPayment === '$50 per 7 Day') {
+      return t('50_7_Day')
+    }
+    if (selectedPayment === '100 долларов США за месяц' || selectedPayment === '$100 per month') {
+      return t('100_month')
+    }
+
+    return t('10_1_Day')
+  }
+
   const typeForm = useFormik({
     initialValues: {
-      type: t(accountType[0]),
+      type: setInitialAccType(),
     },
+    enableReinitialize: true,
     onSubmit: values => console.log(values),
   })
 
-  useEffect(() => {
-    typeForm.setFieldValue('name', t(accountType[0]).toString())
-    console.log(typeForm.values)
-  }, [len])
-
-  console.log(typeForm.initialValues.type, 'init')
-  console.log(typeForm.values.type, 'val')
+  const paymentsForm = useFormik({
+    initialValues: {
+      payment: setInitialPayment(),
+    },
+    enableReinitialize: true,
+    onSubmit: values => console.log(values),
+  })
 
   return (
     client && (
@@ -91,37 +114,35 @@ const AccountManagement = () => {
               {accountType.map(type => (
                 <LabelType key={type}>
                   <Type
-                    checked={typeForm.values.type === type.toString()}
+                    checked={typeForm.values.type === type}
                     type="radio"
-                    value={type.toString()}
+                    value={type}
                     onChange={typeForm.handleChange}
+                    onClick={() => setSelectedAccType(type)}
                   />
                   <Text>{type}</Text>
                 </LabelType>
               ))}
             </TypeForm>
           </Section>
-          {typeForm.values.type === t(accountType[1]).toString() ? (
+          {typeForm.values.type === t(accountType[1]) ? (
             <>
               <Section>
                 <SubscriptionCost>{t('your_subscription_costs')}</SubscriptionCost>
-                <Formik
-                  initialValues={{
-                    payment: `${t('10_1_Day').toString()}`,
-                  }}
-                  onSubmit={() => console.log(1)}
-                >
-                  {() => (
-                    <PaymentsForm>
-                      {payments.map(payment => (
-                        <PaymentsLabel key={payment}>
-                          <Payment name="payment" type="radio" value={payment.toString()} />
-                          <Text>{payment}</Text>
-                        </PaymentsLabel>
-                      ))}
-                    </PaymentsForm>
-                  )}
-                </Formik>
+                <PaymentsForm onSubmit={paymentsForm.handleSubmit}>
+                  {payments.map(payment => (
+                    <PaymentsLabel key={payment}>
+                      <Payment
+                        checked={paymentsForm.values.payment === payment}
+                        type="radio"
+                        value={payment}
+                        onChange={paymentsForm.handleChange}
+                        onClick={() => setSelectedPayment(payment)}
+                      />
+                      <Text>{payment}</Text>
+                    </PaymentsLabel>
+                  ))}
+                </PaymentsForm>
               </Section>
               <PaymentsSection>
                 <PayPal alt="paypal" src={paypal} />
@@ -206,7 +227,7 @@ const TypeForm = styled.form`
   gap: 24px;
 `
 
-const PaymentsForm = styled(Form)`
+const PaymentsForm = styled.form`
   display: flex;
   flex-direction: column;
   background: #171717;
@@ -241,11 +262,15 @@ const LabelType = styled.label.attrs({
   margin-right: 12px;
 `
 
-const PaymentsLabel = styled.label`
+const PaymentsLabel = styled.label.attrs({
+  htmlFor: 'payment',
+})`
   margin-right: 12px;
 `
 
-const Payment = styled(Field)`
+const Payment = styled.input.attrs({
+  name: 'payment',
+})`
   &:checked {
     accent-color: black;
   }
