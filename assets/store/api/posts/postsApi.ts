@@ -55,10 +55,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
         const refreshRes = refreshResult as RefreshTokenResponse
 
         setItem('accessToken', refreshRes.data.accessToken)
-
         result = await baseQuery(args, api, extraOptions)
       } else {
-        console.log('smth went wrong')
+        const { origin } = window.location
+
+        window.location.replace(`${origin}/auth/login`)
       }
     }
   }

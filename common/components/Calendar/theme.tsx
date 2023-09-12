@@ -115,7 +115,7 @@ export const theme = createTheme({
           },
           paddingLeft: '8px',
           fontSize: '16px',
-          color: '#FFFFFF',
+          color: '#8D9094',
         },
       },
     },
