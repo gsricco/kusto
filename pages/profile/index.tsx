@@ -31,8 +31,8 @@ const MyProfile = () => {
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
-  // const [posts, setPosts] = useState<CreatePostResponse[]>([])
-  // const totalCount = data?.totalCount || 0
+  //   const [posts, setPosts] = useState<CreatePostResponse[]>([])
+  //   const totalCount = data?.totalCount || 0
 
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
   const [isPostActive, setIsPostActive] = useState(false)
