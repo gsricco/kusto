@@ -15,23 +15,20 @@ import {
   AllPaymentsResponse,
   AllSubscriptionsResponse,
   CurrentSubscription,
+  PaypalRequest,
   PaypalResponse,
+  StripeRequest,
   StripeResponse,
 } from './types'
 
 const statusCode = 401
 
-const baseQuery = retry(
-  fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1/payments',
-    credentials: 'include',
-    method: 'POST',
-    prepareHeaders: (headers, { endpoint }) => contentTypeSetup(headers, { endpoint }, []),
-  }),
-  {
-    maxRetries: 1,
-  }
-)
+const baseQuery = fetchBaseQuery({
+  baseUrl: 'https://kustogram.site/api/v1/payments',
+  credentials: 'include',
+  method: 'POST',
+  prepareHeaders: (headers, { endpoint }) => contentTypeSetup(headers, { endpoint }, []),
+})
 
 const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError> = async (
   args,
@@ -65,36 +62,39 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 }
 
 export const paymentsApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: 'paymentsApi',
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({
-    stripe: builder.mutation<StripeResponse, unknown>({
+    stripe: builder.mutation<StripeResponse, StripeRequest>({
       query: body => ({
         url: 'stripe',
         method: 'POST',
         body,
       }),
     }),
-    paypal: builder.mutation<PaypalResponse, unknown>({
+    paypal: builder.mutation<PaypalResponse, PaypalRequest>({
       query: body => ({
         url: 'paypal',
         method: 'POST',
         body,
       }),
     }),
-    allSubscriptions: builder.query<AllSubscriptionsResponse, void>({
+    subscriptions: builder.query<AllSubscriptionsResponse, void>({
       query: () => ({
-        url: '',
+        url: 'subscriptions',
+        method: 'GET',
       }),
     }),
     currentSubscription: builder.query<CurrentSubscription, void>({
       query: () => ({
         url: 'current-subscription',
+        method: 'GET',
       }),
     }),
     payments: builder.query<AllPaymentsResponse, void>({
       query: () => ({
         url: 'payments',
+        method: 'GET',
       }),
     }),
   }),
@@ -105,5 +105,5 @@ export const {
   usePaymentsQuery,
   usePaypalMutation,
   useCurrentSubscriptionQuery,
-  useAllSubscriptionsQuery,
+  useSubscriptionsQuery,
 } = paymentsApi

@@ -4,6 +4,14 @@ export type StripeResponse = {
 
 export type PaypalResponse = StripeResponse
 
+export type CommonType = {
+  productId: string
+  quantity: number
+}
+
+export type PaypalRequest = CommonType[]
+export type StripeRequest = CommonType[]
+
 export type AllSubscriptionsResponse = {
   idProduct: string
   nameSubscription: string

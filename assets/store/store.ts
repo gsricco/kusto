@@ -11,9 +11,15 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [postsApi.reducerPath]: postsApi.reducer,
+    [paymentsApi.reducerPath]: paymentsApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(authApi.middleware, profileApi.middleware, postsApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      profileApi.middleware,
+      postsApi.middleware,
+      paymentsApi.middleware
+    ),
 })
 
 setupListeners(store.dispatch)
