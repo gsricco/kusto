@@ -449,6 +449,7 @@ const Wrapper = styled.div`
 
 const AddCommentWrapper = styled(Wrapper)`
   padding: 17px 24px;
+  gap: 24px;
 `
 
 const CommentField = styled.input.attrs({
@@ -459,6 +460,8 @@ const CommentField = styled.input.attrs({
   outline: none;
   color: #fff;
   font-size: 14px;
+  background: #333;
+  flex-grow: 2;
 `
 
 const PublishBtn = styled.button`
