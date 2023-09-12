@@ -2,23 +2,23 @@ import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 
 import { authApi } from './api/auth/authApi'
+import { paymentsApi } from './api/payments/paymentsApi'
 import { postsApi } from './api/posts/postsApi'
 import { profileApi } from './api/profile/profileApi'
-import { refreshApi } from './api/refresh/refreshApi'
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [postsApi.reducerPath]: postsApi.reducer,
-    [refreshApi.reducerPath]: refreshApi.reducer,
+    [paymentsApi.reducerPath]: paymentsApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(
       authApi.middleware,
       profileApi.middleware,
       postsApi.middleware,
-      refreshApi.middleware
+      paymentsApi.middleware
     ),
 })
 
