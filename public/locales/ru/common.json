@@ -105,6 +105,13 @@
   "expire_at": "Срок действия",
   "next_payment": "Следующий платеж",
 
+  "transaction_error": "Транзакция не удалась, попробуйте еще раз",
+  "transaction_success": "Оплата прошла успешно!",
+  "error_modal": "Ошибка",
+  "success_modal": "Успех",
+  "error_btn": "Вернуться к оплате",
+  "success_btn": "ОК",
+
   "signin": "Войти через",
   "con_rejected": "Извините! Соединение отклонено",
   "google_con": "Подключение к вашей учетной записи Google",

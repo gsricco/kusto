@@ -95,6 +95,13 @@
   "expire_at": "Expire at",
   "next_payment": "Next payment",
 
+  "transaction_error": "Transaction failed, please try again",
+  "transaction_success": "Payment was successful!",
+  "error_modal": "Error",
+  "success_modal": "Success",
+  "error_btn": "Back to payment",
+  "success_btn": "OK",
+
   "signin": "Sign in with",
   "con_rejected": "Sorry! Connection is rejected",
   "google_con": "Connecting to your Google account",
