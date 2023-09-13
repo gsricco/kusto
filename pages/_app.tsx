@@ -31,16 +31,16 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    // <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <PrivateRoute>
-      {getLayout(
-        <>
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </>
-      )}
-    </PrivateRoute>
-    // </LocalizationProvider>
+    <Provider store={store}>
+      <PrivateRoute>
+        {getLayout(
+          <>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </>
+        )}
+      </PrivateRoute>
+    </Provider>
   )
 }
 
