@@ -1,6 +1,7 @@
 /* eslint-disable import/order */
 import React, { ReactElement, ReactNode } from 'react'
 
+import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
@@ -31,14 +32,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Provider store={store}>
+      <PrivateRoute>
         {getLayout(
           <>
             <GlobalStyle />
             <Component {...pageProps} />
           </>
         )}
-      </Provider>
+      </PrivateRoute>
     </LocalizationProvider>
   )
 }

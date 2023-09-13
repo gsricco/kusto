@@ -54,13 +54,13 @@ export const StyledField = styled(Field)`
   border: ${props =>
     props.border === 'red' ? `1px solid ${baseTheme.colors.danger[500]}` : `1px solid #4C4C4C`};
   background: ${baseTheme.colors.dark[500]};
-  color: #8d9094;
+  color: ${props => (props.border === 'red' ? `#fff` : `#8d9094`)};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
   /* -webkit-text-fill-color: ${baseTheme.colors.light[100]}; */
 
   &:-webkit-autofill {
-    -webkit-text-fill-color: ${baseTheme.colors.light[100]};
-    caret-color: ${baseTheme.colors.light[100]};
+    -webkit-text-fill-color: #8d9094;
+    caret-color: #8d9094;
   }
 
   &::-webkit-calendar-picker-indicator {

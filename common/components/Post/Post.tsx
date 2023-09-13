@@ -236,13 +236,12 @@ const NewDescription = styled.textarea.attrs({
   background: #171717;
   color: #fff;
   padding: 0 12px;
-  border: none;
-  outline: none;
   height: 120px;
   resize: none;
   &::-webkit-scrollbar {
     width: 0;
   }
+  border: 1px solid #4c4c4c;
 `
 
 const SaveChanges = styled.button`
@@ -257,7 +256,7 @@ const SaveChanges = styled.button`
 `
 
 const EditPostContainer = styled.div`
-  background: #4c4c4c;
+  background: #333;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -289,12 +288,6 @@ const CloseModal = styled(Image)`
   right: -30px;
   top: -30px;
   cursor: pointer;
-  @media (max-height: 650px) {
-    top: 20px;
-  }
-  @media (max-height: 530px) {
-    top: 50px;
-  }
 `
 
 const LikesSection = styled.div`
@@ -383,6 +376,10 @@ const StyledModalContainer = styled.div`
   height: 560px;
   max-width: 1000px;
   width: 80vw;
+  @media (max-height: 630px) {
+    position: absolute;
+    top: 20px;
+  }
 `
 
 const CommentsWrapper = styled.div`
@@ -424,7 +421,7 @@ const StyledPostImage = styled(Image)`
 const StyledComents = styled.div`
   display: flex;
   flex-direction: column;
-  background: #4c4c4c;
+  background: #333;
   height: 100%;
   width: 100%;
 `
@@ -452,6 +449,7 @@ const Wrapper = styled.div`
 
 const AddCommentWrapper = styled(Wrapper)`
   padding: 17px 24px;
+  gap: 24px;
 `
 
 const CommentField = styled.input.attrs({
@@ -462,6 +460,8 @@ const CommentField = styled.input.attrs({
   outline: none;
   color: #fff;
   font-size: 14px;
+  background: #333;
+  flex-grow: 2;
 `
 
 const PublishBtn = styled.button`
