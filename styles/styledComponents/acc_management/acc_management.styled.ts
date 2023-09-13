@@ -1,6 +1,16 @@
 import Image from 'next/image'
 import styled from 'styled-components'
 
+export const ModalBtn = styled.button`
+  width: 340px;
+  color: white;
+  border-radius: 2px;
+  background: #397df6;
+  cursor: pointer;
+  padding: 6px;
+  border: none;
+`
+
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,7 +30,20 @@ export const AutoRenewal = styled.p``
 
 export const CheckBox = styled.input`
   accent-color: white;
-  padding: 5px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+`
+
+export const CheckBoxWrapper = styled.div`
+  width: 25px;
+  height: 25px;
+  position: relative;
+  &:hover {
+    background: #4c4c4c;
+    border-radius: 50%;
+    transition: 0.5s ease-in-out;
+  }
 `
 
 export const SubscriptionsWrapper = styled(Column)`
