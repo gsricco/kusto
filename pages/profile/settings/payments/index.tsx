@@ -3,6 +3,7 @@ import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
 import { useClient } from 'common/hooks/useClients'
 import { dateParser } from 'common/utils/dateParser'
 import { getSubscriptionType } from 'common/utils/getSubscriptionType'
+import PagesNavigation from 'features/settings/Pagination'
 import { TabBar } from 'features/settings/TabBar'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -39,6 +40,10 @@ const Payments = () => {
 
   console.log(allPayments)
 
+  const onPageChange = (page: number) => {
+    console.log(page)
+  }
+
   return (
     client && (
       <>
@@ -60,6 +65,13 @@ const Payments = () => {
               <Cell>{payment.paymentType}</Cell>
             </TableRow>
           ))}
+          {payments && (
+            <PagesNavigation
+              pageNumber={payments.page}
+              pagesCount={payments.pagesCount}
+              onPageChange={onPageChange}
+            />
+          )}
         </PageWrapper>
       </>
     )
