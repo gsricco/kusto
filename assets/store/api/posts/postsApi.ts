@@ -104,7 +104,7 @@ export const postsApi = createApi({
     }),
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
       query: ({ userId, pageNumber, pageSize }) => ({
-        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}&postId=0`,
         method: 'GET',
       }),
       providesTags: ['deletePost', 'createPost'],
