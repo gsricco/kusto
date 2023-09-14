@@ -70,6 +70,7 @@ const AccountManagement = () => {
   const [expireAt, setExpiteAt] = useState('')
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isAutoRenewal, setIsAutoReneval] = useState(false)
 
   useEffect(() => {
     if (currentSubscriptions) {
@@ -155,13 +156,17 @@ const AccountManagement = () => {
                   </ExpireWrapper>
                   <NextPayments>
                     <SubscriptionsHeading>{t('next_payment')}</SubscriptionsHeading>
-                    <NextPayments>{expireAt}</NextPayments>
+                    <NextPayments>{isAutoRenewal ? expireAt : '-'}</NextPayments>
                   </NextPayments>
                 </Wrapper>
               </SubscriptionsWrapper>
               <AutoRenewalWrapper>
                 <CheckBoxWrapper>
-                  <CheckBox type="checkbox" />
+                  <CheckBox
+                    checked={isAutoRenewal}
+                    type="checkbox"
+                    onChange={() => setIsAutoReneval(prev => !prev)}
+                  />
                 </CheckBoxWrapper>
                 <AutoRenewal>{t('auto_renewal')}</AutoRenewal>
               </AutoRenewalWrapper>

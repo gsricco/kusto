@@ -112,6 +112,12 @@
   "error_btn": "Вернуться к оплате",
   "success_btn": "ОК",
 
+  "date_of_payment": "Дата Платежа",
+  "end_of_subscription": "Окончание Подписки",
+  "price": "Цена",
+  "subscription_type": "Тип Подписки",
+  "payment_type": "Тип Платежа",
+
   "signin": "Войти через",
   "con_rejected": "Извините! Соединение отклонено",
   "google_con": "Подключение к вашей учетной записи Google",
