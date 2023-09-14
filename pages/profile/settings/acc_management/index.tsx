@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import {
   useCurrentSubscriptionQuery,
@@ -8,6 +8,7 @@ import {
 import { PaymentsForm } from 'common/components/Forms/PaymentsForm/PaymentsForm'
 import { TypeForm } from 'common/components/Forms/TypeForm/TypeForm'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
 import { useClient } from 'common/hooks/useClients'
 import { dateParser } from 'common/utils/dateParser'
 import { SettingsPageWrapper } from 'features/settings/SettingsPageWrapper'
@@ -23,9 +24,11 @@ import {
   AutoRenewal,
   AutoRenewalWrapper,
   CheckBox,
+  CheckBoxWrapper,
   CurrentSubscription,
   Date,
   ExpireWrapper,
+  ModalBtn,
   NextPayments,
   PageWrapper,
   PayPal,
@@ -54,8 +57,10 @@ const AccountManagement = () => {
   const client = useClient()
   const router = useRouter()
 
-  const [sendStripeRequest, { data: stripeResponse }] = useStripeMutation()
-  const [sendPaypalRequest, { data: paypalResponse }] = usePaypalMutation()
+  const { language } = i18n
+
+  const [sendStripeRequest] = useStripeMutation()
+  const [sendPaypalRequest] = usePaypalMutation()
   const { data: currentSubscriptions } = useCurrentSubscriptionQuery()
 
   const [isBusiness, setIsBusiness] = useState(false)
@@ -63,6 +68,9 @@ const AccountManagement = () => {
   const [selectedAccType, setSelectedAccType] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [expireAt, setExpiteAt] = useState('')
+  const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [isAutoRenewal, setIsAutoReneval] = useState(false)
 
   useEffect(() => {
     if (currentSubscriptions) {
@@ -96,9 +104,46 @@ const AccountManagement = () => {
     }
   }
 
+  const handleCrossClick = () => {
+    setIsError(false)
+    setIsSuccess(false)
+  }
+
+  const handleModalClose = () => {
+    setIsError(false)
+    setIsSuccess(false)
+  }
+
   return (
     client && (
       <SettingsPageWrapper>
+        {isError && (
+          <Modal
+            bodyText={t('transaction_error')}
+            handleCrossClick={handleCrossClick}
+            handleModalClose={handleModalClose}
+            height={language === 'en' ? '200px' : '240px'}
+            title={t('error_modal')}
+            width="360px"
+          >
+            <ModalBtn type="button" onClick={handleModalClose}>
+              {t('error_btn')}
+            </ModalBtn>
+          </Modal>
+        )}
+        {isSuccess && (
+          <Modal
+            bodyText={t('transaction_success')}
+            handleCrossClick={handleCrossClick}
+            handleModalClose={handleModalClose}
+            height="200px"
+            title={t('success_modal')}
+          >
+            <ModalBtn type="button" onClick={handleModalClose}>
+              {t('success_btn')}
+            </ModalBtn>
+          </Modal>
+        )}
         <PageWrapper>
           {currentSubscriptions && (
             <Section>
@@ -111,12 +156,18 @@ const AccountManagement = () => {
                   </ExpireWrapper>
                   <NextPayments>
                     <SubscriptionsHeading>{t('next_payment')}</SubscriptionsHeading>
-                    <NextPayments>{expireAt}</NextPayments>
+                    <NextPayments>{isAutoRenewal ? expireAt : '-'}</NextPayments>
                   </NextPayments>
                 </Wrapper>
               </SubscriptionsWrapper>
               <AutoRenewalWrapper>
-                <CheckBox type="checkbox" />
+                <CheckBoxWrapper>
+                  <CheckBox
+                    checked={isAutoRenewal}
+                    type="checkbox"
+                    onChange={() => setIsAutoReneval(prev => !prev)}
+                  />
+                </CheckBoxWrapper>
                 <AutoRenewal>{t('auto_renewal')}</AutoRenewal>
               </AutoRenewalWrapper>
             </Section>
