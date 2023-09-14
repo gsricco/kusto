@@ -3,7 +3,8 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 // Navbar
 export const StyledSidebar = styled.div<{ showNavbar: string[] | string | undefined }>`
-  position: relative;
+  position: fixed;
+  z-index: 999;
   max-width: 220px;
   min-width: 160px;
   height: 660px;

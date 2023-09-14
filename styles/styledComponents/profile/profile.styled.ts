@@ -15,7 +15,7 @@ export const ProfileWrapper = styled.div`
   margin-left: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  width: calc(100vw - 245px);
+  /* width: calc(100vw - 245px); */
   scrollbar-width: 5px;
 
   &::-webkit-scrollbar {
@@ -47,6 +47,10 @@ export const BlockButton = styled.div`
   position: absolute;
   right: calc(9% - 15px);
   top: 36px;
+  @media (max-width: ${media}) {
+    // поменять пиксели
+    display: none;
+  }
 `
 
 export const HeaderStyle = styled.div`

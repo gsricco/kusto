@@ -125,12 +125,26 @@ const PostsWrapper = styled.div`
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-left: 12px;
   padding-bottom: 20px;
-  padding: 53px 20px 20px;
+  padding-top: 53px;
+  padding-right: 24px;
+
+  @media (max-width: 960px) {
+    margin-left: 12px;
+    padding-right: 24px;
+  }
+  @media (max-width: 650px) {
+    justify-content: center;
+  }
 `
 
 const PostPreview = styled(Image)`
-  width: 32%;
+  width: calc(33.33% - 10px);
   object-fit: cover;
   cursor: pointer;
+
+  @media (max-width: 560px) {
+    width: calc(33.33% - 10px);
+  }
 `

@@ -76,14 +76,16 @@ const Page = styled.div`
 
 export const Main = styled.div`
   width: 100%;
+  margin-top: 60px;
+  margin-left: 37px;
   /* padding-top: 36px; */
   /* padding-left: 0px; */
   /* flex-grow: 1;
   max-width: 80vw; */
 
-  /* @media (max-width: ${'1400px'}) {
-    padding-left: 0px;
-  } */
+  @media (max-width: 960px) {
+    margin-left: 0;
+  }
 `
 
 export const NavbarWrapper = styled.div`
@@ -102,7 +104,9 @@ export const NavbarWrapper = styled.div`
 export const MenuWrapper = styled.div`
   display: none;
 
-  @media (max-width: ${media}) {
+  @media (max-width: 960px) {
+    bottom: 0;
+    position: fixed;
     display: flex;
     height: 60px;
     width: 100%;
@@ -113,5 +117,6 @@ export const MenuWrapper = styled.div`
     font-family: Inter;
     justify-content: center;
     border-top: 1px solid ${baseTheme.colors.dark[300]};
+    background: ${baseTheme.colors.dark[700]};
   }
 `
