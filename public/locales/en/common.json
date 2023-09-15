@@ -69,6 +69,10 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday",
+  "Invalid type of date" : "Invalid type of date",
+  "Date should not be greate than today": "Date should not be greate than today",
+  "You are too old!": "You are too old!",
+
 
   "some_err": "There is some error. Please, try again.",
   "select_from_comp": "Select from Computer",
@@ -103,6 +107,12 @@
   "success_modal": "Success",
   "error_btn": "Back to payment",
   "success_btn": "OK",
+
+  "date_of_payment": "Date of Payment",
+  "end_of_subscription": "End date of subscription",
+  "price": "Price",
+  "subscription_type": "Subscription Type",
+  "payment_type": "Payment Type",
 
   "signin": "Sign in with",
   "con_rejected": "Sorry! Connection is rejected",

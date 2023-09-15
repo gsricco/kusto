@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { useLazyPaymentsQuery, usePaymentsQuery } from 'assets/store/api/payments/paymentsApi'
+import { useLazyPaymentsQuery } from 'assets/store/api/payments/paymentsApi'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
 import { useClient } from 'common/hooks/useClients'
+import { convertCentsToDollars } from 'common/utils/convertCentsToDollars'
 import { dateParser } from 'common/utils/dateParser'
 import { getSubscriptionType } from 'common/utils/getSubscriptionType'
 import PagesNavigation from 'features/settings/Pagination'
@@ -24,18 +25,21 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 const Payments = () => {
   const initialPageSize = 10
+
+  const { t, i18n } = useTranslation()
+  const { language } = i18n
+
   const tableHeadingData = [
-    'Date of Payment',
-    'End date of subscription',
-    'Price',
-    'Subscription Type',
-    'Payment Type',
+    t('date_of_payment'),
+    t('end_of_subscription'),
+    t('price'),
+    t('subscription_type'),
+    t('payment_type'),
   ]
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
   const [getPayments, { data: payments }] = useLazyPaymentsQuery()
-  const { t } = useTranslation()
   const client = useClient()
 
   useEffect(() => {
@@ -49,20 +53,24 @@ const Payments = () => {
           <TabBar />
         </TabBarWrapper>
         <PageWrapper>
-          <TableHeading>
-            {tableHeadingData.map(name => (
-              <HeadingText key={name}>{name}</HeadingText>
+          <Table>
+            <TableHeading>
+              {tableHeadingData.map((name, index) => (
+                <HeadingText key={name} style={{ paddingLeft: index === 0 ? '24px' : '0' }}>
+                  {name}
+                </HeadingText>
+              ))}
+            </TableHeading>
+            {payments?.items.map(payment => (
+              <TableRow key={payment.dateOfPayments}>
+                <Cell style={{ paddingLeft: '24px' }}>{dateParser(payment.dateOfPayments)}</Cell>
+                <Cell>{dateParser(payment.endDateOfSubscription)}</Cell>
+                <Cell>{convertCentsToDollars(payment.price)}</Cell>
+                <Cell>{getSubscriptionType(payment.price, language)}</Cell>
+                <Cell>{payment.paymentType}</Cell>
+              </TableRow>
             ))}
-          </TableHeading>
-          {payments?.items.map(payment => (
-            <TableRow key={payment.dateOfPayments}>
-              <Cell>{dateParser(payment.dateOfPayments)}</Cell>
-              <Cell>{dateParser(payment.endDateOfSubscription)}</Cell>
-              <Cell>{payment.price}</Cell>
-              <Cell>{getSubscriptionType(payment.price)}</Cell>
-              <Cell>{payment.paymentType}</Cell>
-            </TableRow>
-          ))}
+          </Table>
           {payments && (
             <PagesNavigation
               pageNumber={payments.page}
@@ -82,34 +90,41 @@ const Payments = () => {
 Payments.getLayout = getLayout
 export default Payments
 
-const TabBarWrapper = styled.div`
+export const Table = styled.table`
+  border-collapse: collapse;
+  padding: 0 24px;
+`
+
+export const TabBarWrapper = styled.div`
   max-width: 726px;
   width: 100%;
   padding: 36px 0 24px;
 `
 
-const HeadingText = styled.p`
+export const HeadingText = styled.td`
+  padding: 12px 0;
   font-weight: 600;
 `
 
-const TableHeading = styled.div`
+export const TableHeading = styled.tr`
+  padding: 12px 0;
   background: #171717;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 24px;
 `
-const TableRow = styled(TableHeading)`
-  background: #0d0d0d;
+export const TableRow = styled.tr`
+  padding: 12px 0;
 `
-const Cell = styled.p`
-  text-align: start;
+
+export const Cell = styled.td`
+  min-width: 60px;
+  padding: 12px 0;
   font-weight: 400;
 `
 
-const PageWrapper = styled.div`
+export const PageWrapper = styled.div`
   display: flex;
   margin: 0 6% 0 12px;
   max-width: 1027px;
   display: flex;
   flex-direction: column;
+  min-height: 76vh;
 `
