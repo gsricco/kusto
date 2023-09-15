@@ -1,37 +1,55 @@
 /* eslint-disable no-magic-numbers */
 import { FC, useState } from 'react'
 
+import { ThemeProvider } from '@emotion/react'
+import { FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import Image from 'next/image'
 import { styled } from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 
+import next from '../../public/img/icons/nextOut.svg'
+import prev from '../../public/img/icons/prevOut.svg'
+
+import { theme } from './themeSelect'
+
 // Creating a bar of page numbers with limits from the left and right sides
-const PagesNavigation: FC<PropsType> = ({ pagesCount, pageNumber, onPageChange }) => {
+const PagesNavigation: FC<PropsType> = ({
+  pagesCount,
+  pageNumber,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+}) => {
   const [isLast, setIsLast] = useState(false)
+  const [isFirst, setIsFirst] = useState(true)
+
   const [firstPageInLine, setFirstPageInLine] = useState(1)
-  // calculat and round the total amount of pages and create an array of all page numbers
-  //   const pagesCount = Math.ceil(totalPaymentsCount / pageSize)
+
+  const handleChange = (event: SelectChangeEvent) => {
+    onPageSizeChange(Number(event.target.value))
+  }
+
   const pages: Array<number> = []
 
-  //   for (let i = 1; i <= pagesCount; i++) {
-  //     pages.push(i)
-  //   }
-
-  // show 9 page numbers in the bar in accordance to the current one (+/- 4)
-  //   const curPage = pageNumber
-  //   const curPageFirst = curPage - 5 < 0 ? 0 : curPage - 5 // first number of the bar
-  //   const curPageLast = curPage + 4 // last number of the bar
-  //   const slicedPages = pages.slice(curPageFirst, curPageLast)
+  if (pagesCount <= 6 && !isLast) {
+    setIsLast(true)
+  }
 
   const onPageNext = (firstPage: number) => {
-    setFirstPageInLine(firstPage)
+    setIsFirst(false)
     if (firstPage + 5 >= pagesCount) {
       setIsLast(true)
+    }
+    if (firstPage < pagesCount) {
+      setFirstPageInLine(firstPage)
     }
   }
   const onPagePrev = (firstPage: number) => {
     setIsLast(false)
-    if (!(firstPage < 1)) {
-      setFirstPageInLine(firstPage)
+    setFirstPageInLine(firstPage)
+
+    if (firstPage === 1) {
+      setIsFirst(true)
     }
   }
 
@@ -39,23 +57,22 @@ const PagesNavigation: FC<PropsType> = ({ pagesCount, pageNumber, onPageChange }
     pages.push(i)
   }
 
-  //   const slicedPages = pages.slice(curPageFirst, curPageLast)
-
   return (
     <StyledPagination>
-      <StyledArrows
+      <StyledArrow
+        alt="prev"
+        isHidden={isFirst}
+        src={prev}
+        style={{ height: 16, width: 16 }}
         onClick={() => {
           onPagePrev(firstPageInLine - 4)
         }}
-      >
-        prev
-      </StyledArrows>
+      />
       {pages.map(p => {
         return (
           <StyledPageNumber
             key={p}
             isActive={p === pageNumber}
-            // className={p === pageNumber ? s.selectedPage : s.ordinaryPage}
             onClick={() => {
               onPageChange(p)
             }}
@@ -64,7 +81,7 @@ const PagesNavigation: FC<PropsType> = ({ pagesCount, pageNumber, onPageChange }
           </StyledPageNumber>
         )
       })}
-      {!isLast && <StyledDots>...</StyledDots>}
+      {!isLast && <StyledText>...</StyledText>}
       <StyledPageNumber
         isActive={pagesCount === pageNumber}
         onClick={() => {
@@ -74,13 +91,27 @@ const PagesNavigation: FC<PropsType> = ({ pagesCount, pageNumber, onPageChange }
         {pagesCount}
       </StyledPageNumber>
 
-      <StyledArrows
+      <StyledArrow
+        alt="next"
+        isHidden={isLast}
+        src={next}
+        style={{ height: 16, width: 16 }}
         onClick={() => {
           onPageNext(firstPageInLine + 4)
         }}
-      >
-        next
-      </StyledArrows>
+      />
+      <StyledText>Show</StyledText>
+      <ThemeProvider theme={theme}>
+        <FormControl size="small" sx={{ m: 1 }}>
+          <Select id="pageSize" value={pageSize.toString()} onChange={handleChange}>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+          </Select>
+        </FormControl>
+      </ThemeProvider>
+
+      <StyledText>on page</StyledText>
     </StyledPagination>
   )
 }
@@ -91,7 +122,9 @@ export default PagesNavigation
 
 type PropsType = {
   onPageChange: (pageNum: number) => void
+  onPageSizeChange: (pageSize: number) => void
   pageNumber: number
+  pageSize: number
   pagesCount: number
 }
 
@@ -99,17 +132,24 @@ type DivPropsType = {
   isActive: boolean
 }
 
+type ImagePropsType = {
+  isHidden: boolean
+}
+
+// Style
 const StyledPageNumber = styled.div<DivPropsType>`
   width: 22px;
   height: 22px;
 
   margin: 6px;
   border: 1px solid ${baseTheme.colors.light['100']};
+
   display: flex;
   justify-content: center;
   align-items: center;
-
+  cursor: pointer;
   color: ${baseTheme.colors.light['100']};
+
   ${props =>
     props.isActive &&
     `
@@ -121,10 +161,14 @@ const StyledPageNumber = styled.div<DivPropsType>`
 const StyledPagination = styled.div`
   padding: 10px;
   display: flex;
+  align-items: center;
 `
-const StyledDots = styled.div`
+const StyledText = styled.div`
   margin: 6px;
 `
-const StyledArrows = styled.div`
-  margin: 6px;
+const StyledArrow = styled(Image)<ImagePropsType>`
+  cursor: pointer;
+  margin: auto 0px;
+  z-index: 10;
+  visibility: ${props => (props.isHidden ? 'hidden' : '')};
 `

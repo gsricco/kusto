@@ -1,4 +1,6 @@
-import { usePaymentsQuery } from 'assets/store/api/payments/paymentsApi'
+import { useEffect, useState } from 'react'
+
+import { useLazyPaymentsQuery, usePaymentsQuery } from 'assets/store/api/payments/paymentsApi'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
 import { useClient } from 'common/hooks/useClients'
 import { dateParser } from 'common/utils/dateParser'
@@ -21,12 +23,18 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 const Payments = () => {
+  const initialPageSize = 2
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(initialPageSize)
+
   const { t } = useTranslation()
   const client = useClient()
 
-  const { data: payments } = usePaymentsQuery()
+  const [getPayments, { data: payments }] = useLazyPaymentsQuery()
 
-  console.log(payments)
+  useEffect(() => {
+    getPayments({ page, pageSize })
+  }, [page, pageSize])
 
   const tableHeadingData = [
     'Date of Payment',
@@ -35,14 +43,6 @@ const Payments = () => {
     'Subscription Type',
     'Payment Type',
   ]
-
-  const { data: allPayments } = usePaymentsQuery()
-
-  console.log(allPayments)
-
-  const onPageChange = (page: number) => {
-    console.log(page)
-  }
 
   return (
     client && (
@@ -69,7 +69,9 @@ const Payments = () => {
             <PagesNavigation
               pageNumber={payments.page}
               pagesCount={payments.pagesCount}
-              onPageChange={onPageChange}
+              pageSize={pageSize}
+              onPageChange={setPage}
+              onPageSizeChange={setPageSize}
             />
           )}
         </PageWrapper>
