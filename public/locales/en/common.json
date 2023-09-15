@@ -69,6 +69,10 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday",
+  "Invalid type of date" : "Invalid type of date",
+  "Date should not be greate than today": "Date should not be greate than today",
+  "You are too old!": "You are too old!",
+
 
   "some_err": "There is some error. Please, try again.",
   "select_from_comp": "Select from Computer",
