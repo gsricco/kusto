@@ -1,8 +1,7 @@
-/* eslint-disable no-magic-numbers */
 import { FC, useState } from 'react'
 
-import { ThemeProvider } from '@emotion/react'
-import { FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import PageSizeSelector from 'features/settings/PageSizeSelector'
+import { TFunction } from 'i18next'
 import Image from 'next/image'
 import { styled } from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
@@ -10,51 +9,56 @@ import { baseTheme } from 'styles/styledComponents/theme'
 import next from '../../public/img/icons/nextOut.svg'
 import prev from '../../public/img/icons/prevOut.svg'
 
-import { theme } from './themeSelect'
+/*
+    Компонента для отрисовки пагинации типа: < 1 2 3 4 5 ... 332 > 
+    с возможностью изменения количества элементов, отображаемых на странице
+*/
 
-// Creating a bar of page numbers with limits from the left and right sides
 const PagesNavigation: FC<PropsType> = ({
-  pagesCount,
-  pageNumber,
-  pageSize,
-  onPageChange,
-  onPageSizeChange,
+  pagesCount, // общее количество страниц
+  pageNumber, // текущая страница
+  pageSize, // количество элементов, отображаемых на странице
+  onPageChange, // функция, выполняемая при изменении страницы
+  onPageSizeChange, // функция выполняемая при изменении количества элементов, отображаемых на странице
+  t,
 }) => {
-  const [isLast, setIsLast] = useState(false)
-  const [isFirst, setIsFirst] = useState(true)
-
-  const [firstPageInLine, setFirstPageInLine] = useState(1)
-
-  const handleChange = (event: SelectChangeEvent) => {
-    onPageSizeChange(Number(event.target.value))
-  }
-
+  const visiblePageNumber = 5
   const pages: Array<number> = []
 
-  if (pagesCount <= 6 && !isLast) {
+  const [isFirst, setIsFirst] = useState(true) // определение, является ли отображаемый блок страниц первым
+  const [isLast, setIsLast] = useState(false) // определение, является ли отображаемый блок страниц последним
+  const [firstPageInLine, setFirstPageInLine] = useState(1) // первый номер страницы в блоке
+
+  if (pagesCount <= visiblePageNumber + 1 && !isLast) {
     setIsLast(true)
   }
+  // создание массива номеров, отображаемых в данном блоке
+  for (
+    let i = firstPageInLine;
+    i < pagesCount && i <= firstPageInLine + visiblePageNumber - 1;
+    i++
+  ) {
+    pages.push(i)
+  }
 
+  // обработчик нажатия стрелки вправо
   const onPageNext = (firstPage: number) => {
     setIsFirst(false)
-    if (firstPage + 5 >= pagesCount) {
+    if (firstPage + visiblePageNumber >= pagesCount) {
       setIsLast(true)
     }
     if (firstPage < pagesCount) {
       setFirstPageInLine(firstPage)
     }
   }
+
+  // обработчик нажатия стрелки влево
   const onPagePrev = (firstPage: number) => {
     setIsLast(false)
     setFirstPageInLine(firstPage)
-
     if (firstPage === 1) {
       setIsFirst(true)
     }
-  }
-
-  for (let i = firstPageInLine; i < pagesCount && i <= firstPageInLine + 4; i++) {
-    pages.push(i)
   }
 
   return (
@@ -65,7 +69,7 @@ const PagesNavigation: FC<PropsType> = ({
         src={prev}
         style={{ height: 16, width: 16 }}
         onClick={() => {
-          onPagePrev(firstPageInLine - 4)
+          onPagePrev(firstPageInLine - visiblePageNumber + 1)
         }}
       />
       {pages.map(p => {
@@ -97,21 +101,10 @@ const PagesNavigation: FC<PropsType> = ({
         src={next}
         style={{ height: 16, width: 16 }}
         onClick={() => {
-          onPageNext(firstPageInLine + 4)
+          onPageNext(firstPageInLine + visiblePageNumber - 1)
         }}
       />
-      <StyledText>Show</StyledText>
-      <ThemeProvider theme={theme}>
-        <FormControl size="small" sx={{ m: 1 }}>
-          <Select id="pageSize" value={pageSize.toString()} onChange={handleChange}>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-          </Select>
-        </FormControl>
-      </ThemeProvider>
-
-      <StyledText>on page</StyledText>
+      <PageSizeSelector pageSize={pageSize} t={t} onPageSizeChange={onPageSizeChange} />
     </StyledPagination>
   )
 }
@@ -126,6 +119,7 @@ type PropsType = {
   pageNumber: number
   pageSize: number
   pagesCount: number
+  t: TFunction
 }
 
 type DivPropsType = {
@@ -163,7 +157,8 @@ const StyledPagination = styled.div`
   display: flex;
   align-items: center;
 `
-const StyledText = styled.div`
+
+export const StyledText = styled.div`
   margin: 6px;
 `
 const StyledArrow = styled(Image)<ImagePropsType>`

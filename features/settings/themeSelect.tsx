@@ -9,13 +9,10 @@ export const theme = createTheme({
     text: {
       primary: baseTheme.colors.light[100],
     },
-    action: {
-      //   disabled: baseTheme.colors.dark[100],
-      //   hover: baseTheme.colors.dark[100],
-    },
   },
   components: {
     MuiFormControl: {
+      // стили для контейнера
       styleOverrides: {
         root: {
           border: '1px solid',
@@ -31,11 +28,12 @@ export const theme = createTheme({
       },
     },
     MuiSelect: {
+      // стили для поля отображения выбранного значения
       styleOverrides: {
         select: {
           padding: '0px',
           paddingLeft: '8px',
-          paddingTop: '1px',
+          paddingTop: '2px',
           color: baseTheme.colors.light['100'],
         },
         icon: {
@@ -45,23 +43,16 @@ export const theme = createTheme({
       },
     },
     MuiMenu: {
-      // стили для кнопок с иконками
+      // стили для выпадающего меню
       styleOverrides: {
         paper: {
           backgroundColor: baseTheme.colors.dark[300],
         },
       },
     },
-    MuiInputBase: {
-      // стили для кнопок с иконками
-      styleOverrides: {
-        root: {
-          backgroundColor: baseTheme.colors.dark[500],
-        },
-      },
-    },
+
     MuiOutlinedInput: {
-      // стили для кнопок с иконками
+      // стили для мистической рамки
       styleOverrides: {
         notchedOutline: {
           border: '0px',

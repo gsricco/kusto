@@ -23,19 +23,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 const Payments = () => {
-  const initialPageSize = 2
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(initialPageSize)
-
-  const { t } = useTranslation()
-  const client = useClient()
-
-  const [getPayments, { data: payments }] = useLazyPaymentsQuery()
-
-  useEffect(() => {
-    getPayments({ page, pageSize })
-  }, [page, pageSize])
-
+  const initialPageSize = 10
   const tableHeadingData = [
     'Date of Payment',
     'End date of subscription',
@@ -43,6 +31,16 @@ const Payments = () => {
     'Subscription Type',
     'Payment Type',
   ]
+
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(initialPageSize)
+  const [getPayments, { data: payments }] = useLazyPaymentsQuery()
+  const { t } = useTranslation()
+  const client = useClient()
+
+  useEffect(() => {
+    getPayments({ page, pageSize })
+  }, [page, pageSize])
 
   return (
     client && (
@@ -70,6 +68,7 @@ const Payments = () => {
               pageNumber={payments.page}
               pagesCount={payments.pagesCount}
               pageSize={pageSize}
+              t={t}
               onPageChange={setPage}
               onPageSizeChange={setPageSize}
             />
