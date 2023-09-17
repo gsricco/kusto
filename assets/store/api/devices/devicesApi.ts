@@ -4,28 +4,17 @@ import {
   FetchBaseQueryError,
   createApi,
   fetchBaseQuery,
-  retry,
 } from '@reduxjs/toolkit/query/react'
+import { NotAuthorization, RefreshTokenResponse } from 'assets/store/api/auth/types'
 import { setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 
-import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
-
-import {
-  AllPaymentsResponse,
-  AllSubscriptionsResponse,
-  CurrentSubscription,
-  GetUserPaymentsRequest,
-  PaypalRequest,
-  PaypalResponse,
-  StripeRequest,
-  StripeResponse,
-} from './types'
+import { DeleteDeviceRequest, GetAllDevicesResponse, GetDevicesResponse } from './types'
 
 const statusCode = 401
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://kustogram.site/api/v1/payments',
+  baseUrl: 'https://kustogram.site/api/v1/devices',
   credentials: 'include',
   method: 'POST',
   prepareHeaders: (headers, { endpoint }) => contentTypeSetup(headers, { endpoint }, []),
@@ -64,50 +53,46 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
   return result
 }
 
-export const paymentsApi = createApi({
-  reducerPath: 'paymentsApi',
+export const devicesApi = createApi({
+  reducerPath: 'devicesApi',
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['deleteDevice', 'deleteAllDevices'],
   endpoints: builder => ({
-    stripe: builder.mutation<StripeResponse, StripeRequest>({
+    getDevices: builder.query<GetAllDevicesResponse, void>({
+      query: () => ({
+        url: '',
+        method: 'GET',
+      }),
+      providesTags: ['deleteAllDevices', 'deleteDevice'],
+    }),
+    getCurrentDevice: builder.query<GetDevicesResponse, void>({
+      query: () => ({
+        url: '/current',
+        method: 'GET',
+      }),
+      providesTags: ['deleteAllDevices', 'deleteDevice'],
+    }),
+    deleteAllDevices: builder.mutation<void, void>({
+      query: () => ({
+        url: '',
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['deleteAllDevices'],
+    }),
+    deleteDevice: builder.mutation<void, DeleteDeviceRequest>({
       query: body => ({
-        url: 'stripe',
-        method: 'POST',
+        url: '/device',
+        method: 'DELETE',
         body,
       }),
-    }),
-    paypal: builder.mutation<PaypalResponse, PaypalRequest>({
-      query: body => ({
-        url: 'paypal',
-        method: 'POST',
-        body,
-      }),
-    }),
-    subscriptions: builder.query<AllSubscriptionsResponse, void>({
-      query: () => ({
-        url: 'subscriptions',
-        method: 'GET',
-      }),
-    }),
-    currentSubscription: builder.query<CurrentSubscription, void>({
-      query: () => ({
-        url: 'current-subscription',
-        method: 'GET',
-      }),
-    }),
-    payments: builder.query<AllPaymentsResponse, GetUserPaymentsRequest>({
-      query: ({ page, pageSize }) => ({
-        url: `payments?pageNumber=${page}&pageSize=${pageSize}`,
-        method: 'GET',
-      }),
+      invalidatesTags: ['deleteDevice'],
     }),
   }),
 })
 
 export const {
-  useStripeMutation,
-  usePaymentsQuery,
-  usePaypalMutation,
-  useCurrentSubscriptionQuery,
-  useSubscriptionsQuery,
-  useLazyPaymentsQuery,
-} = paymentsApi
+  useGetDevicesQuery,
+  useGetCurrentDeviceQuery,
+  useDeleteAllDevicesMutation,
+  useDeleteDeviceMutation,
+} = devicesApi
