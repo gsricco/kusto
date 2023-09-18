@@ -20,8 +20,8 @@ export const theme = createTheme({
           backgroundColor: baseTheme.colors.dark[500],
 
           borderRadius: '2px',
-          width: '52px',
-          minWidth: '48px',
+          width: '60px',
+          minWidth: '55px',
           height: '24px',
           margin: '6px',
         },
@@ -38,7 +38,7 @@ export const theme = createTheme({
         },
         icon: {
           fill: baseTheme.colors.light['100'],
-          left: '28px',
+          left: '35px',
         },
       },
     },
