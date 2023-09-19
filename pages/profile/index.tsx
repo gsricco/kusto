@@ -121,21 +121,17 @@ MyProfile.getLayout = getLayout
 export default MyProfile
 
 const PostsWrapper = styled.div`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-left: 12px;
+  padding-left: 10px;
   padding-bottom: 20px;
-  padding-top: 53px;
-  padding-right: 24px;
+  /* padding-top: 53px;
+  padding-right: 24px; */
 
   @media (max-width: 960px) {
-    margin-left: 12px;
-    padding-right: 24px;
-  }
-  @media (max-width: 650px) {
-    justify-content: center;
+    padding-left: 10px;
   }
 `
 

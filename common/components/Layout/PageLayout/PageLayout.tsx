@@ -77,7 +77,9 @@ const Page = styled.div`
 export const Main = styled.div`
   width: 100%;
   margin-top: 60px;
-  margin-left: 37px;
+  margin-left: 220px;
+  padding: 20px;
+  overflow-y: auto;
   /* padding-top: 36px; */
   /* padding-left: 0px; */
   /* flex-grow: 1;
@@ -89,12 +91,12 @@ export const Main = styled.div`
 `
 
 export const NavbarWrapper = styled.div`
-  height: 660px;
+  /* height: 660px;
   width: 220px;
-  /* min-width: 150px; */
+  min-width: 150px; 
   max-width: 220px;
   align-items: start;
-  font-family: Inter;
+  font-family: Inter; */
 
   @media (max-width: ${media}) {
     display: none;

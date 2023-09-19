@@ -11,10 +11,10 @@ export const ProfileWrapper = styled.div`
   position: relative;
   max-width: 1065px;
   min-width: 360px;
-  padding-top: 36px;
-  margin-left: 24px;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-left: 24px;
+  padding-bottom: 24px;
   /* width: calc(100vw - 245px); */
   scrollbar-width: 5px;
 
@@ -149,6 +149,7 @@ export const InfoBlock = styled.div`
 export const FollowBlock = styled.div`
   display: grid;
   margin-top: -90px;
+  padding-top: 20px;
   grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
   min-width: 290px;

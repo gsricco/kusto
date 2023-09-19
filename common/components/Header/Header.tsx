@@ -48,8 +48,8 @@ export default Header
 const StyledHeader = styled.header`
   position: fixed;
   z-index: 9999;
-  max-width: 1310px;
   width: 100%;
+  max-width: 1310px;
   height: 60px;
   padding: 0 4.6%;
   display: flex;
