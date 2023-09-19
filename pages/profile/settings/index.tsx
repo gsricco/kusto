@@ -5,6 +5,7 @@ import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
+  useDeleteAvatarMutation,
 } from 'assets/store/api/profile/profileApi'
 import { Button } from 'common/components/Button/Button'
 import Calendar from 'common/components/Calendar/Calendar'
@@ -66,6 +67,7 @@ const GeneralInformation = () => {
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation()
   const [getProfileInfo, { data }] = useLazyProfileQuery()
   const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery()
+  const [deleteAvatarHandler] = useDeleteAvatarMutation()
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -145,8 +147,16 @@ const GeneralInformation = () => {
   }
 
   // Обработчик удаления аватарки
-  const handleDeleteAvatar = () => {
-    setAvatar('/img/icons/avatar.svg')
+  const handleDeleteAvatar = async () => {
+    try {
+      await deleteAvatarHandler()
+        .unwrap()
+        .then(() => {
+          setAvatar('/img/icons/avatar.svg')
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
