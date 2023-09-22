@@ -6,7 +6,7 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react'
 import { NotAuthorization, RefreshTokenResponse } from 'assets/store/api/auth/types'
-import { setItem } from 'common/hooks/useLocalStorage'
+import { removeItem, setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 
 import { DeleteDeviceRequest, GetAllDevicesResponse, GetDevicesResponse } from './types'
@@ -56,9 +56,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 export const devicesApi = createApi({
   reducerPath: 'devicesApi',
   baseQuery: baseQueryWithReauth,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   tagTypes: ['deleteDevice', 'deleteAllDevices'],
   endpoints: builder => ({
-    getDevices: builder.query<GetAllDevicesResponse, void>({
+    getDevices: builder.query<GetAllDevicesResponse, null>({
       query: () => ({
         url: '',
         method: 'GET',

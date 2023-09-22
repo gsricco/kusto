@@ -70,6 +70,8 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   baseQuery: baseQueryWithReauth,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   tagTypes: ['editPost', 'deletePost', 'createPost'],
   endpoints: builder => ({
     createPost: builder.mutation<CreatePostResponse, FormData>({

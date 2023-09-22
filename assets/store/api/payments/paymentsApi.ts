@@ -67,6 +67,8 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 export const paymentsApi = createApi({
   reducerPath: 'paymentsApi',
   baseQuery: baseQueryWithReauth,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: builder => ({
     stripe: builder.mutation<StripeResponse, StripeRequest>({
       query: body => ({
