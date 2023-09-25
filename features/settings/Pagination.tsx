@@ -156,6 +156,8 @@ const StyledPagination = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
+  position: absolute;
+  bottom: 50px;
 `
 
 export const StyledText = styled.div`
