@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 
-import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi' // ?
+import { authApi, useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi' // ?
 import { LoginResponseType } from 'assets/store/api/auth/types'
+import { store } from 'assets/store/store'
 import { Button } from 'common/components/Button/Button'
 import { FormikLabel } from 'common/components/Formik/FormikLabel'
 import { FormValueLogin, ResetForm, SetFieldErrorType } from 'common/components/Formik/types'
@@ -12,10 +13,11 @@ import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useShowPassword } from 'common/hooks/useShowPassword'
 import { validateLogin } from 'common/utils/validateLogin'
 import AuthIcons from 'features/auth/AuthIcons'
-import { ProvidersPropsType } from 'features/auth/types'
+import { ProvidersPropsType, ServerPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
-import { GetStaticPropsContext } from 'next'
+import { GetServerSidePropsContext, GetStaticPropsContext } from 'next'
+import { cookies } from 'next/headers'
 import { NextRouter, useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -36,11 +38,28 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const fakeData = {
+    email: 'Zdobnovaea@gmail.com',
+    password: 'cool1120',
+    browserName: 'firefox',
+    deviceName: 'notebook',
+    ip: '66:77:88:99',
+  }
+  // const accessToken = cookies().get('refreshToken')?.value
+  let response = null
+
+  try {
+    response = await store.dispatch(authApi.endpoints.login.initiate(fakeData))
+  } catch (e) {
+    console.log(e)
+  }
+
   const { locale } = context
 
   return {
     props: {
+      response,
       provider: {
         google: {
           AUTH_URL: process.env.GOOGLE_AUTH_URL,
@@ -60,7 +79,10 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   }
 }
 
-const Login = (props: ProvidersPropsType) => {
+const Login = (props: ServerPropsType) => {
+  const { response } = props
+
+  console.log(response)
   const { provider } = props
   /*   ________Инициализация_____________ */ // ?
 
@@ -95,20 +117,20 @@ const Login = (props: ProvidersPropsType) => {
       password: values.password,
     }
 
-    try {
-      await loginHandler(data)
-        .unwrap()
-        /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .then(res => {
-          removeItem('email')
-          setItem('userEmail', data.email)
-          resetForm()
-          getInitialize()
-        })
-        .catch(() => setFieldError('password', t('log_in_err')))
-    } catch (err) {
-      console.log('LoginError:', err)
-    }
+    // try {
+    //   await loginHandler(data)
+    //     .unwrap()
+    //     /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
+    //     .then(res => {
+    //       removeItem('email')
+    //       setItem('userEmail', data.email)
+    //       resetForm()
+    //       getInitialize()
+    //     })
+    //     .catch(() => setFieldError('password', t('log_in_err')))
+    // } catch (err) {
+    //   console.log('LoginError:', err)
+    // }
   }
 
   useEffect(() => {

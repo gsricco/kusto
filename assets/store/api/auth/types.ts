@@ -7,6 +7,16 @@ export type LoginType = {
   email: string
   password: string
 }
+export type ServerLoginType = {
+  accessToken: string | undefined
+  fakeData: {
+    browserName: string
+    deviceName: string
+    email: string
+    ip: string
+    password: string
+  }
+}
 export type SendLinkType = {
   email: string
   recaptchaValue: string | null | undefined

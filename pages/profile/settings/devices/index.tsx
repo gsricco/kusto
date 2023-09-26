@@ -7,6 +7,7 @@ import {
   useGetDevicesQuery,
 } from 'assets/store/api/devices/devicesApi'
 import { useClient } from 'common/hooks/useClients'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { getUserBrowser } from 'common/utils/getUserBrowser'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
@@ -22,7 +23,6 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
-import { useLocalStorage } from 'common/hooks/useLocalStorage'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -64,9 +64,13 @@ const Devices = () => {
   console.log(currentDevice)
 
   useEffect(() => {
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(res => setIp(res.ip))
+    try {
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(res => setIp(res.ip))
+    } catch (e) {
+      console.log(e)
+    }
   }, [])
 
   const { removeItem } = useLocalStorage()

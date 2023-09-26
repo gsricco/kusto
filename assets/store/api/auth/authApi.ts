@@ -11,6 +11,7 @@ import {
   RefreshLinkType,
   RegistrationType,
   SendLinkType,
+  ServerLoginType,
 } from './types'
 
 export const authApi = createApi({
@@ -43,7 +44,19 @@ export const authApi = createApi({
       query: body => ({
         url: 'auth/login',
         method: 'POST',
-        body,
+        body: {
+          ...body,
+          browserName: 'firefox',
+          deviceName: 'notebook',
+          ip: '66:77:88:99',
+        },
+      }),
+    }),
+    serverLogin: builder.mutation<LoginResponseType, ServerLoginType>({
+      query: body => ({
+        url: 'auth/login',
+        method: 'POST',
+        body: body.fakeData,
       }),
     }),
     loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({

@@ -1,3 +1,5 @@
+import { LoginResponseType } from 'assets/store/api/auth/types'
+
 export type FormAuthPropsType = {
   height?: string
   width?: string
@@ -22,4 +24,12 @@ export type ProvidersPropsType = {
     github: ProviderData
     google: ProviderData
   }
+}
+
+export type ServerPropsType = {
+  provider: {
+    github: ProviderData
+    google: ProviderData
+  }
+  response: LoginResponseType
 }

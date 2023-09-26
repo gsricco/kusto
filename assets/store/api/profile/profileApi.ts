@@ -40,7 +40,15 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
-        'https://kustogram.site/api/v1/auth/refresh-token',
+        {
+          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          body: {
+            browserName: 'firefox',
+            deviceName: 'notebook',
+            ip: '66:77:88:99',
+          },
+          method: 'post',
+        },
         api,
         extraOptions
       )
