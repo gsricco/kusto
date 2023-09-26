@@ -35,7 +35,7 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
-import { deviceDetect, browserName } from 'react-device-detect'
+import { deviceDetect, browserName, osName } from 'react-device-detect'
 
 type DeviceInfo = {
   model: string | undefined
@@ -136,7 +136,7 @@ const Login = (props: ProvidersPropsType) => {
     }
 
     if (data.deviceName.length < 2) {
-      data.deviceName = 'Desktop'
+      data.deviceName = `Desktop/${osName}`
     }
 
     try {

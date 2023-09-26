@@ -34,6 +34,8 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
+import { defineDeviceIcon } from 'common/utils/defineDeviceIcon'
+import { defineUserOS } from 'common/utils/defineUserOS'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -88,6 +90,8 @@ const Devices = () => {
 
   const [splicedDevises, setSplicedDevices] = useState(devices)
 
+  console.log(devices)
+
   useEffect(() => {
     const filteredDevices = devices?.filter(device => device.deviceId !== currentDevice?.deviceId)
 
@@ -135,11 +139,11 @@ const Devices = () => {
               return (
                 <AllSessions key={device.ip} style={{ marginBottom: '12px' }}>
                   <Wrapper>
-                    <DeviceIcon alt="browser icon" src={iphone} />
+                    <DeviceIcon alt="browser icon" src={defineDeviceIcon(device.deviceName)} />
                     <Column>
-                      <Browser>{device.deviceName}</Browser>
+                      <Browser>{defineUserOS(device.deviceName)}</Browser>
                       <SessionIp>IP: {device.ip}</SessionIp>
-                      <LastVisit>{dateParser(device.dateCreate)}</LastVisit>
+                      <LastVisit>Last visit: {dateParser(device.dateCreate)}</LastVisit>
                     </Column>
                   </Wrapper>
                   <LogOutWrapper onClick={() => closeSession({ deviceId: device.deviceId })}>

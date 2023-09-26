@@ -21,8 +21,11 @@ import {
   StripeRequest,
   StripeResponse,
 } from './types'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
+
+const browserData = getBrowserInfo()
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://kustogram.site/api/v1/payments',
@@ -43,7 +46,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
-        'https://kustogram.site/api/v1/auth/refresh-token',
+        {
+          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          body: browserData,
+          method: 'POST',
+        },
         api,
         extraOptions
       )
