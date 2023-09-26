@@ -112,7 +112,9 @@ const MyProfile = () => {
         })}
       </PostsWrapper>
 
-      {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+      {isPostActive && (
+        <Post login={user?.login || ''} postInfo={postInfo} setIsPostActive={setIsPostActive} />
+      )}
     </>
   )
 }
