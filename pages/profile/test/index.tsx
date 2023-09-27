@@ -7,6 +7,7 @@ import { UserType } from 'assets/store/api/profile/types'
 import { store } from 'assets/store/store'
 import ProfileElement from 'features/profile/ProfileElement'
 import { GetServerSidePropsContext } from 'next'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -17,7 +18,9 @@ import { styled } from 'styled-components'
 import { getLayout } from '../../../common/components/Layout/PageLayout/PageLayout'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // // const accessToken = cookies().get('refreshToken')?.value
+  const accessToken = cookies().get('refreshToken')?.value
+
+  console.log(context.req.cookies.refreshToken)
   let userData = null
   const userId = null
   //   let postsData = null
