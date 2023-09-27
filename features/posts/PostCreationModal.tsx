@@ -26,7 +26,7 @@ const PostCreationModal = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
-  const [photoFile, setPhotoFile] = useState<File>() // изображение, передаваемое в компоненту редактирования
+  const [photoFile, setPhotoFile] = useState<File | string>() // изображение, передаваемое в компоненту редактирования
 
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
@@ -73,8 +73,53 @@ const PostCreationModal = ({
     setCloseCreation(true)
   })
 
-  const close = () => {
+  const handleDiscardDraft = () => {
     setIsOpenModalEdit(false)
+  }
+
+  const handleSafeDraft = () => {
+    const dbName = 'PostDraft'
+
+    const openRequest = indexedDB.open(dbName, 1)
+
+    openRequest.onerror = () => {
+      console.error('Database error')
+    }
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result
+
+      if (!db.objectStoreNames.contains('post')) {
+        // если хранилище не существует
+        db.createObjectStore('post', { autoIncrement: true }) // создаём хранилище
+      }
+
+      console.log('store is exist')
+    }
+    openRequest.onsuccess = () => {
+      const db = openRequest.result
+
+      db.onversionchange = () => {
+        db.close()
+        console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
+      }
+
+      const transaction = db.transaction('post', 'readwrite')
+      const post = transaction.objectStore('post')
+      const request = post.put(photoPost, '1')
+
+      request.onsuccess = () => {
+        console.log('Пост добавлен в хранилище', request.result)
+        console.log(photoPost)
+        setIsOpenModalEdit(false)
+      }
+
+      request.onerror = () => {
+        console.log('Ошибка', request.error)
+      }
+    }
+    openRequest.onblocked = () => {
+      console.log('пожалуйста, перезагрузите страницу.')
+    }
   }
 
   return (
@@ -85,12 +130,11 @@ const PostCreationModal = ({
           bodyText="Do you really want to close the creation of a publication? If you close everything will be deleted"
           handleCrossClick={() => setCloseCreation(false)}
           height="250px"
-          title="Undo Creation
-        "
+          title="Close"
         >
           <>
-            <ModalBtn onClick={close}>Yes</ModalBtn>
-            <ModalBtn onClick={() => setCloseCreation(false)}>No</ModalBtn>
+            <ModalBtn onClick={handleDiscardDraft}>Discard</ModalBtn>
+            <ModalBtn onClick={handleSafeDraft}>Save draft</ModalBtn>
           </>
         </Modal>
       )}
@@ -101,6 +145,7 @@ const PostCreationModal = ({
             handleModalClose={handleEditorClose}
             handleNextToResize={handleNextToResize}
             setPhotoFile={setPhotoFile}
+            setPhotoPost={setPhotoPost}
           />
         )}
         {openResize && photoFile && (

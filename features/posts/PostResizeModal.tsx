@@ -41,7 +41,7 @@ const PostResizeModal = ({
   handleAddPhotoButton: () => void
   handleFullScreen: (full: boolean) => void
   handleNextToFilterButton: () => void
-  photoFile: File
+  photoFile: File | string
   photoPost: PhotoType[]
   setPhotoPost: (photoPost: PhotoType[]) => void
 }) => {
@@ -71,7 +71,12 @@ const PostResizeModal = ({
         imageRatio(url)
       }
     }
-    reader.readAsDataURL(photoFile)
+    if (typeof photoFile !== 'string') {
+      reader.readAsDataURL(photoFile)
+    } else {
+      setPhotoFileURL(photoFile)
+      imageRatio(photoFile)
+    }
   }, [])
 
   // Сохранение значений в локальный state при перемещении бегунка

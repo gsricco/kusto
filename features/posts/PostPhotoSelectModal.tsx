@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { Button } from 'common/components/Button/Button'
+import { ThemeButton } from 'common/enums/themeButton'
+import { PhotoType } from 'features/posts/PostCreationModal'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
@@ -10,11 +13,13 @@ const PostPhotoSelectModal = ({
   avatar,
   setPhotoFile,
   handleNextToResize,
+  setPhotoPost,
 }: {
   avatar?: string
   handleModalClose: () => void
   handleNextToResize: () => void
-  setPhotoFile: (photoFile: File) => void
+  setPhotoFile: (photoFile: File | string) => void
+  setPhotoPost: (post: PhotoType[]) => void
 }) => {
   const { t } = useTranslation('post_cr')
 
@@ -25,6 +30,51 @@ const PostPhotoSelectModal = ({
       console.log(['file', file])
       setPhotoFile(file)
       handleNextToResize()
+    }
+  }
+
+  const handleOpenDraft = () => {
+    const dbName = 'PostDraft'
+
+    const openRequest = indexedDB.open(dbName, 1)
+
+    openRequest.onerror = () => {
+      console.error('Database error')
+    }
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result
+
+      if (!db.objectStoreNames.contains('post')) {
+        // если хранилище не существует
+        db.createObjectStore('post', { autoIncrement: true }) // создаём хранилище
+      }
+
+      console.log('store is exist')
+    }
+    openRequest.onsuccess = () => {
+      const db = openRequest.result
+
+      db.onversionchange = () => {
+        db.close()
+        console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
+      }
+
+      const transaction = db.transaction('post', 'readonly')
+      const post = transaction.objectStore('post')
+      const request = post.get('1')
+
+      request.onsuccess = () => {
+        console.log('Пост из хранилища', request.result)
+        setPhotoPost(request.result)
+        handleNextToResize()
+      }
+
+      request.onerror = () => {
+        console.log('Ошибка', request.error)
+      }
+    }
+    openRequest.onblocked = () => {
+      console.log('пожалуйста, перезагрузите страницу.')
     }
   }
 
@@ -51,6 +101,11 @@ const PostPhotoSelectModal = ({
       </StyledModalImageContainer>
       <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
       <StyledLabel htmlFor="file-upload">{t('select_from_comp')}</StyledLabel>
+      <StyledContainerButton>
+        <Button theme={ThemeButton.OUTLINED} width="228px" onClick={handleOpenDraft}>
+          Open Draft
+        </Button>
+      </StyledContainerButton>
     </StyledModalBody>
   )
 }
@@ -158,4 +213,9 @@ const StyledModalImage = styled(Image)`
   border-radius: 2px;
   width: ${props => props.width};
   height: ${props => props.height};
+`
+const StyledContainerButton = styled.div`
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
 `
