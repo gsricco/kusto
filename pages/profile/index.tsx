@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react'
 
-import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
-import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
-import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
+import {
+  useLazyGetUserPostsQuery,
+  useLazyGetPostQuery,
+  postsApi,
+} from 'assets/store/api/posts/postsApi'
+import {
+  CreatePostResponse,
+  GetPostResponse,
+  GetUserPostsResponse,
+} from 'assets/store/api/posts/types'
+import { profileApi, useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
+import { UserType } from 'assets/store/api/profile/types'
+import { store } from 'assets/store/store'
 import Post from 'common/components/Post/Post'
 import ProfileElement from 'features/profile/ProfileElement'
-import { GetStaticPropsContext } from 'next'
+import { GetServerSidePropsContext, GetStaticPropsContext, NextPage } from 'next'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -15,11 +25,47 @@ import { styled } from 'styled-components'
 
 import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // const fakeData = {
+  //   email: 'Zdobnovaea@gmail.com',
+  //   password: 'cool1120',
+  //   browserName: 'firefox',
+  //   deviceName: 'notebook',
+  //   ip: '66:77:88:99',
+  // }
+  // // const accessToken = cookies().get('refreshToken')?.value
+  let userData = null
+  let userId = null
+  let postsData = null
+
+  try {
+    const userResponse = await store.dispatch(profileApi.endpoints.profile.initiate())
+
+    console.log(userResponse)
+    if (userResponse.data) {
+      userData = userResponse.data as UserType
+    }
+    if (userData) {
+      userId = userData.userId
+    }
+    if (userId) {
+      const postsResponse = await store.dispatch(
+        postsApi.endpoints.getUserPosts.initiate({ userId, pageNumber: 1, pageSize: 9 })
+      )
+
+      if (postsResponse.data) {
+        postsData = postsResponse.data as GetUserPostsResponse
+      }
+    }
+  } catch (e) {
+    console.log(e)
+  }
   const { locale } = context
 
   return {
     props: {
+      userData,
+      postsData,
       ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
     },
   }
@@ -27,7 +73,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
 const postsAmount = 9
 
-const MyProfile = () => {
+type ServerPropsType = {
+  postsData: GetUserPostsResponse | null
+  userData: UserType | null
+}
+const MyProfile = ({ userData, postsData }: ServerPropsType) => {
+  console.log(userData)
+  console.log(postsData)
+
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
@@ -40,25 +93,25 @@ const MyProfile = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(postsAmount)
   const [pageCount, setPageCount] = useState(1)
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState(userData?.photo)
   // const [postInfo, setPostInfo] = useState<GetPostResponse | undefined>()
   const [totalCount, setTotalCount] = useState(postsAmount)
 
   const [isFetching, setIsFetching] = useState(true)
 
-  const posts = data?.items || []
+  const posts = postsData?.items || []
 
   const { t } = useTranslation()
 
-  useEffect(() => {
-    getProfileInfo()
-      .unwrap()
-      .then(res => {
-        if (res.userId) {
-          setUserId(res.userId)
-        }
-      })
-  }, [])
+  // useEffect(() => {
+  //   getProfileInfo()
+  //     .unwrap()
+  //     .then(res => {
+  //       if (res.userId) {
+  //         setUserId(res.userId)
+  //       }
+  //     })
+  // }, [])
 
   useEffect(() => {
     if (userId && isFetching && posts.length < totalCount) {
@@ -71,7 +124,7 @@ const MyProfile = () => {
           setTotalCount(res.totalCount)
         })
     }
-  }, [isFetching, userId])
+  }, [isFetching])
 
   const scrollHandler = () => {
     const { scrollHeight } = document.documentElement
@@ -92,7 +145,7 @@ const MyProfile = () => {
   return (
     <>
       {}
-      <ProfileElement t={t} user={user} />
+      <ProfileElement t={t} user={userData} />
       <PostsWrapper>
         {posts.map(post => {
           return (

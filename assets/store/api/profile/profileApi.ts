@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
   BaseQueryFn,
   FetchArgs,
@@ -8,6 +9,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+import { HYDRATE } from 'next-redux-wrapper'
 
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
@@ -17,7 +19,7 @@ const statusCode = 401
 
 const baseQuery = retry(
   fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1/',
+    baseUrl: 'https://7b54-134-17-86-231.ngrok-free.app/api/v1/',
     credentials: 'include',
     method: 'POST',
     prepareHeaders: (headers, { endpoint }) =>
@@ -41,7 +43,7 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
         {
-          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          url: 'https://7b54-134-17-86-231.ngrok-free.app/api/v1/auth/refresh-token',
           body: {
             browserName: 'firefox',
             deviceName: 'notebook',
@@ -58,10 +60,10 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
         setItem('accessToken', refreshRes.data.accessToken)
         result = await baseQuery(args, api, extraOptions)
-      } else {
-        const { origin } = window.location
+        // } else {
+        //   const { origin } = window.location
 
-        window.location.replace(`${origin}/auth/login`)
+        //   window.location.replace(`${origin}/auth/login`)
       }
     }
   }
@@ -73,6 +75,11 @@ export const profileApi = createApi({
   reducerPath: 'profileApi',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['UserInfo'],
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
+  },
   endpoints: builder => ({
     profile: builder.query<UserType, void>({
       query: () => ({

@@ -16,7 +16,7 @@ import AuthIcons from 'features/auth/AuthIcons'
 import { ProvidersPropsType, ServerPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
-import { GetServerSidePropsContext, GetStaticPropsContext } from 'next'
+import { GetStaticPropsContext } from 'next'
 import { cookies } from 'next/headers'
 import { NextRouter, useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -38,28 +38,27 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const fakeData = {
-    email: 'Zdobnovaea@gmail.com',
-    password: 'cool1120',
-    browserName: 'firefox',
-    deviceName: 'notebook',
-    ip: '66:77:88:99',
-  }
-  // const accessToken = cookies().get('refreshToken')?.value
-  let response = null
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  // const fakeData = {
+  //   email: 'Zdobnovaea@gmail.com',
+  //   password: 'cool1120',
+  //   browserName: 'firefox',
+  //   deviceName: 'notebook',
+  //   ip: '66:77:88:99',
+  // }
+  // // const accessToken = cookies().get('refreshToken')?.value
+  // let response = null
 
-  try {
-    response = await store.dispatch(authApi.endpoints.login.initiate(fakeData))
-  } catch (e) {
-    console.log(e)
-  }
+  // try {
+  //   response = await store.dispatch(authApi.endpoints.login.initiate(fakeData))
+  // } catch (e) {
+  //   console.log(e)
+  // }
 
   const { locale } = context
 
   return {
     props: {
-      response,
       provider: {
         google: {
           AUTH_URL: process.env.GOOGLE_AUTH_URL,
@@ -117,20 +116,20 @@ const Login = (props: ServerPropsType) => {
       password: values.password,
     }
 
-    // try {
-    //   await loginHandler(data)
-    //     .unwrap()
-    //     /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //     .then(res => {
-    //       removeItem('email')
-    //       setItem('userEmail', data.email)
-    //       resetForm()
-    //       getInitialize()
-    //     })
-    //     .catch(() => setFieldError('password', t('log_in_err')))
-    // } catch (err) {
-    //   console.log('LoginError:', err)
-    // }
+    try {
+      await loginHandler(data)
+        .unwrap()
+        /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .then(res => {
+          removeItem('email')
+          setItem('userEmail', data.email)
+          resetForm()
+          getInitialize()
+        })
+        .catch(() => setFieldError('password', t('log_in_err')))
+    } catch (err) {
+      console.log('LoginError:', err)
+    }
   }
 
   useEffect(() => {

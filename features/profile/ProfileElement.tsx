@@ -53,7 +53,7 @@ type PropsType = {
   // status: QueryStatus
   t: TFunction
   // totalCount: number
-  user?: UserType | undefined
+  user?: UserType | null | undefined
 }
 
 const ProfileElement: React.FC<PropsType> = ({
