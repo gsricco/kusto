@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
+import { Button } from 'common/components/Button/Button'
 import Modal from 'common/components/Modals/ModalPublic/Modal'
+import { ThemeButton } from 'common/enums/themeButton'
 import { useOutsideClick } from 'common/hooks/useOutsideClick'
 import styled from 'styled-components'
 
@@ -27,7 +29,7 @@ const PostCreationModal = ({
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
   const [photoFile, setPhotoFile] = useState<File | string>() // изображение, передаваемое в компоненту редактирования
-
+  const [postDescription, setPostDescription] = useState('') // описание, добавляемое к изображениям
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
     setOpenComp(false)
@@ -76,40 +78,39 @@ const PostCreationModal = ({
   const handleDiscardDraft = () => {
     setIsOpenModalEdit(false)
   }
-
+  // Сохранение черновика поста в indexed DB
   const handleSafeDraft = () => {
     const dbName = 'PostDraft'
 
-    const openRequest = indexedDB.open(dbName, 1)
+    const openRequest = indexedDB.open(dbName, 1) // открыть БД
 
     openRequest.onerror = () => {
       console.error('Database error')
     }
     openRequest.onupgradeneeded = () => {
       const db = openRequest.result
+      // создать хранилище, если его не существует
 
       if (!db.objectStoreNames.contains('post')) {
-        // если хранилище не существует
-        db.createObjectStore('post', { autoIncrement: true }) // создаём хранилище
+        db.createObjectStore('post', { autoIncrement: true })
       }
-
       console.log('store is exist')
     }
     openRequest.onsuccess = () => {
       const db = openRequest.result
 
+      // вывод ошибки при устаревшей версии БД
       db.onversionchange = () => {
         db.close()
         console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
       }
 
-      const transaction = db.transaction('post', 'readwrite')
+      const transaction = db.transaction('post', 'readwrite') // начало транзакции
       const post = transaction.objectStore('post')
-      const request = post.put(photoPost, '1')
+      const request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
 
       request.onsuccess = () => {
         console.log('Пост добавлен в хранилище', request.result)
-        console.log(photoPost)
         setIsOpenModalEdit(false)
       }
 
@@ -132,10 +133,14 @@ const PostCreationModal = ({
           height="250px"
           title="Close"
         >
-          <>
-            <ModalBtn onClick={handleDiscardDraft}>Discard</ModalBtn>
-            <ModalBtn onClick={handleSafeDraft}>Save draft</ModalBtn>
-          </>
+          <StyledButtonContainer>
+            <Button theme={ThemeButton.OUTLINED} width="108px" onClick={handleDiscardDraft}>
+              Discard
+            </Button>
+            <Button theme={ThemeButton.PRIMARY} width="128px" onClick={handleSafeDraft}>
+              Save draft
+            </Button>
+          </StyledButtonContainer>
         </Modal>
       )}
       <div ref={ref}>
@@ -146,6 +151,7 @@ const PostCreationModal = ({
             handleNextToResize={handleNextToResize}
             setPhotoFile={setPhotoFile}
             setPhotoPost={setPhotoPost}
+            setPostDescription={setPostDescription}
           />
         )}
         {openResize && photoFile && (
@@ -167,9 +173,11 @@ const PostCreationModal = ({
         )}
         {isDescriptionOpen && (
           <PostDescriptionModal
+            description={postDescription}
             handleBackToFilters={handleBackToFilters}
             handleModalClose={handleEditorClose}
             photoPost={photoPost}
+            setDescription={setPostDescription}
           />
         )}
       </div>
@@ -186,15 +194,8 @@ export type PhotoType = {
   photoUrlWithFilter: string
 }
 
-const ModalBtn = styled.button`
-  background: black;
-  border: 1px solid #397df6;
-  color: #397df6;
-  cursor: pointer;
-  width: 50px;
-  padding: 5px 10px;
-  &:hover {
-    color: white;
-    background: #397df6;
-  }
+const StyledButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `

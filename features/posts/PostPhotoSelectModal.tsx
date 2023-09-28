@@ -14,12 +14,14 @@ const PostPhotoSelectModal = ({
   setPhotoFile,
   handleNextToResize,
   setPhotoPost,
+  setPostDescription,
 }: {
   avatar?: string
   handleModalClose: () => void
   handleNextToResize: () => void
   setPhotoFile: (photoFile: File | string) => void
   setPhotoPost: (post: PhotoType[]) => void
+  setPostDescription: (postDescription: string) => void
 }) => {
   const { t } = useTranslation('post_cr')
 
@@ -27,16 +29,16 @@ const PostPhotoSelectModal = ({
     if (e.target.files?.length) {
       const file = e.target.files[0]
 
-      console.log(['file', file])
       setPhotoFile(file)
       handleNextToResize()
     }
   }
 
+  // Загрузка черновика поста из Indexed BD
   const handleOpenDraft = () => {
     const dbName = 'PostDraft'
 
-    const openRequest = indexedDB.open(dbName, 1)
+    const openRequest = indexedDB.open(dbName, 1) // открытие БД
 
     openRequest.onerror = () => {
       console.error('Database error')
@@ -44,9 +46,9 @@ const PostPhotoSelectModal = ({
     openRequest.onupgradeneeded = () => {
       const db = openRequest.result
 
+      // создание хранилища, если не существует
       if (!db.objectStoreNames.contains('post')) {
-        // если хранилище не существует
-        db.createObjectStore('post', { autoIncrement: true }) // создаём хранилище
+        db.createObjectStore('post', { autoIncrement: true })
       }
 
       console.log('store is exist')
@@ -54,19 +56,24 @@ const PostPhotoSelectModal = ({
     openRequest.onsuccess = () => {
       const db = openRequest.result
 
+      // вывод ошибки при устаревшей версии БД
       db.onversionchange = () => {
         db.close()
         console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
       }
 
-      const transaction = db.transaction('post', 'readonly')
+      const transaction = db.transaction('post', 'readonly') // начало транзакции
       const post = transaction.objectStore('post')
-      const request = post.get('1')
+      const request = post.get('1') // получение данных из хранилища
 
       request.onsuccess = () => {
-        console.log('Пост из хранилища', request.result)
-        setPhotoPost(request.result)
-        handleNextToResize()
+        const photoPost = request.result.photoPost as PhotoType[] // фото для поста
+        const postDescription = request.result.postDescription as string // описание для поста
+
+        setPhotoPost(photoPost) // сохранение фото в state
+        setPhotoFile(photoPost[0].photoUrl) // сохранение первой фотографии из массива вместо файла, который должен был быть выбран из файловой системы устройства
+        setPostDescription(postDescription) // сохранение описания в state
+        handleNextToResize() // переход к следующему модальному окну
       }
 
       request.onerror = () => {
