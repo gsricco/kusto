@@ -91,7 +91,6 @@ const MyProfile = () => {
 
   return (
     <>
-      {}
       <ProfileElement t={t} user={user} />
       <PostsWrapper>
         {posts.map(post => {
