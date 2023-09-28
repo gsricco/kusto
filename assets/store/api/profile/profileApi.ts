@@ -12,8 +12,11 @@ import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
 import { AuthMeType, SaveProfileInfoType, UserType } from './types'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
+
+const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
@@ -40,7 +43,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
-        'https://kustogram.site/api/v1/auth/refresh-token',
+        {
+          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          body: browserData,
+          method: 'POST',
+        },
         api,
         extraOptions
       )
@@ -51,7 +58,9 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
         setItem('accessToken', refreshRes.data.accessToken)
         result = await baseQuery(args, api, extraOptions)
       } else {
-        console.log('smth went wrong')
+        const { origin } = window.location
+
+        window.location.replace(`${origin}/auth/login`)
       }
     }
   }
@@ -86,6 +95,14 @@ export const profileApi = createApi({
         method: 'GET',
       }),
     }),
+    deleteAvatar: builder.mutation<void, void>({
+      query: () => {
+        return {
+          method: 'DELETE',
+          url: `users/profiles/avatar`,
+        }
+      },
+    }),
     saveAvatar: builder.mutation<void, FormData>({
       query: (body: FormData) => {
         return {
@@ -94,21 +111,21 @@ export const profileApi = createApi({
           body,
         }
       },
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          profileApi.util.updateQueryData('profile', undefined, draft => {
-            const file = URL.createObjectURL(body.entries().next().value[1])
+      // async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      //   const patchResult = dispatch(
+      //     profileApi.util.updateQueryData('profile', undefined, draft => {
+      //       const file = URL.createObjectURL(body.entries().next().value[1])
 
-            Object.assign(draft || {}, { photo: file })
-          })
-        )
+      //       Object.assign(draft || {}, { photo: file })
+      //     })
+      //   )
 
-        try {
-          await queryFulfilled
-        } catch {
-          patchResult.undo()
-        }
-      },
+      //   try {
+      //     await queryFulfilled
+      //   } catch {
+      //     patchResult.undo()
+      //   }
+      // },
       invalidatesTags: ['UserInfo'],
     }),
   }),
@@ -121,4 +138,5 @@ export const {
   useSaveAvatarMutation,
   useProfileQuery,
   useAuthMeQuery,
+  useDeleteAvatarMutation,
 } = profileApi
