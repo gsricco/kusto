@@ -138,7 +138,9 @@ const PostCreationModal = ({
 
   const handleDB = async () => {
     const dbName = 'PostDraft'
-    const isExisting = (await window.indexedDB.databases()).map(db => db.name).includes(dbName)
+    const isExisting = (await window.indexedDB.databases())
+      .map(db => db.name)
+      .includes(dbName) as boolean
 
     if (isExisting) {
       setIsDraft(true)
