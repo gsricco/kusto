@@ -84,15 +84,18 @@ const PostCreationModal = ({
   }
   // Сохранение черновика поста в indexed DB
   const handleSafeDraft = () => {
-    if (photoPost.length === 0 && photoFileURL) {
-      setPhotoPost([
-        {
-          filter: '',
-          photoUrl: photoFileURL,
-          photoUrlWithFilter: photoFileURL,
-        },
-      ])
-    }
+    // объект для сохранения в БД в ситуации, когда фото загружено, но не сохранено
+    const initialPhotoPost = [
+      {
+        filter: '',
+        photoUrl: photoFileURL,
+        photoUrlWithFilter: photoFileURL,
+      },
+    ]
+
+    // if (photoPost.length === 0 && photoFileURL) {
+    //   setPhotoPost(initialPhotoPost)
+    // }
     const dbName = 'PostDraft'
 
     const openRequest = indexedDB.open(dbName, 1) // открыть БД
@@ -120,7 +123,14 @@ const PostCreationModal = ({
       }
       const transaction = db.transaction('post', 'readwrite') // начало транзакции
       const post = transaction.objectStore('post')
-      const request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
+
+      let request: IDBRequest<IDBValidKey>
+
+      if (photoPost.length === 0 && photoFileURL) {
+        request = post.put({ photoPost: initialPhotoPost, postDescription }, '1') // запись данных в хранилище
+      } else {
+        request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
+      }
 
       request.onsuccess = () => {
         console.log('Пост добавлен в хранилище', request.result)
