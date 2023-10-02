@@ -5,28 +5,40 @@ import styled from 'styled-components'
 
 import { baseTheme } from '../../styles/styledComponents/theme'
 
-export const TabBar = () => {
+type TabBarProps = {
+  baseUrl: string
+  titleList: {
+    name: string
+    ref: string
+  }[]
+}
+
+export const TabBar = ({ baseUrl, titleList }: TabBarProps) => {
   const { t } = useTranslation()
   const location = usePathname()
   const isActive = (name: string) => (location.includes(name) ? 'active' : '')
 
   return (
     <StyledNavigation>
-      <StyledItem
-        active={location === '/profile/settings' ? 'active' : ''}
-        href="/profile/settings"
-      >
-        {t('general_info')}
-      </StyledItem>
-      <StyledItem active={isActive('devices')} href="/profile/settings/devices">
-        {t('devices')}
-      </StyledItem>
-      <StyledItem active={isActive('acc_management')} href="/profile/settings/acc_management">
-        {t('acc_management')}
-      </StyledItem>
-      <StyledItem active={isActive('payments')} href="/profile/settings/payments">
-        {t('my_payments')}
-      </StyledItem>
+      {titleList.map((item, index) => {
+        if (index === 0) {
+          return (
+            <StyledItem
+              key={item.name}
+              active={location === baseUrl ? 'active' : ''}
+              href={`${baseUrl}/${item.ref}`}
+            >
+              {t(item.name)}
+            </StyledItem>
+          )
+        }
+
+        return (
+          <StyledItem key={item.name} active={isActive(item.ref)} href={`${baseUrl}/${item.ref}`}>
+            {t(item.name)}
+          </StyledItem>
+        )
+      })}
     </StyledNavigation>
   )
 }
