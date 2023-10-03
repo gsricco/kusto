@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { TabBar } from '../../common/components/TabBar'
@@ -10,6 +11,8 @@ type SettingsPageWrapperType = {
 
 export const SettingsPageWrapper = ({ children }: SettingsPageWrapperType) => {
   const baseUrl = '/profile/settings'
+  const { t } = useTranslation()
+
   const settingsTabData = [
     {
       name: 'general_info',
@@ -32,7 +35,7 @@ export const SettingsPageWrapper = ({ children }: SettingsPageWrapperType) => {
   return (
     <SettingsWrapper>
       <StyledContainerSettings>
-        <TabBar baseUrl={baseUrl} titleList={settingsTabData} />
+        <TabBar baseUrl={baseUrl} t={t} titleList={settingsTabData} />
         <StyledContent>{children}</StyledContent>
       </StyledContainerSettings>
     </SettingsWrapper>

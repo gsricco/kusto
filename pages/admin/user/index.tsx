@@ -1,60 +1,47 @@
-import { useState, useEffect } from 'react'
-
 import { useQuery } from '@apollo/client'
-import { PROFILE } from 'assets/apollo/profile'
-import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
-import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
-import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
+import { GET_USER_IMAGES } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminUserLayout'
-import Post from 'common/components/Post/Post'
 import { TabBar } from 'common/components/TabBar'
 import UserInfo from 'features/admin/UserInfo'
-import ProfileElement from 'features/profile/ProfileElement'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import { styled } from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
+import { Sceleton } from 'styles/styledComponents/admin/sceleton.styled'
 
+/*
+    Страница отображения данных о пользователе, включающая загруженные им фотографии
+*/
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+      ...(await serverSideTranslations(locale as string, ['admin'], config)),
     },
   }
 }
 
-// const postsAmount = 9
-
 const UserPhoto = () => {
-  const { loading, error, data } = useQuery(PROFILE)
+  const imagesAmount = 10
 
-  if (data) {
-    console.log(data.id)
+  const {
+    loading,
+    error,
+    data: userImages,
+  } = useQuery(GET_USER_IMAGES, {
+    variables: { id: '45fc377a-4c96-46c4-a7b4-cb0d6dffbcc2' },
+  })
+
+  if (error) {
+    console.log(error)
   }
-  //   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
-  //   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
-  //   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
-  //   const [isPostActive, setIsPostActive] = useState(false)
+  const { t } = useTranslation('admin')
 
-  //   const [pageNumber, setPageNumber] = useState(1)
-  //   const [pageSize, setPageSize] = useState(postsAmount)
-  //   const [pageCount, setPageCount] = useState(1)
-  //   const [userId, setUserId] = useState('')
-  //   // const [postInfo, setPostInfo] = useState<GetPostResponse | undefined>()
-  //   const [totalCount, setTotalCount] = useState(postsAmount)
-
-  //   const [isFetching, setIsFetching] = useState(true)
-
-  //   const posts = data?.items || []
-
-  const { t } = useTranslation()
-
+  // Данные для создания вкладок
   const baseUrl = '/admin/user'
   const adminUserTabData = [
     {
@@ -75,74 +62,27 @@ const UserPhoto = () => {
     },
   ]
 
-  //   useEffect(() => {
-  //     getProfileInfo()
-  //       .unwrap()
-  //       .then(res => {
-  //         if (res.userId) {
-  //           setUserId(res.userId)
-  //         }
-  //       })
-  //   }, [])
-
-  //   useEffect(() => {
-  //     if (userId && isFetching && posts.length < totalCount) {
-  //       getUserPosts({ userId, pageNumber, pageSize })
-  //         .unwrap()
-  //         .then(res => {
-  //           setPageCount(res.pagesCount)
-  //           setPageSize(prev => prev + postsAmount)
-  //           setIsFetching(false)
-  //           setTotalCount(res.totalCount)
-  //         })
-  //     }
-  //   }, [isFetching, userId])
-
-  //   const scrollHandler = () => {
-  //     const { scrollHeight } = document.documentElement
-  //     const { scrollTop } = document.documentElement
-  //     const { innerHeight } = window
-
-  //     if (scrollHeight - (scrollTop + innerHeight) < 100 && posts.length < totalCount) {
-  //       setIsFetching(true)
-  //     }
-  //   }
-
-  //   useEffect(() => {
-  //     document.addEventListener('scroll', scrollHandler)
-
-  //     return () => document.removeEventListener('scroll', scrollHandler)
-  //   }, [totalCount])
-
   return (
     <>
       <UserInfo />
-      <TabBar baseUrl={baseUrl} titleList={adminUserTabData} />
-      <div>PhotoList</div>
-
-      {/* <ProfileElement t={t} user={user} />
+      <TabBar baseUrl={baseUrl} t={t} titleList={adminUserTabData} />
       <PostsWrapper>
-        {posts.map(post => {
-          return (
-            <PostPreview
-              key={post.id}
-              alt="post image"
-              height={350}
-              src={post?.images[0]?.url || postWithoutImage}
-              width={350}
-              onClick={() =>
-                getCurrentPost(post.id)
-                  .unwrap()
-                  .then(() => setIsPostActive(true))
-              }
-            />
-          )
-        })}
+        {loading
+          ? [...Array(imagesAmount)].map(item => (
+              <StyledContainer key={item}>
+                <Sceleton height="100%" radius="5px" width="100%" />
+              </StyledContainer>
+            ))
+          : userImages?.user?.images?.map(image => (
+              <PostPreview
+                key={image.id}
+                alt="user_image"
+                height={350}
+                src={image.url}
+                width={350}
+              />
+            ))}
       </PostsWrapper>
-
-      {isPostActive && (
-        <Post login={user?.login || ''} postInfo={postInfo} setIsPostActive={setIsPostActive} />
-      )} */}
     </>
   )
 }
@@ -151,14 +91,11 @@ UserPhoto.getLayout = getLayout
 export default UserPhoto
 
 const PostsWrapper = styled.div`
-  /* width: 100%; */
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  padding-left: 10px;
-  padding-bottom: 20px;
-  /* padding-top: 53px;
-  padding-right: 24px; */
+  padding-top: 36px;
+  padding-bottom: 10px;
 
   @media (max-width: 960px) {
     padding-left: 10px;
@@ -167,10 +104,18 @@ const PostsWrapper = styled.div`
 
 const PostPreview = styled(Image)`
   width: calc(33.33% - 10px);
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   cursor: pointer;
 
   @media (max-width: 560px) {
     width: calc(33.33% - 10px);
   }
+`
+
+const StyledContainer = styled.div`
+  width: calc(33.33% - 10px);
+  height: auto;
+  aspect-ratio: 1 / 1;
 `

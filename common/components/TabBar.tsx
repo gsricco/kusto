@@ -1,20 +1,26 @@
+import { TFunction } from 'i18next'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { baseTheme } from '../../styles/styledComponents/theme'
 
+/* Компонента для создания блока с вкладками.
+   Пропсы: baseUrl - общий url для всех вкладок,
+           titleList - объект с названиями вкладок (name) и соответсвующими url для редиректа (ref)
+                     который добавляется к основному baseUrl
+*/
+
 type TabBarProps = {
   baseUrl: string
+  t: TFunction
   titleList: {
     name: string
     ref: string
   }[]
 }
 
-export const TabBar = ({ baseUrl, titleList }: TabBarProps) => {
-  const { t } = useTranslation()
+export const TabBar = ({ baseUrl, titleList, t }: TabBarProps) => {
   const location = usePathname()
   const isActive = (name: string) => (location.includes(name) ? 'active' : '')
 

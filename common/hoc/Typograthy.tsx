@@ -17,7 +17,20 @@ import {
 } from 'styles/styledComponents/typograthy.styled'
 
 type Props = {
-  variant: string
+  variant:
+    | 'bold_text 14'
+    | 'Bold_text 16'
+    | 'H1'
+    | 'H2'
+    | 'H3'
+    | 'Large'
+    | 'Medium_text 14'
+    | 'regular_link'
+    | 'regular_text 14'
+    | 'regular_text 16'
+    | 'Semi-bold small_text'
+    | 'small_link'
+    | 'small_text'
 }
 const Typograthy: FC<PropsWithChildren<Props>> = ({ variant, children, ...props }) => {
   switch (variant) {

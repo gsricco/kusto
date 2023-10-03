@@ -1,8 +1,15 @@
+import { useQuery } from '@apollo/client'
+import { GET_USER } from 'assets/apollo/users'
 import { Path } from 'common/enums/path'
+import Typograthy from 'common/hoc/Typograthy'
+import UserInfoSceleton from 'features/admin/UserInfoSceleton'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
+
+// Компонента для отображения основных данных пользователя в админке
 
 const UserInfo = () => {
   const router = useRouter()
@@ -10,29 +17,51 @@ const UserInfo = () => {
     router.push(Path.ADMIN)
   }
 
+  const { t } = useTranslation('admin')
+
+  const { loading, error, data } = useQuery(GET_USER, {
+    variables: { id: '45fc377a-4c96-46c4-a7b4-cb0d6dffbcc2' },
+  })
+
+  if (error) {
+    console.log(error)
+  }
+
   return (
     <StyledUserInfoContainer>
-      <StyledFlexContainer onClick={handleBackToList}>
-        <Image alt="arrow" height={24} src="/img/icons/arrow-back-outline.svg" width={24} />
-        <StyledBack>Back to Users List</StyledBack>
-      </StyledFlexContainer>
-      <StyledFlexContainer>
-        <StyledImage alt="userPhoto" height={60} src="/img/icons/avatar.svg" width={60} />
-        <StyledNameContainer>
-          <StyledName>Ivan Yakimenko</StyledName>
-          <StyledUserName>Ivan.sr.yakimenko</StyledUserName>
-        </StyledNameContainer>
-      </StyledFlexContainer>
-      <StyledIdDateContainer>
-        <StyledIdDate>
-          <StyledTitle>UserId</StyledTitle>
-          <StyledNumber>21331QErQe21</StyledNumber>
-        </StyledIdDate>
-        <StyledIdDate>
-          <StyledTitle>Profile Creation Date</StyledTitle>
-          <StyledNumber>12.12.2022</StyledNumber>
-        </StyledIdDate>
-      </StyledIdDateContainer>
+      {loading ? (
+        <UserInfoSceleton />
+      ) : (
+        <>
+          <StyledFlexContainer onClick={handleBackToList}>
+            <Image alt="arrow" height={24} src="/img/icons/arrow-back-outline.svg" width={24} />
+            <StyledBack>
+              <Typograthy variant="Medium_text 14">{t('Back to Users List')}</Typograthy>
+            </StyledBack>
+          </StyledFlexContainer>
+          <StyledFlexContainer>
+            <StyledImage alt="userPhoto" height={60} src="/img/icons/avatar.svg" width={60} />
+            <StyledNameContainer>
+              <Typograthy variant="H1">{data?.user?.login}</Typograthy>
+              <StyledUserName>{data?.user?.email}</StyledUserName>
+            </StyledNameContainer>
+          </StyledFlexContainer>
+          <StyledIdDateContainer>
+            <StyledIdDate>
+              <StyledTitle>
+                <Typograthy variant="regular_text 14">{t('UserId')}</Typograthy>
+              </StyledTitle>
+              <Typograthy variant="regular_text 16">{data?.user?.id}</Typograthy>
+            </StyledIdDate>
+            <StyledIdDate>
+              <StyledTitle>
+                <Typograthy variant="regular_text 14">{t('Profile Creation Date')}</Typograthy>
+              </StyledTitle>
+              <Typograthy variant="regular_text 16">{data?.user?.createdAt}</Typograthy>
+            </StyledIdDate>
+          </StyledIdDateContainer>
+        </>
+      )}
     </StyledUserInfoContainer>
   )
 }
@@ -52,32 +81,29 @@ const StyledUserInfoContainer = styled.div`
   color: ${baseTheme.colors.light[100]};
 `
 
-const StyledFlexContainer = styled.div`
+export const StyledFlexContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
 `
 const StyledBack = styled.div`
-  line-height: 24px;
-  font-weight: 500px;
-  font-size: 14px;
   margin: 0 12px;
 `
 
 const StyledImage = styled(Image)`
   border-radius: 30px;
 `
-const StyledNameContainer = styled.div`
+
+export const StyledNameContainer = styled.div`
   height: 60px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  flex-shrink: 1;
 
-  margin: 0 24px;
+  margin-left: 24px;
+  margin-right: 6px;
   padding: auto;
-`
-const StyledName = styled.h1`
-  line-height: 36px;
-  font-weight: 700px;
-  font-size: 20px;
 `
 const StyledUserName = styled.div`
   line-height: 24px;
@@ -87,24 +113,18 @@ const StyledUserName = styled.div`
   text-decoration: underline;
 `
 
-const StyledIdDateContainer = styled.div`
+export const StyledIdDateContainer = styled.div`
   display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 12px;
 `
-const StyledIdDate = styled.div`
+export const StyledIdDate = styled.div`
   min-width: 172px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 1;
 `
 const StyledTitle = styled.div`
-  line-height: 24px;
-  font-weight: 400px;
-  font-size: 14px;
   color: ${baseTheme.colors.light[900]};
-`
-
-const StyledNumber = styled.div`
-  line-height: 24px;
-  font-weight: 400px;
-  font-size: 16px;
 `
