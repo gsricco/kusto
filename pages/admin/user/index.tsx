@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import { useQuery } from '@apollo/client'
+import { PROFILE } from 'assets/apollo/profile'
 import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
 import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
@@ -29,6 +31,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 // const postsAmount = 9
 
 const UserPhoto = () => {
+  const { loading, error, data } = useQuery(PROFILE)
+
+  if (data) {
+    console.log(data.id)
+  }
   //   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
   //   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
