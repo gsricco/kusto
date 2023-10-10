@@ -37,7 +37,7 @@ export const Main = styled.div`
 
 const Page = styled.div`
   display: flex;
-  max-width: 1310px;
+  /* max-width: 1310px; */
   width: 100%;
   height: 3000px;
 `
@@ -47,7 +47,7 @@ const StyledWrapper = styled.div`
 
   width: 100%;
   min-height: 100vh;
-  max-width: 1310px;
+  /* max-width: 1310px; */
 
   display: flex;
   flex-direction: column;

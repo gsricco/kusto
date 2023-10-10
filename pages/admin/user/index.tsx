@@ -24,6 +24,26 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
+// const postsAmount = 9
+const adminUserTabData = [
+  {
+    name: 'Uploaded photos',
+    ref: '',
+  },
+  {
+    name: 'Payments',
+    ref: 'payments',
+  },
+  {
+    name: 'Followers',
+    ref: 'followers',
+  },
+  {
+    name: 'Following',
+    ref: 'following',
+  },
+]
+
 const UserPhoto = () => {
   const imagesAmount = 10
 
@@ -43,24 +63,6 @@ const UserPhoto = () => {
 
   // Данные для создания вкладок
   const baseUrl = '/admin/user'
-  const adminUserTabData = [
-    {
-      name: 'Uploaded photos',
-      ref: '',
-    },
-    {
-      name: 'Payments',
-      ref: 'payments',
-    },
-    {
-      name: 'Followers',
-      ref: 'followers',
-    },
-    {
-      name: 'Following',
-      ref: 'following',
-    },
-  ]
 
   return (
     <>
