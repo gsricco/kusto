@@ -1,11 +1,15 @@
 import { gql } from 'assets/apollo/__generated__/gql'
 
 // Получение данных обо всех пользователей
+
 export const GET_USERS = gql(`
-  query Users {
-    users {
+  query Users($pageSize:Int!,$searchName:String!) {
+    users(pageSize:$pageSize,searchName:$searchName) {
       id
       login
+      email
+      createdAt
+      accountType
     }
   }
 `)

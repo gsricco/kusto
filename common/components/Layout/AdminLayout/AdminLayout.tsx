@@ -33,7 +33,7 @@ export const Main = styled.div`
   width: 100%;
   margin-top: 60px;
   margin-left: 220px;
-  padding: 20px;
+  padding: 20px 5.6%;
 `
 
 const Page = styled.div`
