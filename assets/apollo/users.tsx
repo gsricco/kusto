@@ -10,6 +10,7 @@ export const GET_USERS = gql(`
       email
       createdAt
       accountType
+      ban
     }
   }
 `)
@@ -40,3 +41,9 @@ export const GET_USER_IMAGES = gql(`
     }
   }
 `)
+
+// export const DELETE_USER = gql(`
+//   mutation deleteUser($userId: String!) {
+
+//   }
+// `)

@@ -134,6 +134,7 @@ export type QueryUsersArgs = {
 export type UserModel = {
   __typename?: 'UserModel'
   accountType: Scalars['String']['output']
+  ban: Scalars['Boolean']['output']
   createdAt: Scalars['DateTime']['output']
   email: Scalars['String']['output']
   id: Scalars['String']['output']
@@ -142,6 +143,7 @@ export type UserModel = {
   payments?: Maybe<Array<PaymentModel>>
   posts?: Maybe<Array<PostModel>>
   profiles?: Maybe<ProfileModel>
+  reasonBan?: Maybe<Scalars['String']['output']>
 }
 
 export type UsersQueryVariables = Exact<{
@@ -158,6 +160,7 @@ export type UsersQuery = {
     email: string
     createdAt: any
     accountType: string
+    ban: boolean
   }>
 }
 
@@ -240,6 +243,7 @@ export const UsersDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'accountType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'ban' } },
               ],
             },
           },

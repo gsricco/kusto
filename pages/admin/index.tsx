@@ -5,12 +5,10 @@ import config from 'next-i18next.config.js'
 import styled from 'styled-components'
 import Image from 'next/image'
 import search from 'public/img/icons/search.svg'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDebounce } from 'common/hooks/useDebounce'
 import { useLazyQuery } from '@apollo/client'
 import { GET_USERS } from 'assets/apollo/users'
-import { Table } from 'styles/styledComponents/payments/payments.styled'
-import PaymentsTable from 'common/components/Table/Table'
 import UsersTable from 'common/components/Table/UsersTable'
 import { useTranslation } from 'react-i18next'
 import { useClient } from 'common/hooks/useClients'
@@ -36,7 +34,7 @@ const Admin = () => {
 
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
-      pageSize: 20,
+      pageSize: 10,
       searchName: getSearchValue() || '',
     },
   })
@@ -56,22 +54,24 @@ const Admin = () => {
   }, [debouncedSearch])
 
   return (
-    <>
-      <Wrapper>
-        <SearchBar>
-          <SearchIcon alt="search" src={search} />
-          <Search ref={inputRef} />
-        </SearchBar>
-        <Select defaultValue="Not selected">
-          <Option hidden selected>
-            Not selected
-          </Option>
-          <Option>Blocked</Option>
-          <Option>Not Blocked</Option>
-        </Select>
-      </Wrapper>
-      <UsersTable t={t} users={users} />
-    </>
+    client && (
+      <>
+        <Wrapper>
+          <SearchBar>
+            <SearchIcon alt="search" src={search} />
+            <Search ref={inputRef} />
+          </SearchBar>
+          <Select defaultValue="Not selected">
+            <Option hidden selected>
+              Not selected
+            </Option>
+            <Option>Blocked</Option>
+            <Option>Not Blocked</Option>
+          </Select>
+        </Wrapper>
+        <UsersTable t={t} users={users} />
+      </>
+    )
   )
 }
 
@@ -81,6 +81,7 @@ Admin.getLayout = getLayout
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 24px;
 `
 
 const SearchBar = styled.div`

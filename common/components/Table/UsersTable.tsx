@@ -17,6 +17,10 @@ import { UsersQuery } from 'assets/apollo/__generated__/graphql'
 import Image from 'next/image'
 import styled from 'styled-components'
 
+type MenuProps = {
+  id: string
+}
+
 const Menu = () => {
   const menu = [
     { src: person, alt: 'icon', text: 'Delete User' },
@@ -32,7 +36,12 @@ const Menu = () => {
 
   return (
     <UserMenu>
-      <More alt="more" src={isActive ? moreSelected : more} onClick={handleSelect} />
+      <More
+        alt="more"
+        src={isActive ? moreSelected : more}
+        style={{ marginTop: '6px' }}
+        onClick={handleSelect}
+      />
       {isActive && (
         <MenuItems>
           {menu.map(item => (
@@ -53,7 +62,7 @@ type TableProps = {
 }
 
 const UsersTable = ({ t, users }: TableProps) => {
-  const tableHeadingData = ['UserId', 'Username', 'Profile Link', 'Date Added', '']
+  const tableHeadingData = ['User ID', 'Username', 'Profile Link', 'Date Added', '']
 
   return (
     <Table style={{ maxWidth: '1024px', width: '100%' }}>
@@ -65,11 +74,11 @@ const UsersTable = ({ t, users }: TableProps) => {
         ))}
       </TableHeading>
       {users?.users.map(user => (
-        <TableRow key={user.id}>
-          <Cell style={{ paddingLeft: '24px' }} title={user.id}>{`${user.id.slice(
-            0,
-            12
-          )}...`}</Cell>
+        <TableRow key={user.id} style={{ padding: '0px' }}>
+          <Cell style={{ paddingLeft: '24px' }} title={user.id}>
+            {user.ban ? <Block alt="blocked" src={block} /> : <EmptyBlock />}
+            <Text>{`${user.id.slice(0, 12)}...`}</Text>
+          </Cell>
           <Cell>{user.login}</Cell>
           <Cell>{user.login}</Cell>
           <Cell>{dateParser(user.createdAt)}</Cell>
@@ -88,8 +97,13 @@ const MenuCell = styled(Cell)`
   min-width: 30px;
   display: flex;
   justify-content: center;
-  align-items: center;
 `
+const EmptyBlock = styled.span`
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+`
+
 const UserMenu = styled.div`
   position: relative;
   color: white;
@@ -105,16 +119,21 @@ const MenuItemWrapper = styled.span`
 const More = styled(Image)`
   cursor: pointer;
 `
+const Block = styled(Image)`
+  margin-bottom: -6px;
+`
 
-const Text = styled.p`
+const Text = styled.span`
   font-size: 14px;
   font-weight: 400;
+  position: relative;
+  left: 10px;
 `
 
 const MenuItems = styled.div`
   position: absolute;
   padding: 12px 0;
-  right: 20px;
+  right: 0;
   z-index: 10;
   background: #171717;
   border: 1px solid #4c4c4c;
