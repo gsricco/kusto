@@ -6,5 +6,10 @@
   "Uploaded photos": "Uploaded photos",
   "Payments": "Payments",
   "Followers": "Followers",
-  "Following": "Following"
+  "Following": "Following",
+
+  "username": "Username",
+  "user_id": "User ID",
+  "profile_link": "Profile Link",
+  "subscription_date": "Subscription Date"
 }

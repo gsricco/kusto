@@ -114,10 +114,6 @@
   "subscription_type": "Subscription Type",
   "payment_type": "Payment Type",
 
-  "user_id": "User ID",
-  "profile_link": "Profile Link",
-  "subscription_date": "Subscription Date",
-
   "signin": "Sign in with",
   "con_rejected": "Sorry! Connection is rejected",
   "google_con": "Connecting to your Google account",

@@ -124,10 +124,6 @@
   "subscription_type": "Тип Подписки",
   "payment_type": "Тип Платежа",
 
-  "user_id": "ID пользователя",
-  "profile_link": "Ссылка профиля",
-  "subscription_date": "Дата подписки",
-
   "signin": "Войти через",
   "con_rejected": "Извините! Соединение отклонено",
   "google_con": "Подключение к вашей учетной записи Google",
