@@ -149,6 +149,9 @@ export type UserModel = {
 export type UsersQueryVariables = Exact<{
   pageSize: Scalars['Int']['input']
   searchName: Scalars['String']['input']
+  sortBy: Scalars['String']['input']
+  sortDirection: Scalars['String']['input']
+  pageNumber: Scalars['Int']['input']
 }>
 
 export type UsersQuery = {
@@ -192,6 +195,12 @@ export type UserImagesQuery = {
   } | null
 }
 
+export type DeleteUserMutationVariables = Exact<{
+  userId: Scalars['String']['input']
+}>
+
+export type DeleteUserMutation = { __typename?: 'Mutation'; deleteUser: boolean }
+
 export const UsersDocument = {
   kind: 'Document',
   definitions: [
@@ -216,6 +225,30 @@ export const UsersDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sortBy' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sortDirection' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'pageNumber' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -233,6 +266,21 @@ export const UsersDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'searchName' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'searchName' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortBy' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sortBy' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sortDirection' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'pageNumber' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'pageNumber' } },
               },
             ],
             selectionSet: {
@@ -357,3 +405,39 @@ export const UserImagesDocument = {
     },
   ],
 } as unknown as DocumentNode<UserImagesQuery, UserImagesQueryVariables>
+export const DeleteUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>

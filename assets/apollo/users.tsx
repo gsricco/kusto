@@ -3,8 +3,8 @@ import { gql } from 'assets/apollo/__generated__/gql'
 // Получение данных обо всех пользователей
 
 export const GET_USERS = gql(`
-  query Users($pageSize:Int!,$searchName:String!) {
-    users(pageSize:$pageSize,searchName:$searchName) {
+  query Users($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    users(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
       id
       login
       email
@@ -42,8 +42,8 @@ export const GET_USER_IMAGES = gql(`
   }
 `)
 
-// export const DELETE_USER = gql(`
-//   mutation deleteUser($userId: String!) {
-
-//   }
-// `)
+export const DELETE_USER = gql(`
+  mutation deleteUser($userId: String!) {
+    deleteUser (userId: $userId)
+  }
+`)

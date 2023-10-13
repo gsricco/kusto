@@ -1,17 +1,30 @@
-import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
-import { GetStaticPropsContext } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import config from 'next-i18next.config.js'
-import styled from 'styled-components'
-import Image from 'next/image'
-import search from 'public/img/icons/search.svg'
 import { useEffect, useRef, useState } from 'react'
-import { useDebounce } from 'common/hooks/useDebounce'
+
 import { useLazyQuery } from '@apollo/client'
 import { GET_USERS } from 'assets/apollo/users'
+import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
 import UsersTable from 'common/components/Table/UsersTable'
-import { useTranslation } from 'react-i18next'
 import { useClient } from 'common/hooks/useClients'
+import { useDebounce } from 'common/hooks/useDebounce'
+import { GetStaticPropsContext } from 'next'
+import Image from 'next/image'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+import search from 'public/img/icons/search.svg'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+
+export const SelectStatus = () => {
+  return (
+    <Select defaultValue="Not selected">
+      <Option hidden selected>
+        Not selected
+      </Option>
+      <Option>Blocked</Option>
+      <Option>Not Blocked</Option>
+    </Select>
+  )
+}
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -32,10 +45,40 @@ const Admin = () => {
     return inputRef.current?.value
   }
 
+  const [sortBy, setSortBy] = useState('createdAt')
+  const [sortDirection, setSortDirection] = useState('desc')
+
+  // const selectdSort = (sortType: string): void => {
+  //   if (sortType === 'createdAt') {
+  //     setSortDirection('createdAt')
+  //   } else {
+  //     setSortDirection('username')
+  //   }
+  // }
+
+  // const checkSelectedSort = () => {
+  //   if (sortBy === 'username') {
+  //     return 'username'
+  //   }
+
+  //   return 'createdAt'
+  // }
+
+  // const selectSortDirection = () => {
+  //   if (sortDirection === 'desc') {
+  //     setSortDirection('asc')
+  //   } else {
+  //     setSortDirection('desc')
+  //   }
+  // }
+
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
       pageSize: 10,
       searchName: getSearchValue() || '',
+      sortBy: 'createdAt',
+      sortDirection,
+      pageNumber: 1,
     },
   })
 
@@ -51,7 +94,7 @@ const Admin = () => {
     input?.addEventListener('keydown', debouncedSearch)
 
     return () => input?.removeEventListener('keydown', debouncedSearch)
-  }, [debouncedSearch])
+  }, [getSearchValue])
 
   return (
     client && (
@@ -61,13 +104,7 @@ const Admin = () => {
             <SearchIcon alt="search" src={search} />
             <Search ref={inputRef} />
           </SearchBar>
-          <Select defaultValue="Not selected">
-            <Option hidden selected>
-              Not selected
-            </Option>
-            <Option>Blocked</Option>
-            <Option>Not Blocked</Option>
-          </Select>
+          <SelectStatus />
         </Wrapper>
         <UsersTable t={t} users={users} />
       </>
