@@ -1,0 +1,15 @@
+{
+  "Back to Users List": "Назад к Списку Пользователей",
+  "UserId": "ID Пользователя",
+  "Profile Creation Date": "Дата Создания Профиля",
+
+  "Uploaded photos": "Загруженные фото",
+  "Payments": "Платежи",
+  "Followers": "Подписчики",
+  "Following": "Подписки",
+
+  "username": "Имя пользователя",
+  "user_id": "ID пользователя",
+  "profile_link": "Ссылка профиля",
+  "subscription_date": "Дата подписки"
+}

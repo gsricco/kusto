@@ -91,7 +91,6 @@ const MyProfile = () => {
 
   return (
     <>
-      {}
       <ProfileElement t={t} user={user} />
       <PostsWrapper>
         {posts.map(post => {
@@ -139,6 +138,8 @@ const PostsWrapper = styled.div`
 
 const PostPreview = styled(Image)`
   width: calc(33.33% - 10px);
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   cursor: pointer;
 
