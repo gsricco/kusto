@@ -14,6 +14,27 @@ import { Sceleton } from 'styles/styledComponents/admin/sceleton.styled'
 /*
     Страница отображения данных о пользователе, включающая загруженные им фотографии
 */
+
+// Данные для создания вкладок
+export const baseUrl = '/admin/user'
+export const adminUserTabData = [
+  {
+    name: 'Uploaded photos',
+    ref: '',
+  },
+  {
+    name: 'Payments',
+    ref: 'payments',
+  },
+  {
+    name: 'Followers',
+    ref: 'followers',
+  },
+  {
+    name: 'Following',
+    ref: 'following',
+  },
+]
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
 
@@ -40,27 +61,6 @@ const UserPhoto = () => {
   }
 
   const { t } = useTranslation('admin')
-
-  // Данные для создания вкладок
-  const baseUrl = '/admin/user'
-  const adminUserTabData = [
-    {
-      name: 'Uploaded photos',
-      ref: '',
-    },
-    {
-      name: 'Payments',
-      ref: 'payments',
-    },
-    {
-      name: 'Followers',
-      ref: 'followers',
-    },
-    {
-      name: 'Following',
-      ref: 'following',
-    },
-  ]
 
   return (
     <>

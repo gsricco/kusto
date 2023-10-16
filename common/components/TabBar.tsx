@@ -13,7 +13,7 @@ import { baseTheme } from '../../styles/styledComponents/theme'
 
 type TabBarProps = {
   baseUrl: string
-  t: TFunction
+  t?: TFunction
   titleList: {
     name: string
     ref: string
@@ -34,14 +34,14 @@ export const TabBar = ({ baseUrl, titleList, t }: TabBarProps) => {
               active={location === baseUrl ? 'active' : ''}
               href={`${baseUrl}/${item.ref}`}
             >
-              {t(item.name)}
+              {t? t(item.name): item.name}
             </StyledItem>
           )
         }
 
         return (
           <StyledItem key={item.name} active={isActive(item.ref)} href={`${baseUrl}/${item.ref}`}>
-            {t(item.name)}
+            {t ? t(item.name) : item.name}
           </StyledItem>
         )
       })}

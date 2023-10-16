@@ -15,7 +15,8 @@
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -63,12 +64,20 @@
       "warn",
       {
         "newlines-between": "always",
-        "pathGroupsExcludedImportTypes": ["react"],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
         },
-        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "pathGroups": [
           {
             "pattern": "react",
@@ -81,7 +90,21 @@
     "no-magic-numbers": [
       "error",
       {
-        "ignore": [0, 1, -1, 100, 300, 500, 700, 900, 200, 550, 1000, 2, 401]
+        "ignore": [
+          0,
+          1,
+          -1,
+          100,
+          300,
+          500,
+          700,
+          900,
+          200,
+          550,
+          1000,
+          2,
+          401
+        ]
       }
     ],
     "padding-line-between-statements": [
@@ -93,13 +116,25 @@
       },
       {
         "blankLine": "always",
-        "prev": ["const", "let", "var"],
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
         "next": "*"
       },
       {
         "blankLine": "any",
-        "prev": ["const", "let", "var"],
-        "next": ["const", "let", "var"]
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
+        "next": [
+          "const",
+          "let",
+          "var"
+        ]
       }
     ],
     "no-use-before-define": "off",
@@ -107,7 +142,10 @@
       "warn",
       {
         "props": true,
-        "ignorePropertyModificationsFor": ["state", "self"]
+        "ignorePropertyModificationsFor": [
+          "state",
+          "self"
+        ]
       }
     ],
     "react-hooks/rules-of-hooks": "error",
@@ -123,7 +161,10 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".jsx", ".tsx"]
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
       }
     ],
     "react/jsx-props-no-spreading": [
@@ -168,11 +209,21 @@
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
     "import/no-unresolved": "off",
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "no-continue": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
-    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowTernary": true
+      }
+    ],
     "react/jsx-no-useless-fragment": "warn",
     "jsx-a11y/label-has-associated-control": "off"
   },
