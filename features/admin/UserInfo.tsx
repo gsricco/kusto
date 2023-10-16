@@ -11,7 +11,7 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 // Компонента для отображения основных данных пользователя в админке
 
-const UserInfo = () => {
+const UserInfo = ({ userId }: { userId: string }) => {
   const router = useRouter()
   const handleBackToList = () => {
     router.push(Path.ADMIN)
@@ -20,7 +20,7 @@ const UserInfo = () => {
   const { t } = useTranslation('admin')
 
   const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: '45fc377a-4c96-46c4-a7b4-cb0d6dffbcc2' },
+    variables: { id: userId },
   })
 
   if (error) {

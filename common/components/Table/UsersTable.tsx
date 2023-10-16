@@ -11,6 +11,8 @@ import block from 'public/img/icons/block_outline.svg'
 import more from 'public/img/icons/more-horizontal-outline.svg'
 import moreSelected from 'public/img/icons/more-horizontal_selected.svg'
 import person from 'public/img/icons/person.svg'
+import down from 'public/img/icons/sort_down.svg'
+import up from 'public/img/icons/sort_up.svg'
 import styled from 'styled-components'
 import {
   Cell,
@@ -19,8 +21,6 @@ import {
   TableHeading,
   TableRow,
 } from 'styles/styledComponents/payments/payments.styled'
-import up from 'public/img/icons/sort_up.svg'
-import down from 'public/img/icons/sort_down.svg'
 
 type MenuProps = {
   id: string
@@ -36,7 +36,7 @@ const Menu = ({ id }: MenuProps) => {
   const { push } = useRouter()
 
   const handleNavigate = (userId: string): void => {
-    push(`/admin/user/${userId}`)
+    push(`/admin/${userId}`)
   }
 
   const blockUser = () => {
