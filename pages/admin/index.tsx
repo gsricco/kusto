@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
-import UsersTable from 'common/components/Table/UsersTable'
+import UsersTable from '../../common/components/Table/UsersTable/UsersTable'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
 import { GetStaticPropsContext } from 'next'
@@ -47,30 +47,6 @@ const Admin = () => {
 
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortDirection, setSortDirection] = useState('desc')
-
-  // const selectdSort = (sortType: string): void => {
-  //   if (sortType === 'createdAt') {
-  //     setSortDirection('createdAt')
-  //   } else {
-  //     setSortDirection('username')
-  //   }
-  // }
-
-  // const checkSelectedSort = () => {
-  //   if (sortBy === 'username') {
-  //     return 'username'
-  //   }
-
-  //   return 'createdAt'
-  // }
-
-  // const selectSortDirection = () => {
-  //   if (sortDirection === 'desc') {
-  //     setSortDirection('asc')
-  //   } else {
-  //     setSortDirection('desc')
-  //   }
-  // }
 
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
