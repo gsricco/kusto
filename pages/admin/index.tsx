@@ -18,6 +18,7 @@ import {
   WrapperAdmin,
 } from '../../features/admin/Admin.styled'
 import { SelectStatusAdmin } from '../../features/admin/SelectStatusAdmin'
+import PagesNavigation from '../../features/settings/Pagination'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -40,6 +41,8 @@ const Admin = () => {
 
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortDirection, setSortDirection] = useState('desc')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(initialPageSize)
 
   const selectedSort = (sortType: string): void => {
     console.log(sortType)
@@ -60,6 +63,16 @@ const Admin = () => {
       setSortBy('login')
     }
   }
+  const [getAllUsers, { data: allUsers }] = useLazyQuery(GET_USERS, {
+    variables: {
+      pageSize: 10000,
+      searchName: '',
+      sortBy: 'createdAt',
+      sortDirection,
+      pageNumber: 1,
+    },
+  })
+  const pagesCount = allUsers ? Math.ceil(allUsers.users.length / 10) : 0
 
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
@@ -96,6 +109,16 @@ const Admin = () => {
           <SelectStatusAdmin />
         </WrapperAdmin>
         <UsersTable selectedSort={selectedSort} users={users} />
+        {users && (
+          <PagesNavigation
+            pageNumber={page}
+            pagesCount={pagesCount}
+            pageSize={pageSize}
+            t={t}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+          />
+        )}
       </>
     )
   )
