@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useMutation } from '@apollo/client'
 import { DELETE_USER, GET_USERS } from '../../../assets/apollo/users'
@@ -15,9 +15,16 @@ import {
   TextAdmin,
   UserMenuAdmin,
 } from '../Admin.styled'
+import Modal from '../../../common/components/Modals/ModalPublic/Modal'
+import { ModalBtn } from '../../../styles/styledComponents/acc_management/acc_management.styled'
+import { Button } from '../../../common/components/Button/Button'
+import { ThemeButton } from '../../../common/enums/themeButton'
+import { LogoutModal } from '../../../common/components/Navbar/LogoutLink/logoutLink'
+import { ModalAdminDeleteUser } from '../../../common/components/Modals/ModalAdmin/ModalAdminDeleteUser'
 
 export const MenuUserTable = ({ id }: MenuPropsType) => {
   const [isActive, setIsActive] = useState(false)
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState<boolean>(false)
 
   const handleSelect = () => {
     setIsActive(prev => !prev)
@@ -57,12 +64,26 @@ export const MenuUserTable = ({ id }: MenuPropsType) => {
       {isActive && (
         <MenuItemsAdmin>
           {menu.map(item => (
-            <MenuItemWrapperAdmin key={item.text} onClick={() => item.handler(id)}>
+            <MenuItemWrapperAdmin
+              key={item.text}
+              onClick={() => {
+                if (item.text === 'Delete User') {
+                  setIsOpenModalDelete(true)
+                } else item.handler(id)
+              }}
+            >
               <MenuIconAdmin alt={item.alt} src={item.src} />
               <TextAdmin>{item.text}</TextAdmin>
             </MenuItemWrapperAdmin>
           ))}
         </MenuItemsAdmin>
+      )}
+      {isOpenModalDelete && (
+        <ModalAdminDeleteUser
+          id={id}
+          isOpenModalDelete={isOpenModalDelete}
+          setIsOpenModalDelete={setIsOpenModalDelete}
+        />
       )}
     </UserMenuAdmin>
   )

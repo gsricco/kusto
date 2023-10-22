@@ -38,7 +38,7 @@ const Admin = () => {
   const getSearchValue = () => {
     return inputRef.current?.value
   }
-
+  const initialPageSize = 10
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortDirection, setSortDirection] = useState('desc')
   const [page, setPage] = useState(1)
@@ -76,17 +76,18 @@ const Admin = () => {
 
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
-      pageSize: 10,
+      pageSize,
       searchName: getSearchValue() || '',
       sortBy,
       sortDirection,
-      pageNumber: 1,
+      pageNumber: page,
     },
   })
 
   const debouncedSearch = useDebounce(getUsers, 500)
 
   useEffect(() => {
+    getAllUsers()
     getUsers()
   }, [])
 
