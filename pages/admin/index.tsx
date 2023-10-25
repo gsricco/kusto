@@ -7,24 +7,18 @@ import UsersTable from 'common/components/Table/UsersTable'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
 import { GetStaticPropsContext } from 'next'
-import Image from 'next/image'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import search from 'public/img/icons/search.svg'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-
-export const SelectStatus = () => {
-  return (
-    <Select defaultValue="Not selected">
-      <Option hidden selected>
-        Not selected
-      </Option>
-      <Option>Blocked</Option>
-      <Option>Not Blocked</Option>
-    </Select>
-  )
-}
+import {
+  SearchAdmin,
+  SearchBarAdmin,
+  SearchIconAdmin,
+  WrapperAdmin,
+} from '../../features/admin/Admin.styled'
+import { SelectStatusAdmin } from '../../features/admin/SelectStatusAdmin'
+import PagesNavigation from '../../features/settings/Pagination'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -44,47 +38,56 @@ const Admin = () => {
   const getSearchValue = () => {
     return inputRef.current?.value
   }
-
+  const initialPageSize = 10
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortDirection, setSortDirection] = useState('desc')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(initialPageSize)
 
-  // const selectdSort = (sortType: string): void => {
-  //   if (sortType === 'createdAt') {
-  //     setSortDirection('createdAt')
-  //   } else {
-  //     setSortDirection('username')
-  //   }
-  // }
+  const selectedSort = (sortType: string): void => {
+    console.log(sortType)
 
-  // const checkSelectedSort = () => {
-  //   if (sortBy === 'username') {
-  //     return 'username'
-  //   }
-
-  //   return 'createdAt'
-  // }
-
-  // const selectSortDirection = () => {
-  //   if (sortDirection === 'desc') {
-  //     setSortDirection('asc')
-  //   } else {
-  //     setSortDirection('desc')
-  //   }
-  // }
-
-  const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
+    if (sortType === 'Date Added') {
+      if (sortDirection === 'desc') {
+        setSortDirection('asc')
+      } else {
+        setSortDirection('desc')
+      }
+      setSortBy('createdAt')
+    } else {
+      if (sortDirection === 'desc') {
+        setSortDirection('asc')
+      } else {
+        setSortDirection('desc')
+      }
+      setSortBy('login')
+    }
+  }
+  const [getAllUsers, { data: allUsers }] = useLazyQuery(GET_USERS, {
     variables: {
-      pageSize: 10,
-      searchName: getSearchValue() || '',
+      pageSize: 10000,
+      searchName: '',
       sortBy: 'createdAt',
       sortDirection,
       pageNumber: 1,
+    },
+  })
+  const pagesCount = allUsers ? Math.ceil(allUsers.users.length / 10) : 0
+
+  const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
+    variables: {
+      pageSize,
+      searchName: getSearchValue() || '',
+      sortBy,
+      sortDirection,
+      pageNumber: page,
     },
   })
 
   const debouncedSearch = useDebounce(getUsers, 500)
 
   useEffect(() => {
+    getAllUsers()
     getUsers()
   }, [])
 
@@ -99,14 +102,24 @@ const Admin = () => {
   return (
     client && (
       <>
-        <Wrapper>
-          <SearchBar>
-            <SearchIcon alt="search" src={search} />
-            <Search ref={inputRef} />
-          </SearchBar>
-          <SelectStatus />
-        </Wrapper>
-        <UsersTable t={t} users={users} />
+        <WrapperAdmin>
+          <SearchBarAdmin>
+            <SearchIconAdmin alt="search" src={search} />
+            <SearchAdmin ref={inputRef} />
+          </SearchBarAdmin>
+          <SelectStatusAdmin />
+        </WrapperAdmin>
+        <UsersTable selectedSort={selectedSort} users={users} />
+        {users && (
+          <PagesNavigation
+            pageNumber={page}
+            pagesCount={pagesCount}
+            pageSize={pageSize}
+            t={t}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+          />
+        )}
       </>
     )
   )
@@ -114,43 +127,3 @@ const Admin = () => {
 
 export default Admin
 Admin.getLayout = getLayout
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-`
-
-const SearchBar = styled.div`
-  position: relative;
-  border: 1px solid #8d9094;
-  width: 60%;
-`
-const Search = styled.input.attrs({
-  placeholder: 'Search',
-  id: 'search',
-})`
-  border: none;
-  background: black;
-  color: white;
-  padding: 6px 0 6px 40px;
-  width: 100%;
-  z-index: 10;
-`
-
-const SearchIcon = styled(Image)`
-  position: absolute;
-  top: 6px;
-  left: 10px;
-`
-
-const Select = styled.select`
-  border: 1px solid #fff;
-  background: #171717;
-  color: white;
-  padding: 2px 10px;
-`
-const Option = styled.option`
-  color: white;
-  background: #171717;
-`

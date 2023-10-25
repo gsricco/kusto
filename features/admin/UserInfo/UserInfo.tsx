@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client'
-import { GET_USER } from 'assets/apollo/users'
-import { Path } from 'common/enums/path'
-import Typograthy from 'common/hoc/Typograthy'
-import UserInfoSceleton from 'features/admin/UserInfoSceleton'
+import { GET_USER } from '../../../assets/apollo/users'
+import { Path } from '../../../common/enums/path'
+import Typograthy from '../../../common/hoc/Typograthy'
+import UserInfoSceleton from './UserInfoSceleton'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
+import { baseTheme } from '../../../styles/styledComponents/theme'
 
 // Компонента для отображения основных данных пользователя в админке
 
