@@ -43,6 +43,9 @@ const Home: NextPageWithLayout = () => (
       <p>
         <Link href={Path.ERROR_404}>Page_ERROR_404_</Link>
       </p>
+      <p>
+        <Link href={Path.ADMIN}>Page_ERROR_404_</Link>
+      </p>
     </StyledBlockMain>
   </StyledBlockMainWrapper>
 )

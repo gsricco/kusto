@@ -30,6 +30,9 @@ export const MenuUserTable = ({ id }: MenuPropsType) => {
     setIsActive(prev => !prev)
   }
 
+  const handleMouseLeave = () => {
+    setIsActive(false)
+  }
   const { push } = useRouter()
 
   const handleNavigate = (userId: string): void => {
@@ -62,7 +65,7 @@ export const MenuUserTable = ({ id }: MenuPropsType) => {
         onClick={handleSelect}
       />
       {isActive && (
-        <MenuItemsAdmin>
+        <MenuItemsAdmin onMouseLeave={handleMouseLeave}>
           {menu.map(item => (
             <MenuItemWrapperAdmin
               key={item.text}
