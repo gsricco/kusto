@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement } from 'react'
+import { PropsWithChildren, ReactElement, useEffect } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -7,12 +7,20 @@ import Header from 'common/components/Header/Header'
 import { NextPage } from 'next'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
+import { useSessionStorage } from 'common/hooks/useSessionStorage'
+import { useIsAdmin } from 'common/hooks/useIsAdmin'
+import { useRouter } from 'next/router'
+import { AdminLogin } from 'common/components/AdminLogin/AdminLogin'
+import { useClient } from 'common/hooks/useClients'
 
 export const AdminLayout: NextPage<PropsWithChildren> = props => {
   // eslint-disable-next-line react/prop-types
   const { children } = props
 
-  return (
+  const isAdmin = useIsAdmin()
+  const client = useClient()
+
+  return isAdmin && client ? (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Page>
@@ -22,6 +30,8 @@ export const AdminLayout: NextPage<PropsWithChildren> = props => {
         </Page>
       </LocalizationProvider>
     </StyledWrapper>
+  ) : (
+    <AdminLogin />
   )
 }
 
