@@ -2,7 +2,7 @@ import { ThemeButton } from 'common/enums/themeButton'
 import { useSessionStorage } from 'common/hooks/useSessionStorage'
 import { useShowPassword } from 'common/hooks/useShowPassword'
 import { validateAdminLogin } from 'common/utils/validateLogin'
-import { Form, Formik } from 'formik'
+import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
 import showPasswordBtn from 'public/img/icons/eye-outline.svg'
@@ -16,6 +16,7 @@ import { FormikLabel } from '../Formik/FormikLabel'
 import { FormValueLogin, SetFieldErrorType } from '../Formik/types'
 import styled from 'styled-components'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
+import { adminAuth } from '../../constants/Admin/adminSession'
 
 export const AdminLogin = () => {
   const { setItem } = useSessionStorage()
@@ -28,8 +29,11 @@ export const AdminLogin = () => {
   }
 
   const handleSubmit = (values: FormValueLogin, { setFieldError }: SetFieldErrorType) => {
-    if (values.loginOrEmail === 'admin@admin.ru' && values.password === 'admin') {
-      setItem('adminToken', 'admin')
+    if (
+      values.loginOrEmail === process.env.NEXT_PUBLIC_AUTH_ADMIN_LOGIN &&
+      values.password === process.env.NEXT_PUBLIC_AUTH_ADMIN_PASSWORD
+    ) {
+      setItem(adminAuth.KEY_ADMIN_TOKEN, adminAuth.ADMIN_TOKEN)
       reload()
     } else {
       setFieldError('password', 'invalid email or password')
@@ -39,7 +43,7 @@ export const AdminLogin = () => {
 
   return (
     <Container>
-      <WrapperContainerAuth title="Sign In">
+      <WrapperContainerAuth title="Sign In Admin">
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateAdminLogin}

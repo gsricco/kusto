@@ -7,9 +7,9 @@ export const validateLogin = Yup.object().shape({
 })
 
 export const validateAdminLogin = Yup.object().shape({
-  loginOrEmail: Yup.string().required('required Fielad').email('invalid email'),
+  loginOrEmail: Yup.string().required('required Field').email('invalid email'),
   password: Yup.string()
     .min(1, 'short password')
-    .max(20, 'logn password')
-    .required('password reqired'),
+    .max(20, 'login password')
+    .required('password required'),
 })
