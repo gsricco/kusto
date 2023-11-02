@@ -76,7 +76,7 @@ export const AdminLogin = () => {
                 <StyledShowPasswordBtn
                   alt="show password"
                   src={passwordType === 'password' ? showPasswordBtn : hidePasswordBtn}
-                  onClick={() => showPassword()}
+                  onClick={showPassword}
                 />
               </FormikLabel>
               <Button theme={ThemeButton.PRIMARY} type="submit">
