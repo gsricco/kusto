@@ -47,3 +47,18 @@ export const DELETE_USER = gql(`
     deleteUser (userId: $userId)
   }
 `)
+
+// EDIT......
+export const GET_ALL_PAYMENTS = gql(`
+  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
+      paymentsId
+      userId
+      price
+      user {
+      profiles {
+      photo}
+      }
+    }
+  }
+`)
