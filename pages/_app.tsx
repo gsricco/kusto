@@ -38,11 +38,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <ApolloProvider client={client}>
         <PrivateRoute>
           <GlobalStyle />
-          {getLayout(
-            <>
-              <Component {...pageProps} />
-            </>
-          )}
+          {getLayout(<Component {...pageProps} />)}
         </PrivateRoute>
       </ApolloProvider>
     </Provider>

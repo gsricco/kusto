@@ -48,6 +48,12 @@ export const DELETE_USER = gql(`
   }
 `)
 
+export const UPDATE_USER_STATUS = gql(`
+  mutation updateUserStatus($userId: String!,$banStatus: Boolean!){
+    updateUserStatus(userId:$userId,banStatus:$banStatus)
+  }
+`)
+
 // EDIT......
 export const GET_ALL_PAYMENTS = gql(`
   query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
