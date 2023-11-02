@@ -15,6 +15,22 @@ export const GET_USERS = gql(`
   }
 `)
 
+export const GET_ALL_PAYMENTS = gql(`
+  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
+      paymentsId
+      userId
+      price
+      paymentSystem
+      paymentStatus
+      createdAt
+      subscriptionType
+      updatedAt
+      endDateOfSubscription
+    }
+  }
+`)
+
 // Получение данных об одном пользователе
 export const GET_USER = gql(`
   query user($id: String!) {
@@ -45,5 +61,11 @@ export const GET_USER_IMAGES = gql(`
 export const DELETE_USER = gql(`
   mutation deleteUser($userId: String!) {
     deleteUser (userId: $userId)
+  }
+`)
+
+export const UPDATE_USER_STATUS = gql(`
+  mutation updateUserStatus($userId: String!,$banStatus: Boolean!){
+    updateUserStatus(userId:$userId,banStatus:$banStatus)
   }
 `)

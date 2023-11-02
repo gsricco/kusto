@@ -11,6 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import search from 'public/img/icons/search.svg'
 import { useTranslation } from 'react-i18next'
+
 import {
   SearchAdmin,
   SearchBarAdmin,
@@ -45,8 +46,6 @@ const Admin = () => {
   const [pageSize, setPageSize] = useState(initialPageSize)
 
   const selectedSort = (sortType: string): void => {
-    console.log(sortType)
-
     if (sortType === 'Date Added') {
       if (sortDirection === 'desc') {
         setSortDirection('asc')
@@ -107,7 +106,7 @@ const Admin = () => {
             <SearchIconAdmin alt="search" src={search} />
             <SearchAdmin ref={inputRef} />
           </SearchBarAdmin>
-          <SelectStatusAdmin />
+          <SelectStatusAdmin initialValue="Not Selected" options={['Blocked', 'Not Blocked']} />
         </WrapperAdmin>
         <UsersTable selectedSort={selectedSort} users={users} />
         {users && (
