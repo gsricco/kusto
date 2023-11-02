@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import Modal from '../ModalPublic/Modal'
-import { Button } from '../../Button/Button'
-import { ThemeButton } from '../../../enums/themeButton'
+
 import { useMutation } from '@apollo/client'
+
 import { DELETE_USER, GET_USERS } from '../../../../assets/apollo/users'
+import { ThemeButton } from '../../../enums/themeButton'
+import { Button } from '../../Button/Button'
+import Modal from '../ModalPublic/Modal'
 
 type AdminDeletePropsType = {
   id: string
