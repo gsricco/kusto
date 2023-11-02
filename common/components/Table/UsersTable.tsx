@@ -28,7 +28,7 @@ const UsersTable = ({ users, selectedSort }: TablePropsType) => {
   const handleClick = (name: string) => {
     selectedSort(name)
     setSortName(name)
-    sortDirection === undefined ? setSortDirection(true) : setSortDirection(!sortDirection)
+    setSortDirection(sortDirection === undefined ? true : !sortDirection)
   }
 
   return (
@@ -39,11 +39,7 @@ const UsersTable = ({ users, selectedSort }: TablePropsType) => {
             <HeadingWithSortAdmin key={name} onClick={() => handleClick(name)}>
               <p>{name}</p>
               <SortAdmin>
-                {sortName === name ? (
-                  <ArrowsAdmin sortDirection={sortDirection} />
-                ) : (
-                  <ArrowsAdmin sortDirection={undefined} />
-                )}
+                <ArrowsAdmin sortDirection={sortName === name ? sortDirection : undefined} />
               </SortAdmin>
             </HeadingWithSortAdmin>
           ) : (
