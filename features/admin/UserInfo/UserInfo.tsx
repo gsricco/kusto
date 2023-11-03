@@ -1,13 +1,15 @@
 import { useQuery } from '@apollo/client'
-import { GET_USER } from '../../../assets/apollo/users'
-import { Path } from '../../../common/enums/path'
-import Typograthy from '../../../common/hoc/Typograthy'
-import UserInfoSceleton from './UserInfoSceleton'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
+
+import { GET_USER_PROFILE } from '../../../assets/apollo/users'
+import { Path } from '../../../common/enums/path'
+import Typograthy from '../../../common/hoc/Typograthy'
 import { baseTheme } from '../../../styles/styledComponents/theme'
+
+import UserInfoSceleton from './UserInfoSceleton'
 
 // Компонента для отображения основных данных пользователя в админке
 
@@ -19,13 +21,15 @@ const UserInfo = ({ userId }: { userId: string }) => {
 
   const { t } = useTranslation('admin')
 
-  const { loading, error, data } = useQuery(GET_USER, {
+  const { loading, error, data } = useQuery(GET_USER_PROFILE, {
     variables: { id: userId },
   })
 
   if (error) {
     console.log(error)
   }
+
+  console.log(data)
 
   return (
     <StyledUserInfoContainer>
@@ -40,10 +44,20 @@ const UserInfo = ({ userId }: { userId: string }) => {
             </StyledBack>
           </StyledFlexContainer>
           <StyledFlexContainer>
-            <StyledImage alt="userPhoto" height={60} src="/img/icons/avatar.svg" width={60} />
+            <StyledImage
+              alt="userPhoto"
+              height={60}
+              style={{ objectFit: 'cover' }}
+              width={60}
+              src={
+                data?.user?.profiles?.photo ? data?.user?.profiles?.photo : '/img/icons/avatar.svg'
+              }
+            />
             <StyledNameContainer>
-              <Typograthy variant="H1">{data?.user?.login}</Typograthy>
-              <StyledUserName>{data?.user?.email}</StyledUserName>
+              <Typograthy variant="H1">
+                {data?.user?.profiles?.firstName} {data?.user?.profiles?.lastName}
+              </Typograthy>
+              <StyledUserName>{data?.user?.profiles?.login}</StyledUserName>
             </StyledNameContainer>
           </StyledFlexContainer>
           <StyledIdDateContainer>
@@ -88,6 +102,7 @@ export const StyledFlexContainer = styled.div`
 `
 const StyledBack = styled.div`
   margin: 0 12px;
+  cursor: pointer;
 `
 
 const StyledImage = styled(Image)`
@@ -111,6 +126,7 @@ const StyledUserName = styled.div`
   font-size: 14px;
 
   text-decoration: underline;
+  cursor: pointer;
 `
 
 export const StyledIdDateContainer = styled.div`

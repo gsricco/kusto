@@ -2,7 +2,6 @@ import { useQuery } from '@apollo/client'
 import { GET_USER_IMAGES } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminUserLayout'
 import { TabBar } from 'common/components/TabBar'
-import UserInfo from '../../../features/admin/UserInfo/UserInfo'
 import { GetServerSidePropsContext, GetStaticPaths, GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
@@ -10,6 +9,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import { styled } from 'styled-components'
 import { Sceleton } from 'styles/styledComponents/admin/sceleton.styled'
+
+import UserInfo from '../../../features/admin/UserInfo/UserInfo'
 
 /*
     Страница отображения данных о пользователе, включающая загруженные им фотографии
@@ -49,7 +50,7 @@ const UserPhoto = ({ userId }: propsType) => {
   const { t } = useTranslation('admin')
 
   // Данные для создания вкладок
-  const baseUrl = `/admin/user/${userId}`
+  const baseUrl = `/admin/${userId}`
   const adminUserTabData = [
     {
       name: 'Uploaded photos',

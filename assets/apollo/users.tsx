@@ -16,15 +16,16 @@ export const GET_USERS = gql(`
 `)
 
 // Получение данных об одном пользователе
-export const GET_USER = gql(`
+export const GET_USER_PROFILE = gql(`
   query user($id: String!) {
     user(id: $id) {
       id
-      login
-      email
       createdAt
-      images {
-        url
+      profiles {
+        login
+        firstName
+        lastName
+        photo
       }
     }
   }
