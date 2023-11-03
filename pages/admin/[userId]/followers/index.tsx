@@ -55,9 +55,9 @@ const adminUserTabData = [
 
 // временные данные для заполнения таблицы
 const users = [
-  { id: '1', userID: 'ID_User1', userName: 'User1', profileLink: 'url1', ScrbDate: '12.12.2020' },
-  { id: '2', userID: 'ID_User2', userName: 'User2', profileLink: 'url2', ScrbDate: '10.12.2020' },
-  { id: '3', userID: 'ID_User3', userName: 'User3', profileLink: 'url3', ScrbDate: '09.12.2020' },
+  { userID: 'ID_User1', userName: 'User1', profileLink: 'url1', ScrbDate: '12.12.2020' },
+  { userID: 'ID_User2', userName: 'User2', profileLink: 'url2', ScrbDate: '10.12.2020' },
+  { userID: 'ID_User3', userName: 'User3', profileLink: 'url3', ScrbDate: '09.12.2020' },
 ]
 
 const cellParses = {

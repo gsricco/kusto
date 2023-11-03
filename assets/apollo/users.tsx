@@ -52,13 +52,15 @@ export const DELETE_USER = gql(`
 export const GET_USER_PROFILE = gql(`
   query userProfileData($id: String!) {
     user(id: $id) {
-      id
-      login
-      email
+      profiles {
+        userId
+        login
+        firstName
+        lastName
+        dateOfBirthday
+        photo
+      }    
       createdAt
-      images {
-        url
-      }
     }
   }
 `)
