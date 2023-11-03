@@ -5,6 +5,11 @@
 
   "Uploaded photos": "Загруженные фото",
   "Payments": "Платежи",
-  "Followers": "Followers",
-  "Following": "Following"
+  "Followers": "Подписчики",
+  "Following": "Подписки",
+
+  "username": "Имя пользователя",
+  "user_id": "ID пользователя",
+  "profile_link": "Ссылка профиля",
+  "subscription_date": "Дата подписки"
 }

@@ -71,7 +71,9 @@ const UserInfo = ({ userId }: { userId: string }) => {
               <StyledTitle>
                 <Typograthy variant="regular_text 14">{t('Profile Creation Date')}</Typograthy>
               </StyledTitle>
-              <Typograthy variant="regular_text 16">{data?.user?.createdAt}</Typograthy>
+              <Typograthy variant="regular_text 16">
+                {data?.user?.createdAt ? new Date(data.user.createdAt).toLocaleDateString() : ''}
+              </Typograthy>
             </StyledIdDate>
           </StyledIdDateContainer>
         </>
