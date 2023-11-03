@@ -50,7 +50,7 @@ const UserUploadedPhotos = ({ userId }: propsType) => {
   const { t } = useTranslation('admin')
 
   // Данные для создания вкладок
-  const baseUrl = `/admin/user/${userId}`
+  const baseUrl = `/admin/${userId}`
   const adminUserTabData = [
     {
       name: 'Uploaded photos',

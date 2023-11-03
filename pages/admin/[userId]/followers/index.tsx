@@ -1,34 +1,39 @@
 import { useQuery } from '@apollo/client'
 import { GET_USER_IMAGES } from 'assets/apollo/users'
+import { AllPaymentsResponse } from 'assets/store/api/payments/types'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminUserLayout'
 import { TabBar } from 'common/components/TabBar'
-import UserInfo from 'features/admin/UserInfo'
 import CommonTable from 'common/components/Table/CommonTable'
-import { GetStaticPropsContext } from 'next'
-import { useTranslation } from 'next-i18next'
+import { useClient } from 'common/hooks/useClients'
+import UserInfo from 'features/admin/UserInfo/UserInfo'
+import PagesNavigation from 'features/settings/Pagination'
 import { TFunction } from 'i18next'
+import { GetServerSidePropsContext, GetStaticPropsContext } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import { styled } from 'styled-components'
 import { PageWrapper, TabBarWrapper } from 'styles/styledComponents/payments/payments.styled'
-import PagesNavigation from 'features/settings/Pagination'
-import { useClient } from 'common/hooks/useClients'
-import { AllPaymentsResponse } from 'assets/store/api/payments/types'
 
 /*
     Страница отображения списка подписчиков польователя
 */
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale, params } = context
+  const { userId } = params || {}
 
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['admin'], config)),
+      userId,
     },
   }
 }
 
-const baseUrl = '/admin/user'
+type propsType = {
+  userId: string
+}
+
 const adminUserTabData = [
   {
     name: 'Uploaded photos',
@@ -62,7 +67,9 @@ const cellParses = {
   ScrbDate: (value: string) => new Date(value).toLocaleDateString(),
 }
 
-const Followers = () => {
+const Followers = ({ userId }: propsType) => {
+  const baseUrl = `/admin/${userId}`
+
   // const initialPageSize = 10
   const { t, i18n } = useTranslation('admin')
   const { language } = i18n
@@ -76,7 +83,7 @@ const Followers = () => {
   return (
     client && (
       <>
-        <UserInfo />
+        <UserInfo userId={userId} />
         <TabBar baseUrl={baseUrl} t={t} titleList={adminUserTabData} />
         <PageWrapper>
           <CommonTable
