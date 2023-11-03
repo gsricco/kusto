@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
   '\n  query Users($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    users(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {\n      id\n      login\n      email\n      createdAt\n      accountType\n      ban\n    }\n  }\n':
     types.UsersDocument,
+  '\n  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) \n  }\n':
+    types.TotalDocument,
   '\n  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {\n      paymentsId\n      userId\n      price\n      paymentSystem\n      paymentStatus\n      createdAt\n      subscriptionType\n      updatedAt\n      endDateOfSubscription\n    }\n  }\n':
     types.PaymentsDocument,
   '\n  query user($id: String!) {\n    user(id: $id) {\n      id\n      login\n      email\n      createdAt\n      images {\n        url\n      }\n    }\n  }\n':
@@ -47,6 +49,12 @@ export function gql(source: string): unknown
 export function gql(
   source: '\n  query Users($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    users(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {\n      id\n      login\n      email\n      createdAt\n      accountType\n      ban\n    }\n  }\n'
 ): (typeof documents)['\n  query Users($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    users(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {\n      id\n      login\n      email\n      createdAt\n      accountType\n      ban\n    }\n  }\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) \n  }\n'
+): (typeof documents)['\n  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {\n    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) \n  }\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

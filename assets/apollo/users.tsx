@@ -14,6 +14,11 @@ export const GET_USERS = gql(`
     }
   }
 `)
+export const GET_TOTAL_COUNT = gql(`
+  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
+  }
+`)
 
 export const GET_ALL_PAYMENTS = gql(`
   query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {

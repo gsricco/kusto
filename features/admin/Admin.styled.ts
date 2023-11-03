@@ -11,14 +11,14 @@ export const WrapperAdmin = styled.div`
 
 export const SearchBarAdmin = styled.div`
   position: relative;
-  border: 1px solid #8d9094;
   width: 60%;
 `
+
 export const SearchAdmin = styled.input.attrs({
   placeholder: 'Search',
   id: 'search',
 })`
-  border: none;
+  border: 1px solid #8d9094;
   background: black;
   color: white;
   padding: 6px 0 6px 40px;

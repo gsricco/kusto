@@ -51,14 +51,14 @@ export type MutationUpdateUserStatusArgs = {
 /** Payments */
 export type PaymentModel = {
   __typename?: 'PaymentModel'
-  createdAt?: Maybe<Scalars['DateTime']['output']>
-  endDateOfSubscription?: Maybe<Scalars['DateTime']['output']>
+  createdAt?: Maybe<Scalars['String']['output']>
+  endDateOfSubscription?: Maybe<Scalars['String']['output']>
   paymentStatus: Scalars['String']['output']
   paymentSystem: Scalars['String']['output']
   paymentsId: Scalars['String']['output']
   price: Scalars['Int']['output']
   subscriptionType: Scalars['String']['output']
-  updatedAt?: Maybe<Scalars['DateTime']['output']>
+  updatedAt?: Maybe<Scalars['String']['output']>
   user?: Maybe<UserModel>
   userId: Scalars['String']['output']
 }
@@ -167,6 +167,16 @@ export type UsersQuery = {
   }>
 }
 
+export type TotalQueryVariables = Exact<{
+  pageSize: Scalars['Int']['input']
+  searchName: Scalars['String']['input']
+  sortBy: Scalars['String']['input']
+  sortDirection: Scalars['String']['input']
+  pageNumber: Scalars['Int']['input']
+}>
+
+export type TotalQuery = { __typename?: 'Query'; totalCountUsers: number }
+
 export type PaymentsQueryVariables = Exact<{
   pageSize: Scalars['Int']['input']
   searchName: Scalars['String']['input']
@@ -184,10 +194,10 @@ export type PaymentsQuery = {
     price: number
     paymentSystem: string
     paymentStatus: string
-    createdAt?: any | null
+    createdAt?: string | null
     subscriptionType: string
-    updatedAt?: any | null
-    endDateOfSubscription?: any | null
+    updatedAt?: string | null
+    endDateOfSubscription?: string | null
   }>
 }
 
@@ -331,6 +341,94 @@ export const UsersDocument = {
     },
   ],
 } as unknown as DocumentNode<UsersQuery, UsersQueryVariables>
+export const TotalDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Total' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'pageSize' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'searchName' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sortBy' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sortDirection' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'pageNumber' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'totalCountUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'pageSize' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'pageSize' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'searchName' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'searchName' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortBy' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sortBy' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sortDirection' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'pageNumber' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'pageNumber' } },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<TotalQuery, TotalQueryVariables>
 export const PaymentsDocument = {
   kind: 'Document',
   definitions: [

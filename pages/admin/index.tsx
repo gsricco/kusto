@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 import { useLazyQuery } from '@apollo/client'
-import { GET_USERS } from 'assets/apollo/users'
+import { SelectChangeEvent, selectClasses } from '@mui/material'
+import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
 import UsersTable from 'common/components/Table/UsersTable'
 import { useClient } from 'common/hooks/useClients'
@@ -44,6 +45,11 @@ const Admin = () => {
   const [sortDirection, setSortDirection] = useState('desc')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
+  const [selected, setSelected] = useState('Not Selected')
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(event.target.value)
+  }
 
   const selectedSort = (sortType: string): void => {
     if (sortType === 'Date Added') {
@@ -106,7 +112,12 @@ const Admin = () => {
             <SearchIconAdmin alt="search" src={search} />
             <SearchAdmin ref={inputRef} />
           </SearchBarAdmin>
-          <SelectStatusAdmin initialValue="Not Selected" options={['Blocked', 'Not Blocked']} />
+          <SelectStatusAdmin
+            handleSelect={handleSelect}
+            initialValue="Not Selected"
+            options={['Blocked', 'Not Blocked']}
+            selected={selected}
+          />
         </WrapperAdmin>
         <UsersTable selectedSort={selectedSort} users={users} />
         {users && (
