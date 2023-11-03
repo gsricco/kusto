@@ -47,3 +47,18 @@ export const DELETE_USER = gql(`
     deleteUser (userId: $userId)
   }
 `)
+
+// Получение данных из профиля пользователя
+export const GET_USER_PROFILE = gql(`
+  query userProfileData($id: String!) {
+    user(id: $id) {
+      id
+      login
+      email
+      createdAt
+      images {
+        url
+      }
+    }
+  }
+`)

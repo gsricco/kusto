@@ -11,6 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import search from 'public/img/icons/search.svg'
 import { useTranslation } from 'react-i18next'
+
 import {
   SearchAdmin,
   SearchBarAdmin,
