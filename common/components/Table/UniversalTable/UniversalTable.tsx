@@ -20,7 +20,6 @@ import { MenuUserTable } from '../../../../features/admin/UserTable/MenuUserTabl
 type FormatDataTablePropsType<T> = {
   formatTableData: T[] | undefined
   key: string
-  menu?: boolean
   selectedSort: (sortType: string) => void
   tableHeadingData: TableHeaderType[]
 }

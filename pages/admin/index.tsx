@@ -130,7 +130,6 @@ const Admin = () => {
         <UniversalTable
           key="createdAt"
           formatTableData={formatTableData}
-          menu={true}
           selectedSort={selectedSort}
           tableHeadingData={tableHeadingData}
         />
