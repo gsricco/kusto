@@ -17,8 +17,9 @@ import block from '../../../../public/img/icons/block_outline.svg'
 import { dateParser } from '../../../utils/dateParser'
 import { MenuUserTable } from '../../../../features/admin/UserTable/MenuUserTable'
 
-type FormatDataTablePropsType<T> = {
-  formatTableData: T[] | undefined
+type FormatDataTablePropsType = {
+  // formatTableData: TableAdminItemType[] | TableAdminItemType[] | undefined
+  formatTableData: unknown[] | undefined
   key: string
   selectedSort: (sortType: string) => void
   tableHeadingData: TableHeaderType[]
@@ -28,21 +29,20 @@ export type TableHeaderType = {
   avatar?: string
   back: string
   sort: boolean
-  table: string
+  tableTitle: string
   text?: string
 }
-export const UniversalTable = <T,>({
+export const UniversalTable = ({
   key,
   formatTableData,
-  menu,
   selectedSort,
   tableHeadingData,
-}: FormatDataTablePropsType<T>) => {
+}: FormatDataTablePropsType) => {
   const [sortDirection, setSortDirection] = useState<boolean | undefined>()
   const [sortName, setSortName] = useState<string>()
   const handleClick = (name: TableHeaderType) => {
     selectedSort(name.back)
-    setSortName(name.table)
+    setSortName(name.tableTitle)
     setSortDirection(sortDirection === undefined ? true : !sortDirection)
   }
 
@@ -52,15 +52,15 @@ export const UniversalTable = <T,>({
         {tableHeadingData.map(name => {
           return (
             <HeadingTextU
-              key={name.table}
+              key={name.tableTitle}
               onClick={name.sort ? () => handleClick(name) : undefined}
             >
               <TitleTable>
-                <p>{name.table}</p>
+                <p>{name.tableTitle}</p>
                 {name.sort && (
                   <SortTable>
                     <ArrowsSort
-                      sortDirection={sortName === name.table ? sortDirection : undefined}
+                      sortDirection={sortName === name.tableTitle ? sortDirection : undefined}
                     />
                   </SortTable>
                 )}
@@ -93,9 +93,9 @@ export const UniversalTable = <T,>({
                     <TextAdmin>{pay[`${name.text}`]}</TextAdmin>
                   </BlockName>
                 </CellU>
-              ) : name.table !== '' ? (
+              ) : name.tableTitle !== '' ? (
                 <CellU key={pay[`${name}`]}>
-                  {name.table === 'Date Added'
+                  {name.tableTitle === 'Date Added'
                     ? dateParser(pay[`${name.back}`])
                     : pay[`${name.back}`]}
                 </CellU>

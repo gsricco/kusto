@@ -35,6 +35,17 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
+export type TableAdminItemType = {
+  __typename?: 'UserModel' | undefined
+  accountType: string
+  ban: boolean
+  createdAt: string
+  email: string
+  id: string
+  login: string
+}
+type FormatDataTableType = TableAdminItemType[] | undefined
+
 const Admin = () => {
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -90,13 +101,13 @@ const Admin = () => {
   })
   console.log(users)
 
-  const formatTableData = users?.users
+  const formatTableData: FormatDataTableType = users?.users
   const tableHeadingData: TableHeaderType[] = [
-    { table: 'User ID', back: '', sort: false, text: 'id', avatar: 'ban' },
-    { table: 'Username', back: 'login', sort: true },
-    { table: 'Profile Link', back: 'login', sort: false },
-    { table: 'Date Added', back: 'createdAt', sort: true },
-    { table: '', back: 'paymentSystem', sort: false },
+    { tableTitle: 'User ID', back: '', sort: false, text: 'id', avatar: 'ban' },
+    { tableTitle: 'Username', back: 'login', sort: true },
+    { tableTitle: 'Profile Link', back: 'login', sort: false },
+    { tableTitle: 'Date Added', back: 'createdAt', sort: true },
+    { tableTitle: '', back: 'noName', sort: false },
   ]
 
   const debouncedSearch = useDebounce(getUsers, 500)

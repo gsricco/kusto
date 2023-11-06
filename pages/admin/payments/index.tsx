@@ -34,7 +34,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
 }
 
-type TableItemType = {
+export type TablePaymentItemType = {
   createdAt: string | null | undefined
   endDateOfSubscription: string | null | undefined
   login: string
@@ -46,7 +46,7 @@ type TableItemType = {
   subscriptionType: string
   updatedAt: string | null | undefined
 }
-type FormatDataTableType = TableItemType[] | undefined
+type FormatDataTableType = TablePaymentItemType[] | undefined
 
 const PaymentsAdmin = () => {
   const { t } = useTranslation()
@@ -101,11 +101,11 @@ const PaymentsAdmin = () => {
   }))
 
   const tableHeadingData: TableHeaderType[] = [
-    { table: 'Username', back: '', sort: false, text: 'login', avatar: 'photo' },
-    { table: 'Date Added', back: 'createdAt', sort: true },
-    { table: 'Amount, $', back: 'price', sort: true },
-    { table: 'Subscription', back: 'subscriptionType', sort: true },
-    { table: 'Payment Method', back: 'paymentSystem', sort: true },
+    { tableTitle: 'Username', back: '', sort: false, text: 'login', avatar: 'photo' },
+    { tableTitle: 'Date Added', back: 'createdAt', sort: true },
+    { tableTitle: 'Amount, $', back: 'price', sort: true },
+    { tableTitle: 'Subscription', back: 'subscriptionType', sort: true },
+    { tableTitle: 'Payment Method', back: 'paymentSystem', sort: true },
   ]
 
   const debouncedSearch = useDebounce(getPayments, 500)
