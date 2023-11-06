@@ -29,8 +29,6 @@ const UserInfo = ({ userId }: { userId: string }) => {
     console.log(error)
   }
 
-  console.log(data)
-
   return (
     <StyledUserInfoContainer>
       {loading ? (

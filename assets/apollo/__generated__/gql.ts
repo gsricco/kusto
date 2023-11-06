@@ -17,6 +17,7 @@ const documents = {
     "\n  query user($id: String!) {\n    user(id: $id) {\n      id\n      createdAt\n      profiles {\n        login\n        firstName\n        lastName\n        photo\n      }\n    }\n  }\n": types.UserDocument,
     "\n  query userImages($id: String!) {\n    user(id: $id) {\n      images {\n        url\n        id\n      }\n    }\n  }\n": types.UserImagesDocument,
     "\n  mutation deleteUser($userId: String!) {\n    deleteUser (userId: $userId)\n  }\n": types.DeleteUserDocument,
+    "\n  query userPayments($id: String!) {\n    user(id: $id) {\n      payments {\n        dateOfPayments: createdAt\n        endDateOfSubscription\n        price\n        paymentType: paymentSystem\n        subscriptionType\n      }\n    }\n  }\n": types.UserPaymentsDocument,
 };
 
 /**
@@ -49,6 +50,10 @@ export function gql(source: "\n  query userImages($id: String!) {\n    user(id: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation deleteUser($userId: String!) {\n    deleteUser (userId: $userId)\n  }\n"): (typeof documents)["\n  mutation deleteUser($userId: String!) {\n    deleteUser (userId: $userId)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query userPayments($id: String!) {\n    user(id: $id) {\n      payments {\n        dateOfPayments: createdAt\n        endDateOfSubscription\n        price\n        paymentType: paymentSystem\n        subscriptionType\n      }\n    }\n  }\n"): (typeof documents)["\n  query userPayments($id: String!) {\n    user(id: $id) {\n      payments {\n        dateOfPayments: createdAt\n        endDateOfSubscription\n        price\n        paymentType: paymentSystem\n        subscriptionType\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

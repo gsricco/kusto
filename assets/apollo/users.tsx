@@ -48,3 +48,18 @@ export const DELETE_USER = gql(`
     deleteUser (userId: $userId)
   }
 `)
+
+// Получение всех оплат пользователя
+export const GET_USER_PAYMENTS = gql(`
+  query userPayments($id: String!) {
+    user(id: $id) {
+      payments {
+        dateOfPayments: createdAt
+        endDateOfSubscription
+        price
+        paymentType: paymentSystem
+        subscriptionType
+      }
+    }
+  }
+`)
