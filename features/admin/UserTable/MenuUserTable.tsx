@@ -75,7 +75,7 @@ export const MenuUserTable = ({ id, ban, userName }: MenuPropsType) => {
               onClick={() => {
                 if (item.text === 'Delete User') {
                   setIsOpenModalDelete(true)
-                } else if (item.text === 'Ban in the system') {
+                } else if (item.text === 'Ban in the system' || item.text === 'Un-ban') {
                   setIsOpenModalBlock(true)
                 } else item.handler(id)
               }}

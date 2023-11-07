@@ -7,7 +7,7 @@ type Select = {
   initialValue: string
   options: string[]
   selected: string
-  sortByStatus: (status: string) => void
+  sortByStatus?: (status: string) => void
 }
 
 export const SelectStatusAdmin = ({
@@ -17,11 +17,17 @@ export const SelectStatusAdmin = ({
   selected,
   sortByStatus,
 }: Select) => {
+  const handleClick = () => {
+    if (sortByStatus) {
+      sortByStatus(selected)
+    }
+  }
+
   return (
     <SelectAdmin
-      value={selected}
+      defaultValue={selected}
       onChange={event => handleSelect(event)}
-      onClick={() => sortByStatus(selected)}
+      onClick={handleClick}
     >
       <OptionAdmin hidden selected>
         {initialValue}

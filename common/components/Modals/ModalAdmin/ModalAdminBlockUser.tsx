@@ -1,13 +1,10 @@
 import { ChangeEvent, useState } from 'react'
 
 import { useMutation } from '@apollo/client'
-import { StyledField } from 'common/components/Formik/Formik.styled'
-import { FormikField } from 'common/components/Formik/FormikField'
 import { SelectStatusAdmin } from 'features/admin/SelectStatusAdmin'
 import styled from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
 
-import { DELETE_USER, GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
+import { GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
 import { ThemeButton } from '../../../enums/themeButton'
 import { Button } from '../../Button/Button'
 import Modal from '../ModalPublic/Modal'
@@ -60,19 +57,25 @@ export const ModalAdminBlockUser = ({
 
   return isOpenModalBlock ? (
     <Modal
-      bodyText={`Are you sure to ban this user, ${userName}?`}
       handleModalClose={onClose}
-      height="250px"
+      height={ban ? '200px' : '250px'}
       title="Block user"
       width="378px"
+      bodyText={
+        ban
+          ? `Are you sure want to un-ban, ${userName}`
+          : `Are you sure to ban this user, ${userName}?`
+      }
     >
       <Column>
-        <SelectStatusAdmin
-          handleSelect={handleSelect}
-          initialValue="Reason for ban"
-          options={['Bad behavior', 'Advertising placement', 'Another reason']}
-          selected={selected}
-        />
+        {!ban && (
+          <SelectStatusAdmin
+            handleSelect={handleSelect}
+            initialValue="Reason for ban"
+            options={['Bad behavior', 'Advertising placement', 'Another reason']}
+            selected={selected}
+          />
+        )}
         <Row>
           <Button
             theme={hovered ? ThemeButton.PRIMARY : ThemeButton.OUTLINED}
