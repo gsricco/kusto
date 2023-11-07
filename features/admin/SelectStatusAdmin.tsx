@@ -7,11 +7,22 @@ type Select = {
   initialValue: string
   options: string[]
   selected: string
+  sortByStatus: (status: string) => void
 }
 
-export const SelectStatusAdmin = ({ options, initialValue, handleSelect, selected }: Select) => {
+export const SelectStatusAdmin = ({
+  options,
+  initialValue,
+  handleSelect,
+  selected,
+  sortByStatus,
+}: Select) => {
   return (
-    <SelectAdmin value={selected} onChange={event => handleSelect(event)}>
+    <SelectAdmin
+      value={selected}
+      onChange={event => handleSelect(event)}
+      onClick={() => sortByStatus(selected)}
+    >
       <OptionAdmin hidden selected>
         {initialValue}
       </OptionAdmin>

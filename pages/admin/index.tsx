@@ -68,6 +68,20 @@ const Admin = () => {
       setSortBy('login')
     }
   }
+
+  const sortByStatus = (status: string) => {
+    if (status === 'Blocked') {
+      setSortDirection('desc')
+      setSortBy('ban')
+    } else if (status === 'Not Blocked') {
+      setSortDirection('asc')
+      setSortBy('ban')
+    } else {
+      setSortDirection('desc')
+      setSortBy('createdAt')
+    }
+  }
+
   const [getAllUsers, { data: allUsers }] = useLazyQuery(GET_USERS, {
     variables: {
       pageSize: 10000,
@@ -117,6 +131,7 @@ const Admin = () => {
             initialValue="Not Selected"
             options={['Blocked', 'Not Blocked']}
             selected={selected}
+            sortByStatus={sortByStatus}
           />
         </WrapperAdmin>
         <UsersTable selectedSort={selectedSort} users={users} />
