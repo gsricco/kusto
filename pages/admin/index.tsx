@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 import { useLazyQuery } from '@apollo/client'
-import { SelectChangeEvent, selectClasses } from '@mui/material'
-import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
+import { GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
 import UsersTable from 'common/components/Table/UsersTable'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
+import { filterByStatus } from 'common/utils/filterByStatus'
+import { Filtredusers } from 'features/admin/types'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
@@ -46,6 +47,7 @@ const Admin = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
   const [selected, setSelected] = useState('Not Selected')
+  const [filtredUsers, setFiltredUsers] = useState<Filtredusers[] | []>([])
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelected(event.target.value)
@@ -103,6 +105,12 @@ const Admin = () => {
     },
   })
 
+  useEffect(() => {
+    if (users) {
+      filterByStatus(selected, users, setFiltredUsers)
+    }
+  }, [selected, users])
+
   const debouncedSearch = useDebounce(getUsers, 500)
 
   useEffect(() => {
@@ -134,7 +142,7 @@ const Admin = () => {
             sortByStatus={sortByStatus}
           />
         </WrapperAdmin>
-        <UsersTable selectedSort={selectedSort} users={users} />
+        <UsersTable selectedSort={selectedSort} users={filtredUsers} />
         {users && (
           <PagesNavigation
             pageNumber={page}

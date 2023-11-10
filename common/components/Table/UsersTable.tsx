@@ -51,7 +51,7 @@ const UsersTable = ({ users, selectedSort }: TablePropsType) => {
           )
         })}
       </TableHeading>
-      {users?.users.map(user => (
+      {users?.map(user => (
         <TableRow key={user.id} style={{ padding: '0px' }}>
           <Cell style={{ paddingLeft: '24px' }} title={user.id}>
             {user.ban ? <BlockAdmin alt="blocked" src={block} /> : <EmptyBlockAdmin />}

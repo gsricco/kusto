@@ -1,5 +1,3 @@
-import { UsersQuery } from '../../assets/apollo/__generated__/graphql'
-
 export type MenuPropsType = {
   ban: boolean
   id: string
@@ -10,7 +8,17 @@ export type ArrowsPropsType = {
   sortDirection: boolean | undefined
 }
 
+export type Filtredusers = {
+  __typename?: 'UserModel' | undefined
+  accountType: string
+  ban: boolean
+  createdAt: string
+  email: string
+  id: string
+  login: string
+}
+
 export type TablePropsType = {
   selectedSort: (sortType: string) => void
-  users: UsersQuery | undefined
+  users: Filtredusers[] | undefined
 }

@@ -58,7 +58,7 @@ export const ModalAdminBlockUser = ({
   return isOpenModalBlock ? (
     <Modal
       handleModalClose={onClose}
-      height={ban ? '200px' : '250px'}
+      height={ban ? '220px' : '250px'}
       title="Block user"
       width="378px"
       bodyText={
