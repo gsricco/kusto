@@ -21,7 +21,7 @@ export type Scalars = {
 /** Information about image */
 export type ImageModel = {
   __typename?: 'ImageModel';
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['String']['output'];
   id: Scalars['String']['output'];
   postId: Scalars['String']['output'];
   url: Scalars['String']['output'];
