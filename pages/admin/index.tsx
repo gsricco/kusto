@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
-import UsersTable from 'common/components/Table/UsersTable'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
 import { GetStaticPropsContext } from 'next'
@@ -20,10 +19,11 @@ import {
 } from '../../features/admin/Admin.styled'
 import { SelectStatusAdmin } from '../../features/admin/SelectStatusAdmin'
 import PagesNavigation from '../../features/settings/Pagination'
+import { UniversalTable } from '../../common/components/Table/UniversalTable/UniversalTable'
 import {
+  FormatDataTableType,
   TableHeaderType,
-  UniversalTable,
-} from '../../common/components/Table/UniversalTable/UniversalTable'
+} from '../../common/components/Table/UniversalTable/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -34,17 +34,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     },
   }
 }
-
-export type TableAdminItemType = {
-  __typename?: 'UserModel' | undefined
-  accountType: string
-  ban: boolean
-  createdAt: string
-  email: string
-  id: string
-  login: string
-}
-type FormatDataTableType = TableAdminItemType[] | undefined
 
 const Admin = () => {
   const { t } = useTranslation()
@@ -61,20 +50,12 @@ const Admin = () => {
   const [pageSize, setPageSize] = useState(initialPageSize)
 
   const selectedSort = (sortType: string): void => {
-    if (sortType === 'Date Added') {
-      if (sortDirection === 'desc') {
-        setSortDirection('asc')
-      } else {
-        setSortDirection('desc')
-      }
-      setSortBy('createdAt')
+    setSortBy(sortType)
+
+    if (sortDirection === 'desc') {
+      setSortDirection('asc')
     } else {
-      if (sortDirection === 'desc') {
-        setSortDirection('asc')
-      } else {
-        setSortDirection('desc')
-      }
-      setSortBy('login')
+      setSortDirection('desc')
     }
   }
 
@@ -99,9 +80,8 @@ const Admin = () => {
       pageNumber: page,
     },
   })
-  console.log(users)
 
-  const formatTableData: FormatDataTableType = users?.users
+  const formatTableData: FormatDataTableType[] | undefined = users?.users
   const tableHeadingData: TableHeaderType[] = [
     { tableTitle: 'User ID', back: '', sort: false, text: 'id', avatar: 'ban' },
     { tableTitle: 'Username', back: 'login', sort: true },
@@ -135,11 +115,7 @@ const Admin = () => {
           </SearchBarAdmin>
           <SelectStatusAdmin initialValue="Not Selected" options={['Blocked', 'Not Blocked']} />
         </WrapperAdmin>
-        {/*
-        <UsersTable selectedSort={selectedSort} users={users} />
-*/}
         <UniversalTable
-          key="createdAt"
           formatTableData={formatTableData}
           selectedSort={selectedSort}
           tableHeadingData={tableHeadingData}

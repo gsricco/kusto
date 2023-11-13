@@ -1,4 +1,4 @@
-export const dateParser = (str: string | null | undefined): string => {
+export const dateParser = (str: number | string | 'UserModel' | null | undefined): string => {
   if (str === null || str === undefined) {
     return '-'
   }

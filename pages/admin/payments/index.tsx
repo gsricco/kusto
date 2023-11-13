@@ -1,11 +1,14 @@
+import { useEffect, useRef, useState } from 'react'
+
+import { useLazyQuery } from '@apollo/client'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
-import { useLazyQuery } from '@apollo/client'
-import { GET_ALL_PAYMENTS, GET_TOTAL_COUNT_PAYMENTS } from '../../../assets/apollo/users'
-import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { GET_ALL_PAYMENTS, GET_TOTAL_COUNT_PAYMENTS } from '../../../assets/apollo/users'
+import { UniversalTable } from '../../../common/components/Table/UniversalTable/UniversalTable'
 import { useClient } from '../../../common/hooks/useClients'
 import { useDebounce } from '../../../common/hooks/useDebounce'
 import {
@@ -14,15 +17,17 @@ import {
   SearchIconAdmin,
   WrapperAdmin,
 } from '../../../features/admin/Admin.styled'
-import search from '../../../public/img/icons/search.svg'
-import { SelectStatusAdmin } from '../../../features/admin/SelectStatusAdmin'
-import UsersTable from '../../../common/components/Table/UsersTable'
 import PagesNavigation from '../../../features/settings/Pagination'
-import PaymentsTable from '../../../common/components/Table/PaymentsTable'
+import search from '../../../public/img/icons/search.svg'
 import {
+  FormatDataTableType,
   TableHeaderType,
-  UniversalTable,
-} from '../../../common/components/Table/UniversalTable/UniversalTable'
+} from '../../../common/components/Table/UniversalTable/types'
+import {
+  CheckBoxPay,
+  CheckBoxPayWrapper,
+  CheckBoxTitle,
+} from '../../../common/components/Table/UniversalTable/UniversalTable.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -33,20 +38,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     },
   }
 }
-
-export type TablePaymentItemType = {
-  createdAt: string | null | undefined
-  endDateOfSubscription: string | null | undefined
-  login: string
-  paymentStatus: string
-  paymentSystem: string
-  paymentsId: string
-  photo: string
-  price: number
-  subscriptionType: string
-  updatedAt: string | null | undefined
-}
-type FormatDataTableType = TablePaymentItemType[] | undefined
 
 const PaymentsAdmin = () => {
   const { t } = useTranslation()
@@ -61,11 +52,11 @@ const PaymentsAdmin = () => {
   const [sortDirection, setSortDirection] = useState('desc')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
+  const [isAutoubdate, setIsAutoubdate] = useState(false)
 
-  console.log(page, pageSize)
   const [getCountPayments, { data: countPayments }] = useLazyQuery(GET_TOTAL_COUNT_PAYMENTS, {
     variables: {
-      sortBy: 'createdAt',
+      sortBy,
       sortDirection,
       pageNumber: page,
       pageSize,
@@ -85,9 +76,7 @@ const PaymentsAdmin = () => {
     },
   })
 
-  console.log(payments, countPayments?.totalCountPayments)
-
-  const formatTableData: FormatDataTableType = payments?.allPayments.map(payment => ({
+  const formatTableData: FormatDataTableType[] | undefined = payments?.allPayments.map(payment => ({
     createdAt: payment.createdAt,
     endDateOfSubscription: payment.endDateOfSubscription,
     paymentStatus: payment.paymentStatus,
@@ -124,7 +113,6 @@ const PaymentsAdmin = () => {
   }, [getSearchValue])
 
   const selectedSort = (sortType: string): void => {
-    console.log(sortType)
     setSortBy(sortType)
 
     if (sortDirection === 'desc') {
@@ -138,15 +126,37 @@ const PaymentsAdmin = () => {
     <>
       {client && (
         <>
+          <CheckBoxPayWrapper>
+            <CheckBoxPay
+              checked={isAutoubdate}
+              type="checkbox"
+              onChange={() => {
+                setIsAutoubdate(prev => !prev)
+              }}
+            />
+            <CheckBoxTitle>Autoubdate</CheckBoxTitle>
+          </CheckBoxPayWrapper>
+          {isAutoubdate && (
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'flex-end',
+                color: 'red',
+                fontSize: '20px',
+              }}
+            >
+              Надо сделать АВТОАБДЕЙТ
+            </div>
+          )}
+
           <WrapperAdmin>
             <SearchBarAdmin>
               <SearchIconAdmin alt="search" src={search} />
               <SearchAdmin ref={inputRef} />
             </SearchBarAdmin>
-            <SelectStatusAdmin initialValue="Not Selected" options={['Blocked', 'Not Blocked']} />
           </WrapperAdmin>
           <UniversalTable
-            key="createdAt"
             formatTableData={payments?.allPayments ? formatTableData : []}
             selectedSort={selectedSort}
             tableHeadingData={tableHeadingData}
