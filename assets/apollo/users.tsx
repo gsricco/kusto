@@ -15,19 +15,10 @@ export const GET_USERS = gql(`
   }
 `)
 
-export const GET_ALL_PAYMENTS = gql(`
-  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
-    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
-      paymentsId
-      userId
-      price
-      paymentSystem
-      paymentStatus
-      createdAt
-      subscriptionType
-      updatedAt
-      endDateOfSubscription
-    }
+// Получение данных о количестве пользователей
+export const GET_TOTAL_COUNT = gql(`
+  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
   }
 `)
 
@@ -67,5 +58,34 @@ export const DELETE_USER = gql(`
 export const UPDATE_USER_STATUS = gql(`
   mutation updateUserStatus($userId: String!,$banStatus: Boolean!){
     updateUserStatus(userId:$userId,banStatus:$banStatus)
+  }
+`)
+
+// EDIT......
+export const GET_ALL_PAYMENTS = gql(`
+  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
+      paymentsId
+      userId
+      price
+      paymentSystem
+      paymentStatus
+      createdAt
+      subscriptionType
+      updatedAt
+      endDateOfSubscription
+      user {
+      profiles {
+      login
+      photo}
+      }
+    }
+  }
+`)
+
+// Получение данных о количестве пользователей
+export const GET_TOTAL_COUNT_PAYMENTS = gql(`
+  query TotalCountPayments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    totalCountPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
   }
 `)

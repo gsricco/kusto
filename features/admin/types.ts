@@ -1,4 +1,4 @@
-import { UsersQuery } from '../../assets/apollo/__generated__/graphql'
+import { PaymentsQuery, UsersQuery } from '../../assets/apollo/__generated__/graphql'
 
 export type MenuPropsType = {
   ban: boolean
@@ -13,4 +13,9 @@ export type ArrowsPropsType = {
 export type TablePropsType = {
   selectedSort: (sortType: string) => void
   users: UsersQuery | undefined
+}
+
+export type PaymentsTableType = {
+  payments: PaymentsQuery | undefined
+  selectedSort: (sortType: string) => void
 }
