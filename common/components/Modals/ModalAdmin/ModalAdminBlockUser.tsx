@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 import { SelectStatusAdmin } from 'features/admin/SelectStatusAdmin'
+import styled from 'styled-components'
 
-import { DELETE_USER, GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
+import { GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
 import { ThemeButton } from '../../../enums/themeButton'
 import { Button } from '../../Button/Button'
 import Modal from '../ModalPublic/Modal'
@@ -31,6 +32,12 @@ export const ModalAdminBlockUser = ({
     refetchQueries: [GET_USERS, 'GetUsers'],
   })
 
+  const [selected, setSelected] = useState('Reason for ban')
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(event.target.value)
+  }
+
   const onClose = () => {
     setIsOpenModalBlock(false)
   }
@@ -50,17 +57,26 @@ export const ModalAdminBlockUser = ({
 
   return isOpenModalBlock ? (
     <Modal
-      bodyText={`Are you sure to ban this user, ${userName}?`}
       handleModalClose={onClose}
+      height={ban ? '220px' : '250px'}
       title="Block user"
-      width="440px"
+      width="378px"
+      bodyText={
+        ban
+          ? `Are you sure want to un-ban, ${userName}`
+          : `Are you sure to ban this user, ${userName}?`
+      }
     >
-      <>
-        <SelectStatusAdmin
-          initialValue="Reason for ban"
-          options={['Bad behavior', 'Advertising placement', 'Another reason']}
-        />
-        <>
+      <Column>
+        {!ban && (
+          <SelectStatusAdmin
+            handleSelect={handleSelect}
+            initialValue="Reason for ban"
+            options={['Bad behavior', 'Advertising placement', 'Another reason']}
+            selected={selected}
+          />
+        )}
+        <Row>
           <Button
             theme={hovered ? ThemeButton.PRIMARY : ThemeButton.OUTLINED}
             width="96px"
@@ -79,8 +95,23 @@ export const ModalAdminBlockUser = ({
           >
             Yes
           </Button>
-        </>
-      </>
+        </Row>
+      </Column>
     </Modal>
   ) : null
 }
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  right: 0;
+  align-self: left;
+  gap: 30px;
+`
+
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, ChangeEvent } from 'react'
 
 import { useLazyQuery } from '@apollo/client'
 import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
@@ -24,6 +24,8 @@ import {
   FormatDataTableType,
   TableHeaderType,
 } from '../../common/components/Table/UniversalTable/types'
+import { filterByStatus } from 'common/utils/filterByStatus'
+import { Filtredusers } from 'features/admin/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -48,6 +50,9 @@ const Admin = () => {
   const [sortDirection, setSortDirection] = useState('desc')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
+
+  const [selected, setSelected] = useState('Not Selected')
+  const [filtredUsers, setFiltredUsers] = useState<Filtredusers[] | []>([])
 
   const selectedSort = (sortType: string): void => {
     setSortBy(sortType)
@@ -81,7 +86,26 @@ const Admin = () => {
     },
   })
 
-  const formatTableData: FormatDataTableType[] | undefined = users?.users
+  useEffect(() => {
+    if (users) {
+      filterByStatus(selected, users, setFiltredUsers)
+    }
+  }, [selected, users])
+
+  const sortByStatus = (status: string) => {
+    if (status === 'Blocked') {
+      setSortDirection('desc')
+      setSortBy('ban')
+    } else if (status === 'Not Blocked') {
+      setSortDirection('asc')
+      setSortBy('ban')
+    } else {
+      setSortDirection('desc')
+      setSortBy('createdAt')
+    }
+  }
+
+  // const formatTableData: FormatDataTableType[] | undefined = users?.users
   const tableHeadingData: TableHeaderType[] = [
     { tableTitle: 'User ID', back: '', sort: false, text: 'id', avatar: 'ban' },
     { tableTitle: 'Username', back: 'login', sort: true },
@@ -91,6 +115,10 @@ const Admin = () => {
   ]
 
   const debouncedSearch = useDebounce(getUsers, 500)
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(event.target.value)
+  }
 
   useEffect(() => {
     getUsers()
@@ -113,10 +141,16 @@ const Admin = () => {
             <SearchIconAdmin alt="search" src={search} />
             <SearchAdmin ref={inputRef} />
           </SearchBarAdmin>
-          <SelectStatusAdmin initialValue="Not Selected" options={['Blocked', 'Not Blocked']} />
+          <SelectStatusAdmin
+            handleSelect={handleSelect}
+            initialValue="Not Selected"
+            options={['Blocked', 'Not Blocked']}
+            selected={selected}
+            sortByStatus={sortByStatus}
+          />
         </WrapperAdmin>
         <UniversalTable
-          formatTableData={formatTableData}
+          formatTableData={filtredUsers}
           selectedSort={selectedSort}
           tableHeadingData={tableHeadingData}
         />
