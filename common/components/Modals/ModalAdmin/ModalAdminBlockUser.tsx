@@ -8,6 +8,8 @@ import { GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
 import { ThemeButton } from '../../../enums/themeButton'
 import { Button } from '../../Button/Button'
 import Modal from '../ModalPublic/Modal'
+import { status } from 'nprogress'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 type AdminBlockPropsType = {
   ban: boolean
@@ -58,7 +60,7 @@ export const ModalAdminBlockUser = ({
   return isOpenModalBlock ? (
     <Modal
       handleModalClose={onClose}
-      height={ban ? '220px' : '250px'}
+      height={ban ? '220px' : 'max-content'}
       title="Block user"
       width="378px"
       bodyText={
@@ -76,10 +78,11 @@ export const ModalAdminBlockUser = ({
             selected={selected}
           />
         )}
+        {selected === 'Another reason' && <Reason />}
         <Row>
           <Button
             theme={hovered ? ThemeButton.PRIMARY : ThemeButton.OUTLINED}
-            width="96px"
+            width="130px"
             onClick={onClose}
             onMouseEnter={handleMouseLeave}
             onMouseLeave={handleMouseEnter}
@@ -88,7 +91,7 @@ export const ModalAdminBlockUser = ({
           </Button>
           <Button
             theme={hovered ? ThemeButton.OUTLINED : ThemeButton.PRIMARY}
-            width="96px"
+            width="130px"
             onClick={() => handleBlock()}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -108,10 +111,71 @@ export const Column = styled.div`
   position: relative;
   right: 0;
   align-self: left;
-  gap: 30px;
+  gap: 20px;
 `
 
 export const Row = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+export const Reason = styled.input`
+  &:active {
+    pointer-events: none;
+    border: 1px solid white;
+    color: white;
+    &:focus {
+      border: 1px solid white;
+      color: white;
+    }
+    &:hover {
+      border: 1px solid white;
+      color: white;
+    }
+  }
+  &:focus {
+    border: 1px solid #397df6;
+    color: #8d9094;
+    &:hover {
+      border: 1px solid #397df6;
+      color: #8d9094;
+    }
+    &:-webkit-autofill {
+      -webkit-text-fill-color: #8d9094;
+      caret-color: #8d9094;
+    }
+  }
+  &:disabled {
+    border: 1px solid #4c4c4c;
+    color: #4c4c4c;
+  }
+  &:hover {
+    color: #8d9094;
+    border: 1px solid #8d9094;
+  }
+
+  max-width: '330px';
+  width: 100%;
+  height: 36px;
+  padding-left: 8px;
+  position: relative;
+
+  font-size: 14px;
+
+  outline: none;
+  border-radius: 2px;
+  border: 1px solid #4c4c4c;
+  background: ${baseTheme.colors.dark[500]};
+  color: #8d9094;
+  box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: #8d9094;
+    caret-color: #8d9094;
+  }
+
+  @media (max-width: 390px) {
+    width: 90vw;
+    max-width: '330px';
+  }
 `
