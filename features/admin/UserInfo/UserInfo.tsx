@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { dateParser } from 'common/utils/dateParser'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -71,7 +72,9 @@ const UserInfo = ({ userId }: { userId: string }) => {
               <StyledTitle>
                 <Typograthy variant="regular_text 14">{t('Profile Creation Date')}</Typograthy>
               </StyledTitle>
-              <Typograthy variant="regular_text 16">{data?.user?.createdAt}</Typograthy>
+              <Typograthy variant="regular_text 16">
+                {data?.user?.createdAt ? dateParser(data.user.createdAt) : '-'}
+              </Typograthy>
             </StyledIdDate>
           </StyledIdDateContainer>
         </>
