@@ -15,6 +15,13 @@ export const GET_USERS = gql(`
   }
 `)
 
+// Получение данных о количестве пользователей
+export const GET_TOTAL_COUNT = gql(`
+  query Total($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    totalCountUsers(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
+  }
+`)
+
 // Получение данных об одном пользователе
 export const GET_USER_PROFILE = gql(`
   query user($id: String!) {
@@ -46,6 +53,41 @@ export const GET_USER_IMAGES = gql(`
 export const DELETE_USER = gql(`
   mutation deleteUser($userId: String!) {
     deleteUser (userId: $userId)
+  }
+`)
+
+export const UPDATE_USER_STATUS = gql(`
+  mutation updateUserStatus($userId: String!,$banStatus: Boolean!){
+    updateUserStatus(userId:$userId,banStatus:$banStatus)
+  }
+`)
+
+// EDIT......
+export const GET_ALL_PAYMENTS = gql(`
+  query Payments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    allPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) {
+      paymentsId
+      userId
+      price
+      paymentSystem
+      paymentStatus
+      createdAt
+      subscriptionType
+      updatedAt
+      endDateOfSubscription
+      user {
+      profiles {
+      login
+      photo}
+      }
+    }
+  }
+`)
+
+// Получение данных о количестве пользователей
+export const GET_TOTAL_COUNT_PAYMENTS = gql(`
+  query TotalCountPayments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
+    totalCountPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
   }
 `)
 

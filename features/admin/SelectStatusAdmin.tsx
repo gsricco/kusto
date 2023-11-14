@@ -1,13 +1,42 @@
+import { ChangeEvent } from 'react'
+
 import { OptionAdmin, SelectAdmin } from './Admin.styled'
 
-export const SelectStatusAdmin = () => {
+type Select = {
+  handleSelect: (event: ChangeEvent<HTMLSelectElement>) => void
+  initialValue: string
+  options: string[]
+  selected: string
+  sortByStatus?: (status: string) => void
+}
+
+export const SelectStatusAdmin = ({
+  options,
+  initialValue,
+  handleSelect,
+  selected,
+  sortByStatus,
+}: Select) => {
+  const handleClick = () => {
+    if (sortByStatus) {
+      sortByStatus(selected)
+    }
+  }
+
   return (
-    <SelectAdmin defaultValue="Not selected">
+    <SelectAdmin
+      defaultValue={selected}
+      onChange={event => handleSelect(event)}
+      onClick={handleClick}
+    >
       <OptionAdmin hidden selected>
-        Not selected
+        {initialValue}
       </OptionAdmin>
-      <OptionAdmin>Blocked</OptionAdmin>
-      <OptionAdmin>Not Blocked</OptionAdmin>
+      {options.map(option => (
+        <OptionAdmin key={option} value={option}>
+          {option}
+        </OptionAdmin>
+      ))}
     </SelectAdmin>
   )
 }
