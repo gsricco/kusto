@@ -60,8 +60,8 @@ export const renderTableCell = (item: FormatDataTableType | undefined, name: Tab
 
     return (
       <MenuCellAdmin>
-        {item.ban && item.id && item.login && (
-          <MenuUserTable ban={item.ban} id={item.id} userName={item.login} />
+        {item.id && item.login && (
+          <MenuUserTable ban={item.ban || false} id={item.id} userName={item.login} />
         )}
       </MenuCellAdmin>
     )

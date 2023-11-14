@@ -19,3 +19,13 @@ export type PaymentsTableType = {
   payments: PaymentsQuery | undefined
   selectedSort: (sortType: string) => void
 }
+
+export type Filtredusers = {
+  __typename?: 'UserModel' | undefined
+  accountType: string
+  ban: boolean
+  createdAt: string
+  email: string
+  id: string
+  login: string
+}
