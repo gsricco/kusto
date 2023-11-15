@@ -23,15 +23,16 @@ export const GET_TOTAL_COUNT = gql(`
 `)
 
 // Получение данных об одном пользователе
-export const GET_USER = gql(`
+export const GET_USER_PROFILE = gql(`
   query user($id: String!) {
     user(id: $id) {
       id
-      login
-      email
       createdAt
-      images {
-        url
+      profiles {
+        login
+        firstName
+        lastName
+        photo
       }
     }
   }
@@ -87,5 +88,20 @@ export const GET_ALL_PAYMENTS = gql(`
 export const GET_TOTAL_COUNT_PAYMENTS = gql(`
   query TotalCountPayments($pageSize:Int!,$searchName:String!,$sortBy:String!,$sortDirection:String!,$pageNumber:Int!) {
     totalCountPayments(pageSize:$pageSize,searchName:$searchName,sortBy:$sortBy,sortDirection:$sortDirection,pageNumber:$pageNumber) 
+  }
+`)
+
+// Получение всех оплат пользователя
+export const GET_USER_PAYMENTS = gql(`
+  query userPayments($id: String!) {
+    user(id: $id) {
+      payments {
+        dateOfPayments: createdAt
+        endDateOfSubscription
+        price
+        paymentType: paymentSystem
+        subscriptionType
+      }
+    }
   }
 `)
