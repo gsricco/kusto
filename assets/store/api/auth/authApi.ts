@@ -2,11 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getItem } from 'common/hooks/useLocalStorage'
 
 import {
+  CheckLinkResType,
   CheckLinkType,
   LoginResponseType,
   LoginType,
   MeType,
-  NewPasswordResType,
+  // NewPasswordResType,
   NewPasswordType,
   RefreshLinkType,
   RegistrationType,
@@ -16,7 +17,7 @@ import {
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1',
+    baseUrl: 'https://inctagram.work/api/v1',
     credentials: 'include',
     fetchFn: async url => {
       const token = getItem('accessToken')
@@ -32,7 +33,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: builder => ({
-    registration: builder.mutation<unknown, RegistrationType>({
+    registration: builder.mutation<void, RegistrationType>({
       query: body => ({
         url: 'auth/registration',
         method: 'POST',
@@ -46,28 +47,28 @@ export const authApi = createApi({
         body,
       }),
     }),
-    loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
-      query: body => ({
-        url: 'auth/google',
-        method: 'POST',
-        body,
-      }),
-    }),
-    loginWithGithub: builder.mutation<LoginResponseType, { code: string }>({
-      query: body => ({
-        url: 'auth/github',
-        method: 'POST',
-        body,
-      }),
-    }),
-    sendRecoveryLink: builder.mutation<unknown, SendLinkType>({
+    // loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
+    //   query: body => ({
+    //     url: 'auth/google',
+    //     method: 'POST',
+    //     body,
+    //   }),
+    // }),
+    // loginWithGithub: builder.mutation<LoginResponseType, { code: string }>({
+    //   query: body => ({
+    //     url: 'auth/github',
+    //     method: 'POST',
+    //     body,
+    //   }),
+    // }),
+    sendRecoveryLink: builder.mutation<void, SendLinkType>({
       query: body => ({
         method: 'POST',
         url: `/auth/password-recovery`,
         body,
       }),
     }),
-    newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
+    newPassword: builder.mutation<void, NewPasswordType>({
       query: body => {
         return {
           method: 'POST',
@@ -76,11 +77,20 @@ export const authApi = createApi({
         }
       },
     }),
-    checkLinkHandler: builder.query<unknown, CheckLinkType>({
-      query: code => {
+    // checkLinkHandler: builder.query<unknown, CheckLinkType>({
+    //   query: code => {
+    //     return {
+    //       method: 'GET',
+    //       url: `/auth/email-confirmation/${code}`,
+    //     }
+    //   },
+    // }),
+    checkLinkHandler: builder.mutation<CheckLinkResType, CheckLinkType>({
+      query: body => {
         return {
-          method: 'GET',
-          url: `/auth/email-confirmation/${code}`,
+          method: 'POST',
+          url: `/auth/check-recovery-code`,
+          body,
         }
       },
     }),
@@ -88,7 +98,7 @@ export const authApi = createApi({
       query: body => {
         return {
           method: 'POST',
-          url: `/auth/refresh-link`,
+          url: `/auth/registration-email-resending`,
           body,
         }
       },
@@ -117,10 +127,11 @@ export const {
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  useLazyCheckLinkHandlerQuery,
+  // useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
   useLazyMeQuery,
   useLogoutMutation,
-  useLoginWithGoogleMutation,
-  useLoginWithGithubMutation,
+  useCheckLinkHandlerMutation,
+  // useLoginWithGoogleMutation,
+  // useLoginWithGithubMutation,
 } = authApi

@@ -1,34 +1,39 @@
 export type RegistrationType = {
   email: string
-  login: string
   password: string
+  userName: string
 }
+
 export type LoginType = {
   email: string
   password: string
 }
 export type SendLinkType = {
   email: string
-  recaptchaValue: string | null | undefined
+  recaptcha: string | null | undefined
 }
 export type NewPasswordType = {
   newPassword: string
-  recoveryCode: string[] | string | undefined
+  recoveryCode: string
 }
-export type CheckLinkType = string[] | string | undefined
+export type CheckLinkType = {
+  recoveryCode: string
+}
 
-export type NewPasswordResType = {
-  data: {
-    errorsMessages: {
-      field: string
-      message: string
-    }[]
-  }
-  status: number
+export type CheckLinkResType = {
+  email: string
 }
+// export type NewPasswordResType = {
+//   data: {
+//     errorsMessages: {
+//       field: string
+//       message: string
+//     }[]
+//   }
+//   status: number
+// }
 export type LoginResponseType = {
   accessToken: string
-  profile: boolean
 }
 
 type ErrorMessagesType = {
@@ -45,11 +50,12 @@ export type RegistrationResponseError = {
 
 export type MeType = {
   email: string
-  id: string
-  login: string
+  userId: number
+  userName: string
 }
 
 export type RefreshLinkType = {
+  baseUrl: string
   email: string
 }
 
