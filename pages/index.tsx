@@ -8,47 +8,56 @@ import kusto from '../public/img/kusto.png'
 import { baseTheme } from '../styles/styledComponents/theme'
 
 import { NextPageWithLayout } from './_app'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
-const Home: NextPageWithLayout = () => (
-  <StyledBlockMainWrapper>
-    <Image alt="Logo" height={180} src={kusto} width={180} priority />
-    <StyledBlockMain>
-      <p>
-        <Link href={Path.LOGIN}>Login</Link>
-      </p>
-      <p>
-        <Link href={Path.REGISTRATION}>registration</Link>
-      </p>
-      <p>
-        <Link href={Path.FORGOT_PASSWORD}>recovery</Link>
-      </p>
-      <p>
-        <Link href={Path.PROFILE}>profile</Link>
-      </p>
-      <p>
-        <Link href={Path.PROFILE_SETTINGS}>profile/settings</Link>
-      </p>
-      <p>
-        <Link href={Path.NEW_PASSWORD}>auth/new_password</Link>
-      </p>
-      <p>
-        <Link href={Path.REGISTRATION_SUCCESS}>registration/success</Link>
-      </p>
-      <p>
-        <Link href={Path.REGISTRATION_ERROR}>Registration_error</Link>
-      </p>
-      <p>
-        <Link href={Path.NEW_PASSWORD_ERROR}>Password_error</Link>
-      </p>
-      <p>
-        <Link href={Path.ERROR_404}>Page_ERROR_404_</Link>
-      </p>
-      <p>
-        <Link href={Path.ADMIN}>Page_ERROR_404_</Link>
-      </p>
-    </StyledBlockMain>
-  </StyledBlockMainWrapper>
-)
+const Home: NextPageWithLayout = () => {
+  return (
+    <StyledBlockMainWrapper>
+      <Image alt="Logo" height={180} src={kusto} width={180} priority />
+      <StyledBlockMain>
+        <button type="button" onClick={() => signIn()}>
+          signin
+        </button>
+        <button type="button" onClick={() => signOut()}>
+          signout
+        </button>
+        <p>
+          <Link href={Path.LOGIN}>Login</Link>
+        </p>
+        <p>
+          <Link href={Path.REGISTRATION}>registration</Link>
+        </p>
+        <p>
+          <Link href={Path.FORGOT_PASSWORD}>recovery</Link>
+        </p>
+        <p>
+          <Link href={Path.PROFILE}>profile</Link>
+        </p>
+        <p>
+          <Link href={Path.PROFILE_SETTINGS}>profile/settings</Link>
+        </p>
+        <p>
+          <Link href={Path.NEW_PASSWORD}>auth/new_password</Link>
+        </p>
+        <p>
+          <Link href={Path.REGISTRATION_SUCCESS}>registration/success</Link>
+        </p>
+        <p>
+          <Link href={Path.REGISTRATION_ERROR}>Registration_error</Link>
+        </p>
+        <p>
+          <Link href={Path.NEW_PASSWORD_ERROR}>Password_error</Link>
+        </p>
+        <p>
+          <Link href={Path.ERROR_404}>Page_ERROR_404_</Link>
+        </p>
+        <p>
+          <Link href={Path.ADMIN}>Page_ERROR_404_</Link>
+        </p>
+      </StyledBlockMain>
+    </StyledBlockMainWrapper>
+  )
+}
 
 Home.getLayout = getLayout
 export default Home

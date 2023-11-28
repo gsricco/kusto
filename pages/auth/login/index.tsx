@@ -36,6 +36,7 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+import { signIn } from 'next-auth/react'
 
 type DeviceInfo = {
   model: string | undefined
@@ -127,32 +128,39 @@ const Login = (props: ProvidersPropsType) => {
     values: FormValueLogin,
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
-    const data = {
-      email: values.loginOrEmail,
-      password: values.password,
-      ip,
-      browserName,
-      deviceName: `${vendor} ${model}`,
-    }
+    // const data = {
+    //   email: values.loginOrEmail,
+    //   password: values.password,
+    //   ip,
+    //   browserName,
+    //   deviceName: `${vendor} ${model}`,
+    // }
 
-    if (data.deviceName.length < 2) {
-      data.deviceName = `Desktop/${osName}`
-    }
+    await signIn('credentials', {
+      email: 'badikradik123@gmail.com',
+      password: 'BogdanKurenkov',
+      redirect: false,
+      // callbackUrl: '/',
+    })
 
-    try {
-      await loginHandler(data)
-        .unwrap()
-        /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .then(res => {
-          removeItem('email')
-          setItem('userEmail', data.email)
-          resetForm()
-          getInitialize()
-        })
-        .catch(() => setFieldError('password', t('log_in_err')))
-    } catch (err) {
-      console.log('LoginError:', err)
-    }
+    // if (data.deviceName.length < 2) {
+    //   data.deviceName = `Desktop/${osName}`
+    // }
+
+    // try {
+    //   await loginHandler(data)
+    //     .unwrap()
+    //     /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
+    //     .then(res => {
+    //       removeItem('email')
+    //       setItem('userEmail', data.email)
+    //       resetForm()
+    //       getInitialize()
+    //     })
+    //     .catch(() => setFieldError('password', t('log_in_err')))
+    // } catch (err) {
+    //   console.log('LoginError:', err)
+    // }
   }
 
   useEffect(() => {

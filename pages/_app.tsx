@@ -17,6 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs' // for mui calen
 
 import { ApolloProvider } from '@apollo/client'
 import client from 'assets/apollo/client'
+import { SessionProvider } from 'next-auth/react'
 
 // import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 
@@ -28,20 +29,22 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) => {
   useLoader()
 
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-        <PrivateRoute>
-          <GlobalStyle />
-          {getLayout(<Component {...pageProps} />)}
-        </PrivateRoute>
-      </ApolloProvider>
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <PrivateRoute>
+            <GlobalStyle />
+            {getLayout(<Component {...pageProps} />)}
+          </PrivateRoute>
+        </ApolloProvider>
+      </Provider>
+    </SessionProvider>
   )
 }
 
