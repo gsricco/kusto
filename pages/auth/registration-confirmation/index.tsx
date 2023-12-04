@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { useCheckLinkHandlerMutation } from '../../../../assets/store/api/auth/authApi'
-import { Path } from '../../../../common/enums/path'
-import { codeCheckLink } from '../../../../common/utils/codeCheckLink'
+import { useCheckLinkHandlerMutation } from '../../../assets/store/api/auth/authApi'
+import { Path } from '../../../common/enums/path'
+import { codeCheckLink } from '../../../common/utils/codeCheckLink'
 
 const CheckLink = () => {
   const { code } = codeCheckLink()
@@ -12,7 +12,6 @@ const CheckLink = () => {
   const [checkLinkHandler] = useCheckLinkHandlerMutation()
   const router = useRouter()
 
-  console.log(code)
   useEffect(() => {
     checkLinkHandler({ confirmationCode: code })
       .unwrap()

@@ -2,7 +2,7 @@
 import * as Yup from 'yup'
 
 export const validateRegistration = Yup.object().shape({
-  username: Yup.string()
+  userName: Yup.string()
     .min(6, 'too_short')
     .max(30, 'too_long')
     .required('req_user')

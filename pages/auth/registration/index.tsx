@@ -65,7 +65,7 @@ const Registration = (props: ProvidersPropsType) => {
   const { provider } = props
 
   const initialAuthValues = {
-    username: '',
+    userName: '',
     password: '',
     passwordConfirmation: '',
     email: '',
@@ -89,7 +89,7 @@ const Registration = (props: ProvidersPropsType) => {
     const data = {
       email: values.email,
       password: values.password,
-      login: values.username,
+      userName: values.userName,
     }
 
     try {
@@ -129,15 +129,15 @@ const Registration = (props: ProvidersPropsType) => {
             {({ errors, touched, values, setFieldValue }) => (
               <StyledAuthForm>
                 <FormikLabel
-                  border={errors.username?.length && touched.username ? 'red' : 'white'}
+                  border={errors.userName?.length && touched.userName ? 'red' : 'white'}
                   errors={errors}
-                  name="username"
+                  name="userName"
                   t={t}
                   title={t('username')}
                   touched={touched}
                   type="text"
-                  value={values.username}
-                  onChange={e => setFieldValue('username', e)}
+                  value={values.userName}
+                  onChange={e => setFieldValue('userName', e)}
                 />
                 <FormikLabel
                   border={errors.email?.length && touched.email ? 'red' : 'white'}

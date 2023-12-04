@@ -16,7 +16,7 @@ import {
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1',
+    baseUrl: 'https://inctagram.work/api/v1',
     credentials: 'include',
     fetchFn: async url => {
       const token = getItem('accessToken')
@@ -34,14 +34,14 @@ export const authApi = createApi({
   endpoints: builder => ({
     registration: builder.mutation<unknown, RegistrationType>({
       query: body => ({
-        url: 'auth/registration',
+        url: '/auth/registration',
         method: 'POST',
         body,
       }),
     }),
     login: builder.mutation<LoginResponseType, LoginType>({
       query: body => ({
-        url: 'auth/login',
+        url: '/auth/login',
         method: 'POST',
         body,
       }),
@@ -76,14 +76,24 @@ export const authApi = createApi({
         }
       },
     }),
-    checkLinkHandler: builder.query<unknown, CheckLinkType>({
-      query: code => {
+    // checkLinkHandler: builder.query<unknown, CheckLinkType>({
+    //   query: code => {
+    //     return {
+    //       method: 'GET',
+    //       url: `/auth/email-confirmation/${code}`,
+    //     }
+    //   },
+    // }),
+    checkLinkHandler: builder.mutation<unknown, CheckLinkType>({
+      query: body => {
         return {
-          method: 'GET',
-          url: `/auth/email-confirmation/${code}`,
+          method: 'POST',
+          url: `/auth/registration-confirmation`,
+          body,
         }
       },
     }),
+
     refreshLink: builder.mutation<unknown, RefreshLinkType>({
       query: body => {
         return {
@@ -117,7 +127,8 @@ export const {
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  useLazyCheckLinkHandlerQuery,
+  // useLazyCheckLinkHandlerQuery,
+  useCheckLinkHandlerMutation,
   useRefreshLinkMutation,
   useLazyMeQuery,
   useLogoutMutation,

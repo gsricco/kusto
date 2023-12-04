@@ -16,8 +16,11 @@ export type AvatarType = {
 
 export type AuthMeType = {
   email: string
-  id: string
-  login: string
+  // email: string
+  // id: string
+  // login: string
+  userId: number
+  userName: string
 }
 
 export type SaveProfileInfoType = {

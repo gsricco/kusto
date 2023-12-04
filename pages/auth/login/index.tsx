@@ -130,14 +130,15 @@ const Login = (props: ProvidersPropsType) => {
     const data = {
       email: values.loginOrEmail,
       password: values.password,
-      ip,
-      browserName,
-      deviceName: `${vendor} ${model}`,
+      // ip,
+      // browserName,
+      // deviceName: `${vendor} ${model}`,
     }
 
-    if (data.deviceName.length < 2) {
-      data.deviceName = `Desktop/${osName}`
-    }
+    //
+    // if (data.deviceName.length < 2) {
+    //   data.deviceName = `Desktop/${osName}`
+    // }
 
     try {
       await loginHandler(data)
@@ -154,7 +155,7 @@ const Login = (props: ProvidersPropsType) => {
       console.log('LoginError:', err)
     }
   }
-
+  //
   useEffect(() => {
     getInitialize()
 
@@ -242,8 +243,8 @@ export const redirect = (
 ) => {
   if (loginRes) {
     setItem('accessToken', loginRes.accessToken)
-    loginRes.profile
-      ? route.push(Path.PROFILE)
-      : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
+    // loginRes.profile
+    //   ? route.push(Path.PROFILE)
+    //   : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
   }
 }

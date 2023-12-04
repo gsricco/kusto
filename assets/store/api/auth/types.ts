@@ -1,7 +1,7 @@
 export type RegistrationType = {
   email: string
-  login: string
   password: string
+  userName: string
 }
 export type LoginType = {
   email: string
@@ -15,7 +15,10 @@ export type NewPasswordType = {
   newPassword: string
   recoveryCode: string[] | string | undefined
 }
-export type CheckLinkType = string[] | string | undefined
+// export type CheckLinkType = string[] | string | undefined
+export type CheckLinkType = {
+  confirmationCode: string[] | string | null | undefined
+}
 
 export type NewPasswordResType = {
   data: {
