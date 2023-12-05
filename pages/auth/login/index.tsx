@@ -36,6 +36,8 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+import { useLazyProfileQuery } from '../../../assets/store/api/profile/profileApi'
+import { UserProfileType } from '../../../assets/store/api/profile/types'
 
 type DeviceInfo = {
   model: string | undefined
@@ -120,9 +122,14 @@ const Login = (props: ProvidersPropsType) => {
   }
 
   const [loginHandler, { data: loginRes }] = useLoginMutation()
-
-  redirect(loginRes, setItem, route)
-
+  // const [profileHandler, { data: profile }] = useLazyProfileQuery()
+  //
+  // // redirect(loginRes, setItem, profileHandler, route)
+  //
+  // console.log('profile', profile)
+  // if (profile) {
+  //   profile.firstName !== null ? route.push(Path.PROFILE) : route.push(Path.PROFILE_SETTINGS)
+  // }
   const handleSubmit = async (
     values: FormValueLogin,
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
@@ -148,7 +155,6 @@ const Login = (props: ProvidersPropsType) => {
           removeItem('email')
           setItem('userEmail', data.email)
           resetForm()
-          getInitialize()
         })
         .catch(() => setFieldError('password', t('log_in_err')))
     } catch (err) {
@@ -156,15 +162,15 @@ const Login = (props: ProvidersPropsType) => {
     }
   }
   //
-  useEffect(() => {
-    getInitialize()
-
-    const token = getItem('accessToken')
-
-    if (token && me) {
-      route.push('/profile')
-    }
-  }, [me])
+  // useEffect(() => {
+  //   getInitialize()
+  //
+  //   const token = getItem('accessToken')
+  //
+  //   if (token && me) {
+  //     route.push('/profile')
+  //   }
+  // }, [me])
 
   useEffect(() => {
     redirect(loginRes, setItem, route)
@@ -239,12 +245,17 @@ export default Login
 export const redirect = (
   loginRes: LoginResponseType | undefined,
   setItem: (key: string, value: string) => void,
+  // profileHandler: (id: number) => void,
+  // id: number,
+  // profile: UserProfileType,
   route: NextRouter
 ) => {
   if (loginRes) {
     setItem('accessToken', loginRes.accessToken)
-    // loginRes.profile
+    // eslint-disable-next-line no-magic-numbers
+    // profileHandler(id)
+    // profile.aboutMe
     //   ? route.push(Path.PROFILE)
-    //   : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
+    //   : route.push(`${Path.PROFILE_SETTINGS}?profile=${profile}`)
   }
 }

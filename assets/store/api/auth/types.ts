@@ -17,7 +17,7 @@ export type NewPasswordType = {
 }
 // export type CheckLinkType = string[] | string | undefined
 export type CheckLinkType = {
-  confirmationCode: string[] | string | null | undefined
+  confirmationCode: string
 }
 
 export type NewPasswordResType = {
@@ -31,7 +31,7 @@ export type NewPasswordResType = {
 }
 export type LoginResponseType = {
   accessToken: string
-  profile: boolean
+  // profile: boolean
 }
 
 type ErrorMessagesType = {
@@ -48,8 +48,8 @@ export type RegistrationResponseError = {
 
 export type MeType = {
   email: string
-  id: string
-  login: string
+  userId: number
+  userName: string
 }
 
 export type RefreshLinkType = {

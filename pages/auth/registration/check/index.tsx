@@ -14,7 +14,7 @@ const CheckLink = () => {
 
   console.log(code)
   useEffect(() => {
-    checkLinkHandler({ confirmationCode: code })
+    checkLinkHandler({ confirmationCode: code || '' })
       .unwrap()
       .then(() => {
         router.push(Path.REGISTRATION_SUCCESS).then(() => {})

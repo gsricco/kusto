@@ -1,4 +1,5 @@
 export type UserType = {
+  id: number
   city: string
   dateOfBirthday: string
   firstName: string
@@ -7,6 +8,17 @@ export type UserType = {
   photo?: string
   userId?: string
   userInfo?: string
+}
+export type UserProfileType = {
+  aboutMe?: string
+  avatars: AvatarUserType[]
+  city?: string
+  createdAt: string
+  dateOfBirth?: string
+  firstName?: string
+  id: number
+  lastName?: string
+  userName: string
 }
 
 export type AvatarType = {
@@ -30,4 +42,10 @@ export type SaveProfileInfoType = {
   lastName: string
   login: string
   userInfo: string
+}
+export type AvatarUserType = {
+  fileSize: number
+  height: number
+  url: string
+  width: number
 }

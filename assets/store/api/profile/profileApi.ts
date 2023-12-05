@@ -12,7 +12,7 @@ import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
-import { AuthMeType, SaveProfileInfoType, UserType } from './types'
+import { AuthMeType, SaveProfileInfoType, UserProfileType, UserType } from './types'
 
 const statusCode = 401
 
@@ -20,7 +20,7 @@ const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1/',
+    baseUrl: 'https://inctagram.work/api/v1',
     credentials: 'include',
     method: 'POST',
     prepareHeaders: (headers, { endpoint }) =>
@@ -73,15 +73,22 @@ export const profileApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['UserInfo'],
   endpoints: builder => ({
-    profile: builder.query<UserType, void>({
-      query: () => ({
-        url: 'users/profiles/profile',
+    // profile: builder.query<UserType, void>({
+    //   query: () => ({
+    //     url: 'users/profiles/profile',
+    //     method: 'GET',
+    //   }),
+    //   providesTags: ['UserInfo'],
+    // }),
+    profile: builder.query<UserProfileType, number>({
+      query: (userId: number) => ({
+        url: `users/profile/${userId}`,
         method: 'GET',
       }),
       providesTags: ['UserInfo'],
     }),
     saveProfileInfo: builder.mutation<unknown, SaveProfileInfoType>({
-      query: (body: UserType) => {
+      query: body => {
         return {
           method: 'POST',
           url: `users/profiles/save-profileInfo`,

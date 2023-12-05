@@ -111,6 +111,15 @@ export const authApi = createApi({
         }
       },
     }),
+    profile: builder.query<MeType, void>({
+      query: () => {
+        return {
+          method: 'GET',
+          url: `/auth/me`,
+        }
+      },
+    }),
+
     logout: builder.mutation<void, void>({
       query: () => {
         return {
