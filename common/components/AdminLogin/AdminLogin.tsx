@@ -25,19 +25,19 @@ export const AdminLogin = () => {
 
   const initialAuthValues = {
     password: '',
-    loginOrEmail: '',
+    email: '',
   }
 
   const handleSubmit = (values: FormValueLogin, { setFieldError }: SetFieldErrorType) => {
     if (
-      values.loginOrEmail === process.env.NEXT_PUBLIC_AUTH_ADMIN_LOGIN &&
+      values.email === process.env.NEXT_PUBLIC_AUTH_ADMIN_LOGIN &&
       values.password === process.env.NEXT_PUBLIC_AUTH_ADMIN_PASSWORD
     ) {
       setItem(adminAuth.KEY_ADMIN_TOKEN, adminAuth.ADMIN_TOKEN)
       reload()
     } else {
       setFieldError('password', 'invalid email or password')
-      setFieldError('loginOrEmail', 'invalid email or password')
+      setFieldError('email', 'invalid email or password')
     }
   }
 
@@ -52,14 +52,14 @@ export const AdminLogin = () => {
           {({ errors, touched, values, setFieldValue }) => (
             <StyledAuthForm>
               <FormikLabel
-                border={errors.loginOrEmail?.length && touched.loginOrEmail ? 'red' : 'white'}
+                border={errors.email?.length && touched.email ? 'red' : 'white'}
                 errors={errors}
-                name="loginOrEmail"
+                name="email"
                 title="Email"
                 touched={touched}
                 type="text"
-                value={values.loginOrEmail}
-                onChange={e => setFieldValue('loginOrEmail', e)}
+                value={values.email}
+                onChange={e => setFieldValue('email', e)}
               />
               <FormikLabel
                 border={errors.password?.length && touched.password ? 'red' : 'white'}

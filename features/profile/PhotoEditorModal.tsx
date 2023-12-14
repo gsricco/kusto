@@ -49,12 +49,12 @@ const PhotoEditorModal = ({
       // преобразование base64 в file
       const result = await fetch(avatar)
       const blob = await result.blob()
-      const file = new File([blob], 'avatar', { type: 'image/png' })
+      const file = new File([blob], 'file', { type: 'image/png' })
 
       // преобразование file в FormData
       const formData = new FormData()
 
-      formData.append('avatar', file as File)
+      formData.append('file', file as File)
 
       try {
         await saveAvatarHandler(formData)

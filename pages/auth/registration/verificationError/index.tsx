@@ -26,7 +26,7 @@ const Verification = () => {
 
   const { t } = useTranslation()
 
-  const data = { email: getItem('email') }
+  const data = { email: getItem('email'), baseUrl: 'https://inctagram.work/api/v1' }
 
   const [refreshLinkHandler] = useRefreshLinkMutation()
 

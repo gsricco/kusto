@@ -1,8 +1,10 @@
+import dayjs from 'dayjs'
+
 export type UserType = {
-  id: number
   city: string
   dateOfBirthday: string
   firstName: string
+  id: number
   lastName: string
   login: string
   photo?: string
@@ -10,6 +12,7 @@ export type UserType = {
   userInfo?: string
 }
 export type UserProfileType = {
+  [key: string]: AvatarUserType[] | number | string | undefined
   aboutMe?: string
   avatars: AvatarUserType[]
   city?: string
@@ -36,12 +39,18 @@ export type AuthMeType = {
 }
 
 export type SaveProfileInfoType = {
+  aboutMe: string
   city: string
-  dateOfBirthday: string
+  dateOfBirth: dayjs.Dayjs
   firstName: string
   lastName: string
-  login: string
-  userInfo: string
+  // city: string
+  // dateOfBirthday: string
+  // firstName: string
+  // lastName: string
+  // login: string
+  // userInfo: string
+  userName: string
 }
 export type AvatarUserType = {
   fileSize: number

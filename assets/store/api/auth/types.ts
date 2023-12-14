@@ -9,7 +9,7 @@ export type LoginType = {
 }
 export type SendLinkType = {
   email: string
-  recaptchaValue: string | null | undefined
+  recaptcha: string | null
 }
 export type NewPasswordType = {
   newPassword: string
@@ -41,9 +41,10 @@ type ErrorMessagesType = {
 
 export type RegistrationResponseError = {
   data: {
-    errorsMessages: ErrorMessagesType[]
+    error: string
+    messages: ErrorMessagesType[]
+    statusCode: number
   }
-  status: number
 }
 
 export type MeType = {
@@ -53,6 +54,7 @@ export type MeType = {
 }
 
 export type RefreshLinkType = {
+  baseUrl: string
   email: string
 }
 

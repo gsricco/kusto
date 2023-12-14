@@ -12,6 +12,7 @@ import {
   RegistrationType,
   SendLinkType,
 } from './types'
+import { profileApi } from '../profile/profileApi'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -27,7 +28,6 @@ export const authApi = createApi({
         }),
       }
 
-      // return await fetch(url, options)
       return fetch(url, options)
     },
   }),
@@ -38,6 +38,24 @@ export const authApi = createApi({
         method: 'POST',
         body,
       }),
+    }),
+    checkLinkHandler: builder.mutation<unknown, CheckLinkType>({
+      query: body => {
+        return {
+          method: 'POST',
+          url: `/auth/registration-confirmation`,
+          body,
+        }
+      },
+    }),
+    refreshLink: builder.mutation<unknown, RefreshLinkType>({
+      query: body => {
+        return {
+          method: 'POST',
+          url: `/auth/registration-email-resending`,
+          body,
+        }
+      },
     }),
     login: builder.mutation<LoginResponseType, LoginType>({
       query: body => ({
@@ -84,25 +102,7 @@ export const authApi = createApi({
     //     }
     //   },
     // }),
-    checkLinkHandler: builder.mutation<unknown, CheckLinkType>({
-      query: body => {
-        return {
-          method: 'POST',
-          url: `/auth/registration-confirmation`,
-          body,
-        }
-      },
-    }),
 
-    refreshLink: builder.mutation<unknown, RefreshLinkType>({
-      query: body => {
-        return {
-          method: 'POST',
-          url: `/auth/refresh-link`,
-          body,
-        }
-      },
-    }),
     me: builder.query<MeType, void>({
       query: () => {
         return {
@@ -125,6 +125,15 @@ export const authApi = createApi({
         return {
           method: 'POST',
           url: `/auth/logout`,
+        }
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          localStorage.clear()
+          dispatch(profileApi.util.resetApiState())
+        } catch {
+          console.log('value')
         }
       },
     }),

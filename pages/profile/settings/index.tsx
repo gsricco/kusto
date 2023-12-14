@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react'
 
 import {
+  useDeleteAvatarMutation,
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
-  useDeleteAvatarMutation,
 } from 'assets/store/api/profile/profileApi'
 import { Button } from 'common/components/Button/Button'
 import Calendar from 'common/components/Calendar/Calendar'
@@ -20,7 +20,6 @@ import { validateProfile } from 'common/utils/validateProfile'
 import PhotoSelectModal from 'features/profile/PhotoSelectModal'
 import { SettingsPageWrapper } from 'features/settings/SettingsPageWrapper'
 import { Formik } from 'formik'
-import type {} from '@mui/x-date-pickers/themeAugmentation'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -34,7 +33,6 @@ import {
   StyledAvatarBlock,
   StyledCloseIcon,
   StyledContent,
-  StyledLine,
   StyledProfileForm,
 } from 'styles/styledComponents/profile/Settings.styled'
 import dayjs from 'dayjs'
@@ -62,7 +60,6 @@ const GeneralInformation = () => {
   const [profileLoading, setProfileLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [avatar, setAvatar] = useState('/img/icons/avatar.svg') // аватарка, отображаемая при загрузке
-  // const [photo, setPhoto] = useState<File>();
   const { setItem, getItem } = useLocalStorage()
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation()
   const [getProfileInfo, { data }] = useLazyProfileQuery()
@@ -77,18 +74,19 @@ const GeneralInformation = () => {
       .unwrap()
       .then(res => {
         setItem('userEmail', res.email)
-        setItem('name', res.login)
+        setItem('name', res.userName)
+        setItem('userId', res.userId)
         setAuthMeLoading(true)
       })
 
     const isProfile = !router.asPath.includes('profile=false')
 
     if (isProfile) {
-      getProfileInfo()
+      getProfileInfo(getItem('userId'))
         .unwrap()
         .then(res => {
           setProfileLoading(true)
-          if (res.photo) setAvatar(res.photo)
+          if (res.avatars.length > 0) setAvatar(res.avatars[0].url)
         })
     } else {
       setProfileLoading(true)
@@ -104,32 +102,33 @@ const GeneralInformation = () => {
 
   // начальные значения для формы
   const initialAuthValues = {
-    username: data?.login || usernameAuth?.login || getItem('name') || '',
+    username: data?.login || usernameAuth?.userName || getItem('name') || '',
     firstname: data?.firstName || '',
     lastname: data?.lastName || '',
-    birthday: data ? dayjs(new Date(data.dateOfBirthday)) : dayjs(),
-    // birthday: dayjs(),
+    birthday: data?.dateOfBirth ? dayjs(new Date(data.dateOfBirth)) : dayjs(),
     city: data?.city || '',
-    aboutMe: data?.userInfo || '',
+    aboutMe: data?.aboutMe || '',
   }
 
   // обработчик нажатия кнопки сохранения данных в форме
   const handleSubmit = async (values: FormValueProfile) => {
     const data = {
-      login: values.username,
+      userName: values.username,
       firstName: values.firstname,
       lastName: values.lastname,
-      dateOfBirthday: dayjs(values.birthday).format('DD/MM/YYYY'),
+      dateOfBirth: values.birthday,
       city: values.city,
-      userInfo: values.aboutMe,
+      aboutMe: values.aboutMe,
     }
+
+    console.log('DATE', data.dateOfBirth)
 
     try {
       await saveProfileInfoHandler(data)
         .unwrap()
         .then(() => {
           setIsModalOpen({ photoModal: false, saveProfileModal: true, filterModal: false })
-          setItem('name', data.login)
+          setItem('name', data.userName)
           router.push(Path.PROFILE_SETTINGS)
         })
     } catch (error) {

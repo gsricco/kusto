@@ -16,6 +16,8 @@ import {
   CreatePostResponse,
   EditPostRequest,
   GetPostResponse,
+  GetUserAllPostsRequest,
+  GetUserAllPostsResponse,
   GetUserPostsRequest,
   GetUserPostsResponse,
 } from './types'
@@ -26,7 +28,7 @@ const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
-    baseUrl: 'https://kustogram.site/api/v1/posts/',
+    baseUrl: 'https://inctagram.work/api/v1/',
     credentials: 'include',
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ['createPost']),
@@ -112,10 +114,18 @@ export const postsApi = createApi({
     }),
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
       query: ({ userId, pageNumber, pageSize }) => ({
-        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}&postId=0`,
+        url: `public-posts/user/${userId}}?sortBy=${pageNumber}&pageSize=${pageSize}&sortDirection=${''}`,
         method: 'GET',
       }),
       providesTags: ['deletePost', 'createPost'],
+    }),
+    getUserAllPosts: builder.query<GetUserAllPostsRequest, unknown>({
+      query: ({ idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
+        // url: `posts/user/${idLastUploadedPost}?sortBy=${sortBy}&pageSize=${pageSize}&sortDirection=${sortDirection}`,
+        url: `posts/user/`,
+        method: 'GET',
+      }),
+      // providesTags: ['deletePost', 'createPost'],
     }),
   }),
 })
@@ -127,4 +137,6 @@ export const {
   useLazyGetPostQuery,
   useLazyGetUserPostsQuery,
   useGetUserPostsQuery,
+  useGetPostQuery,
+  useGetUserAllPostsQuery,
 } = postsApi

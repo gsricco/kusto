@@ -90,8 +90,8 @@ export const profileApi = createApi({
     saveProfileInfo: builder.mutation<unknown, SaveProfileInfoType>({
       query: body => {
         return {
-          method: 'POST',
-          url: `users/profiles/save-profileInfo`,
+          method: 'PUT',
+          url: `users/profile`,
           body,
         }
       },
@@ -106,7 +106,7 @@ export const profileApi = createApi({
       query: () => {
         return {
           method: 'DELETE',
-          url: `users/profiles/avatar`,
+          url: `users/profile/avatar`,
         }
       },
     }),
@@ -114,7 +114,7 @@ export const profileApi = createApi({
       query: (body: FormData) => {
         return {
           method: 'POST',
-          url: `users/profiles/save-avatar`,
+          url: `users/profile/avatar`,
           body,
         }
       },

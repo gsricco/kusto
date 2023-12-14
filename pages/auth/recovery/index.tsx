@@ -51,6 +51,7 @@ const Recovery = () => {
   const captchaRef = useRef<ReCAPTCHA>(null)
 
   const secret = '6LcmGd8nAAAAAEYCarXOl4AWXZ80PLvtwAy58X-v'
+  // const secret = '6LfqLy8pAAAAAN6j3g4fBDOhGF6uqVNcEbGQmqwQ'
   // const secret = process.env.RECAPTCHA_SITE_KEY as string
 
   const handleModalClose = () => {
@@ -76,7 +77,7 @@ const Recovery = () => {
 
       const data = {
         email: values.email,
-        recaptchaValue: token,
+        recaptcha: token,
       }
 
       await recoveryHandler(data)

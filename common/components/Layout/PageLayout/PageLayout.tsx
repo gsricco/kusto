@@ -19,9 +19,8 @@ const { media } = mediaSizes
 export const PageLayout: NextPage<PropsWithChildren> = props => {
   // eslint-disable-next-line react/prop-types
   const { children } = props
-
   const router = useRouter()
-  const { profile } = router.query
+  const { status } = router.query
 
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
 
@@ -36,13 +35,13 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar openModalHandler={openModalHandler} showNavbar={profile} />
+            <Navbar openModalHandler={openModalHandler} showNavbar={status} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
 
         <MenuWrapper>
-          <Menubar openModalHandler={openModalHandler} showMenuBar={profile} />
+          <Menubar openModalHandler={openModalHandler} showMenuBar={status} />
         </MenuWrapper>
       </LocalizationProvider>
     </StyledWrapper>
@@ -83,7 +82,7 @@ export const Main = styled.div`
   /* padding-top: 36px; */
   /* padding-left: 0px; */
   /* flex-grow: 1;
-  max-width: 80vw; */
+        max-width: 80vw; */
 
   @media (max-width: 960px) {
     margin-left: 0;
@@ -92,11 +91,11 @@ export const Main = styled.div`
 
 export const NavbarWrapper = styled.div`
   /* height: 660px;
-  width: 220px;
-  min-width: 150px; 
-  max-width: 220px;
-  align-items: start;
-  font-family: Inter; */
+        width: 220px;
+        min-width: 150px; 
+        max-width: 220px;
+        align-items: start;
+        font-family: Inter; */
 
   @media (max-width: ${media}) {
     display: none;

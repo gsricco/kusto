@@ -16,12 +16,12 @@ export type CreatePostResponse = {
   description: string
   id: string
   images: Images[]
-  userId: string
+  userId: number
 }
 
 export type GetPostResponse = CreatePostResponse
 
-export type GetUserPostsResponse = {
+export type GetUserAllPostsResponse = {
   items: CreatePostResponse[]
   page: number
   pageSize: number
@@ -29,8 +29,9 @@ export type GetUserPostsResponse = {
   totalCount: number
 }
 
-export type GetUserPostsRequest = {
-  pageNumber: number
-  pageSize: number
-  userId: string
+export type GetUserAllPostsRequest = {
+  idLastUploadedPost?: number
+  pageNumber?: number
+  pageSize?: number
+  sortDirection?: string
 }

@@ -11,12 +11,13 @@ export type FormikAllValuesType = {
   email?: string
   firstname?: string
   lastname?: string
-  loginOrEmail?: string
+  // loginOrEmail?: string
   newPassword?: string
   password?: string
   passwordConfirmation?: string
   recoveryCode?: string
   userName?: string
+  username?: string
 }
 
 export type labelType = {
@@ -44,7 +45,7 @@ export type FormValueRegistration = {
   userName: string
 }
 export type FormValueLogin = {
-  loginOrEmail: string
+  email: string
   password: string
 }
 
@@ -77,7 +78,7 @@ export type ResetForm = {
             email: string
             firstname: string
             lastname: string
-            loginOrEmail: string
+            // loginOrEmail: string
             newPassword: string
             password: string
             passwordConfirmation: string

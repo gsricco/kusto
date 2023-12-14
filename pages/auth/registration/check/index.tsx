@@ -7,12 +7,10 @@ import { Path } from '../../../../common/enums/path'
 import { codeCheckLink } from '../../../../common/utils/codeCheckLink'
 
 const CheckLink = () => {
-  const { code } = codeCheckLink()
-  // const [checkLinkHandler] = useLazyCheckLinkHandlerQuery()
+  const { resultName: code } = codeCheckLink('code')
   const [checkLinkHandler] = useCheckLinkHandlerMutation()
   const router = useRouter()
 
-  console.log(code)
   useEffect(() => {
     checkLinkHandler({ confirmationCode: code || '' })
       .unwrap()

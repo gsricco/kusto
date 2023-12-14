@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
-import { UserType } from 'assets/store/api/profile/types'
+import { UserProfileType, UserType } from 'assets/store/api/profile/types'
 import { Button } from 'common/components/Button/Button'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
@@ -53,7 +53,7 @@ type PropsType = {
   // status: QueryStatus
   t: TFunction
   // totalCount: number
-  user?: UserType | undefined
+  user?: UserProfileType | undefined
 }
 
 const ProfileElement: React.FC<PropsType> = ({
@@ -113,6 +113,8 @@ const ProfileElement: React.FC<PropsType> = ({
   //   }
   // }, [width])
 
+  console.log(user)
+
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS)
   }
@@ -152,7 +154,7 @@ const ProfileElement: React.FC<PropsType> = ({
               <Image
                 alt="avatar"
                 height={avatarSize}
-                src={user?.photo || avatar}
+                src={user?.avatars.length > 0 ? user?.avatars[0].url : avatar}
                 width={avatarSize}
                 // style={{ maxWidth: "204px", maxHeight: "204px" }}
               />
@@ -171,7 +173,7 @@ const ProfileElement: React.FC<PropsType> = ({
             <FollowBlock>
               <div>
                 <div>
-                  <FollowSpan>2 218</FollowSpan>
+                  <FollowSpan>2 218 Сделать</FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('following')}</FollowSpan>
@@ -179,7 +181,7 @@ const ProfileElement: React.FC<PropsType> = ({
               </div>
               <div>
                 <div>
-                  <FollowSpan>2 358</FollowSpan>
+                  <FollowSpan>2 358 Сделать</FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('followers')}</FollowSpan>
@@ -187,7 +189,7 @@ const ProfileElement: React.FC<PropsType> = ({
               </div>
               <div>
                 <div>
-                  <FollowSpan>2 358</FollowSpan>
+                  <FollowSpan>2 358 Сделать</FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('publications')}</FollowSpan>
@@ -196,7 +198,7 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{user?.userInfo || t('about_me')}</AboutMeText>
+              <AboutMeText>{user?.aboutMe || t('about_me')}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>

@@ -1,6 +1,6 @@
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 
-import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi' // ?
+import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi'
 import { LoginResponseType } from 'assets/store/api/auth/types'
 import { Button } from 'common/components/Button/Button'
 import { FormikLabel } from 'common/components/Formik/FormikLabel'
@@ -16,13 +16,12 @@ import { ProvidersPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
-import { NextRouter, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
 import showPasswordBtn from 'public/img/icons/eye-outline.svg'
-import { deviceDetect, browserName, osName } from 'react-device-detect'
 import {
   StyledContainerAuth,
   StyledForgotLink,
@@ -37,12 +36,11 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 import { useLazyProfileQuery } from '../../../assets/store/api/profile/profileApi'
-import { UserProfileType } from '../../../assets/store/api/profile/types'
 
-type DeviceInfo = {
-  model: string | undefined
-  vendor: string | undefined
-}
+// type DeviceInfo = {
+//   model: string | undefined
+//   vendor: string | undefined
+// }
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
@@ -70,82 +68,27 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
 
 const Login = (props: ProvidersPropsType) => {
   const { provider } = props
-  /*   ________Инициализация_____________ */ // ?
-
-  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
-
-  /*   ________/Инициализация_____________ */ // ?
-
   const { t } = useTranslation()
   const route = useRouter()
   const { passwordType, showPassword } = useShowPassword()
-
   const { removeItem, setItem } = useLocalStorage()
-  // const { data: session, status } = useSession();
-  // const status = "unauthenticated";
-  // const session = "";
-
-  const [ip, setIp] = useState('')
-  const [vendor, setVendor] = useState('')
-  const [model, setModel] = useState('')
-
-  const { getItem } = useLocalStorage()
-
-  useLayoutEffect(() => {
-    // const token = getItem('accessToken')
-    // if (token) {
-    //   route.push('/profile')
-    // }
-  }, [])
-
-  useEffect(() => {
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(res => setIp(res.ip))
-  }, [])
-
-  useEffect(() => {
-    const deviceInfo = deviceDetect(navigator.userAgent) as DeviceInfo
-
-    if (deviceInfo.model) {
-      setModel(deviceInfo.model)
-    }
-
-    if (deviceInfo.vendor) {
-      setVendor(deviceInfo.vendor)
-    }
-  }, [])
+  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
+  const [loginHandler, { data: loginRes }] = useLoginMutation()
+  const [profileHandler, { data: profile }] = useLazyProfileQuery()
 
   const initialAuthValues = {
     password: '',
-    loginOrEmail: '',
+    email: '',
   }
 
-  const [loginHandler, { data: loginRes }] = useLoginMutation()
-  // const [profileHandler, { data: profile }] = useLazyProfileQuery()
-  //
-  // // redirect(loginRes, setItem, profileHandler, route)
-  //
-  // console.log('profile', profile)
-  // if (profile) {
-  //   profile.firstName !== null ? route.push(Path.PROFILE) : route.push(Path.PROFILE_SETTINGS)
-  // }
   const handleSubmit = async (
     values: FormValueLogin,
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
-      email: values.loginOrEmail,
+      email: values.email,
       password: values.password,
-      // ip,
-      // browserName,
-      // deviceName: `${vendor} ${model}`,
     }
-
-    //
-    // if (data.deviceName.length < 2) {
-    //   data.deviceName = `Desktop/${osName}`
-    // }
 
     try {
       await loginHandler(data)
@@ -154,6 +97,7 @@ const Login = (props: ProvidersPropsType) => {
         .then(res => {
           removeItem('email')
           setItem('userEmail', data.email)
+          getInitialize()
           resetForm()
         })
         .catch(() => setFieldError('password', t('log_in_err')))
@@ -161,22 +105,65 @@ const Login = (props: ProvidersPropsType) => {
       console.log('LoginError:', err)
     }
   }
-  //
-  // useEffect(() => {
-  //   getInitialize()
-  //
-  //   const token = getItem('accessToken')
-  //
-  //   if (token && me) {
-  //     route.push('/profile')
-  //   }
-  // }, [me])
 
   useEffect(() => {
-    redirect(loginRes, setItem, route)
+    if (me) {
+      profileHandler(me.userId)
+      if (profile && me.userId) {
+        const isEmpty = Object.keys(profile).every(key => {
+          const value = profile[key]
+
+          return value !== null && value !== '' && !(Array.isArray(value) && value.length === 0)
+        })
+
+        isEmpty ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?status=false`)
+      }
+    }
+  }, [me, profile])
+
+  useEffect(() => {
+    if (loginRes) {
+      setItem('accessToken', loginRes.accessToken)
+    }
+    if (me?.userId) {
+      setItem('userEmail', me.email)
+      setItem('name', me.userName)
+      setItem('userId', me.userId)
+    }
   }, [me, isLoading, error, loginRes])
 
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>
+
+  // const [ip, setIp] = useState('')
+  // const [vendor, setVendor] = useState('')
+  // const [model, setModel] = useState('')
+  //
+  // const { getItem } = useLocalStorage()
+  //
+  // useLayoutEffect(() => {
+  // const token = getItem('accessToken')
+  // if (token) {
+  //   route.push('/profile')
+  // }
+  // }, [])
+  //
+  // useEffect(() => {
+  //   fetch('https://ipapi.co/json/')
+  //     .then(res => res.json())
+  //     .then(res => setIp(res.ip))
+  // }, [])
+  //
+  // useEffect(() => {
+  //   const deviceInfo = deviceDetect(navigator.userAgent) as DeviceInfo
+  //
+  //   if (deviceInfo.model) {
+  //     setModel(deviceInfo.model)
+  //   }
+  //
+  //   if (deviceInfo.vendor) {
+  //     setVendor(deviceInfo.vendor)
+  //   }
+  // }, [])
 
   return (
     <StyledContainerAuth>
@@ -190,15 +177,15 @@ const Login = (props: ProvidersPropsType) => {
           {({ errors, touched, values, setFieldValue }) => (
             <StyledAuthForm>
               <FormikLabel
-                border={errors.loginOrEmail?.length && touched.loginOrEmail ? 'red' : 'white'}
+                border={errors.email?.length && touched.email ? 'red' : 'white'}
                 errors={errors}
-                name="loginOrEmail"
+                name="email"
                 t={t}
                 title={t('email_label')}
                 touched={touched}
                 type="text"
-                value={values.loginOrEmail}
-                onChange={e => setFieldValue('loginOrEmail', e)}
+                value={values.email}
+                onChange={e => setFieldValue('email', e)}
               />
               <FormikLabel
                 border={errors.password?.length && touched.password ? 'red' : 'white'}
@@ -242,20 +229,11 @@ const Login = (props: ProvidersPropsType) => {
 Login.getLayout = getLayout
 export default Login
 
-export const redirect = (
-  loginRes: LoginResponseType | undefined,
-  setItem: (key: string, value: string) => void,
-  // profileHandler: (id: number) => void,
-  // id: number,
-  // profile: UserProfileType,
-  route: NextRouter
-) => {
-  if (loginRes) {
-    setItem('accessToken', loginRes.accessToken)
-    // eslint-disable-next-line no-magic-numbers
-    // profileHandler(id)
-    // profile.aboutMe
-    //   ? route.push(Path.PROFILE)
-    //   : route.push(`${Path.PROFILE_SETTINGS}?profile=${profile}`)
-  }
-}
+// export const redirect = (
+//   loginRes: LoginResponseType | undefined,
+//   setItem: (key: string, value: string) => void
+// ) => {
+//   if (loginRes) {
+//     setItem('accessToken', loginRes.accessToken)
+//   }
+// }

@@ -7,8 +7,9 @@ export const registrationErrorHandler = (
   t: TFunction<'translation', undefined>,
   { setFieldError }: SetFieldErrorType
 ): void => {
+  console.log(error)
   if ('data' in error) {
-    const messages = error.data.errorsMessages
+    const { messages } = error.data
 
     messages.forEach(({ message, field }) => {
       let tMessage = ''
@@ -17,35 +18,17 @@ export const registrationErrorHandler = (
         case 'Invalid email':
           tMessage = t('invalid_email')
           break
-        case 'User with this email is already registered':
+        case 'User with this email is already exist':
           tMessage = t('email_err')
           break
-        case 'User with this username is already registered':
+        case 'User with this userName is already exist':
           tMessage = t('user_err')
           break
         default:
           tMessage = t('some_err')
       }
+      console.log(field, tMessage)
       setFieldError(field, tMessage)
     })
-
-    // if (messages.length > 1) {
-    //   setFieldError("username", t("user_err"));
-    //   messages[1].message === "Invalid email"
-    //     ? setFieldError("email", t("invalid_email"))
-    //     : setFieldError("email", t("email_err"));
-    // } else {
-    //   if (messages[0].field === "email") {
-    //     if (messages[0].message === "Invalid email") {
-    //       setFieldError("email", t("invalid_email"));
-    //     } else {
-    //       setFieldError("email", t("email_err"));
-    //     }
-    //     setFieldError("username", "");
-    //   } else {
-    //     setFieldError("username", t("user_err"));
-    //     setFieldError("email", "");
-    //   }
-    // }
   }
 }
