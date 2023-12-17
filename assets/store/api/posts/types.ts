@@ -5,6 +5,13 @@ type Images = {
 export type CreatePostRequest = {
   description: string
 }
+export type CreatePostDescriptionRequest = {
+  childrenMetadata: ChildrenMetadataType[]
+  description: string
+}
+export type ChildrenMetadataType = {
+  uploadId: string
+}
 
 export type EditPostRequest = {
   body: CreatePostRequest
@@ -18,20 +25,64 @@ export type CreatePostResponse = {
   images: Images[]
   userId: number
 }
+export type CreatePostImagesResponse = {
+  images: Images[]
+}
 
 export type GetPostResponse = CreatePostResponse
-
-export type GetUserAllPostsResponse = {
-  items: CreatePostResponse[]
-  page: number
-  pageSize: number
-  pagesCount: number
-  totalCount: number
-}
 
 export type GetUserAllPostsRequest = {
   idLastUploadedPost?: number
   pageNumber?: number
   pageSize?: number
+  sortBy: string
   sortDirection?: string
+}
+
+export type GetUserAllPostsResponse = {
+  items: ItemsPostType[]
+  pageSize: number
+  totalCount: number
+  totalUsers: number
+}
+
+export type ItemsPostType = {
+  avatarOwner: string
+  createdAt: string
+  description: string
+  id: number
+  images: ImagesPostType[]
+  location: string
+  owner: OwnerPostType
+  ownerId: number
+  updatedAt: string
+}
+
+export type ImagesPostType = {
+  fileSize: number
+  height: number
+  uploadId: string
+  url: string
+  width: number
+}
+
+export type OwnerPostType = {
+  firstName: string
+  lastName: string
+}
+
+export type Owner = {
+  firstName?: any
+  lastName?: any
+}
+
+export type CreatePostDescriptionResponse = {
+  createdAt: string
+  description: string
+  id: number
+  images: any[]
+  location?: any
+  owner: OwnerPostType
+  ownerId: number
+  updatedAt: string
 }

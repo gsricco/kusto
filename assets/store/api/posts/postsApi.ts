@@ -6,13 +6,16 @@ import {
   fetchBaseQuery,
   retry,
 } from '@reduxjs/toolkit/query/react'
-import { setItem } from 'common/hooks/useLocalStorage'
+import { getItem, setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
 import {
+  CreatePostDescriptionRequest,
+  CreatePostDescriptionResponse,
+  CreatePostImagesResponse,
   CreatePostResponse,
   EditPostRequest,
   GetPostResponse,
@@ -31,7 +34,7 @@ const baseQuery = retry(
     baseUrl: 'https://inctagram.work/api/v1/',
     credentials: 'include',
     prepareHeaders: (headers, { endpoint }) =>
-      contentTypeSetup(headers, { endpoint }, ['createPost']),
+      contentTypeSetup(headers, { endpoint }, ['createPost', 'createPostImages']),
   }),
   {
     maxRetries: 1,
@@ -82,14 +85,32 @@ export const postsApi = createApi({
   refetchOnReconnect: true,
   tagTypes: ['editPost', 'deletePost', 'createPost'],
   endpoints: builder => ({
-    createPost: builder.mutation<CreatePostResponse, FormData>({
+    createPost: builder.mutation<CreatePostDescriptionResponse, CreatePostDescriptionRequest>({
       query: body => ({
-        url: 'post',
+        url: 'posts',
         method: 'POST',
         body,
       }),
       invalidatesTags: ['createPost'],
     }),
+    createPostImages: builder.mutation<CreatePostImagesResponse, FormData>({
+      query: body => ({
+        url: 'posts/image',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['createPost'],
+    }),
+    // createPostDescription: builder.mutation<CreatePostResponse, FormData>({
+    //   query: body => ({
+    //     url: 'posts',
+    //     method: 'POST',
+    //     body,
+    //   }),
+    //   invalidatesTags: ['createPost'],
+    // }),
+    //
+
     updatePost: builder.mutation<void, EditPostRequest>({
       query: ({ body, postId }) => ({
         url: `post/${postId}`,
@@ -98,7 +119,7 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ['editPost'],
     }),
-    getPost: builder.query<GetPostResponse, string>({
+    getPost: builder.query<GetPostResponse, number>({
       query: postId => ({
         url: `post/${postId}`,
         method: 'GET',
@@ -119,7 +140,7 @@ export const postsApi = createApi({
       }),
       providesTags: ['deletePost', 'createPost'],
     }),
-    getUserAllPosts: builder.query<GetUserAllPostsRequest, unknown>({
+    getUserAllPosts: builder.query<GetUserAllPostsResponse, GetUserAllPostsRequest>({
       query: ({ idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
         // url: `posts/user/${idLastUploadedPost}?sortBy=${sortBy}&pageSize=${pageSize}&sortDirection=${sortDirection}`,
         url: `posts/user/`,
@@ -139,4 +160,5 @@ export const {
   useGetUserPostsQuery,
   useGetPostQuery,
   useGetUserAllPostsQuery,
+  useCreatePostImagesMutation,
 } = postsApi

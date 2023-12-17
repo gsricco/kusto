@@ -59,8 +59,14 @@ const MyProfile = () => {
 
   const { t } = useTranslation()
   // eslint-disable-next-line no-magic-numbers
-  const { data: data1, status: status1 } = useGetUserAllPostsQuery({})
-  console.log('post', data1, status1)
+  const { data: data1, status: status1 } = useGetUserAllPostsQuery({
+    pageSize: undefined,
+    pageNumber: undefined,
+    idLastUploadedPost: undefined,
+    sortBy: '',
+    sortDirection: undefined,
+  })
+  console.log('posts', data1, status1)
   const posts = data1?.items || []
 
   useEffect(() => {
@@ -145,7 +151,7 @@ const PostsWrapper = styled.div`
   padding-left: 10px;
   padding-bottom: 20px;
   /* padding-top: 53px;
-                      padding-right: 24px; */
+                        padding-right: 24px; */
 
   @media (max-width: 960px) {
     padding-left: 10px;

@@ -193,7 +193,7 @@ const GeneralInformation = () => {
                     type="text"
                     value={values.username}
                     width="100%"
-                    onChange={e => setFieldValue('username', e)}
+                    onChange={e => setFieldValue('username', values.username)}
                   />
                   <FormikLabel
                     border={errors.firstname?.length && touched.firstname ? 'red' : 'white'}

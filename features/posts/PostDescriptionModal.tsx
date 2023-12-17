@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 import { useState } from 'react'
 
-import { useCreatePostMutation } from 'assets/store/api/posts/postsApi'
+import { useCreatePostImagesMutation, useCreatePostMutation } from 'assets/store/api/posts/postsApi'
 import { ImageToolModal } from 'common/hoc/ImageToolModal'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
@@ -29,6 +29,7 @@ const PostDescriptionModal = ({
   const [disabled, setDisabled] = useState(false)
 
   const [createPostHandler] = useCreatePostMutation() // сохрание поста на сервере
+  const [createPostImageHandler] = useCreatePostImagesMutation() // сохрание image поста на сервере
 
   const { t } = useTranslation('post_cr')
 
@@ -45,19 +46,41 @@ const PostDescriptionModal = ({
     for (const photoPostEl of photoPost) {
       const result = await fetch(photoPostEl.photoUrlWithFilter)
       const blob = await result.blob()
-      const file = new File([blob], 'avatar', { type: 'image/jpeg' })
+      const file = new File([blob], 'file', { type: 'image/jpeg' })
 
       // добавление file в FormData
-      formData.append('posts', file as File)
+      formData.append('file', file as File)
     }
     // добавление описания в FormData
-    formData.append('description', description)
+    // formData.append('description', description)
+
+    let dataPost = {
+      // description,
+      // childrenMetadata: [
+      //   {
+      //     uploadId: 'string',
+      //   },
+      // ],
+    }
 
     setDisabled(true)
-    createPostHandler(formData)
-      .unwrap()
-      .then(() => handleModalClose())
-      .catch(error => console.log(error))
+    createPostImageHandler(formData)
+      .then(res => {
+        dataPost = {
+          description,
+          childrenMetadata: [
+            {
+              uploadId: res.data.images[0].uploadId,
+            },
+          ],
+        }
+      })
+      .then(() => {
+        createPostHandler(dataPost)
+          .unwrap()
+          .then(() => handleModalClose())
+          .catch(error => console.log(error))
+      })
   }
 
   return (

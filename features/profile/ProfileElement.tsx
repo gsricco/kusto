@@ -154,7 +154,7 @@ const ProfileElement: React.FC<PropsType> = ({
               <Image
                 alt="avatar"
                 height={avatarSize}
-                src={user?.avatars.length > 0 ? user?.avatars[0].url : avatar}
+                src={user?.avatars && user?.avatars.length > 0 ? user?.avatars[0].url : avatar}
                 width={avatarSize}
                 // style={{ maxWidth: "204px", maxHeight: "204px" }}
               />

@@ -25,6 +25,7 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { baseTheme } from 'styles/styledComponents/theme'
+import { useRouter } from 'next/router'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -48,11 +49,19 @@ const Recovery = () => {
   const [recoveryHandler, result] = useSendRecoveryLinkMutation()
 
   const { t } = useTranslation()
+
+  const router = useRouter()
+  const { code } = router.query
+  console.log('code', code)
+  /// /////////// ПЕРЕДЕЛАТЬ ПЕРЕХОД ПО НОРМАЛЬНОМУ АДРЕСУ
+  if (code !== undefined) router.push(`${Path.NEW_PASSWORD}?code=${code}`)
+
   const captchaRef = useRef<ReCAPTCHA>(null)
 
-  const secret = '6LcmGd8nAAAAAEYCarXOl4AWXZ80PLvtwAy58X-v'
-  // const secret = '6LfqLy8pAAAAAN6j3g4fBDOhGF6uqVNcEbGQmqwQ'
-  // const secret = process.env.RECAPTCHA_SITE_KEY as string
+  // const secret = '6LcmGd8nAAAAAEYCarXOl4AWXZ80PLvtwAy58X-v'
+  // const secret = 'AIzaSyBME4uvSLsmVFDInIRRIKjYa6-DiygeILw'
+  const secret = '6LeY2y0mAAAAANwI_paCWfoksCgBm1n2z9J0nwNQ'
+  // const secret = '6LeY2y0mAAAAAN8bWU4ElOZIEnRAqugcHy0PGOpO'
 
   const handleModalClose = () => {
     setIsModalOpen(false)
