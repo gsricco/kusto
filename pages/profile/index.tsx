@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
 import {
-  useLazyGetUserPostsQuery,
+  // useLazyGetUserPostsQuery,
   useLazyGetPostQuery,
-  useGetPostQuery,
-  useGetUserPostsQuery,
+  // useGetPostQuery,
+  // useGetUserPostsQuery,
   useGetUserAllPostsQuery,
 } from 'assets/store/api/posts/postsApi'
-import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
+// import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
 import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
 import Post from 'common/components/Post/Post'
 import ProfileElement from 'features/profile/ProfileElement'
@@ -20,7 +20,7 @@ import postWithoutImage from 'public/img/404.svg'
 import { styled } from 'styled-components'
 
 import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
-import { codeCheckLink } from '../../common/utils/codeCheckLink'
+// import { codeCheckLink } from '../../common/utils/codeCheckLink'
 import { getItem } from '../../common/hooks/useLocalStorage'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
@@ -38,7 +38,7 @@ const postsAmount = 9
 const MyProfile = () => {
   // const { resultName: profileId } = codeCheckLink('profileId')
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
-  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
+  // const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
   // const [posts, setPosts] = useState<CreatePostResponse[]>([])
   // const totalCount = data?.totalCount || 0
@@ -79,18 +79,18 @@ const MyProfile = () => {
       })
   }, [])
 
-  useEffect(() => {
-    if (userId && isFetching && posts.length < totalCount) {
-      getUserPosts({ userId, pageNumber, pageSize })
-        .unwrap()
-        .then(res => {
-          setPageCount(res.pagesCount)
-          setPageSize(prev => prev + postsAmount)
-          setIsFetching(false)
-          setTotalCount(res.totalCount)
-        })
-    }
-  }, [isFetching, userId])
+  // useEffect(() => {
+  //   if (userId && isFetching && posts.length < totalCount) {
+  //     getUserPosts({ userId, pageNumber, pageSize })
+  //       .unwrap()
+  //       .then(res => {
+  //         setPageCount(res.pagesCount)
+  //         setPageSize(prev => prev + postsAmount)
+  //         setIsFetching(false)
+  //         setTotalCount(res.totalCount)
+  //       })
+  //   }
+  // }, [isFetching, userId])
 
   const scrollHandler = () => {
     const { scrollHeight } = document.documentElement

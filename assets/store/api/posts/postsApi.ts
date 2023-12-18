@@ -16,13 +16,13 @@ import {
   CreatePostDescriptionRequest,
   CreatePostDescriptionResponse,
   CreatePostImagesResponse,
-  CreatePostResponse,
+  // CreatePostResponse,
   EditPostRequest,
   GetPostResponse,
   GetUserAllPostsRequest,
   GetUserAllPostsResponse,
-  GetUserPostsRequest,
-  GetUserPostsResponse,
+  // GetUserPostsRequest,
+  // GetUserPostsResponse,
 } from './types'
 
 const statusCode = 401
@@ -47,14 +47,14 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
   extraOptions
 ) => {
   let result = await baseQuery(args, api, extraOptions)
-
+  console.log('result', result.status)
   if (result.error) {
     const res = result as NotAuthorization
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
         {
-          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          url: 'https://inctagram.work/api/v1/auth/update-tokens',
           body: browserData,
           method: 'POST',
         },
@@ -121,7 +121,7 @@ export const postsApi = createApi({
     }),
     getPost: builder.query<GetPostResponse, number>({
       query: postId => ({
-        url: `post/${postId}`,
+        url: `posts/p/${postId}`,
         method: 'GET',
       }),
       providesTags: ['editPost'],
@@ -133,20 +133,20 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ['deletePost'],
     }),
-    getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
-      query: ({ userId, pageNumber, pageSize }) => ({
-        url: `public-posts/user/${userId}}?sortBy=${pageNumber}&pageSize=${pageSize}&sortDirection=${''}`,
-        method: 'GET',
-      }),
-      providesTags: ['deletePost', 'createPost'],
-    }),
+    // getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
+    //   query: ({ userId, pageNumber, pageSize }) => ({
+    //     url: `public-posts/user/${userId}}?sortBy=${pageNumber}&pageSize=${pageSize}&sortDirection=${''}`,
+    //     method: 'GET',
+    //   }),
+    //   providesTags: ['deletePost', 'createPost'],
+    // }),
     getUserAllPosts: builder.query<GetUserAllPostsResponse, GetUserAllPostsRequest>({
       query: ({ idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
         // url: `posts/user/${idLastUploadedPost}?sortBy=${sortBy}&pageSize=${pageSize}&sortDirection=${sortDirection}`,
         url: `posts/user/`,
         method: 'GET',
       }),
-      // providesTags: ['deletePost', 'createPost'],
+      providesTags: ['deletePost', 'createPost'],
     }),
   }),
 })
@@ -156,8 +156,8 @@ export const {
   useUpdatePostMutation,
   useDeletePostMutation,
   useLazyGetPostQuery,
-  useLazyGetUserPostsQuery,
-  useGetUserPostsQuery,
+  // useLazyGetUserPostsQuery,
+  // useGetUserPostsQuery,
   useGetPostQuery,
   useGetUserAllPostsQuery,
   useCreatePostImagesMutation,

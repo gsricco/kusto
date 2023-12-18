@@ -1,6 +1,6 @@
-type Images = {
-  url: string
-}
+// type Images = {
+//   url: string
+// }
 
 export type CreatePostRequest = {
   description: string
@@ -22,11 +22,11 @@ export type CreatePostResponse = {
   createdAt: string
   description: string
   id: string
-  images: Images[]
+  images: ImagesPostType[]
   userId: number
 }
 export type CreatePostImagesResponse = {
-  images: Images[]
+  images: ImagesPostType[]
 }
 
 export type GetPostResponse = CreatePostResponse
@@ -71,17 +71,17 @@ export type OwnerPostType = {
   lastName: string
 }
 
-export type Owner = {
-  firstName?: any
-  lastName?: any
-}
+// export type Owner = {
+//   firstName?: string
+//   lastName?: string
+// }
 
 export type CreatePostDescriptionResponse = {
   createdAt: string
   description: string
   id: number
-  images: any[]
-  location?: any
+  images: ImagesPostType[]
+  location?: string
   owner: OwnerPostType
   ownerId: number
   updatedAt: string

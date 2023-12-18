@@ -8,6 +8,7 @@ import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
 
 import { PhotoType } from './PostCreationModal'
+import { CreatePostDescriptionRequest } from '../../assets/store/api/posts/types'
 
 ///  //   Модальное окно с областью отображения отредактированных   //  ///
 //          изображений и добавлением описания к ним          //
@@ -54,25 +55,20 @@ const PostDescriptionModal = ({
     // добавление описания в FormData
     // formData.append('description', description)
 
-    let dataPost = {
-      // description,
-      // childrenMetadata: [
-      //   {
-      //     uploadId: 'string',
-      //   },
-      // ],
-    }
+    let dataPost: CreatePostDescriptionRequest
 
     setDisabled(true)
     createPostImageHandler(formData)
       .then(res => {
-        dataPost = {
-          description,
-          childrenMetadata: [
-            {
-              uploadId: res.data.images[0].uploadId,
-            },
-          ],
+        if ('data' in res) {
+          dataPost = {
+            description,
+            childrenMetadata: [
+              {
+                uploadId: res.data.images[0].uploadId,
+              },
+            ],
+          }
         }
       })
       .then(() => {
