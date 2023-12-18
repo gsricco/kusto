@@ -19,7 +19,7 @@ const Calendar = <TDate,>({ name, t }: Props<TDate>) => {
   const [field, meta] = useField(name)
   const { setFieldValue } = useFormikContext()
 
-  console.log(field.value)
+  // console.log(field.value)
 
   return (
     <>

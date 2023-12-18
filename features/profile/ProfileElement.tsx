@@ -113,7 +113,7 @@ const ProfileElement: React.FC<PropsType> = ({
   //   }
   // }, [width])
 
-  console.log(user)
+  // console.log(user)
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS)

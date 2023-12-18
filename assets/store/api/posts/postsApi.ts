@@ -27,7 +27,7 @@ import {
 
 const statusCode = 401
 
-const browserData = getBrowserInfo()
+// const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
@@ -47,15 +47,16 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
   extraOptions
 ) => {
   let result = await baseQuery(args, api, extraOptions)
-  console.log('result', result.status)
-  if (result.error) {
-    const res = result as NotAuthorization
 
-    if (res.error.originalStatus === statusCode) {
+  if (result.error) {
+    const res = result as { error: { status: number } }
+
+    if (res.error.status === statusCode) {
+      const accessToken = getItem('accessToken')
       const refreshResult = await baseQuery(
         {
           url: 'https://inctagram.work/api/v1/auth/update-tokens',
-          body: browserData,
+          body: { accessToken },
           method: 'POST',
         },
         api,

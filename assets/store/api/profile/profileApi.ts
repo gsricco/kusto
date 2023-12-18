@@ -6,7 +6,7 @@ import {
   fetchBaseQuery,
   retry,
 } from '@reduxjs/toolkit/query/react'
-import { setItem } from 'common/hooks/useLocalStorage'
+import { getItem, setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
@@ -16,7 +16,7 @@ import { AuthMeType, SaveProfileInfoType, UserProfileType, UserType } from './ty
 
 const statusCode = 401
 
-const browserData = getBrowserInfo()
+// const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
@@ -39,13 +39,14 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
   let result = await baseQuery(args, api, extraOptions)
 
   if (result.error) {
-    const res = result as NotAuthorization
+    const res = result as { error: { status: number } }
 
-    if (res.error.originalStatus === statusCode) {
+    if (res.error.status === statusCode) {
+      const accessToken = getItem('accessToken')
       const refreshResult = await baseQuery(
         {
-          url: 'https://kustogram.site/api/v1/auth/refresh-token',
-          body: browserData,
+          url: 'https://inctagram.work/api/v1/auth/update-tokens',
+          body: { accessToken },
           method: 'POST',
         },
         api,

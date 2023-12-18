@@ -66,7 +66,7 @@ const MyProfile = () => {
     sortBy: '',
     sortDirection: undefined,
   })
-  console.log('posts', data1, status1)
+  // console.log('posts', data1, status1)
   const posts = data1?.items || []
 
   useEffect(() => {
