@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import {
-  // useLazyGetUserPostsQuery,
-  useLazyGetPostQuery,
-  // useGetPostQuery,
-  // useGetUserPostsQuery,
-  useGetUserAllPostsQuery,
-} from 'assets/store/api/posts/postsApi'
-// import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
+import { useLazyGetPostQuery, useGetUserAllPostsQuery } from 'assets/store/api/posts/postsApi'
 import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
 import Post from 'common/components/Post/Post'
 import ProfileElement from 'features/profile/ProfileElement'
@@ -20,7 +13,6 @@ import postWithoutImage from 'public/img/404.svg'
 import { styled } from 'styled-components'
 
 import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
-// import { codeCheckLink } from '../../common/utils/codeCheckLink'
 import { getItem } from '../../common/hooks/useLocalStorage'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
@@ -36,39 +28,32 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const postsAmount = 9
 
 const MyProfile = () => {
-  // const { resultName: profileId } = codeCheckLink('profileId')
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
-  // const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
-
-  // const [posts, setPosts] = useState<CreatePostResponse[]>([])
-  // const totalCount = data?.totalCount || 0
-
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
+
   const [isPostActive, setIsPostActive] = useState(false)
 
+  const [endPostId, setEndPostId] = useState<number | null>(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(postsAmount)
   const [pageCount, setPageCount] = useState(1)
   const [userId, setUserId] = useState<number>(0)
-  // const [postInfo, setPostInfo] = useState<GetPostResponse | undefined>()
   const [totalCount, setTotalCount] = useState(postsAmount)
 
   const [isFetching, setIsFetching] = useState(true)
 
-  // const posts = data?.items || []
-
   const { t } = useTranslation()
   // eslint-disable-next-line no-magic-numbers
-  const { data: data1, status: status1 } = useGetUserAllPostsQuery({
+  const { data: dataPosts, status: status1 } = useGetUserAllPostsQuery({
     pageSize: undefined,
     pageNumber: undefined,
-    idLastUploadedPost: undefined,
+    endCursorPostId: endPostId,
     sortBy: '',
     sortDirection: undefined,
     userId: getItem('userId'),
   })
-  console.log('posts', data1, status1)
-  const posts = data1?.items || []
+  console.log('posts', dataPosts, status1)
+  const posts = dataPosts?.items || []
 
   useEffect(() => {
     getProfileInfo(getItem('userId'))
@@ -109,6 +94,16 @@ const MyProfile = () => {
     return () => document.removeEventListener('scroll', scrollHandler)
   }, [totalCount])
 
+  // useEffect(() => {
+  //   if (dataPosts) {
+  //     const id = dataPosts.items.at(-1)?.id
+  //
+  //     if (id) {
+  //       setEndPostId(id)
+  //     }
+  //   }
+  // }, [dataPosts])
+
   return (
     <>
       <ProfileElement t={t} user={user} />
@@ -130,7 +125,7 @@ const MyProfile = () => {
           )
         })}
       </PostsWrapper>
-      {isPostActive && (
+      {isPostActive && postInfo && (
         <Post
           login={(user?.userName as string) || ''}
           postInfo={postInfo}
@@ -152,7 +147,7 @@ const PostsWrapper = styled.div`
   padding-left: 10px;
   padding-bottom: 20px;
   /* padding-top: 53px;
-                          padding-right: 24px; */
+                                        padding-right: 24px; */
 
   @media (max-width: 960px) {
     padding-left: 10px;

@@ -114,22 +114,22 @@ export const postsApi = createApi({
 
     updatePost: builder.mutation<void, EditPostRequest>({
       query: ({ body, postId }) => ({
-        url: `post/${postId}`,
+        url: `posts/${postId}`,
         method: 'PUT',
         body,
       }),
       invalidatesTags: ['editPost'],
     }),
     getPost: builder.query<GetPostResponse, number>({
-      query: profileId => ({
-        url: `posts/p/${postId}`,
+      query: postId => ({
+        url: `public-posts/${postId}`,
         method: 'GET',
       }),
       providesTags: ['editPost'],
     }),
     deletePost: builder.mutation<void, number>({
       query: postId => ({
-        url: `post/${postId}`,
+        url: `posts/${postId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['deletePost'],
@@ -142,9 +142,10 @@ export const postsApi = createApi({
     //   providesTags: ['deletePost', 'createPost'],
     // }),
     getUserAllPosts: builder.query<GetUserAllPostsResponse, GetUserAllPostsRequest>({
-      query: ({ userId, idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
+      query: ({ userId, endCursorPostId, pageSize, sortBy, sortDirection }) => ({
         // url: `posts/user/${idLastUploadedPost}?sortBy=${sortBy}&pageSize=${pageSize}&sortDirection=${sortDirection}`,
-        url: `public-user/profile/${userId}`,
+        // url: `public-user/profile/${userId}`,
+        url: `/public-posts/user/${userId}/${endCursorPostId}`,
         method: 'GET',
       }),
       providesTags: ['deletePost', 'createPost'],
@@ -159,7 +160,7 @@ export const {
   useLazyGetPostQuery,
   // useLazyGetUserPostsQuery,
   // useGetUserPostsQuery,
-  useGetPostQuery,
+  // useGetPostQuery,
   useGetUserAllPostsQuery,
   useCreatePostImagesMutation,
 } = postsApi

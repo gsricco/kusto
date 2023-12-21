@@ -10,7 +10,11 @@ import { useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
 //   QueryStatus,
 // } from '@reduxjs/toolkit/dist/query'
 // import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
+import {
+  CreatePostDescriptionResponse,
+  CreatePostResponse,
+  GetPostResponse,
+} from 'assets/store/api/posts/types'
 import Image from 'next/image'
 import {
   PhotoStyle,
@@ -32,7 +36,7 @@ type PropsType = {
   isLoading: boolean
   // pageSize: number
   postSize: number
-  posts: CreatePostResponse[] | undefined
+  posts: CreatePostDescriptionResponse[] | undefined
   // scrollSize: number
   setIsPostActive: (isPostActive: boolean) => void
   // setPageSize: (pageSize: number) => void

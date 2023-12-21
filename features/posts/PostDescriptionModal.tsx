@@ -61,16 +61,11 @@ const PostDescriptionModal = ({
     createPostImageHandler(formData)
       .then(res => {
         if ('data' in res) {
+          const uploads = res.data.images.map(img => img.uploadId).filter((up, index) => index % 2)
+
           dataPost = {
             description,
-            childrenMetadata: [
-              {
-                uploadId: res.data.images[0].uploadId,
-              },
-              {
-                uploadId: res.data.images[2].uploadId,
-              },
-            ],
+            childrenMetadata: uploads.map(up => ({ uploadId: up })),
           }
         }
       })

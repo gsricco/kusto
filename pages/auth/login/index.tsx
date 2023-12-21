@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi'
-import { LoginResponseType } from 'assets/store/api/auth/types'
 import { Button } from 'common/components/Button/Button'
 import { FormikLabel } from 'common/components/Formik/FormikLabel'
 import { FormValueLogin, ResetForm, SetFieldErrorType } from 'common/components/Formik/types'
@@ -36,11 +35,6 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 import { useLazyProfileQuery } from '../../../assets/store/api/profile/profileApi'
-
-// type DeviceInfo = {
-//   model: string | undefined
-//   vendor: string | undefined
-// }
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
@@ -134,37 +128,6 @@ const Login = (props: ProvidersPropsType) => {
 
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>
 
-  // const [ip, setIp] = useState('')
-  // const [vendor, setVendor] = useState('')
-  // const [model, setModel] = useState('')
-  //
-  // const { getItem } = useLocalStorage()
-  //
-  // useLayoutEffect(() => {
-  // const token = getItem('accessToken')
-  // if (token) {
-  //   route.push('/profile')
-  // }
-  // }, [])
-  //
-  // useEffect(() => {
-  //   fetch('https://ipapi.co/json/')
-  //     .then(res => res.json())
-  //     .then(res => setIp(res.ip))
-  // }, [])
-  //
-  // useEffect(() => {
-  //   const deviceInfo = deviceDetect(navigator.userAgent) as DeviceInfo
-  //
-  //   if (deviceInfo.model) {
-  //     setModel(deviceInfo.model)
-  //   }
-  //
-  //   if (deviceInfo.vendor) {
-  //     setVendor(deviceInfo.vendor)
-  //   }
-  // }, [])
-
   return (
     <StyledContainerAuth>
       <WrapperContainerAuth title={t('signIn_title')}>
@@ -228,12 +191,3 @@ const Login = (props: ProvidersPropsType) => {
 
 Login.getLayout = getLayout
 export default Login
-
-// export const redirect = (
-//   loginRes: LoginResponseType | undefined,
-//   setItem: (key: string, value: string) => void
-// ) => {
-//   if (loginRes) {
-//     setItem('accessToken', loginRes.accessToken)
-//   }
-// }

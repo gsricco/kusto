@@ -21,7 +21,7 @@ export type EditPostRequest = {
 export type CreatePostResponse = {
   createdAt: string
   description: string
-  id: string
+  id: number
   images: ImagesPostType[]
   userId: number
 }
@@ -32,7 +32,7 @@ export type CreatePostImagesResponse = {
 export type GetPostResponse = CreatePostDescriptionResponse
 
 export type GetUserAllPostsRequest = {
-  idLastUploadedPost?: number
+  endCursorPostId?: number | null
   pageNumber?: number
   pageSize?: number
   sortBy: string
