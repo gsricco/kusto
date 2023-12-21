@@ -4,31 +4,24 @@ import {
   FetchBaseQueryError,
   createApi,
   fetchBaseQuery,
-  retry,
 } from '@reduxjs/toolkit/query/react'
-import { setItem } from 'common/hooks/useLocalStorage'
+import { getItem, setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
-import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
-import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
+import { RefreshTokenResponse } from '../auth/types'
 
 import {
   AllPaymentsResponse,
   AllSubscriptionsResponse,
   CurrentSubscription,
-  GetUserPaymentsRequest,
-  PaypalRequest,
-  PaypalResponse,
-  StripeRequest,
-  StripeResponse,
+  SubscribeRequest,
+  SubscribeResponse,
 } from './types'
 
 const statusCode = 401
 
-const browserData = getBrowserInfo()
-
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://kustogram.site/api/v1/payments',
+  baseUrl: 'https://inctagram.work/api/v1',
   credentials: 'include',
   method: 'POST',
   prepareHeaders: (headers, { endpoint }) => contentTypeSetup(headers, { endpoint }, []),
@@ -42,13 +35,14 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
   let result = await baseQuery(args, api, extraOptions)
 
   if (result.error) {
-    const res = result as NotAuthorization
+    const res = result as { error: { status: number } }
 
-    if (res.error.originalStatus === statusCode) {
+    if (res.error.status === statusCode) {
+      const accessToken = getItem('accessToken')
       const refreshResult = await baseQuery(
         {
-          url: 'https://kustogram.site/api/v1/auth/refresh-token',
-          body: browserData,
+          url: 'https://inctagram.work/api/v1/auth/update-tokens',
+          body: { accessToken },
           method: 'POST',
         },
         api,
@@ -76,21 +70,8 @@ export const paymentsApi = createApi({
   baseQuery: baseQueryWithReauth,
   refetchOnFocus: true,
   refetchOnReconnect: true,
+  tagTypes: ['getCurentSubscriptions'],
   endpoints: builder => ({
-    stripe: builder.mutation<StripeResponse, StripeRequest>({
-      query: body => ({
-        url: 'stripe',
-        method: 'POST',
-        body,
-      }),
-    }),
-    paypal: builder.mutation<PaypalResponse, PaypalRequest>({
-      query: body => ({
-        url: 'paypal',
-        method: 'POST',
-        body,
-      }),
-    }),
     subscriptions: builder.query<AllSubscriptionsResponse, void>({
       query: () => ({
         url: 'subscriptions',
@@ -99,24 +80,37 @@ export const paymentsApi = createApi({
     }),
     currentSubscription: builder.query<CurrentSubscription, void>({
       query: () => ({
-        url: 'current-subscription',
+        url: 'subscriptions/current-subscriptions',
+        method: 'GET',
+      }),
+      providesTags: ['getCurentSubscriptions'],
+    }),
+    payments: builder.query<AllPaymentsResponse, void>({
+      query: () => ({
+        url: `subscriptions/my-payments`,
         method: 'GET',
       }),
     }),
-    payments: builder.query<AllPaymentsResponse, GetUserPaymentsRequest>({
-      query: ({ page, pageSize }) => ({
-        url: `payments?pageNumber=${page}&pageSize=${pageSize}`,
-        method: 'GET',
+    autoReneval: builder.mutation<void, void>({
+      query: () => ({
+        url: `subscriptions/canceled-auto-renewal`,
+      }),
+      invalidatesTags: ['getCurentSubscriptions'],
+    }),
+    subscribe: builder.mutation<SubscribeResponse, SubscribeRequest>({
+      query: body => ({
+        url: `subscriptions`,
+        body,
       }),
     }),
   }),
 })
 
 export const {
-  useStripeMutation,
   usePaymentsQuery,
-  usePaypalMutation,
   useCurrentSubscriptionQuery,
   useSubscriptionsQuery,
   useLazyPaymentsQuery,
+  useAutoRenevalMutation,
+  useSubscribeMutation,
 } = paymentsApi

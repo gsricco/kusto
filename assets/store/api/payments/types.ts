@@ -19,17 +19,21 @@ export type AllSubscriptionsResponse = {
 }
 
 export type CurrentSubscription = {
-  expireAt: string
-  userId: string
+  data: Pick<Payment, 'dateOfPayment' | 'endDateOfSubscription' | 'subscriptionId' | 'userId'>[]
+  hasAutoRenewal: boolean
 }
 
-export type AllPaymentsResponse = {
-  items: ItemsType[]
-  page: number
-  pageSize: number
-  pagesCount: number
-  totalCount: number
+export type Payment = {
+  dateOfPayment: string
+  endDateOfSubscription: string
+  paymentType: string
+  price: number
+  subscriptionId: string
+  subscriptionType: string
+  userId: number
 }
+
+export type AllPaymentsResponse = Payment[]
 
 export type ItemsType = {
   dateOfPayments?: string | null | undefined
@@ -42,4 +46,15 @@ export type ItemsType = {
 export type GetUserPaymentsRequest = {
   page: number
   pageSize: number
+}
+
+export type SubscribeResponse = {
+  url: string
+}
+
+export type SubscribeRequest = {
+  amount: number
+  baseUrl: string
+  paymentType: string
+  typeSubscription: string
 }
