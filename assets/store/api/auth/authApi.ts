@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getItem } from 'common/hooks/useLocalStorage'
 
+import { profileApi } from '../profile/profileApi'
+
 import {
   CheckLinkType,
   LoginResponseType,
@@ -12,7 +14,6 @@ import {
   RegistrationType,
   SendLinkType,
 } from './types'
-import { profileApi } from '../profile/profileApi'
 
 export const authApi = createApi({
   reducerPath: 'authApi',

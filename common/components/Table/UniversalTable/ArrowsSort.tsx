@@ -2,6 +2,7 @@ import down from '../../../../public/img/icons/sort_down.svg'
 import downW from '../../../../public/img/icons/sort_down_w.svg'
 import up from '../../../../public/img/icons/sort_up.svg'
 import upW from '../../../../public/img/icons/sort_up_w.svg'
+
 import { SelectSortDirection } from './UniversalTable.styled'
 
 type ArrowsSortPropsType = {

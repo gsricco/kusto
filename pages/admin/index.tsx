@@ -5,12 +5,19 @@ import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
+import { filterByStatus } from 'common/utils/filterByStatus'
+import { Filtredusers } from 'features/admin/types'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import search from 'public/img/icons/search.svg'
 import { useTranslation } from 'react-i18next'
 
+import {
+  FormatDataTableType,
+  TableHeaderType,
+} from '../../common/components/Table/UniversalTable/types'
+import { UniversalTable } from '../../common/components/Table/UniversalTable/UniversalTable'
 import {
   SearchAdmin,
   SearchBarAdmin,
@@ -19,13 +26,6 @@ import {
 } from '../../features/admin/Admin.styled'
 import { SelectStatusAdmin } from '../../features/admin/SelectStatusAdmin'
 import PagesNavigation from '../../features/settings/Pagination'
-import { UniversalTable } from '../../common/components/Table/UniversalTable/UniversalTable'
-import {
-  FormatDataTableType,
-  TableHeaderType,
-} from '../../common/components/Table/UniversalTable/types'
-import { filterByStatus } from 'common/utils/filterByStatus'
-import { Filtredusers } from 'features/admin/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

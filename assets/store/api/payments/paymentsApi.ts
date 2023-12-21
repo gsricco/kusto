@@ -12,7 +12,6 @@ import { RefreshTokenResponse } from '../auth/types'
 
 import {
   AllPaymentsResponse,
-  AllSubscriptionsResponse,
   CurrentSubscription,
   SubscribeRequest,
   SubscribeResponse,
@@ -72,12 +71,6 @@ export const paymentsApi = createApi({
   refetchOnReconnect: true,
   tagTypes: ['getCurentSubscriptions'],
   endpoints: builder => ({
-    subscriptions: builder.query<AllSubscriptionsResponse, void>({
-      query: () => ({
-        url: 'subscriptions',
-        method: 'GET',
-      }),
-    }),
     currentSubscription: builder.query<CurrentSubscription, void>({
       query: () => ({
         url: 'subscriptions/current-subscriptions',
@@ -109,7 +102,6 @@ export const paymentsApi = createApi({
 export const {
   usePaymentsQuery,
   useCurrentSubscriptionQuery,
-  useSubscriptionsQuery,
   useLazyPaymentsQuery,
   useAutoRenevalMutation,
   useSubscribeMutation,

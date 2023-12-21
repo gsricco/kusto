@@ -8,7 +8,16 @@ import config from 'next-i18next.config.js'
 import { useTranslation } from 'react-i18next'
 
 import { GET_ALL_PAYMENTS, GET_TOTAL_COUNT_PAYMENTS } from '../../../assets/apollo/users'
+import {
+  FormatDataTableType,
+  TableHeaderType,
+} from '../../../common/components/Table/UniversalTable/types'
 import { UniversalTable } from '../../../common/components/Table/UniversalTable/UniversalTable'
+import {
+  CheckBoxPay,
+  CheckBoxPayWrapper,
+  CheckBoxTitle,
+} from '../../../common/components/Table/UniversalTable/UniversalTable.styled'
 import { useClient } from '../../../common/hooks/useClients'
 import { useDebounce } from '../../../common/hooks/useDebounce'
 import {
@@ -19,15 +28,6 @@ import {
 } from '../../../features/admin/Admin.styled'
 import PagesNavigation from '../../../features/settings/Pagination'
 import search from '../../../public/img/icons/search.svg'
-import {
-  FormatDataTableType,
-  TableHeaderType,
-} from '../../../common/components/Table/UniversalTable/types'
-import {
-  CheckBoxPay,
-  CheckBoxPayWrapper,
-  CheckBoxTitle,
-} from '../../../common/components/Table/UniversalTable/UniversalTable.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

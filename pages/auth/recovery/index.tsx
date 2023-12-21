@@ -12,6 +12,7 @@ import { validateRecovery } from 'common/utils/validateRecovery'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
@@ -25,7 +26,6 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { baseTheme } from 'styles/styledComponents/theme'
-import { useRouter } from 'next/router'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -52,6 +52,7 @@ const Recovery = () => {
 
   const router = useRouter()
   const { code } = router.query
+
   console.log('code', code)
   /// /////////// ПЕРЕДЕЛАТЬ ПЕРЕХОД ПО НОРМАЛЬНОМУ АДРЕСУ
   if (code !== undefined) router.push(`${Path.NEW_PASSWORD}?code=${code}`)

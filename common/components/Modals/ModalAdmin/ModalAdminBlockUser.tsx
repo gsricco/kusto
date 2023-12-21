@@ -2,14 +2,14 @@ import { ChangeEvent, useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 import { SelectStatusAdmin } from 'features/admin/SelectStatusAdmin'
+import { status } from 'nprogress'
 import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 import { GET_USERS, UPDATE_USER_STATUS } from '../../../../assets/apollo/users'
 import { ThemeButton } from '../../../enums/themeButton'
 import { Button } from '../../Button/Button'
 import Modal from '../ModalPublic/Modal'
-import { status } from 'nprogress'
-import { baseTheme } from 'styles/styledComponents/theme'
 
 type AdminBlockPropsType = {
   ban: boolean
