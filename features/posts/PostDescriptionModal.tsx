@@ -67,6 +67,9 @@ const PostDescriptionModal = ({
               {
                 uploadId: res.data.images[0].uploadId,
               },
+              {
+                uploadId: res.data.images[2].uploadId,
+              },
             ],
           }
         }

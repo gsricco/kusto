@@ -15,7 +15,7 @@ export type ChildrenMetadataType = {
 
 export type EditPostRequest = {
   body: CreatePostRequest
-  postId: string
+  postId: number
 }
 
 export type CreatePostResponse = {
@@ -29,7 +29,7 @@ export type CreatePostImagesResponse = {
   images: ImagesPostType[]
 }
 
-export type GetPostResponse = CreatePostResponse
+export type GetPostResponse = CreatePostDescriptionResponse
 
 export type GetUserAllPostsRequest = {
   idLastUploadedPost?: number
@@ -37,6 +37,7 @@ export type GetUserAllPostsRequest = {
   pageSize?: number
   sortBy: string
   sortDirection?: string
+  userId: number
 }
 
 export type GetUserAllPostsResponse = {

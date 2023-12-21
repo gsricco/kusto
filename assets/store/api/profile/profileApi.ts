@@ -83,7 +83,8 @@ export const profileApi = createApi({
     // }),
     profile: builder.query<UserProfileType, number>({
       query: (userId: number) => ({
-        url: `users/profile/${userId}`,
+        // url: `users/profile/${userId}`,
+        url: `users/profile`,
         method: 'GET',
       }),
       providesTags: ['UserInfo'],

@@ -7,7 +7,7 @@ import { Path } from '../../../common/enums/path'
 import { codeCheckLink } from '../../../common/utils/codeCheckLink'
 
 const CheckLink = () => {
-  const { code } = codeCheckLink()
+  const { resultName: code } = codeCheckLink('code')
   // const [checkLinkHandler] = useLazyCheckLinkHandlerQuery()
   const [checkLinkHandler] = useCheckLinkHandlerMutation()
   const router = useRouter()

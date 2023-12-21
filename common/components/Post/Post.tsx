@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
-import { CreatePostResponse } from 'assets/store/api/posts/types'
+import { CreatePostDescriptionResponse } from 'assets/store/api/posts/types'
 import { useAuthMeQuery, useProfileQuery } from 'assets/store/api/profile/profileApi'
 import Modal from 'common/components/Modals/ModalPublic/Modal'
 import Image from 'next/image'
@@ -21,12 +21,12 @@ import { fakeData } from './fakeData'
 
 type PostProps = {
   login: string
-  postInfo: CreatePostResponse | undefined
+  postInfo: CreatePostDescriptionResponse
   setIsPostActive: (state: boolean) => void
 }
 
 const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
-  const { data: profile } = useProfileQuery()
+  const { data: profile } = useProfileQuery(postInfo.ownerId)
 
   const [isLiked, setIsLiked] = useState(false)
   const [images, _] = useState(postInfo?.images)
@@ -48,15 +48,15 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
   }
   const switchFotoHandler = (direction: string): void => {
     if (images && direction === 'next') {
-      if (currentImage + 1 === images.length) {
+      if (currentImage + 2 === images.length) {
         setCurrentImage(0)
       } else {
-        setCurrentImage(prev => prev + 1)
+        setCurrentImage(prev => prev + 2)
       }
     } else if (images && currentImage === 0) {
-      setCurrentImage(images.length - 1)
+      setCurrentImage(images.length - 2)
     } else {
-      setCurrentImage(prev => prev - 1)
+      setCurrentImage(prev => prev - 2)
     }
   }
 
@@ -131,8 +131,13 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
             <StyledCommentsHeading>
               <CloseModal alt="close" src={close} onClick={() => setIsPostActive(false)} />
               <User>
-                <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
-                <StyledUsername>{profile?.login}</StyledUsername>
+                <StyledAvatar
+                  alt="avatar"
+                  height={48}
+                  src={profile?.avatars[0].url || ''}
+                  width={48}
+                />
+                <StyledUsername>{profile?.userName}</StyledUsername>
               </User>
               <EditPost
                 alt="more"
@@ -155,9 +160,14 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
             <CommentsWrapper>
               {postInfo?.description && (
                 <SingleCommentWrapper>
-                  <StyledAvatar alt="avatar" height={36} src={profile?.photo || ''} width={36} />
+                  <StyledAvatar
+                    alt="avatar"
+                    height={36}
+                    src={profile?.avatars[0].url || ''}
+                    width={36}
+                  />
                   <PostDescription>
-                    {profile?.login} {postInfo?.description}
+                    {profile?.userName} {postInfo?.description}
                   </PostDescription>
                 </SingleCommentWrapper>
               )}
@@ -196,7 +206,12 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
               <StyledIcon alt="close" src={close} onClick={closeDescriptionModal} />
             </EditPostHeader>
             <User>
-              <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
+              <StyledAvatar
+                alt="avatar"
+                height={48}
+                src={profile?.avatars[0].url || ''}
+                width={48}
+              />
               <StyledUsername>{login}</StyledUsername>
             </User>
             <NewDescriptionWrapper>
@@ -239,9 +254,11 @@ const NewDescription = styled.textarea.attrs({
   padding: 0 12px;
   height: 120px;
   resize: none;
+
   &::-webkit-scrollbar {
     width: 0;
   }
+
   border: 1px solid #4c4c4c;
 `
 
@@ -278,6 +295,7 @@ const ModalButton = styled.button`
   color: #397df6;
   background: #333333;
   cursor: pointer;
+
   &:hover {
     color: white;
     background: #397df6;
@@ -390,6 +408,7 @@ const CommentsWrapper = styled.div`
   flex-direction: column;
   gap: 15px;
   overflow-y: scroll;
+
   &::-webkit-scrollbar {
     width: 0;
   }

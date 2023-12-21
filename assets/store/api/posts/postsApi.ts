@@ -121,13 +121,13 @@ export const postsApi = createApi({
       invalidatesTags: ['editPost'],
     }),
     getPost: builder.query<GetPostResponse, number>({
-      query: postId => ({
+      query: profileId => ({
         url: `posts/p/${postId}`,
         method: 'GET',
       }),
       providesTags: ['editPost'],
     }),
-    deletePost: builder.mutation<void, string>({
+    deletePost: builder.mutation<void, number>({
       query: postId => ({
         url: `post/${postId}`,
         method: 'DELETE',
@@ -142,9 +142,9 @@ export const postsApi = createApi({
     //   providesTags: ['deletePost', 'createPost'],
     // }),
     getUserAllPosts: builder.query<GetUserAllPostsResponse, GetUserAllPostsRequest>({
-      query: ({ idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
+      query: ({ userId, idLastUploadedPost, pageSize, sortBy, sortDirection }) => ({
         // url: `posts/user/${idLastUploadedPost}?sortBy=${sortBy}&pageSize=${pageSize}&sortDirection=${sortDirection}`,
-        url: `posts/user/`,
+        url: `public-user/profile/${userId}`,
         method: 'GET',
       }),
       providesTags: ['deletePost', 'createPost'],

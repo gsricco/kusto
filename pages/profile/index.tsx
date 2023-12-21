@@ -65,8 +65,9 @@ const MyProfile = () => {
     idLastUploadedPost: undefined,
     sortBy: '',
     sortDirection: undefined,
+    userId: getItem('userId'),
   })
-  // console.log('posts', data1, status1)
+  console.log('posts', data1, status1)
   const posts = data1?.items || []
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const MyProfile = () => {
       </PostsWrapper>
       {isPostActive && (
         <Post
-          login={(user?.login as string) || ''}
+          login={(user?.userName as string) || ''}
           postInfo={postInfo}
           setIsPostActive={setIsPostActive}
         />
@@ -151,7 +152,7 @@ const PostsWrapper = styled.div`
   padding-left: 10px;
   padding-bottom: 20px;
   /* padding-top: 53px;
-                        padding-right: 24px; */
+                          padding-right: 24px; */
 
   @media (max-width: 960px) {
     padding-left: 10px;
