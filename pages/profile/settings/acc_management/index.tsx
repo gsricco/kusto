@@ -59,7 +59,6 @@ const AccountManagement = () => {
   const { data: currentSubscriptions } = useCurrentSubscriptionQuery()
 
   const [isBusiness, setIsBusiness] = useState(false)
-  // const [selectedId, setSelectedId] = useState('1')
   const [selectedAccType, setSelectedAccType] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string>('DAY')
   const [expireAt, setExpiteAt] = useState('')

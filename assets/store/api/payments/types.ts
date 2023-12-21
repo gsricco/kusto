@@ -1,23 +1,3 @@
-export type StripeResponse = {
-  url: string
-}
-
-export type PaypalResponse = StripeResponse
-
-export type CommonType = {
-  productId: string
-  quantity: number
-}
-
-export type PaypalRequest = CommonType[]
-export type StripeRequest = CommonType[]
-
-export type AllSubscriptionsResponse = {
-  idProduct: string
-  nameSubscription: string
-  price: number
-}
-
 export type CurrentSubscription = {
   data: Pick<Payment, 'dateOfPayment' | 'endDateOfSubscription' | 'subscriptionId' | 'userId'>[]
   hasAutoRenewal: boolean
