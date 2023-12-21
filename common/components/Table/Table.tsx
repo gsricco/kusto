@@ -1,9 +1,8 @@
-import React from 'react'
-
 import { AllPaymentsResponse } from 'assets/store/api/payments/types'
 import { convertCentsToDollars } from 'common/utils/convertCentsToDollars'
 import { dateParser } from 'common/utils/dateParser'
 import { getSubscriptionType } from 'common/utils/getSubscriptionType'
+import { textTransform } from 'common/utils/textTransform'
 import { TFunction } from 'i18next'
 import {
   Cell,
@@ -37,19 +36,20 @@ const PaymentsTable = ({ t, payments, language }: TableProps) => {
           </HeadingText>
         ))}
       </TableHeading>
-      {payments?.items.map(payment => (
-        <TableRow key={payment.dateOfPayments}>
-          <Cell style={{ paddingLeft: '24px' }}>
-            {payment.dateOfPayments ? dateParser(payment.dateOfPayments) : '-'}
-          </Cell>
-          <Cell>
-            {payment.endDateOfSubscription ? dateParser(payment.endDateOfSubscription) : '-'}
-          </Cell>
-          <Cell>{convertCentsToDollars(payment.price)}</Cell>
-          <Cell>{getSubscriptionType(payment.price, language)}</Cell>
-          <Cell>{payment.paymentType}</Cell>
-        </TableRow>
-      ))}
+      {payments &&
+        payments?.map(payment => (
+          <TableRow key={payment.subscriptionId}>
+            <Cell style={{ paddingLeft: '24px' }}>
+              {payment.dateOfPayment ? dateParser(payment.dateOfPayment) : '-'}
+            </Cell>
+            <Cell>
+              {payment.endDateOfSubscription ? dateParser(payment.endDateOfSubscription) : '-'}
+            </Cell>
+            <Cell>{convertCentsToDollars(payment.subscriptionType)}</Cell>
+            <Cell>{getSubscriptionType(payment.subscriptionType, language)}</Cell>
+            <Cell>{textTransform(payment.paymentType)}</Cell>
+          </TableRow>
+        ))}
     </Table>
   )
 }

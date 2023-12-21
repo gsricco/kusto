@@ -53,8 +53,8 @@ const Payments = () => {
   ]
 
   useEffect(() => {
-    getPayments({ page, pageSize })
-  }, [page, pageSize])
+    getPayments()
+  }, [])
 
   return (
     client && (
@@ -64,7 +64,7 @@ const Payments = () => {
         </TabBarWrapper>
         <PageWrapper>
           <PaymentsTable language={language} payments={payments} t={t} />
-          {payments && (
+          {/* {payments && (
             <PagesNavigation
               pageNumber={payments.page}
               pagesCount={payments.pagesCount}
@@ -73,7 +73,7 @@ const Payments = () => {
               onPageChange={setPage}
               onPageSizeChange={setPageSize}
             />
-          )}
+          )} */}
         </PageWrapper>
       </>
     )

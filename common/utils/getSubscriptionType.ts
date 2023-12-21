@@ -1,12 +1,9 @@
-export const getSubscriptionType = (price: number, language: string): string => {
-  switch (price) {
-    case 200: {
+export const getSubscriptionType = (type: string, language: string): string => {
+  switch (type) {
+    case 'DAY': {
       return language === 'en' ? '1 Day' : '1 День'
     }
-    case 550: {
-      return language === 'en' ? '3 Days' : '3 Дня'
-    }
-    case 1000: {
+    case 'WEEKLY': {
       return language === 'en' ? '7 Days' : '7 Дней'
     }
     default: {

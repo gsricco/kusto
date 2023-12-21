@@ -1,16 +1,13 @@
-export const convertCentsToDollars = (cents: number): string => {
-  switch (cents) {
-    case 200: {
-      return '$2'
-    }
-    case 550: {
-      return '$5.5'
-    }
-    case 1000: {
+export const convertCentsToDollars = (type: string): string => {
+  switch (type) {
+    case 'DAY': {
       return '$10'
     }
+    case 'WEEKLY': {
+      return '$50'
+    }
     default: {
-      return '$30'
+      return '$100'
     }
   }
 }

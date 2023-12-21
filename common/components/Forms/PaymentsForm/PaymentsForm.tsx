@@ -9,27 +9,18 @@ import {
 
 type FormProps = {
   selectedPayment: string
-  setSelectedId: (id: string) => void
   setSelectedPayment: (payment: string) => void
   t: TFunction<'translation', undefined>
 }
 
-export const PaymentsForm = ({
-  t,
-  setSelectedId,
-  selectedPayment,
-  setSelectedPayment,
-}: FormProps) => {
-  const payments = [t('2_1_Day'), t('5_3_Day'), t('10_7_Day'), t('30_month')]
+export const PaymentsForm = ({ t, selectedPayment, setSelectedPayment }: FormProps) => {
+  const payments = [t('2_1_Day'), t('10_7_Day'), t('30_month')]
 
   const setInitialPayment = () => {
-    if (selectedPayment === '5.5 долларов США за 3 дня' || selectedPayment === '$5.5 per 3 Day') {
-      return t('5_3_Day')
-    }
-    if (selectedPayment === '10 долларов США за 7 дней' || selectedPayment === '$10 per 7 Day') {
+    if (selectedPayment === 'WEEKLY') {
       return t('10_7_Day')
     }
-    if (selectedPayment === '30 долларов США за месяц' || selectedPayment === '$30 per month') {
+    if (selectedPayment === 'MONTHLY') {
       return t('30_month')
     }
 
@@ -44,11 +35,23 @@ export const PaymentsForm = ({
     onSubmit: values => console.log(values),
   })
 
-  const setParams = (payment: string, index: number) => {
-    setSelectedPayment(payment)
-    const id = (index + 1).toString()
-
-    setSelectedId(id)
+  const setParams = (index: number) => {
+    switch (index) {
+      case 0: {
+        setSelectedPayment('DAY')
+        break
+      }
+      case 1: {
+        setSelectedPayment('WEEKLY')
+        break
+      }
+      case 2: {
+        setSelectedPayment('MONTHLY')
+        break
+      }
+      default:
+        setSelectedPayment('DAY')
+    }
   }
 
   return (
@@ -60,7 +63,7 @@ export const PaymentsForm = ({
             type="radio"
             value={payment}
             onChange={paymentsForm.handleChange}
-            onClick={() => setParams(payment, index)}
+            onClick={() => setParams(index)}
           />
           <Text>{payment}</Text>
         </PaymentsLabel>
