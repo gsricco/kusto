@@ -46,17 +46,17 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
   if (images && images.length) {
     imageSrc = images[currentImage].url
   }
-  const switchFotoHandler = (direction: string): void => {
+  const switchPhotoHandler = (direction: string): void => {
     if (images && direction === 'next') {
-      if (currentImage + 2 === images.length) {
+      if (currentImage + 1 === images.length / 2) {
         setCurrentImage(0)
       } else {
-        setCurrentImage(prev => prev + 2)
+        setCurrentImage(prev => prev + 1)
       }
     } else if (images && currentImage === 0) {
-      setCurrentImage(images.length - 2)
+      setCurrentImage(images.length / 2 - 1)
     } else {
-      setCurrentImage(prev => prev - 2)
+      setCurrentImage(prev => prev - 1)
     }
   }
 
@@ -121,8 +121,8 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
           <StyledPostImage alt="post image" height={560} src={imageSrc} width={490} />
           {images && images.length > 1 ? (
             <>
-              <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchFotoHandler('prev')} />
-              <NextPhoto alt="next" src={nextBtn} onClick={() => switchFotoHandler('next')} />
+              <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchPhotoHandler('prev')} />
+              <NextPhoto alt="next" src={nextBtn} onClick={() => switchPhotoHandler('next')} />
             </>
           ) : null}
         </StyledImageWrapper>

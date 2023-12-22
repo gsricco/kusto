@@ -52,7 +52,9 @@ const MyProfile = () => {
     sortDirection: undefined,
     userId: getItem('userId'),
   })
+
   console.log('posts', dataPosts, status1)
+
   const posts = dataPosts?.items || []
 
   useEffect(() => {

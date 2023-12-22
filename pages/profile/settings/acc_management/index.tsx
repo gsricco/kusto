@@ -73,7 +73,7 @@ const AccountManagement = () => {
   }, [expireAt, currentSubscriptions])
 
   useEffect(() => {
-    if (currentSubscriptions) {
+    if (currentSubscriptions?.data.length) {
       setSelectedAccType(t('business'))
       setIsBusiness(true)
     }

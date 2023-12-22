@@ -38,7 +38,6 @@ export const ProfileWrapper = styled.div`
    */
   @media (max-width: ${media}) {
     padding-left: 78px;
-    width: 100vw;
     margin-left: 0px;
   }
 `

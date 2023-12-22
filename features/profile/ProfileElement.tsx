@@ -32,6 +32,7 @@ import {
 } from 'styles/styledComponents/profile/profile.styled'
 
 import Paid from '../../public/img/icons/paid.svg'
+import styled from 'styled-components'
 
 type PropsType = {
   // getCurrentPost: LazyQueryTrigger<
@@ -173,7 +174,7 @@ const ProfileElement: React.FC<PropsType> = ({
             <FollowBlock>
               <div>
                 <div>
-                  <FollowSpan>2 218 Сделать</FollowSpan>
+                  <FollowSpan>2 218 </FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('following')}</FollowSpan>
@@ -181,7 +182,7 @@ const ProfileElement: React.FC<PropsType> = ({
               </div>
               <div>
                 <div>
-                  <FollowSpan>2 358 Сделать</FollowSpan>
+                  <FollowSpan>2 358 </FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('followers')}</FollowSpan>
@@ -189,7 +190,7 @@ const ProfileElement: React.FC<PropsType> = ({
               </div>
               <div>
                 <div>
-                  <FollowSpan>2 358 Сделать</FollowSpan>
+                  <FollowSpan>2 358 </FollowSpan>
                 </div>
                 <div>
                   <FollowSpan>{t('publications')}</FollowSpan>
@@ -220,3 +221,13 @@ const ProfileElement: React.FC<PropsType> = ({
 }
 
 export default ProfileElement
+
+export const Column = styled.div<{ gap: string }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.gap};
+`
+
+export const Row = styled.div`
+  display: flex;
+`
