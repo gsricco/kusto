@@ -1,18 +1,19 @@
-import {
-  AvatarTableUniversal,
-  BlockNameTableUniversal,
-  TableUniversalCell,
-} from '../components/Table/UniversalTable/UniversalTable.styled'
-import { dateParser } from './dateParser'
 import { EmptyBlockAdmin, MenuCellAdmin, TextAdmin } from '../../features/admin/Admin.styled'
 import { MenuUserTable } from '../../features/admin/UserTable/MenuUserTable'
-import block from '../../public/img/icons/block_outline.svg'
 import avatar from '../../public/img/icons/avatar.svg'
+import block from '../../public/img/icons/block_outline.svg'
 import {
   FormatDataTableType,
   FormatDataTableTypeWithoutBoolean,
   TableHeaderType,
 } from '../components/Table/UniversalTable/types'
+import {
+  AvatarTableUniversal,
+  BlockNameTableUniversal,
+  TableUniversalCell,
+} from '../components/Table/UniversalTable/UniversalTable.styled'
+
+import { dateParser } from './dateParser'
 
 export const renderTableCell = (item: FormatDataTableType | undefined, name: TableHeaderType) => {
   if (item) {

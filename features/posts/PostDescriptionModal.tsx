@@ -7,8 +7,9 @@ import { ImageToolModal } from 'common/hoc/ImageToolModal'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
 
-import { PhotoType } from './PostCreationModal'
 import { CreatePostDescriptionRequest } from '../../assets/store/api/posts/types'
+
+import { PhotoType } from './PostCreationModal'
 
 ///  //   Модальное окно с областью отображения отредактированных   //  ///
 //          изображений и добавлением описания к ним          //

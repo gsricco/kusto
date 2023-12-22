@@ -17,6 +17,7 @@ import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { validateProfile } from 'common/utils/validateProfile'
+import dayjs from 'dayjs'
 import PhotoSelectModal from 'features/profile/PhotoSelectModal'
 import { SettingsPageWrapper } from 'features/settings/SettingsPageWrapper'
 import { Formik } from 'formik'
@@ -35,7 +36,6 @@ import {
   StyledContent,
   StyledProfileForm,
 } from 'styles/styledComponents/profile/Settings.styled'
-import dayjs from 'dayjs'
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //

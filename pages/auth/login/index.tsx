@@ -34,6 +34,7 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+
 import { useLazyProfileQuery } from '../../../assets/store/api/profile/profileApi'
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {

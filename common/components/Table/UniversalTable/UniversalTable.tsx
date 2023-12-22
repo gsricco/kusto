@@ -1,7 +1,9 @@
 import { useState } from 'react'
+
 import { renderTableCell } from '../../../utils/renderTableCell'
 
 import { ArrowsSort } from './ArrowsSort'
+import { FormatDataTablePropsType, TableHeaderType } from './types'
 import {
   HeadingTextTableUniversal,
   SortTableUniversal,
@@ -10,7 +12,6 @@ import {
   TableUniversalRow,
   TitleTableUniversal,
 } from './UniversalTable.styled'
-import { FormatDataTablePropsType, TableHeaderType } from './types'
 
 export const UniversalTable = ({
   formatTableData,

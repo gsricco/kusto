@@ -1,5 +1,6 @@
-import { styled } from 'styled-components'
 import Image from 'next/image'
+import { styled } from 'styled-components'
+
 import { baseTheme } from '../../../../styles/styledComponents/theme'
 
 export const TableUniversal = styled.table`
