@@ -9,7 +9,7 @@ const { media } = mediaSizes
 
 export const ProfileWrapper = styled.div`
   position: relative;
-  max-width: 1065px;
+  /* max-width: 1065px; */
   min-width: 360px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -53,7 +53,7 @@ export const BlockButton = styled.div`
 `
 
 export const HeaderStyle = styled.div`
-  display: inline-flex;
+  display: flex;
   gap: 40px;
   align-content: center;
   width: 90%;
@@ -63,7 +63,7 @@ export const HeaderStyle = styled.div`
 `
 
 export const StyledAvatarBlock = styled.div`
-  max-width: 204px;
+  max-width: 100%;
 
   display: flex;
   flex-wrap: wrap;

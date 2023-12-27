@@ -28,7 +28,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const postsAmount = 9
 
 const MyProfile = () => {
-  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
+  const [getProfileInfo, { data: user }] = useLazyProfileQuery()
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
 
   const [isPostActive, setIsPostActive] = useState(false)
@@ -52,8 +52,6 @@ const MyProfile = () => {
     sortDirection: undefined,
     userId: getItem('userId'),
   })
-
-  console.log('posts', dataPosts, status1)
 
   const posts = dataPosts?.items || []
 
@@ -142,14 +140,11 @@ MyProfile.getLayout = getLayout
 export default MyProfile
 
 const PostsWrapper = styled.div`
-  /* width: 100%; */
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   padding-left: 10px;
   padding-bottom: 20px;
-  /* padding-top: 53px;
-                                        padding-right: 24px; */
 
   @media (max-width: 960px) {
     padding-left: 10px;

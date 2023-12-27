@@ -57,7 +57,7 @@ const StyledHeader = styled.header`
   width: 100%;
   max-width: 1310px;
   height: 60px;
-  padding: 0 4.6%;
+  padding: 0 20px 0 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -65,9 +65,8 @@ const StyledHeader = styled.header`
   background: ${baseTheme.colors.dark[700]};
   border-bottom: 1px solid ${baseTheme.colors.dark[300]};
 
-  @media (max-width: 768px) {
-    img {
-    }
+  @media (max-width: 960px) {
+    padding: 0 20px;
   }
 `
 

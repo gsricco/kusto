@@ -65,24 +65,20 @@ const StyledWrapper = styled.div`
 `
 const Page = styled.div`
   display: flex;
+
   max-width: 1310px;
   width: 100%;
-  /* gap: 16px; */
 
   padding: 0 0px;
-  /* margin: auto; */
 `
 
 export const Main = styled.div`
   width: 100%;
+
   margin-top: 60px;
   margin-left: 220px;
   padding: 20px;
   overflow-y: auto;
-  /* padding-top: 36px; */
-  /* padding-left: 0px; */
-  /* flex-grow: 1;
-        max-width: 80vw; */
 
   @media (max-width: 960px) {
     margin-left: 0;
@@ -90,13 +86,6 @@ export const Main = styled.div`
 `
 
 export const NavbarWrapper = styled.div`
-  /* height: 660px;
-        width: 220px;
-        min-width: 150px; 
-        max-width: 220px;
-        align-items: start;
-        font-family: Inter; */
-
   @media (max-width: ${media}) {
     display: none;
   }
@@ -106,17 +95,19 @@ export const MenuWrapper = styled.div`
   display: none;
 
   @media (max-width: 960px) {
-    bottom: 0;
     position: fixed;
-    display: flex;
+    bottom: 0;
+
     height: 60px;
     width: 100%;
-    flex-shrink: 0;
     min-width: 360px;
-    /* max-width: 220px; */
+
+    display: flex;
+    flex-shrink: 0;
     align-items: center;
-    font-family: Inter;
     justify-content: center;
+
+    font-family: Inter;
     border-top: 1px solid ${baseTheme.colors.dark[300]};
     background: ${baseTheme.colors.dark[700]};
   }

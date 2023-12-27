@@ -26,7 +26,7 @@ const UserInfo = ({ userId }: { userId: string }) => {
     variables: { id: userId },
   })
 
-  console.log(data)
+  // console.log(data)
 
   if (error) {
     console.log(error)

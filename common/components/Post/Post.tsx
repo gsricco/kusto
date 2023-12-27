@@ -18,6 +18,7 @@ import trash from 'public/img/icons/trash-outline.svg'
 import { styled } from 'styled-components'
 
 import { fakeData } from './fakeData'
+import { useOutsideClick } from 'common/hooks/useOutsideClick'
 
 type PostProps = {
   login: string
@@ -40,6 +41,10 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
   const [comment, setComment] = useState('')
   const [description, setDescription] = useState(postInfo?.description || '')
   const [isEditDescription, setIsEditDescription] = useState(false)
+
+  const postRef = useOutsideClick(() => {
+    setIsPostActive(false)
+  })
 
   let imageSrc = ''
 
@@ -116,7 +121,7 @@ const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
           </>
         </Modal>
       )}
-      <StyledModalContainer>
+      <StyledModalContainer ref={postRef}>
         <StyledImageWrapper>
           <StyledPostImage alt="post image" height={560} src={imageSrc} width={490} />
           {images && images.length > 1 ? (

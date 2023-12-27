@@ -1,75 +1,35 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-magic-numbers */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
-import { UserProfileType, UserType } from 'assets/store/api/profile/types'
+import { UserProfileType } from 'assets/store/api/profile/types'
 import { Button } from 'common/components/Button/Button'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
-// import { urlify } from 'common/utils/urlify'
-import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { TFunction } from 'next-i18next'
-import {
-  AboutMeBlock,
-  AboutMeText,
-  BlockButton,
-  FollowBlock,
-  FollowSpan,
-  HeaderStyle,
-  IconBlock,
-  InfoBlock,
-  LoadingPostBackStyle,
-  LoadingPostStyle,
-  ProfileWrapper,
-  StyledAvatarBlock,
-  UserNameStyle,
-} from 'styles/styledComponents/profile/profile.styled'
-
-import Paid from '../../public/img/icons/paid.svg'
 import styled from 'styled-components'
 
+import Paid from '../../public/img/icons/paid.svg'
+
 type PropsType = {
-  // getCurrentPost: LazyQueryTrigger<
-  //   QueryDefinition<
-  //     string,
-  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-  //     'createPost' | 'deletePost' | 'editPost',
-  //     CreatePostResponse,
-  //     'postsApi'
-  //   >
-  // >
-  // isLoading: boolean
-  // pageSize: number
-  posts?: CreatePostResponse[] | undefined
-  // // session?: Session | null | undefined
-  // setIsPostActive: (isPostActive: boolean) => void
-  // setPageSize: (pageSize: number) => void
-  // setPostInfo: (postInfo: GetPostResponse | undefined) => void
-  // status: QueryStatus
   t: TFunction
-  // totalCount: number
   user?: UserProfileType | undefined
 }
 
-const ProfileElement: React.FC<PropsType> = ({
-  user,
-  posts,
-  // setIsPostActive,
-  // setPageSize,
-  // pageSize,
-  // setPostInfo,
-  // // getCurrentPost,
-  // totalCount,
-  // isLoading,
-  // status,
-  t,
-}) => {
+const FollowInfo = ({ amount, text }: { amount: number; text: string }) => {
+  return (
+    <Column gap="5px">
+      <span>{amount}</span>
+      <span>{text}</span>
+    </Column>
+  )
+}
+
+const ProfileElement: React.FC<PropsType> = ({ user, t }) => {
   const avatar = '/img/icons/avatar.svg'
 
   const { width } = useWindowSize() // хук для измерения размера экрана
@@ -81,40 +41,6 @@ const ProfileElement: React.FC<PropsType> = ({
 
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24
-  const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228
-  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 660) : 660
-
-  /*  ____________</переменные для мобильной версии>_______________ */
-
-  // const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-  //   const element = e.currentTarget
-  //   // console.log('scrollHeight', element.scrollHeight)
-  //   // console.log('scrollTop', element.scrollTop)
-  //   // console.log('clientHeight', element.clientHeight)
-  //   // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
-
-  //   if (element.scrollHeight - element.scrollTop < scrollSize) {
-  //     const newPageSize = pageSize + 9
-
-  //     if (totalCount + 9 >= newPageSize) {
-  //       setPageSize(newPageSize)
-  //     }
-  //   }
-  // }
-
-  // штука котоаря скрывает кнопку
-  // useEffect(() => {
-  //   if (width) {
-  //     if (width < mediaSizes.buttonUnvisible) {
-  //       // для мобильной версии
-  //       setIsVisible(false)
-  //     } else {
-  //       setIsVisible(true)
-  //     }
-  //   }
-  // }, [width])
-
-  // console.log(user)
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS)
@@ -126,108 +52,114 @@ const ProfileElement: React.FC<PropsType> = ({
 
   if (!userFirstName || !userLastName) name = 'New User'
 
+  const followData = [
+    { amount: 2000, text: t('following') },
+    { amount: 2001, text: t('followers') },
+    { amount: 2002, text: t('publications') },
+  ]
+
   return (
-    <>
-      {/* {status !== 'fulfilled' && (
-        <>
-          <LoadingPostStyle>{`${t('loading')}...`}</LoadingPostStyle>
-          <LoadingPostBackStyle />
-        </>
-      )} */}
-
-      <ProfileWrapper>
-        <HeaderStyle>
-          {isVisible && (
-            <BlockButton>
-              <Button
-                style={{ padding: '6px 24px' }}
-                theme={ThemeButton.SECONDARY}
-                type="button"
-                width="auto"
-                onClick={handleClick}
-              >
-                {t('profile_settings')}
-              </Button>
-            </BlockButton>
-          )}
-          <StyledAvatarBlock>
-            <IconBlock>
-              <Image
-                alt="avatar"
-                height={avatarSize}
-                src={user?.avatars && user?.avatars.length > 0 ? user?.avatars[0].url : avatar}
-                width={avatarSize}
-                // style={{ maxWidth: "204px", maxHeight: "204px" }}
-              />
-            </IconBlock>
-          </StyledAvatarBlock>
-
-          <UserNameStyle>
-            {/* {user ? `${user.firstName} ${user.lastName}` : t('user_name')} */}
-            {name}
-            {isPaid && (
-              <Image alt={t('paid')} height={paidImageSize} src={Paid} width={paidImageSize} />
-            )}
-          </UserNameStyle>
-
-          <InfoBlock>
-            <FollowBlock>
-              <div>
-                <div>
-                  <FollowSpan>2 218 </FollowSpan>
-                </div>
-                <div>
-                  <FollowSpan>{t('following')}</FollowSpan>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <FollowSpan>2 358 </FollowSpan>
-                </div>
-                <div>
-                  <FollowSpan>{t('followers')}</FollowSpan>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <FollowSpan>2 358 </FollowSpan>
-                </div>
-                <div>
-                  <FollowSpan>{t('publications')}</FollowSpan>
-                </div>
-              </div>
-            </FollowBlock>
-
-            <AboutMeBlock>
-              <AboutMeText>{user?.aboutMe || t('about_me')}</AboutMeText>
-            </AboutMeBlock>
-          </InfoBlock>
-        </HeaderStyle>
-
-        {/* <PhotosBlock> 
-
-        <PostPhotos
-          isLoading={isLoading}
-          posts={posts}
-          postSize={postSize}
-          setIsPostActive={setIsPostActive}
-          setPostInfo={setPostInfo}
+    <Column style={{ paddingBottom: '50px' }}>
+      <Row gap="36px">
+        <Avatar
+          alt="avatar"
+          height={avatarSize}
+          src={user?.avatars && user?.avatars.length > 0 ? user?.avatars[0].url : avatar}
+          width={avatarSize}
         />
 
-         </PhotosBlock> */}
-      </ProfileWrapper>
-    </>
+        <Column gap="20px" style={{ flexGrow: '1' }}>
+          <SpaceBetween>
+            <Name>{name}</Name>
+            <Button
+              style={{ padding: '6px 24px' }}
+              theme={ThemeButton.SECONDARY}
+              type="button"
+              width="auto"
+              onClick={handleClick}
+            >
+              {t('profile_settings')}
+            </Button>
+          </SpaceBetween>
+          <Row gap="80px">
+            {followData.map(({ amount, text }) => (
+              <FollowInfo key={text} amount={amount} text={text} />
+            ))}
+          </Row>
+          <AboutMe>{user?.aboutMe || t('about_me')}</AboutMe>
+        </Column>
+      </Row>
+      <UserInfoMobile>
+        <Name>{name}</Name>
+        <AboutMeMobile>{user?.aboutMe || t('about_me')}</AboutMeMobile>
+      </UserInfoMobile>
+    </Column>
   )
 }
 
 export default ProfileElement
 
-export const Column = styled.div<{ gap: string }>`
-  display: flex;
-  flex-direction: column;
-  gap: ${props => props.gap};
+export const Avatar = styled(Image)`
+  border-radius: 50%;
 `
 
-export const Row = styled.div`
+export const AboutMe = styled.p`
+  text-align: justify;
+  word-break: break-all;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+`
+
+export const AboutMeMobile = styled(AboutMe)`
+  display: none;
+
+  @media (max-width: 960px) {
+    display: block;
+  }
+`
+
+export const Column = styled.div<{ gap?: string }>`
   display: flex;
+  flex-direction: column;
+  gap: ${props => (props.gap ? props.gap : '0px')};
+`
+
+export const Row = styled.div<{ gap?: string }>`
+  display: flex;
+  gap: ${props => (props.gap ? props.gap : '0px')};
+
+  @media (max-width: 960px) {
+    gap: ${props => (props.gap === '80px' ? '30px' : '20px')};
+    align-items: center;
+  }
+`
+export const SpaceBetween = styled(Row)`
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+`
+
+export const Name = styled.p`
+  font-size: 20px;
+  font-weight: 700;
+
+  @media (max-width: 960px) {
+    font-size: 16px;
+    padding-top: 5px;
+  }
+`
+
+export const UserInfoMobile = styled.div`
+  display: none;
+
+  @media (max-width: 960px) {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
 `
