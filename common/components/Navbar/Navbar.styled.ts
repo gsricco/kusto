@@ -25,7 +25,7 @@ export const StyledItemBlock = styled.div`
   gap: 24px;
 
   > * {
-    &:last-child {
+    &:nth-child(6) {
       margin-top: 84px;
     }
   }

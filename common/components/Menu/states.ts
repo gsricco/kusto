@@ -1,0 +1,6 @@
+export const home = [true, false, false, false, false]
+export const create = [false, true, false, false, false]
+export const message = [false, false, true, false, false]
+export const search = [false, false, false, true, false]
+export const profile = [false, false, false, false, true]
+export const falsy = [false, false, false, false, false]

@@ -30,6 +30,12 @@ export const ITEM_LINK = [
     selectIcon: '/img/icons/search-select.svg',
   },
   {
+    name: 'statistics',
+    href: '/',
+    icon: '/img/icons/trending-up.svg',
+    selectIcon: '/img/icons/trending-up_selected.svg',
+  },
+  {
     name: 'favorites',
     href: '/favorites',
     icon: '/img/icons/bookmark.svg',

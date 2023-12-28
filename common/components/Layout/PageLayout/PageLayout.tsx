@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement, useState } from 'react'
+import { PropsWithChildren, ReactElement, useState, ReactNode } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -16,9 +16,7 @@ import { Navbar } from '../../Navbar/Navbar'
 const { media } = mediaSizes
 // const sidebar = mediaSizes.sidebarMedia
 
-export const PageLayout: NextPage<PropsWithChildren> = props => {
-  // eslint-disable-next-line react/prop-types
-  const { children } = props
+export const PageLayout: NextPage<PropsWithChildren> = ({ children }: PropsWithChildren) => {
   const router = useRouter()
   const { status } = router.query
 
@@ -41,7 +39,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         </Page>
 
         <MenuWrapper>
-          <Menubar openModalHandler={openModalHandler} showMenuBar={status} />
+          <Menubar isCreate={isOpenModalEdit} openModalHandler={openModalHandler} />
         </MenuWrapper>
       </LocalizationProvider>
     </StyledWrapper>

@@ -27,3 +27,36 @@ export const MenuItems = [
     selectIcon: '/img/icons/log-out.svg',
   },
 ]
+
+export const links = [
+  {
+    name: 'home',
+    href: '/home',
+    icon: '/img/icons/home.svg',
+    selectIcon: '/img/icons/homeSelect.svg',
+  },
+  {
+    name: 'create',
+    href: '',
+    icon: '/img/icons/plus-square.svg',
+    selectIcon: '/img/icons/plus-square-select.svg',
+  },
+  {
+    name: 'messenger',
+    href: '/messenger',
+    icon: '/img/icons/message.svg',
+    selectIcon: '/img/icons/message-select.svg',
+  },
+  {
+    name: 'search',
+    href: '/search',
+    icon: '/img/icons/search.svg',
+    selectIcon: '/img/icons/search-select.svg',
+  },
+  {
+    name: 'my_profile',
+    href: '/profile',
+    icon: '/img/icons/person.svg',
+    selectIcon: '/img/icons/person-select.svg',
+  },
+]
