@@ -16,6 +16,8 @@ import {
 import { dateParser } from './dateParser'
 
 export const renderTableCell = (item: FormatDataTableType | undefined, name: TableHeaderType) => {
+  // console.log('FFF', item)
+  // console.log('NNN', name)
   if (item) {
     if (name.back === '') {
       return (
@@ -61,8 +63,8 @@ export const renderTableCell = (item: FormatDataTableType | undefined, name: Tab
 
     return (
       <MenuCellAdmin>
-        {item.id && item.login && (
-          <MenuUserTable ban={item.ban || false} id={item.id} userName={item.login} />
+        {item.id && item.userName && (
+          <MenuUserTable ban={item.ban || false} id={item.id} userName={item.userName} />
         )}
       </MenuCellAdmin>
     )

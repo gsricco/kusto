@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 
-import { DELETE_USER, GET_USERS } from '../../../../assets/apollo/users'
+import { REMOVE_USER, GET_USERS } from '../../../../assets/apollo/users'
 import { ThemeButton } from '../../../enums/themeButton'
 import { Button } from '../../Button/Button'
 import Modal from '../ModalPublic/Modal'
@@ -18,7 +18,7 @@ export const ModalAdminDeleteUser = ({
   setIsOpenModalDelete,
   id,
 }: AdminDeletePropsType) => {
-  const [deleteUser, { loading }] = useMutation(DELETE_USER, {
+  const [deleteUser, { loading }] = useMutation(REMOVE_USER, {
     variables: {
       userId: id,
     },

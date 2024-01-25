@@ -54,17 +54,15 @@ const PaymentsAdmin = () => {
   const [pageSize, setPageSize] = useState(initialPageSize)
   const [isAutoubdate, setIsAutoubdate] = useState(false)
 
-  const [getCountPayments, { data: countPayments }] = useLazyQuery(GET_TOTAL_COUNT_PAYMENTS, {
-    variables: {
-      sortBy,
-      sortDirection,
-      pageNumber: page,
-      pageSize,
-      searchName: getSearchValue() || '',
-    },
-  })
-
-  const pagesCount = countPayments ? Math.ceil(countPayments.totalCountPayments / 10) : 0
+  // const [getCountPayments, { data: countPayments }] = useLazyQuery(GET_TOTAL_COUNT_PAYMENTS, {
+  //   variables: {
+  //     sortBy,
+  //     sortDirection,
+  //     pageNumber: page,
+  //     pageSize,
+  //     searchName: getSearchValue() || '',
+  //   },
+  // })
 
   const [getPayments, { data: payments }] = useLazyQuery(GET_ALL_PAYMENTS, {
     variables: {
@@ -76,18 +74,22 @@ const PaymentsAdmin = () => {
     },
   })
 
-  const formatTableData: FormatDataTableType[] | undefined = payments?.allPayments.map(payment => ({
-    createdAt: payment.createdAt,
-    endDateOfSubscription: payment.endDateOfSubscription,
-    paymentStatus: payment.paymentStatus,
-    paymentSystem: payment.paymentSystem,
-    paymentsId: payment.paymentsId,
-    price: payment.price,
-    subscriptionType: payment.subscriptionType,
-    updatedAt: payment.updatedAt,
-    login: payment.user?.profiles?.login ? payment.user.profiles.login : '',
-    photo: payment.user?.profiles?.photo ? payment.user.profiles.photo : '',
-  }))
+  const pagesCount = payments ? Math.ceil(payments.getAllPayments.totalCount / 10) : 0
+
+  const formatTableData: FormatDataTableType[] | undefined = payments?.getAllPayments.items.map(
+    payment => ({
+      createdAt: payment.createdAt,
+      endDateOfSubscription: payment.paymentMethod,
+      paymentStatus: payment.type,
+      paymentSystem: payment.type,
+      paymentsId: payment.id,
+      price: payment.amount,
+      subscriptionType: payment.currency,
+      updatedAt: payment.createdAt,
+      login: payment.userName ? payment.userName : '',
+      photo: payment.avatars[1]?.url ? payment.avatars[1].url : '',
+    })
+  )
 
   const tableHeadingData: TableHeaderType[] = [
     { tableTitle: 'Username', back: '', sort: false, text: 'login', avatar: 'photo' },
@@ -100,7 +102,7 @@ const PaymentsAdmin = () => {
   const debouncedSearch = useDebounce(getPayments, 500)
 
   useEffect(() => {
-    getCountPayments()
+    // getCountPayments()
     getPayments()
   }, [])
 
@@ -157,7 +159,7 @@ const PaymentsAdmin = () => {
             </SearchBarAdmin>
           </WrapperAdmin>
           <UniversalTable
-            formatTableData={payments?.allPayments ? formatTableData : []}
+            formatTableData={payments?.getAllPayments.items ? formatTableData : []}
             selectedSort={selectedSort}
             tableHeadingData={tableHeadingData}
           />

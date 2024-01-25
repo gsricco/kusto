@@ -1,4 +1,11 @@
-import { PaymentsQuery, UsersQuery } from '../../assets/apollo/__generated__/graphql'
+import {
+  Maybe,
+  Profile,
+  Query,
+  Scalars,
+  SubscriptionPaymentsModel,
+  UserBan,
+} from '../../assets/apollo/__generated__/graphql'
 
 export type MenuPropsType = {
   ban: boolean
@@ -12,20 +19,27 @@ export type ArrowsPropsType = {
 
 export type TablePropsType = {
   selectedSort: (sortType: string) => void
-  users: UsersQuery | undefined
+  users: Query | undefined
 }
 
 export type PaymentsTableType = {
-  payments: PaymentsQuery | undefined
+  payments: SubscriptionPaymentsModel | undefined
   selectedSort: (sortType: string) => void
 }
 
 export type Filtredusers = {
-  __typename?: 'UserModel' | undefined
-  accountType: string
-  ban: boolean
+  // __typename?: 'UserModel' | undefined
+  // accountType: string
+  // ban: boolean
+  // createdAt: string
+  // email: string
+  // id: string
+  // login: string
+  __typename?: 'User'
   createdAt: string
   email: string
-  id: string
-  login: string
+  id: number
+  profile: Profile
+  userBan?: Maybe<UserBan>
+  userName: string
 }

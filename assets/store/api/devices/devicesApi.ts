@@ -49,11 +49,12 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
         setItem('accessToken', refreshRes.data.accessToken)
         result = await baseQuery(args, api, extraOptions)
-      } else {
-        const { origin } = window.location
-
-        window.location.replace(`${origin}/auth/login`)
       }
+      // else {
+      //   // const { origin } = window.location
+      //
+      //   // window.location.replace(`${origin}/auth/login`)
+      // }
     }
   }
 
