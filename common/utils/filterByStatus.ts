@@ -10,15 +10,15 @@ export const filterByStatus = (
 ): void => {
   if (users) {
     if (selected === 'Blocked') {
-      const filtred = users.users.filter(user => user.ban)
+      const filtred = users.getUsers.users.filter(user => user.userBan)
 
       setFn(filtred)
     } else if (selected === 'Not Blocked') {
-      const filtred = users.users.filter(user => !user.ban)
+      const filtred = users.getUsers.users.filter(user => !user.userBan)
 
       setFn(filtred)
     } else {
-      const filtred = users.users
+      const filtred = users.getUsers.users
 
       setFn(filtred)
     }

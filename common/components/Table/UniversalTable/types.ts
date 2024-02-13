@@ -28,6 +28,7 @@ export type FormatDataTableType = {
   price?: number
   subscriptionType?: string
   updatedAt?: string | null | undefined
+  userName?: string
 }
 
 export type FormatDataTableTypeWithoutBoolean = Omit<FormatDataTableType, 'ban'>

@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { ModalAdminBlockUser } from 'common/components/Modals/ModalAdmin/ModalAdminBlockUser'
 import { useRouter } from 'next/router'
 
-import { DELETE_USER, GET_USERS, UPDATE_USER_STATUS } from '../../../assets/apollo/users'
+import { REMOVE_USER, GET_USERS } from '../../../assets/apollo/users'
 import { ModalAdminDeleteUser } from '../../../common/components/Modals/ModalAdmin/ModalAdminDeleteUser'
 import block from '../../../public/img/icons/block_outline.svg'
 import more from '../../../public/img/icons/more-horizontal-outline.svg'
@@ -38,15 +38,15 @@ export const MenuUserTable = ({ id, ban, userName }: MenuPropsType) => {
     push(`/admin/${userId}`)
   }
 
-  const [blockUser] = useMutation(UPDATE_USER_STATUS, {
-    variables: {
-      userId: id,
-      banStatus: !ban,
-    },
-    refetchQueries: [GET_USERS, 'GetUsers'],
-  })
+  // const [blockUser] = useMutation(UPDATE_USER_STATUS, {
+  //   variables: {
+  //     userId: id,
+  //     banStatus: !ban,
+  //   },
+  //   refetchQueries: [GET_USERS, 'GetUsers'],
+  // })
 
-  const [deleteUser, { loading }] = useMutation(DELETE_USER, {
+  const [deleteUser, { loading }] = useMutation(REMOVE_USER, {
     variables: {
       userId: id,
     },
